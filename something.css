@@ -1,0 +1,6 @@
+/* custom css and js files included at the top level of your presentation will
+ * will be included in your presentation */
+
+.title-slide h1 {
+  color: blue;
+}
