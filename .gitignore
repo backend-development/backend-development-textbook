@@ -1,0 +1,5 @@
+static/
+*~
+.DS_STORE
+viewstats.json
+

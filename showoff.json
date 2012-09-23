@@ -1,0 +1,18 @@
+{
+  "name": "Ruby and Rails",
+  "description": "Slides for the Lecture 'Web Technologies'",
+  "author": "Brigitte Jellinek",
+  "templates" : {
+      "special" : "simple.tpl"
+  },
+  "pause_msg": "Paused !!!",
+  "sections": [
+    {"section":"intro to slides"},
+    {"section":"git branching"},
+    {"section":"git teamwork"},
+    {"section":"rails with scaffold"},
+    {"section":"ruby commandline"},
+    {"section":"rails database and model"},
+    {"section":"rails view and controller"}
+  ]
+}
