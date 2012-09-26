@@ -30,15 +30,37 @@ information.  (Wikipedia)
 # Why use revision control?
 
 * whole history of the project always accessible
-* try out stuff without danger of breakting anything
+* try out stuff without danger of breaking anything
 * teamwork
 
-!SLIDE incremental
+!SLIDE 
 # Why git?
 
+!SLIDE 
+![background](linus-torvalds.jpg)
+
+
+!SLIDE 
+# Why git?
+* invented by linus torvalds
+
+photo [cc](http://www.flickr.com/photos/48923114@N00/116787425)
+
+!SLIDE dark
+<iframe width="1024" height="576"
+src="http://www.youtube.com/embed/ntTpM8hfl_E?feature=player_detailpage"
+frameborder="0" allowfullscreen></iframe>
+
+!SLIDE 
+# Why git? 
 * invented by linus torvalds
 * is used to manage the linux kernel
-* new logo ![git logo](gitlogo.png)
+
+!SLIDE 
+# Why git? 
+* invented by linus torvalds
+* is used to manage the linux kernel
+* nice new logo ![git logo](gitlogo.png)
 
 !SLIDE incremental
 .notes why - for real
@@ -50,6 +72,9 @@ information.  (Wikipedia)
 * branching and merging is easy
 * only one directory: .git
 * integrity of the code: identified by SHA1
+
+!SLIDE 
+![background](github.jpg)
 
 !SLIDE incremental
 

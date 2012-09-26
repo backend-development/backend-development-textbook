@@ -1,6 +1,6 @@
 {
-  "name": "Ruby and Rails",
-  "description": "Slides for the Lecture 'Web Technologies'",
+  "name": "Web Engineering",
+  "description": "Slides for lectures in the 3rd + 4th semester of MultiMediaTechnolgoy at Salzburg University of Applied Sciences",
   "author": "Brigitte Jellinek",
   "templates" : {
       "special" : "simple.tpl"

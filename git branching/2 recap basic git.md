@@ -1,11 +1,12 @@
 !SLIDE subsection
 
 # git recapitulation
+![background](gitcheatsheet.jpg)
 
 !SLIDE 
 
 # Where?
-![git-transport](git-transport.png)
+![git-transport](git-where.png)
 
 
 !SLIDE incremental

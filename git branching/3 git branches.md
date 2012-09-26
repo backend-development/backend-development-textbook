@@ -23,16 +23,33 @@
         git checkout -b foo
 
 !SLIDE
-# Basic workflow: start
+# Basic workflow
+before we branch
 
 ![no branches yet](branching-1.png)
 
 !SLIDE
-# git checkout -b iss53
+# create a new branch 
+
+        @@@ sh
+        $git checkout -b iss53
 
 ![no branches yet](branching-2.png)
 
+!SLIDE
+# switch to a branch
+
+        @@@ sh
+        $git checkout iss53
+
+!SLIDE
+# which branch am I on?
+
+![git branch](git-branch.png)
+
 !SLIDE smaller
+# work
+
         @@@ sh
         # edit; commit(c3)
         $ git checkout master 
@@ -60,7 +77,8 @@
 ![after the merge](branching-5.png)
 
 !SLIDE
-# git branch -d iss53
+# delete branch
+git branch -d iss53
 
 
 !SLIDE
@@ -104,6 +122,10 @@ merge the OTHER_BRANCH into the current (checked-out) branch
         </body>
         </html>
 
+!SLIDE smaller
+# conflict markers in a files
+
+![conflict marker with syntax highlighting](conflict-markers.png)
 !SLIDE 
 # how to resolve
 * for all files:
