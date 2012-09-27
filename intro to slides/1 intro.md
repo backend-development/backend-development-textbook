@@ -39,17 +39,19 @@ Is there anything special about web projects?
 
 Do we work differently than other software development projects?
 
-!SLIDE bullets
-# Different People
-* more non-programmers needed: designers, usability, ..
+!SLIDE incremental
+# Web Projects
+* different People
+  * more non-programmers needed: designers, usability, ..
+* different languages
+  * scripting languages have different design patterns than strongly typed languages
 
 !SLIDE  subsection
 # software in boxes
 ![background](software-in-boxes.jpg)
 
-!SLIDE bullets incremental
-# Faster Pace
-  * no "Software in Boxes"
+!SLIDE incremental
+# no "Software in Boxes"
   * no versions
   * continous delivery needed
   * maintainance forever!
