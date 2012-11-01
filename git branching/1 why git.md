@@ -47,9 +47,7 @@ information.  (Wikipedia)
 photo [cc](http://www.flickr.com/photos/48923114@N00/116787425)
 
 !SLIDE dark
-<iframe width="1024" height="576"
-src="http://www.youtube.com/embed/ntTpM8hfl_E?feature=player_detailpage"
-frameborder="0" allowfullscreen></iframe>
+[video](http://www.youtube.com/embed/ntTpM8hfl_E?feature=player_detailpage)
 
 !SLIDE 
 # Why git? 

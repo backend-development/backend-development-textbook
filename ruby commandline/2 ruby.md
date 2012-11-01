@@ -1,14 +1,5 @@
 !SLIDE title-slide subsection
 
-# rails with scaffold #
-
-we will build our first rails project
-
-but we will not really understand everything
-
-
-!SLIDE
-
 # What is ruby
 
 ![Ruby Logo](Ruby_logo.png)
@@ -42,24 +33,7 @@ but we will not really understand everything
 
 !SLIDE
 
-# Why Rails ?
+# Why Ruby? Why Rails ?
 
 ![Ruby and Rails T-Shirts](ruby-and-rails-t-shirts.png)
 
-!SLIDE incremental
-
-# Why Rails ?
-
-* modern 
-  * model - view - controller
-  * test driven development
-* strong principles
-  * DRY - don't repeat yourself
-  * convention over configuration
-* dynamic community
-
-
-
-!SLIDE 
-
-# the end
