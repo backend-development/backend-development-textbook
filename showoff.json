@@ -13,6 +13,8 @@
     {"section":"rails with scaffold"},
     {"section":"ruby commandline"},
     {"section":"rails database and model"},
-    {"section":"rails view and controller"}
+    {"section":"rails view and controller"},
+    {"section":"authentication from scratch"},
+    {"section":"authentication with devise"}
   ]
 }
