@@ -15,6 +15,7 @@
     {"section":"rails database and model"},
     {"section":"rails view and controller"},
     {"section":"authentication from scratch"},
-    {"section":"authentication with devise"}
+    {"section":"authentication with devise"},
+    {"section":"asset pipeline"}
   ]
 }
