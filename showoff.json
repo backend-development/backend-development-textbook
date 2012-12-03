@@ -16,6 +16,8 @@
     {"section":"rails view and controller"},
     {"section":"authentication from scratch"},
     {"section":"authentication with devise"},
-    {"section":"asset pipeline"}
+    {"section":"asset pipeline"},
+    {"section":"testing and refactoring"},
+    {"section":"deploying rails"}
   ]
 }
