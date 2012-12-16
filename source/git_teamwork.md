@@ -28,7 +28,8 @@ Pair Programming
 * learn from each other
 * part of agile methodologies, used today in industry
 
-### Pair Programming und git
+Pair Programming und git
+------------------------
 
 We want the log to show who worked as a pair
 
