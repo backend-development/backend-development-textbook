@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title><%= yield(:page_title) || 'Web Engineering Textbook' %></title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+  <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shCore.css" />
+  <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shThemeRailsGuides.css" />
+
+  <link rel="stylesheet" type="text/css" href="stylesheets/fixes.css" />
+
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+</head>
+<body class="guide">
+  <div>
+    <a href="http://github.com/bjelline/web-engineering-textbook/"><img style="position: fixed; top: 0; right: 0; border: 0;" src="images/forkme.png" alt="Fork me on GitHub"></a>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">Learn more at the sources: </strong>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="http://git-scm.com/documentation">Git Documentation</a></li>
+        <li class="more-info"><a href="http://try.github.com/">Try Git</a></li>
+        <li class="more-info"><a href="http://rubyonrails.org/">Ruby on Rails</a></li>
+        <li class="more-info"><a href="http://guides.rubyonrails.org/">Rails Guides</a></li>
+        <li class="more-info"><a href="http://railsforzombies.org/">Rails for Zombies</a></li>
+        <li class="more-info"><a href="http://railscasts.com/">Railscasts</a></li>
+      </ul>
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="Return to home page">WebEngineering</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">Home</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" onclick="guideMenu(); return false;" id="guidesMenu" class="guides-index-item nav-item">Index</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <% ['L', 'R'].each do |position| %>
+              <dl class="<%= position %>">
+              <% docs_for_menu(position).each do |section| %>
+                <dt><%= section['name'] %></dt>
+                <% finished_documents(section['documents']).each do |document| %>
+                <dd><a href="<%= document['url'] %>"><%= document['name'] %></a></dd>
+                <% end %>
+              <% end %>
+              </dl>
+            <% end %>
+          </div>
+        </li>
+        <li><a class="nav-item" href="https://github.com/bjelline/web-engineering-textbook/">Contribute</a></li>
+      </ul>
+      </div>
+    </div>
+  </div>
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <%= yield :header_section %>
+
+      <%= yield :index_section %>
+    </div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <%= yield.html_safe %>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p class="copyright">published under <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/at/deed.de">creative commons by-nc-sa</a> in 2012 by <a href="http://brigitte-jellinek.at">Brigitte Jellinek</a>.
+      </p><p>If you want to contribute: <a href="https://github.com/bjelline/web-engineering-textbook/fork_select">fork the source on github</a> </p>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="javascripts/jquery.min.js"></script>
+  <script type="text/javascript" src="javascripts/responsive-tables.js"></script>
+  <script type="text/javascript" src="javascripts/guides.js"></script>
+  <script type="text/javascript" src="javascripts/syntaxhighlighter/shCore.js"></script>
+  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushRuby.js"></script>
+  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushXml.js"></script>
+  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushSql.js"></script>
+  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushPlain.js"></script>
+  <script type="text/javascript">
+    SyntaxHighlighter.all()
+  $(guidesIndex.bind);
+  </script>
+</body>
+</html>

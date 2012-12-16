@@ -1,9 +1,9 @@
-# Das Buch 'Web Engineering'
+# Textbook 'Web Engineering'
 
-My Slides on Web Engineering. Developed on github, published at
+My Textbook on Web Engineering. Developed on github, published at
 http://web-engineering.github.com
 
-I hope this grows into a whole textbook over time,
+I hope this grows into a full textbook over time,
 like http://web-development.github.com did.
 
 
@@ -17,7 +17,7 @@ http://web-engineering.github.com
 
 fork this repository.
 
-on the github site, browse the sub-folders ... you'll find
+on the github site, browse the folders `sources`... you'll find
 all the texts there.  Use githubs editing capability to fix
 typos, add clarifications.
 
@@ -27,13 +27,7 @@ Send me a pull request when you're done.
 
 fork this repository.
 
-install showoff on your computer.
-
-run showoff in the root folder like so:
-
-  showoff serve
-
-now edit the *.md files and see the results at http://localhost:9090/presenter
+run `rake` to find out how to generate the html-version
 
 When you are content with your changes, push up to your own github repository,
 and send me a pull request

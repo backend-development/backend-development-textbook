@@ -1,0 +1,59 @@
+-
+  name: Git
+  documents:
+    -
+      name: Branching and Merging
+      url: git_branching.html
+      description: 
+    -
+      name: Git Teamwork
+      url: git_teamwork.html
+      description: 
+-
+  name: Ruby on Rails
+  documents:
+    -
+      name: Rails with Scaffold
+      url: rails_with_scaffold.html
+      description: Let's create a full Rails App in about an hour
+    -
+      name: Ruby Commandline
+      url: ruby_commandline.html
+      description: The essential ruby you need to know to understand rails
+    -
+      name: Rails Database and Model
+      url: rails_database_and_model.html
+      description: How does Rails use the database? How are models and database tables related?
+    -
+      name: Rails View and Controller
+      url: rails_view_and_controller.html
+      description: 
+    -
+      name: Authentication from Scratch
+      url: authentication_from_scratch.html
+      description: 
+    -
+      name: Authentication with Devise
+      url: authentication_with_devise.html
+      description: 
+    -
+      name: Asset Pipeline
+      url: asset_pipeline.html
+      description:
+    -
+      name: Testing and Refactoring
+      url: testing_and_refactoring.html
+      description:
+-
+  name: Software Process
+  documents:
+    -
+      name: Good Practices
+      url: good_practices.html
+      description: 
+    -
+      name: Agile Methods
+      url: agile.html
+      description: 
+
+
