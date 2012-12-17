@@ -12,7 +12,7 @@ module RailsGuides
       @node_ids = {}
     end
 
-    def render(body)
+    def render(body, source_file)
       @raw_body = body
       extract_raw_header_and_body
       generate_header
@@ -20,7 +20,7 @@ module RailsGuides
       generate_body
       generate_structure
       generate_index
-      render_page
+      render_page(source_file)
     end
 
     private
@@ -132,9 +132,9 @@ module RailsGuides
 
       def generate_title
         if heading = Nokogiri::HTML(@header).at(:h2)
-          @title = "Ruby on Rails Guides: #{heading.text}".html_safe
+          @title = "Web Engineering Textbook: #{heading.text}".html_safe
         else
-          @title = "Ruby on Rails Guides"
+          @title = "Web Egineeering Textbook"
         end
       end
 
@@ -154,7 +154,8 @@ module RailsGuides
         end
       end
 
-      def render_page
+      def render_page( source_file )
+        @view.content_for(:source_file) { source_file  }
         @view.content_for(:header_section) { @header }
         @view.content_for(:page_title) { @title }
         @view.content_for(:index_section) { @index }

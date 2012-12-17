@@ -189,7 +189,7 @@ module RailsGuides
 
     def generate_guide(guide, output_file)
       output_path = output_path_for(output_file)
-      puts "Generating #{guide} as #{output_file}"
+      puts "Generating #{guide} as #{output_file} from #{guide}"
       layout = kindle? ? 'kindle/layout' : 'layout'
 
       File.open(output_path, 'w') do |f|
@@ -202,7 +202,7 @@ module RailsGuides
           result = view.render(:layout => layout, :formats => [$1], :file => $`)
         else
           body = File.read(File.join(source_dir, guide))
-          result = RailsGuides::Markdown.new(view, layout).render(body)
+          result = RailsGuides::Markdown.new(view, layout).render(body, guide)
 
           warn_about_broken_links(result) if @warnings
         end
