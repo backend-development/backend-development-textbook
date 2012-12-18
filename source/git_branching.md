@@ -1,11 +1,13 @@
 Git Branching
 =============
 
-This Guide will introduce you to using branches in git.
+This Guide will give you a very quick introduce to
+git, and then focus on using branches in git.
 
 After reading this guide, you will know:
 
 * Why you should a version control system like git
+* How to use git as a single developer, in  a "one person team"
 * How to create and merge branches
 
 ----------------------------------------------------------------
@@ -21,22 +23,22 @@ In other words: it's a tool that helps you with your code files, and
 with several version of such files.
 
 These systems are known under many names
+
 * version control system (VCS)
 * source code manager (SCM)
 * revision control system (RCS)
 
-In german they are most commonly called
-* Versionskontrollsystem 
+In german they are most commonly called "Versionskontrollsystem".
 
 
-### A short - and incomplete - history 
+### A short - and incomplete - history of revision control
 
 Some ancient systems that are no longer in use are:
 
 * RCS
 * CVS
 
-These systems are open source systems that are still in use today:
+Systems are open source systems and that are still in use today:
 
 * SVN, also called Subversion
 * Hg, also called Mercurial
@@ -44,9 +46,12 @@ These systems are open source systems that are still in use today:
 
 ### Why use revision control?
 
-1. The whole history of the project always accessible
-2. You can try out stuff without danger of breaking anything
-3. For teamwork - several people can program on separate computers, the system helps with merging the differnet codes
+There are good reasons to use revision control even in
+small projects:
+
+1. The whole history of the project always accessible, you can "go back in time" to old versions of your code.
+2. You can try out experimental stuff without danger of breaking your existing code.  
+3. it's absolutely vital for teamwork - several people can program on separate computers, the system helps with merging the differnet codes
 
 ### Why use git?
 
