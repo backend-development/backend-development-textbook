@@ -200,9 +200,11 @@ the current user should be accessible via a helper method `current_user`.
 * Class User offers access login, email, firstname, lastname, password, password_confirmation
 * Class User writes to Database:  firstname, lastname, email, login, crypted_password, salt
 
+![Railscasts](images/railscast-auth-from-scratch.jpg)
 
-See [Railscast
-no.250](http://railscasts.com/episodes/250-authentication-from-scratch?view=asciicast)
-for a step by step explanation.
+There are two Railscasts on this subject:
+
+* [Railscast no.250](http://railscasts.com/episodes/250-authentication-from-scratch?view=asciicast),
+* revised as [Railscast no.385](http://railscasts.com/episodes/385-authorization-from-scratch-part-1?view=asciicast) + [Railscast no.386](http://railscasts.com/episodes/386-authorization-from-scratch-part-2?view=asciicast)
 
 

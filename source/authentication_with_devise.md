@@ -21,14 +21,16 @@ Gems and Bundler
 * find 47.000 gems at [rubygems.org](http://rubygems.org/)
 
 
-### bundler: the problem
+### the problem
+
+![bundler](images/bundler-small.png)
 
 * you write an app
 * using 100 gems
 * then deploy it to a server
 * where all theses gems are present in slightly different versions
 
-### bundler: the solution
+### the solution
 
 * `Gemfile` : define which gems + versions you want
 * run `bundle install`
@@ -66,3 +68,10 @@ devise (2.1.0)
 * gem may install generators: `rails generate`
 * gem may install rake tasks: `rake -T`
 
+
+Ressources
+----------
+
+![Railscast no 209](images/209-devise-revised.png)
+
+* [Railscast no 209](http://railscasts.com/episodes/209-devise-revised?view=asciicast)

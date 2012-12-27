@@ -54,6 +54,7 @@ to the development database!
 
 ### Now do 'Rails for Zombies' Episode #1
 
+![Rails for Zombies 1](images/rails-for-zombies-1.jpg)
 
 ### validations #
 
@@ -97,7 +98,9 @@ to the development database!
 Rails for Zombies
 ------------------
 
-Now do 'Rails for Zombies' Episode #1
+Now do 'Rails for Zombies' Episode #2
+
+![Rails for Zombies 2](images/rails-for-zombies-2.jpg)
 
 ### Further reading
 

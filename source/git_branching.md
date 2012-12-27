@@ -375,7 +375,7 @@ index.html: needs merge
 * git add FILE
 * git commit
 
-### Do it!
+### Resources 
 
-[Chapter 3.2](http://git-scm.com/book/en/Git-Branching-Basic-Branching-and-Merging)
+[Git Book: Chapter 3.2](http://git-scm.com/book/en/Git-Branching-Basic-Branching-and-Merging)
 

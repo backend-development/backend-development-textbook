@@ -184,15 +184,17 @@ f(1,42)
 
 ### Hashes
 
-A hash function is ...
-The Hash data type uses a hash function to find an index
-to store values in an array:
+A Hash is a datastructure similar to an array, but it uses
+arbitrary keys of any object type, not an integer index.
 
+![How Hash(tabl)es work](images/hash_table.svg)
 
 * how does it work
 * complexity of insert
 * complexity of loopup
 
+
+* [Hashtables in Wikipedia](http://en.wikipedia.org/wiki/Hash_table)
 
 Enumerables and Piping Data
 ----------------------------

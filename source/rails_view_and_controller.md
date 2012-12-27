@@ -43,7 +43,9 @@ The View
 * use `rake routes` to find out the names of urls/paths
 
 
-### Now do 'Rails for Zombies' Episode #3
+### Now do 'Rails for Zombies' Episode no3
+
+![Rails for Zombies Episode 4](images/rails-for-zombies-4.jpg)
 
 The Controller
 --------------
@@ -72,10 +74,13 @@ GET    /zombies/:id/edit zombies_controller def edit
 GET    /zombies/:id      zombies_controller def show
 PUT    /zombies/:id      zombies_controller def update
 DELETE /zombies/:id      zombies_controller def destroy
+```
 
 
 
-### Now do 'Rails for Zombies' Episode #4
+### Now do 'Rails for Zombies' Episode no 4
+
+![Rails for Zombies Episode 4](images/rails-for-zombies-4.jpg)
 
 ### nested resources #
 

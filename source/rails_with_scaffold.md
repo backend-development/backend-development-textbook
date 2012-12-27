@@ -100,8 +100,7 @@ to haven an editor that not only helps you edit a single file, but that
 will also display the directories and files. For example vim with NERDtree
 or RubyMine:
 
-![Screenshot of editor vim with NERDtree](images/directory-structure-vim.png)
-![Screenshot of editor rubymine](images/directory-structure-rubymine.png)
+![Screenshot of editor vim with NERDtree and rubymine](images/directory-structure-editors.png)
 
 ### Start the Webserver
 
@@ -226,7 +225,7 @@ point your browser at `http://localhost:3030/jokes/` to start.
 The scaffold generated four webpages that you can visit, to
 list, show, create, edit and destroy jokes:
 
-![webpages created by the scaffold](images/scaffold.svg)
+![webpages created by the scaffold](images/scaffold.svg?viewbox=0;0;900;820)
 
 * `/jokes/` is a list of all the jokes, with links to create, edit and destroy them
 * `/jokes/1` shows a single joke, in this case the joke with id=1

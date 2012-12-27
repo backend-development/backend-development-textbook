@@ -206,3 +206,12 @@ git clone /my/work/rezepte_development rezepte_production
 ### remember!
 
 every significant step in development should be a commit!
+
+
+The Asset Pipeline
+---------------
+
+
+![Asset Pipeline](images/asset-pipeline.svg)
+
+

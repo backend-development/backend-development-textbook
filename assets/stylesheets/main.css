@@ -307,7 +307,7 @@ body {
 }
 
 #mainCol {
-  max-width: 630px;
+  max-width: 960px;
   margin-left: 0em;
 }
 
@@ -327,8 +327,9 @@ body {
 }
 
 #mainCol img, #mainCol svg {
-  border: 2px #ddd solid;
-  box-shadow: 0px 10px 5px #888;
+  border: 2px #888 solid;
+  box-shadow: 0px 10px 5px #bbb;
+  background-color: #bbb;
 }
 
 @media screen and (max-width: 800px) {
