@@ -326,6 +326,10 @@ body {
   box-shadow: 0px 10px 5px #888;
 }
 
+#mainCol img, #mainCol svg {
+  border: 2px #ddd solid;
+  box-shadow: 0px 10px 5px #888;
+}
 
 @media screen and (max-width: 800px) {
   #subCol {
@@ -367,8 +371,8 @@ a, a:link, a:visited {
   text-decoration: underline;
 }
 
-#mainCol a, #subCol a, #feature a {color: #980905;}
-#mainCol a code, #subCol a code, #feature a code {color: #980905;}
+#mainCol a, #subCol a, #feature a {color: #F9980F;}
+#mainCol a code, #subCol a code, #feature a code {color:#F9980F;}
 
 /* Navigation
 --------------------------------------- */

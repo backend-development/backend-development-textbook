@@ -76,6 +76,7 @@ photo [cc](http://www.flickr.com/photos/48923114@N00/116787425)
 
 ### Resources for Learning Git
 
+* [try git](http://try.github.com)
 * [http://git-scm.com/documentation](http://git-scm.com/documentation)
 * [http://progit.org/book/](http://progit.org/book/)
 * [http://help.github.com/](http://help.github.com/)
@@ -89,7 +90,7 @@ Git Basics
 Where is my code?  There are four answers to this question, for "places" that
 you need to learn about:
 
-![git-transport](images/git-where.png)
+![git-transport](images/git-workflow.svg?viewbox=0;0;600;100)
 
 * the workspace is what you see in your on file system
 * the index is an invisible space where you can *add*  files you want to commit
@@ -161,7 +162,7 @@ git commit -m "describe the commit"
 ```
 
 ### Index / Staging area
-![git-index](images/git-index.png)
+![git-transport](images/git-workflow.svg?viewbox=0;0;375;207)
 
 Workspace ("working copy") is managed by git!
 
@@ -224,7 +225,7 @@ git remote add github git@github.com:bjelline/web-engineering-textbook.git
 ```
 
 ### workflow with remote
-![git-remote](images/git-remote.png)
+![git-transport](images/git-workflow.svg)
 
 ### push
 

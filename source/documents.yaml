@@ -4,7 +4,7 @@
     -
       name: Branching and Merging
       url: git_branching.html
-      description: 
+      description: With branches you can work on two separate versions of your code in parallel. For example you can work on a new feature, but go back and fix an error in production in the middle of it. Git will help you keep your code sorted.
     -
       name: Git Teamwork
       url: git_teamwork.html

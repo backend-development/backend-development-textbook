@@ -5,7 +5,9 @@ This guide is about Logins and Logouts.
 
 After reading this guide you will
 
+* know several ways of reusing code in rails: layouts, partials, helpers, filters
 * understand how cookies, sessions, logins are connected
+* be able to write a model is more than just the mapping of a database table
 * be able to build simple authentication into your rails app
 
 ------------------------------------------------------------
@@ -13,84 +15,185 @@ After reading this guide you will
 Code Reuse in Rails
 -------------------
 
-### views in views in views
-
-* `app/views/layout/application.html.erb`  - the whole HTML document
-* `app/views/<controllername>/<actionname>.html.erb` - the specific view
-* `app/views/<controllername>/_form.html.erb` partial used by edit and new action
-* `app/views/<controllername>/_*.html.erb` other partials you can create
+But first a short recap of code reuse in ruby on rails.
 
 
+### Code Reuse in Views 
+
+The Rails Templating System pieces together the html output
+from several files, as shown in the following illustration:
+
+![Views, Layouts and Partials](images/layout_view_partial.svg)
+
+There are three types of files involved here:
+
+* Layouts
+  * The layout is the outermost part of the resulting output
+  * `app/views/layout/application.html.erb` is the default layout
+  * in this file you can use `yield` to insert the view. You can also use partials, like `topmenu` in the illustration above
+* Views
+  * The main part of the view is found in a file defined by the controllers name and the actions name
+  * `app/views/<controllername>/<actionname>.html.erb` 
+  * in this file you can use partials
+* Partials
+  * partials are the smallest parts. their filename always starts with an
+    underscore, they can belong to a specific controller. if not, they are
+    stored in the `shared` directory 
+  * `app/views/<controllername>/_form.html.erb` partial used by edit and new action
+  * `app/views/shared/_topmenu.html.erb` shared partial
+
+This hierarchy of templates is well suited for outputting html with a bit of
+ruby embedded. If you find yourself repeating bigger pieces of ruby code, you
+might want to look into Helper Methods instead.
+
+### Code Reuse in Views and Controllers
+
+A helper method is a method that can be called from
+both the view and the controller.  
+
+`app/helpers/application_helper.rb` is the main file
+for helpers.  
 
 
-### code reuse in views 
+### Code Reuse in Controllers
 
-* `app/helpers/application_helper.rb` code you want to use in many views
+If you find yourself writing the same code over and over
+again for serveral actions in a controller, you can use
+a filter to refactor that:
 
-### code reuse in controllers: filter
+`before_filter <methodname>`  adds the method before any action
 
-* `before_filter <methodname>`
-* method is called before every action
-* `before_filter <methodname>, :only => [:show, :edit, :update]`
-* method is only called before the specified actions
+`before_filter <methodname>, :only => [:show, :edit, :update]`  specifies which
+action. There is also the reverse `:except => ....`
 
+A very common pattern is to use a before_filter to find
+the ressource the controller is working on:
 
-### code reuse in controllers: inheritance
+``` ruby
+before_filter find_foo, :only => [:show, :edit, :update, :destroy]
 
-* all your controller inherti from `app/controllers/application_controller.rb` 
-* only the ApplicationController inherits from ActionController::Base
-* = one class to configure things such as request forgery protection and filtering of sensitive request parameters.  
+...
 
+private
+
+def find_foo
+  @foo = Foo.find(params[:id])
+end
+```
+
+If you want to share code between several controllers
+you can use inheritance to do that:
+all your controller inherit from `app/controllers/application_controller.rb`.
+(Only the ApplicationController inherits from ActionController::Base.)
+
+By default ApplicationController already contains a call to
+`protect_from_forgery` - a security measure we will look into in a later chapter.
 
 
 Sessions in Rails 
 ------------------
 
-* HTTP is stateless
-* cookies added to make it stateful 
-* result: sessions
-* in Rails: hash `sessions` available in controllers + views
-* See [Rails Guide: Controller](http://guides.rubyonrails.org/action_controller_overview.html#session)
+HTTP is a **statless** protocol. This means that the web server
+does not need to remember anything about the client from one
+request to the next.  
+
+Building a Login for your web app means getting around the
+statlessness, creating a way for the web app to remember: oh, this is user
+Susan, I already know her, she may look at this stuff.
+
+Cookies are a way to achive statefulness in HTTP. A cookie
+is an abitrary piece of information that the server sends to the
+client, and that the client will echo back with every request.
+
+Web frameworks use cookies to offer so called **sessions** to the
+developer: a session is a key-value store that is associated with
+the cookie, and thus with one specific user.
+
+Ruby on Rails by default sets a cookie named after the application.
+In the following screenshot you can see the cookie set by the `kanban`
+application (as displayed by firebug):
 
 
-### models are more than a simple Object <-> Database Mapping
+![cookie set by rails,  as displayed by firebug](images/rails-cookie.png)
 
-* business logic
-* offer a different interface than the database!
-* "virtual attributes"
+In Ruby on Rails you find a Hash `session` that is accessible from
+both controllers and views.
 
-### virtual attribute: getter
+See [Rails Guide: Controller](http://guides.rubyonrails.org/action_controller_overview.html#session)
+for more details.
 
-is computed from two other attributes, does not really
-exist in the database.
+
+
+Models are more than a simple Database Mapping
+--------------
+
+When building your first rails app with the scaffolds generator
+or the model generator you immediately see how tightly the
+rails model is connected to the database table.
+
+But there is more to the model than just that.  The model 
+is a ruby class. You can use it to add the so called "business logic"
+to your model:  for a model representing a book in the library
+this would be methods for checking out and handing in the book, .... for
+every model this will be different.
+
+In many cases you want the object from your model class 
+to have a different set of attributes than the underlying database has.
+For example in a user-model you want to be able to set the password,
+and to check if it is correct, but you do not want to read out the password.
+The methods might look like this:
 
 ``` ruby
+def password=
+end
+
+def check_password( p )
+end
+```
+
+When you look into the database, the password should be salted and encrypted.
+
+To achieve this disconnect we will look into virtual attributes 
+
+### Virtual Attribute: Getter and Setter
+
+In the following example the attribute `fullname`
+is computed from two other attributes, and does not really
+exist in the database:
+
+``` ruby
+attr_accessible :firstname, :lastname, :fullname
+
 def fullname
-  [first_name, last_name].join(' ')
+  "#{firstname} #{lastname}"
 end
 ```
 
-
-### virtual attribute: setter
-
+To set the attribute 
 is computed from two other attributes, does not really
 exist in the database.
 
 ``` ruby
-def full_name=(name)
+def fullname=(name)
   split = name.split(' ', 2)
-  self.first_name = split.first
-  self.last_name = split.last
+  self.firstname = split.first
+  self.lastname = split.last
 end
 ```
 
 
-### virtual attributes
-
-see [Railscast #16](http://railscasts.com/episodes/16-virtual-attributes?view=asciicast)
-
+See [Railscast no.16](http://railscasts.com/episodes/16-virtual-attributes?view=asciicast) for
+more details.
 
 
+Login from Scratch
+-----------
+
+We now have all the bits and pieces to build a
+Login.  
+
+There is a rails convention for authentication systems:
+the current user should be accessible via a helper method `current_user`.
 
 ### user-model for authentication
 
@@ -98,5 +201,8 @@ see [Railscast #16](http://railscasts.com/episodes/16-virtual-attributes?view=as
 * Class User writes to Database:  firstname, lastname, email, login, crypted_password, salt
 
 
+See [Railscast
+no.250](http://railscasts.com/episodes/250-authentication-from-scratch?view=asciicast)
+for a step by step explanation.
 
-See [Railscast #250](http://railscasts.com/episodes/250-authentication-from-scratch?view=asciicast)
+

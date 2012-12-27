@@ -58,11 +58,10 @@ in `config/routes.rb`
 
 ``` ruby
 resources :zombies
+```
 
 
-### restful resource
-
-![scaffold](rest.png)
+![scaffold](images/rest.png)
 
 
 ``` 

@@ -1,12 +1,13 @@
-Ruby Day
-========
+Ruby 
+====
 
-This guide will focus on ruby, the language.
+This guide will focus on ruby - the language - alone.
 
 After finishing this guide you will
 
-* understand this
-* do that
+* have an overview of rubys type system
+* be able to use list processing funktions in ruby
+* be able to use blocks and `yield` in ruby.
 
 -----------------------------------------------------------------------
 
@@ -15,95 +16,151 @@ What is Ruby
 
 ![Ruby Logo](images/Ruby_logo.png)
 
-* an open source project
-* one of the scripting language with p(?)
-  * perl
-  * python
-  * <strike>php</strike>
-* created by Yukihiro 'Matz' Matsumoto
-* started in 1996
+Ruby is an open source project.  It was started
+in 1996 by Yukihiro 'Matz' Matsumoto. He is still
+the "benevolent dictator" who decides on the future of the language.
 
+In a colossal break with tradition he did not
+choose a name starting with p for his scripting language
+(think perl, python, php) but opted for r instead.
+
+Like python ruby is a modern, thoroughly object oriented scripting language.
+Even basic data types are object:
+
+``` ruby
+1.to_s
+=> "1"
+```
+
+In this example the number 1 is used as an object, the method `to_s` is
+called on it.  The result is an Object of class String.
 
 ### What is ruby on rails
 
 ![Ruby on Rails Logo](images/Ruby_on_Rails_logo.png)
 
-* web framework written in ruby
-* created by David Heinemeier Hansson 'DHH'
-* starting in 2005
+Ruby on Rails is a web framework written in ruby.
+It was created by David Heinemeier Hansson ('DHH') starting in 2005.
+
+Rails is famous for the high productivity it gives to developers. It
+is often used in startups, where speed of delivery is very important.
+Rails moves fast, new versions with major improvement appear about every 18
+months.  The rails community values speed of development, DRY code, testing,
+version control, ... when you learn rails you also pick up whole culture 
+surrounding it.
 
 
 ### Why Ruby? Why Rails ?
 
+Why should you use Ruby and Rails over other programming languages
+and frameworks?  
+
+* Because you want to be a highly productive web developer?
+* Because you want to learn from the best?
+* Because you want try out many different languages and many frameworks?
+
+All these answers are equally valid.
+
+Also, we have cool t-shirts:
+
 ![Ruby and Rails T-Shirts](images/ruby-and-rails-t-shirts.png)
 
 
-Ruby Basics (Recap)
--------------------
+Ruby Basics 
+-----------
 
-### Conventions for Identifiers
+For a hands-on introdcution to ruby got to [try ruby](http://tryruby.org).
+Then come back and read on:
 
-* eine_variable
-* EineKlasse
-* a = b.sugar
-* b.sugar!
-* b.sweet?
+### Some code conventions
 
+Identifiers:
 
-### parantheses are optional!
+``` ruby
+the_variable = SomeClass.new
+             # variables are written in snake_case
+             # classes in capital CamelCase
+
+a = b.sugar  # a method the returns something
+b.sweet?     # a method that returns true or false
+b.sugar!     # a method that changes it's object
+```
+
+In ruby the parantheses around arguments are optional.
+Leave them off unless your code get's confusing:
 
 ``` ruby
 puts("less code")
 puts "less code" 
 ```
 
+# Data Types 
 
-### Data Types
+All of rubys basic data types are Classes.
 
-* Fixnum, Bignum, Float
+* Fixnum, Bignum, Float # are convert automatically to each other
 * String
-* true, false
+* true  # TrueClass
+* false # FalseClass
 * Symbol
 * Array
 * Hash
 * Object
 
-
-### String
+### Strings
 
 ``` ruby
-s = 'nur ein String'
-s = "string mit #{variable} oder #{a+b/c} Expression"
+s = 'just a string of characters'
+s = "string with #{the_variable} or even #{a+b/c} a ruby expression embedded"
 s = <<-EOM
 This is a so called "Here-Document"
 it can contain many lines of text
 and ends with the identifier EOM (that i chose!)
+but only if it's alone on a line all by itselve:
 EOM 
 ```
 
+### Boolean Values
 
-
-### only false and nil are treated as false
+In ruby only false and nil are treated as false. This might
+be confusing for programmers used to other languages with
+more complex rules for truthyness:
 
 ``` ruby
 if 0 
   puts '0 is true!' 
 end
 if "false"
-  puts '"false" is not false'       
+  puts '"false" (the string) is not false'       
 end
 ```
 
+### shorthand for conditions
 
-### shorter way of writing a condition
+the two conditions shown in the last
+code block only have one statement inside
+the if block.  This can also be written
+in another way:
 
 ``` ruby
 puts '0 is true!' if 0 
 puts '"false" is not false' if "false"
 ```
 
+### Boolean Operators
 
-### shortcut evaluation of boolean operators
+When ruby evaluates a boolean operator it
+only does as little work as necessary.
+
+``` ruby
+# the second argument is not evaluated!
+a =  true || ...
+a = false && ...
+```
+
+The boolean operators don't just return true or
+false, they return the argument last evaluated.
+This is often used to set a variable:
 
 ``` ruby
 default_value = "gray"
@@ -112,8 +169,10 @@ a = input_value || default_value
 ```
 
 
+### Methods
 
-### Methode 
+Methods in ruby return the last expression - even
+if no explicit `return` statement is given.
 
 ``` ruby
 def f(a,b)
@@ -123,16 +182,21 @@ end
 f(1,42)
 ```
 
+### Hashes
 
-Enumerables and Piping Data
-----------------------------
+A hash function is ...
+The Hash data type uses a hash function to find an index
+to store values in an array:
 
-
-### What is a Hash?
 
 * how does it work
 * complexity of insert
 * complexity of loopup
+
+
+Enumerables and Piping Data
+----------------------------
+
 
 
 ### "Piping Data"
@@ -230,4 +294,8 @@ my_function_with_block_arg do
 end
 ```
 
+Ruby Style
+----------
 
+[Githubs Style Guide](https://github.com/styleguide/ruby) is good enough
+for you!
