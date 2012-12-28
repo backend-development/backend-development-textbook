@@ -330,6 +330,7 @@ body {
   border: 2px #888 solid;
   box-shadow: 0px 10px 5px #bbb;
   background-color: #bbb;
+  max-width: 100%;
 }
 
 @media screen and (max-width: 800px) {
@@ -372,6 +373,13 @@ a, a:link, a:visited {
   text-decoration: underline;
 }
 
+#topNav a, 
+#topNav a:link { 
+  color: #ee3f3f;
+}
+#topNav a:visited {
+  color: #BC5E08;
+}
 #mainCol a, #subCol a, #feature a {color: #F9980F;}
 #mainCol a code, #subCol a code, #feature a code {color:#F9980F;}
 

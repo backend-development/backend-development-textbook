@@ -6,9 +6,9 @@
       url: git_branching.html
       description: With branches you can work on two separate versions of your code in parallel. For example you can work on a new feature, but go back and fix an error in production in the middle of it. Git will help you keep your code sorted.
     -
-      name: Git Teamwork
+      name: Teamwork
       url: git_teamwork.html
-      description: 
+      description: When two programmers work at one computer this is called "pair programming".  
 -
   name: Ruby on Rails
   documents:
@@ -43,6 +43,10 @@
     -
       name: Testing and Refactoring
       url: testing_and_refactoring.html
+      description:
+    -
+      name: Deploying Rails with Capistrano
+      url: deploying_rails.html
       description:
 -
   name: Software Process
