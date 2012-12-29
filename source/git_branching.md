@@ -90,10 +90,10 @@ Git Basics
 Where is my code?  There are four answers to this question, for "places" that
 you need to learn about:
 
-![git-transport](images/git-workflow.svg?viewbox=0;0;600;100)
+![git-transport](images/git-remote.svg?viewbox=0;0;592;100)
 
 * the workspace is what you see in your on file system
-* the index is an invisible space where you can *add*  files you want to commit
+* the index is an invisible space where you can *add*  files you want to commit see [what's the deal with the git index](http://www.gitguys.com/topics/whats-the-deal-with-the-git-index/)
 * you can always commit to your local repository - it's really stored in the *.git* folder
 * the remote repository may not be reachable all the time
 
@@ -162,7 +162,7 @@ git commit -m "describe the commit"
 ```
 
 ### Index / Staging area
-![git-transport](images/git-workflow.svg?viewbox=0;0;375;207)
+![git-transport](images/git-remote.svg?viewbox=0;0;375;207)
 
 Workspace ("working copy") is managed by git!
 
@@ -225,7 +225,7 @@ git remote add github git@github.com:bjelline/web-engineering-textbook.git
 ```
 
 ### workflow with remote
-![git-transport](images/git-workflow.svg)
+![git-transport](images/git-remote.svg)
 
 ### push
 
@@ -274,6 +274,8 @@ before we branch
 
 ![no branches yet](images/branching-1.png)
 
+![no branches yet](images/branch-and-merge.svg?viewbox=0;0;450;340&frame=1)
+
 ### create a new branch 
 
 ``` sh
@@ -281,6 +283,8 @@ $git checkout -b iss53
 ```
 
 ![no branches yet](images/branching-2.png)
+
+![no branches yet](images/branch-and-merge.svg?viewbox=0;0;450;470&frame=2)
 
 ### switch to a branch
 

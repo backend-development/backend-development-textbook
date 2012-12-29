@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="900px" height="599px" viewBox="0 0 900 599" enable-background="new 0 0 900 599" xml:space="preserve">
+<style>
+<![CDATA[
+  .label_text { 
+    font-familiy: Arial, Helvetica, sans-serif;
+    font-size: 20px; 
+  }
+  ]]>
+</style>
+<script type="text/javascript">
+<![CDATA[
+  function show( x ) {
+    for(var i=0; i<6; i++) {
+      document.querySelector('#Frame' + i ).style.display= ( i > x ? "none" : "");
+    }
+  }
+  ]]>
+</script>
+
+  <g>
+    <symbol  id="Commit" viewBox="-80.698 -55.748 161.396 111.496">
+      <path fill="#5BE2F4" stroke="#848484" stroke-width="6" d="M77.698,0c0,28.447-11.026,51.621-24.824,52.695v0.053H-52.621v-0.039
+        C-66.537,51.898-77.698,28.619-77.698,0s11.161-51.898,25.077-52.709v-0.039H52.874v0.053C66.672-51.621,77.698-28.447,77.698,0z
+        "/>
+    </symbol>
+    <g id="Frame0">
+      <rect fill="#FFFFFF" width="900" height="599"/>
+    </g>
+    <g id="Frame1">
+      <g id="c0">
+        
+          <use xlink:href="#Commit"  width="161.396" height="111.496" id="commit_c0" x="-80.698" y="-55.748" transform="matrix(0.6033 0 0 -0.6033 96.9175 232.0264)" overflow="visible"/>
+        <text transform="matrix(1 0 0 1 76.9438 244.5493)"  class="label_text" >C0</text>
+      </g>
+      <g id="c1">
+        
+        <use xlink:href="#Commit"  width="161.396" height="111.496" id="commit_c1" x="-80.698" y="-55.748" transform="matrix(0.6033 0 0 -0.6033 233.8521 232.0264)" overflow="visible"/>
+        <g>
+          <g>
+            <line fill="none" stroke="#000000" stroke-width="4" x1="185.17" y1="232.026" x2="158.263" y2="232.026"/>
+            <path d="M153.539,234.075c3.307,0.999,5.456,1.919,8.108,2.983V226.97c-0.949,0.451-4.802,1.986-8.108,2.982
+              c-3.539,1.07-6.748,1.801-8.829,2.062C146.791,232.276,150,233.007,153.539,234.075z"/>
+          </g>
+        </g>
+        <text transform="matrix(1 0 0 1 212.1089 244.5493)"  class="label_text" >C1</text>
+      </g>
+      <g id="c2">
+        
+          <use xlink:href="#Commit"  width="161.396" height="111.496" id="commit_c2" x="-80.698" y="-55.748" transform="matrix(0.6033 0 0 -0.6033 367.7871 232.0264)" overflow="visible"/>
+        <g>
+          <g>
+            <line fill="none" stroke="#000000" stroke-width="4" x1="319.367" y1="232.026" x2="292.46" y2="232.026"/>
+            <path d="M287.736,234.075c3.307,0.999,5.456,1.919,8.108,2.983V226.97c-0.949,0.451-4.802,1.986-8.108,2.982
+              c-3.539,1.07-6.748,1.801-8.829,2.062C280.988,232.276,284.197,233.007,287.736,234.075z"/>
+          </g>
+        </g>
+        <text transform="matrix(1 0 0 1 345.0757 244.5488)"  class="label_text" >C2</text>
+      </g>
+    </g>
+    <g id="Frame2">
+      <g id="c3">
+        
+          <use xlink:href="#Commit"  width="161.396" height="111.496" id="commit_c3" x="-80.698" y="-55.748" transform="matrix(0.6033 0 0 -0.6033 504.7217 347.9854)" overflow="visible"/>
+        <g>
+          <g>
+            <line fill="none" stroke="#000000" stroke-width="4" x1="462.387" y1="319.852" x2="416.469" y2="273.121"/>
+            <path d="M411.697,271.188c1.605,3.059,2.455,5.236,3.555,7.874l7.196-7.071c-0.987-0.361-4.782-2.033-7.81-3.693
+              c-3.244-1.774-6.014-3.551-7.659-4.852C408.25,265.113,409.979,267.914,411.697,271.188z"/>
+          </g>
+        </g>
+        <text transform="matrix(1 0 0 1 481.3398 359.9336)"  class="label_text" >C3</text>
+      </g>
+    </g>
+    <g id="Frame3">
+      <g id="c4">
+        
+          <use xlink:href="#Commit"  width="161.396" height="111.496" id="commit_c4" x="-80.698" y="-55.748" transform="matrix(0.6033 0 0 -0.6033 504.7217 232.0264)" overflow="visible"/>
+        <g>
+          <g>
+            <line fill="none" stroke="#000000" stroke-width="4" x1="455.037" y1="232.026" x2="428.13" y2="232.026"/>
+            <path d="M423.407,234.075c3.307,0.999,5.456,1.919,8.108,2.983V226.97c-0.949,0.451-4.802,1.986-8.108,2.982
+              c-3.539,1.07-6.748,1.801-8.829,2.062C416.659,232.276,419.868,233.007,423.407,234.075z"/>
+          </g>
+        </g>
+        <text transform="matrix(1 0 0 1 481.3398 244.5493)"  class="label_text" >C4</text>
+      </g>
+    </g>
+    <g id="Frame4">
+      <g id="c5">
+        <text transform="matrix(1 0 0 1 617.6045 359.9341)" fill="none"  class="label_text" >C5</text>
+        
+        <use xlink:href="#Commit"  width="161.396" height="111.496" id="commit_c5" x="-80.698" y="-55.748" transform="matrix(0.6033 0 0 -0.6033 639.6445 347.9854)" overflow="visible"/>
+        <g>
+          <line fill="none" x1="591.311" y1="347.985" x2="564.404" y2="347.985"/>
+        </g>
+      </g>
+    </g>
+    <g id="Frame5">
+      <g id="master">
+        <rect x="658.396" y="43.45" fill="#D8D7D6" stroke="#7C7C7C" stroke-width="5" width="151.352" height="78.022"/>
+        <g>
+          <g>
+            <line fill="none" stroke="#000000" stroke-width="4" x1="734.072" y1="121.472" x2="733.229" y2="185.917"/>
+            <path d="M735.215,190.667c1.043-3.293,1.99-5.43,3.09-8.069l-10.088-0.132c0.438,0.955,1.923,4.827,2.876,8.146
+              c1.023,3.553,1.712,6.771,1.946,8.855C733.328,197.392,734.101,194.192,735.215,190.667z"/>
+          </g>
+        </g>
+        <text transform="matrix(1 0 0 1 680.5508 94.1978)"  class="label_text" >master</text>
+      </g>
+      <g id="c6">
+        
+          <use xlink:href="#Commit"  width="161.396" height="111.496" id="commit_c6" x="-80.698" y="-55.748" transform="matrix(0.6033 0 0 -0.6033 734.0723 232.0264)" overflow="visible"/>
+        <g>
+          <g>
+            <line fill="none" stroke="#000000" stroke-width="4" x1="697.729" y1="265.657" x2="676.142" y2="304.989"/>
+            <path d="M675.665,310.115c2.467-2.418,4.308-3.859,6.517-5.672l-8.845-4.854c-0.061,1.049-0.568,5.165-1.286,8.543
+              c-0.765,3.617-1.668,6.782-2.44,8.732C670.842,315.166,673.025,312.704,675.665,310.115z"/>
+          </g>
+        </g>
+        <g>
+          <g>
+            <line fill="none" stroke="#000000" stroke-width="4" x1="684.551" y1="232.026" x2="564.404" y2="232.026"/>
+            <path d="M559.681,234.075c3.307,0.999,5.456,1.919,8.108,2.983V226.97c-0.949,0.451-4.802,1.986-8.108,2.982
+              c-3.539,1.07-6.748,1.801-8.829,2.062C552.933,232.276,556.142,233.007,559.681,234.075z"/>
+          </g>
+        </g>
+        <text transform="matrix(1 0 0 1 709.3398 244.5493)"  class="label_text" >C6</text>
+      </g>
+      <g id="branch">
+        <g>
+          <g>
+            <line fill="none" stroke="#000000" stroke-width="4" x1="639.645" y1="470.923" x2="638.916" y2="394.396"/>
+            <path d="M636.822,389.691c-0.968,3.316-1.867,5.474-2.906,8.137l10.089-0.096c-0.461-0.945-2.032-4.783-3.06-8.08
+              c-1.104-3.529-1.865-6.73-2.146-8.809C638.557,382.927,637.856,386.143,636.822,389.691z"/>
+          </g>
+        </g>
+        <rect x="565.403" y="466.428" fill="#D8D7D6" stroke="#7C7C7C" stroke-width="5" width="151.352" height="78.022"/>
+        <text transform="matrix(1 0 0 1 598.0332 517.2754)"  class="label_text" >iss53</text>
+      </g>
+    </g>
+  </g>
+</svg>

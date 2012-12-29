@@ -99,28 +99,58 @@
     SyntaxHighlighter.all()
     $(guidesIndex.bind);
 
-    $('img[src*=svg]').each(function(i,s){
-      var $s = $(s);
-      var src = s.src.split("?viewbox=");
-      console.log(src);
-      var coord = src[1].split(";");
-      console.log(coord);
 
-      $.get(src[0], function(data) {
-        console.log("loaded " + data.documentElement );
-        // console.dir(data.documentElement);
-        svg = document.importNode(data.documentElement,true);
-        // console.log("svg = " + svg);
-        // document.body.appendChild(svg);  
-        // console.log(svg);
-        svg.viewBox.baseVal.x      = coord[0];
-        svg.viewBox.baseVal.y      = coord[1];
-        svg.viewBox.baseVal.width  = coord[2];
-        svg.viewBox.baseVal.height = coord[3];
-        console.log("aspect ratio = " + coord[3] +"/"+ coord[2] +" = " + coord[3] / coord[2]);
-        svg.height.baseVal.value = svg.width.baseVal.value * coord[3] / coord[2];
-        $s.replaceWith(svg);
+    var global = {};
+    console.log("ich bin da, und global = " + global);
+
+    function analyze_svg_url( src ) {
+        var a = src.split("?");
+        var o = { url : a[0] };
+        
+        if( ! a[1] ) {
+          console.log("has no params.");
+        } else {
+          var params = a[1].split("&");
+          for( var i in params ) {
+            var key_value = params[i].split("=");
+            if( key_value[0] == "viewbox" ) {
+              o.coord = key_value[1].split(";");
+            }
+            if( key_value[0] == "frame" ) {
+              o.frame = key_value[1];
+            }
+          }
+        }
+        return o;
+    }
+
+
+    function replace_with_svg_data( $s, data, o ) {
+      console.log("replace_with_svg_data( $s, " + data + ", " + o + " )");
+      svg = document.importNode(data.documentElement,true);
+      console.log("svg = " + svg);
+      svg.viewBox.baseVal.x      = o.coord[0];
+      svg.viewBox.baseVal.y      = o.coord[1];
+      svg.viewBox.baseVal.width  = o.coord[2];
+      svg.viewBox.baseVal.height = o.coord[3];
+      console.log("aspect ratio = " + o.coord[3] +"/"+ o.coord[2] +" = " + o.coord[3] / o.coord[2]);
+      svg.height.baseVal.value = svg.width.baseVal.value * o.coord[3] / o.coord[2];
+      $s.replaceWith(svg);
+    }
+
+    $(document).ready(function(){
+      $('img[src*=svg]').each(function(i,s){
+        console.log("testing svg-image no. " + i);
+        var $s = $(s);
+        var o = analyze_svg_url( s.src );
+        console.log("will load " + o.url);
+        $.get(o.url, function(data) {
+          console.log("loaded " + data.documentElement );
+          global.data = data;
+          replace_with_svg_data( $s, data, o );
+        });
       });
+
     });
     </script>
   </body>
