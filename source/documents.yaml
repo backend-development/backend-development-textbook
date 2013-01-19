@@ -59,5 +59,16 @@
       name: Agile Methods
       url: agile.html
       description: 
+    -
+      name: Refactoring Rails
+      url: refactoring_rails.html
+      description: Some examples from real students projects
+-
+  name: More Ruby on Rails
+  documents:
+    -
+      name: Advanced Rails Models
+      url: rails_advanced_models.html
+      description: Learn about inheritance and how to implement it in rails
 
 

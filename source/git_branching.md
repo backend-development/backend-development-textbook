@@ -72,7 +72,9 @@ photo [cc](http://www.flickr.com/photos/48923114@N00/116787425)
 1. it's free for open source projects
 2. it offers a convenient web interface
 3. with forking + pull requests it offers a good way how to contribute to open soruce projects
-4. it's mascopt is cute: octocat ![octocat](images/octocat.png)
+4. it's mascopt is cute: octocat 
+
+![octocat](images/octocat.png)
 
 ### Resources for Learning Git
 
@@ -90,7 +92,7 @@ Git Basics
 Where is my code?  There are four answers to this question, for "places" that
 you need to learn about:
 
-![git-transport](images/git-remote.svg?viewbox=0;0;592;100)
+![git-transport](images/git-1-places.svg)
 
 * the workspace is what you see in your on file system
 * the index is an invisible space where you can *add*  files you want to commit see [what's the deal with the git index](http://www.gitguys.com/topics/whats-the-deal-with-the-git-index/)
@@ -162,7 +164,7 @@ git commit -m "describe the commit"
 ```
 
 ### Index / Staging area
-![git-transport](images/git-remote.svg?viewbox=0;0;375;207)
+![git-transport](images/git-2-commit.svg)
 
 Workspace ("working copy") is managed by git!
 
@@ -195,6 +197,8 @@ git rm FILE
 git mv SOURCE DESTINATION
 ```
 
+![git-transport](images/git-3-commit-a.svg)
+
 ### remotes
 
 ````SH
@@ -225,7 +229,7 @@ git remote add github git@github.com:bjelline/web-engineering-textbook.git
 ```
 
 ### workflow with remote
-![git-transport](images/git-remote.svg)
+![git-transport](images/git-4-remote.svg)
 
 ### push
 
@@ -272,9 +276,7 @@ git checkout -b foo
 ### Basic workflow
 before we branch
 
-![no branches yet](images/branching-1.png)
-
-![no branches yet](images/branch-and-merge.svg?viewbox=0;0;450;340&frame=1)
+![no branches yet](images/branch-and-merge-1.svg)
 
 ### create a new branch 
 
@@ -282,9 +284,7 @@ before we branch
 $git checkout -b iss53
 ```
 
-![no branches yet](images/branching-2.png)
-
-![no branches yet](images/branch-and-merge.svg?viewbox=0;0;450;470&frame=2)
+![no branches yet](images/branch-and-merge-2.svg) 
 
 ### switch to a branch
 
@@ -306,9 +306,9 @@ $ git checkout iss53
 # edit; commit(c5)
 ```
 
-![worked on both branches](images/branching-3.png)
+![worked on both branches](images/branch-and-merge-3.svg)
 
-![what do I want to merge?](images/branching-4.png)
+![what do I want to merge?](images/branch-and-merge-4.svg)
 
 ### merge!
 
@@ -321,7 +321,7 @@ Merge made by recursive.
 ```
 
 ### done
-![after the merge](images/branching-5.png)
+![after the merge](images/branch-and-merge-5.svg)
 
 ### delete branch
 ``` sh

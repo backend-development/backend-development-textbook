@@ -91,7 +91,8 @@ dd { margin-left: 1.5em;}
 
 pre, code {
   font-size: 1em;
-  font-family: "Anonymous Pro", "Inconsolata", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
+  font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
+  font-weight: bold;
   line-height: 1.5;
   margin: 1.5em 0;
   overflow: auto;
