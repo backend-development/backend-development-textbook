@@ -1,7 +1,7 @@
 Rails: Advanced Models
 =========================
 
-Models are the basic Classes of a Rails Project.  The
+Models are the basic classes of a Rails Project.  The
 data is actually stored in a relational database.
 
 After working through this guide you should
@@ -9,6 +9,10 @@ After working through this guide you should
 * understand who inheritance can be modeld in rails models
 * be able to use polymorphic associations
 * be able to use single table inheritance
+
+Sources and Examples
+
+* [polymophic miniblog](https://github.com/bjelline/rails-example-polymorphic-miniblog)
 
 -------------------------------------------------------------
 
@@ -40,6 +44,12 @@ It's an indicator that you should not work with a type, but with a class
 
 
 And that's what we'll do.
+
+
+Inheritance 
+-----------
+
+TODO
 
 
 Polymorphic Associations
@@ -450,9 +460,13 @@ As a last step we can add links to the new-form:
 ```ruby
 <%= link_to 'New Article', new_article_path %>
 <% Attachment.all_subclasses.each do |subclass| %>
-  |  <%= link_to "New Article with #{subclass}", new_article_path( :attachment
-=> subclass ) %>
+  |  <%= link_to "with #{subclass}", 
+                 new_article_path( :attachment => subclass ) %>
 <% end %>
 ```
 
 
+Single Table Inheritance
+--------------------
+
+TODO
