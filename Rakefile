@@ -70,4 +70,4 @@ Examples:
   end
 end
 
-task :default => 'guides:help'
+task :default => 'guides:generate'

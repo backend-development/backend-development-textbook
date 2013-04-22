@@ -6,9 +6,7 @@ data is actually stored in a relational database.
 
 After working through this guide you should
 
-* understand who inheritance can be modeld in rails models
 * be able to use polymorphic associations
-* be able to use single table inheritance
 
 Sources and Examples
 
@@ -27,7 +25,7 @@ a picture or a link as an attachment.
 On way to model this is to have two associations
 for the article:
 
-    ```ruby
+    @@@ruby
     Article
       has_one :image
       has_one :link
@@ -44,12 +42,6 @@ It's an indicator that you should not work with a type, but with a class
 
 
 And that's what we'll do.
-
-
-Inheritance 
------------
-
-TODO
 
 
 Polymorphic Associations
@@ -466,7 +458,3 @@ As a last step we can add links to the new-form:
 ```
 
 
-Single Table Inheritance
---------------------
-
-TODO

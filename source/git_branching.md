@@ -58,14 +58,21 @@ small projects:
 ![background](images/linus-torvalds.jpg)
 photo [cc](http://www.flickr.com/photos/48923114@N00/116787425)
 
-1. git was invented by linus torvalds, see [this video of a talk by him](http://www.youtube.com/watch?v=4XpnKHJAok8)
-2. is is used to manage the linux kernel
-3. git is a distributed vcs
-4. you can work online and offline 
-5. its architecture is not fixed: e.g. move to new central server
-6. branching and merging is easy
-7. all the data is saved in only one directory: .git
-8. integrity of the code: identified by SHA1
+Git was invented by Linus Torvalds, see [this video of a talk by him](http://www.youtube.com/watch?v=4XpnKHJAok8)
+to manage the source of the linux kernel and it's many contributors.
+
+Git is a **distributed vcs** - it does not depend on one central repository, every
+repository is created equal. You  can transfer code in "both directions".
+You can work online and offline. Its architecture is not fixed: if on server
+breaks down, you can move to new server without any trouble.
+
+Branching and merging is easy in git.
+
+In your local working copy you also have a fully fledged repository:
+it's stored in one directory: `.git`.
+
+All the code you check in is identified by SHA1. You cannot change the
+content of a commit after it has been made without the hash breaking!
 
 ### Why use github.com?
 
@@ -89,15 +96,15 @@ photo [cc](http://www.flickr.com/photos/48923114@N00/116787425)
 Git Basics 
 ----------
 
-Where is my code?  There are four answers to this question, for "places" that
+Where is my code?  There are four answers to this question, four "places" that
 you need to learn about:
 
 ![git-transport](images/git-1-places.svg)
 
-* the workspace is what you see in your on file system
-* the index is an invisible space where you can *add*  files you want to commit see [what's the deal with the git index](http://www.gitguys.com/topics/whats-the-deal-with-the-git-index/)
-* you can always commit to your local repository - it's really stored in the *.git* folder
-* the remote repository may not be reachable all the time
+* the *workspace* is what you see in your computers file system
+* the *index* is an invisible space where you can *add*  files you want to commit (see [what's the deal with the git index](http://www.gitguys.com/topics/whats-the-deal-with-the-git-index/))
+* you can always commit to your *local repository* - it's really stored in the `.git` folder
+* the *remote repository* can be on another computer. it may not be reachable all the time
 
 
 ### Configuring Git
@@ -382,4 +389,5 @@ index.html: needs merge
 ### Resources 
 
 [Git Book: Chapter 3.2](http://git-scm.com/book/en/Git-Branching-Basic-Branching-and-Merging)
-
+[Ry's git tutorial: Branches 1](http://rypress.com/tutorials/git/branches-1.html)
+[Ry's git tutorial: Branches 2](http://rypress.com/tutorials/git/branches-2.html)

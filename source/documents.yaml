@@ -70,5 +70,15 @@
       name: Advanced Rails Models
       url: rails_advanced_models.html
       description: Learn about inheritance and how to implement it in rails
+    -
+      name: Testing with RSpec
+      url: testing_with_rspec.html
+      description: A different way to write tests
+    -
+      name: Advanced testing
+      url: advanced_testing.html
+      description: More testing with test doubles and a headless browser
+    
 
+    
 
