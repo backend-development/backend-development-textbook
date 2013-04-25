@@ -78,7 +78,11 @@
       name: Advanced testing
       url: advanced_testing.html
       description: More testing with test doubles and a headless browser
-    
-
-    
-
+    -
+      name: Internationalization (I18n)
+      url: internationalization.html
+      description: How to prepare you app for many languages, many countries
+    -
+      name: Security
+      url: security.html
+      description: How Rails helps with security, and how to mess it up
