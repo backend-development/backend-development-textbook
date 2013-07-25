@@ -35,12 +35,19 @@ In our exmple we would find:
 
 As a rails programmer you know about all these folders and files.  If you are
 told that there is a problem in http://myapp.com/courses/5/edit you immediately
-know which files you need to look at to fix the problem.
+know to look in conf/routes.rb to find out exactly whic files are concerned,
+but that the most likely canditates are
+
+* app/models/course.rb
+* app/controller/course_controller.b
+* app/views/course/edit.html.erb
 
 If you have not used a framework before this might feel very restrictive in the
 beginning: you can't just make up filenames any way you want, there is a
 **convention** for everything.  And you have to stick to the convention if you
-want to profit from the framework.
+want to profit from the framework.  But you will profit from this convention
+every time you look at a new project - you'll instantly know your way around.
+
 
 ### Start a Rails Project
 
@@ -50,22 +57,22 @@ to install ruby and the rails gem on your computer.
 A word of warning: Ruby and Rails will work on any Unix, including Mac OS. 
 To use them on a windows system you need a lot more patience and troubleshooting
 ability.  So if you are a windows user you might consider running
-ruby and rails in a virtual (unix) machine instead. 
+ruby and rails in a virtual (unix) machine (without GUI) instead. 
 
-Make sure you are using a current ruby (> 1.9) and rails (> 3.2) before
+Make sure you are using a current ruby (>= 2.0) and rails (>= 4.0) before
 you proceed:
 
 ``` sh
 $ ruby -v
-ruby 1.9.2p290 
+ruby 2.0
 $ rails -v
-Rails 3.2.9
+Rails 4.0
 ```
 
-Another word of warning: rails moves fast.  This was written in the fall/winter
-of 2012 and describes rails 3.2.  If you are reading this in the far future
-(which in rails terms means: more than 6 months from now) you are probably
-using ruby 2 or later, and rails 4 or later, and this text is **not** for you!
+Another word of warning: rails moves fast.  This was first written in the fall/winter
+of 2012 for rails 3.2 and adapted in 1013 for rails 4.0. If you are reading this in the far future
+(which in rails terms means: in late 1014 or later) you are probably
+using ruby 2.2 or later, and rails 5 or later, and this text is **not** for you!
 
 
 Before you start your rails project you have to decide on the name (and folder
@@ -76,9 +83,10 @@ afterwards!  In the following example we create an app called 'alljokes':
 rails new alljokes -T
 ```
 
-The last step of creating the new rails project is `bundle install`.
+The last step that was run automatically when creating a new rails project is `bundle install`.
 This will try to look up gems on the internet - if you are not connected
-to the internet you will be stuck here.
+to the internet you will be stuck here. You could try `bundle install --local` instead,
+that might help if the gems are installed on your computer already.
 
 ### Rails Directory Structure
 
@@ -91,14 +99,14 @@ Let's start to look at a few of them:
   * `view` - contains a folder full of templates for every controller
   * `controller` - contains all the classes of controllers
 * `config`
-  * ``database.yml` - database configuration
+  * `database.yml` - database configuration
   * `routes.rb`  - configuration of routes
 * `public` - the webspace. files in here are accessible without routing
 
 With your code split up into so many different files it is really useful
 to haven an editor that not only helps you edit a single file, but that
 will also display the directories and files. For example vim with NERDtree
-or RubyMine:
+or submline or RubyMine:
 
 ![Screenshot of editor vim with NERDtree and rubymine](images/directory-structure-editors.png)
 
@@ -162,11 +170,11 @@ of the attributes.  short strings / varchars do not need a type at all.
 ``` sh
 $ rails generate scaffold joke title fulltext:text 
 invoke  active_record
-create    db/migrate/20121226144107_create_jokes.rb
+create    db/migrate/20130725120328_create_jokes.rb
 create    app/models/joke.rb
 ```
 
-This will generate about 20 lines of output, and create 13 new files.
+This will generate about 30 lines of output, and create 15 new files.
 We will work through the files we need step by step:
 
 
@@ -193,8 +201,8 @@ end
 This is ruby code to generate a database table. You can see the
 two attrivbutes you specified when you called the generator.  There is
 also a line `t.timestamps` that will add two more attributes to the
-table: `created_at` and `updated_at`.  Rails will see to it that those
-two attributes always have the correct value.
+table: `created_at` and `updated_at`.  Rails handles these to values
+automatically. 
 
 
 You can run the migration (tell ruby to actually create the table) by
@@ -203,12 +211,10 @@ typing in `rake db:migrate` on the command line:
 
 ``` sh
 $ rake db:migrate
-==  CreateJokes: migrating ====================================================
+==  CreateJokes: migrating ====================
 -- create_table(:jokes)
    -> 0.0012s
-==  CreateJokes: migrated (0.0013s) ===========================================
-
-Process finished with exit code 0
+==  CreateJokes: migrated (0.0013s) ===========
 ```
 
 This actually created the table in a sqlite3 database called
@@ -225,7 +231,7 @@ point your browser at `http://localhost:3030/jokes/` to start.
 The scaffold generated four webpages that you can visit, to
 list, show, create, edit and destroy jokes:
 
-![webpages created by the scaffold](images/scaffold.svg?viewbox=0;0;900;820)
+![webpages created by the scaffold](images/scaffold-with-arrows.png?viewbox=0;0;900;820)
 
 * `/jokes/` is a list of all the jokes, with links to create, edit and destroy them
 * `/jokes/1` shows a single joke, in this case the joke with id=1
@@ -258,5 +264,14 @@ Now try to enter a new joke without a title, you should get a
 error message:
 
 ![Error message caused by unfullfilled validation](images/error-validation.png)
+
+### Summary
+
+We built a first rails app and ran it locally on our own machine.
+You should now have an overview over the most important files
+and a first impression of ruby code (used in controllers, models)
+and embedded ruby (erb) used in the views.
+
+Congratulations on your first step!
 
 

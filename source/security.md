@@ -29,6 +29,8 @@ Rails offers a lot of security features.  But all those clever features
 cannot save you from yourself.  In the example app all the passwords
 are displayed on "/users". No framework can prevent that!
 
+![](images/security-password-shown.png)
+
 Let's use this as an example of how to fix a security problem
 once you've found it:  First we write a test for the problem: `spec/features/user_spec.rb`
 

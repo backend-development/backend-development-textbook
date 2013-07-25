@@ -6,7 +6,7 @@ This guide will focus on ruby - the language - alone.
 After finishing this guide you will
 
 * have an overview of rubys type system
-* be able to use list processing funktions in ruby
+* be able to use list processing functions in ruby
 * be able to use blocks and `yield` in ruby.
 
 -----------------------------------------------------------------------
@@ -24,7 +24,7 @@ In a colossal break with tradition he did not
 choose a name starting with p for his scripting language
 (think perl, python, php) but opted for r instead.
 
-Like python ruby is a modern, thoroughly object oriented scripting language.
+Ruby is a thoroughly object oriented scripting language.
 Even basic data types are object:
 
 ``` ruby
@@ -46,7 +46,7 @@ Rails is famous for the high productivity it gives to developers. It
 is often used in startups, where speed of delivery is very important.
 Rails moves fast, new versions with major improvement appear about every 18
 months.  The rails community values speed of development, DRY code, testing,
-version control, ... when you learn rails you also pick up whole culture 
+version control, ... when you learn rails you also pick up a whole culture 
 surrounding it.
 
 
@@ -74,19 +74,28 @@ Then come back and read on:
 
 ### Some code conventions
 
-Identifiers:
+When you chose names for your objects, classes and methods
+you should stick to the following conventions to avoid
+confusing other ruby developers:
 
 ``` ruby
 the_variable = SomeClass.new
              # variables are written in snake_case
              # classes in capital CamelCase
 
-a = b.sugar  # a method the returns something
-b.sweet?     # a method that returns true or false
-b.sugar!     # a method that changes it's object
+             # method names are written in snake_case
+a = b.sugar  # a method the returns something 
+b.sweet?     # a method that returns true or false 
+             # ends in a question mark
+b.sugar!     # a method that changes its object 
+             # ends in an exclamation mark
 ```
 
-In ruby the parantheses around arguments are optional.
+In the last to examples the punctuation marks are really
+part of the method name!
+
+
+The parantheses around a methods arguments are optional.
 Leave them off unless your code get's confusing:
 
 ``` ruby
@@ -98,7 +107,8 @@ puts "less code"
 
 All of rubys basic data types are Classes.
 
-* Fixnum, Bignum, Float # are convert automatically to each other
+* Numeric, Integer, Fixnum, Bignum, Float # are converted automatically to each other
+* Ranges
 * String
 * true  # TrueClass
 * false # FalseClass
@@ -106,23 +116,24 @@ All of rubys basic data types are Classes.
 * Array
 * Hash
 * Object
+* Regex
 
 ### Strings
 
 ``` ruby
 s = 'just a string of characters'
 s = "string with #{the_variable} or even #{a+b/c} a ruby expression embedded"
-s = <<-EOM
+s = <<EOM
 This is a so called "Here-Document"
 it can contain many lines of text
 and ends with the identifier EOM (that i chose!)
-but only if it's alone on a line all by itselve:
+but only if it's alone on a line all by itself:
 EOM 
 ```
 
 ### Boolean Values
 
-In ruby only false and nil are treated as false. This might
+In ruby only `false` and `nil` are treated as false. This might
 be confusing for programmers used to other languages with
 more complex rules for truthyness:
 
@@ -135,22 +146,30 @@ if "false"
 end
 ```
 
-### shorthand for conditions
+### Shorthand version of Conditions
 
-the two conditions shown in the last
+The two conditions shown in the last
 code block only have one statement inside
-the if block.  This can also be written
-in another way:
+the block.  
+
+This can also be written in another way by
+appending the condition to the statement,
+like so:
 
 ``` ruby
 puts '0 is true!' if 0 
 puts '"false" is not false' if "false"
 ```
 
+This syntax should be familiar to you if
+you understand english.  (yes, that's an english
+sentence using the same syntax).
+
 ### Boolean Operators
 
-When ruby evaluates a boolean operator it
-only does as little work as necessary.
+When ruby evaluates a boolean operator,
+it does as little work as possible.  It 
+stops evaluation as soon as the result is clear:
 
 ``` ruby
 # the second argument is not evaluated!
@@ -165,6 +184,7 @@ This is often used to set a variable:
 ``` ruby
 default_value = "gray"
 input_value = nil
+# here input_value might be set...
 a = input_value || default_value
 ```
 
@@ -179,29 +199,88 @@ def f(a,b)
   "x"
 end
 
-f(1,42)
+f(1,42)  # returns "x"
+```
+
+### Arrays
+
+There are several ways of writing literal arrays in ruby.
+The first one looks like JSON:
+
+``` ruby
+a = ["this", "that", "something"]
+=> ["this", "that", "something"]
+```
+
+For creating an array of words (strings without whitespace in them)
+you can use `%w`:
+
+``` ruby
+>> a = %w(this that something)
+=> ["this", "that", "something"]
+```
+
+When creating an array of consecutive numbers you can
+use a Range and convert it to an Array:
+
+``` ruby
+>> (1..4).to_a
+=> [1, 2, 3, 4]
 ```
 
 ### Hashes
 
-A Hash is a datastructure similar to an array, but it uses
-arbitrary keys of any object type, not an integer index.
+A Hash is a datastructure similar to an array. An array uses integers as
+the index while a Hash takes any object. Mostly strings and symbols
+are used as keys:
+
+``` ruby
+h = Hash.new
+h["alice"] = "beer"
+h["chris"] = "tea"
+h["bob"] = "mate"
+``` 
+
+But you can use other objects:
+
+``` ruby
+t = Date.new
+h[t] = "recently"
+``` 
+
+The data structure behind a ruby Hash is more complex
+than an array: The key is sent though a function  (called hashfunction)
+that returns a number. This number is used as the index
+for an array.  If the hashfunction for two keys is the
+same a linked list is built.
+
 
 ![How Hash(tabl)es work](images/hash_table.svg)
 
-* how does it work
-* complexity of insert
-* complexity of loopup
+This datastructure seems like an serious waste of memory
+at first. But it offers the following intresting features:
 
+* looking up a key can be accomplised in constant time
+* inserting a new key / value pari can be accomplised in constant time
+
+Most scripting languages offer Hashes as a basic data type,
+most compiled languages as a library.  Read more about
+hashes in Wikipedia:
 
 * [Hashtables in Wikipedia](http://en.wikipedia.org/wiki/Hash_table)
+
 
 Enumerables and Piping Data
 ----------------------------
 
-
+When working with a list of values ruby
+helps you think about data on a new, more abstract level
+with Enumerables:
 
 ### "Piping Data"
+
+From the UNIX shell you may now the concepts of piping data
+from one command to the next:
 
 ``` shell
 # many httpd processes are running. as which user(s) ?
@@ -209,48 +288,77 @@ Enumerables and Piping Data
 $ ps aux | grep httpd | cut -c1-8 | sort | uniq
 ```
 
+Each of those programs reads data from "Standard Input" and
+writes data to "Standard Output".  The vertical bar symbol takes
+the output of the preceding program and sends it input the next
+program.  The data in question is plain text, consisting
+of several lines.
+
+Try it out on your commmand line by building up
+the pipe step by step:
+
+``` shell
+$ ps aux | less
+$ ps aux | grep httpd | less
+$ ps aux | grep httpd | cut -c1-8 | less
+$ ps aux | grep httpd | cut -c1-8 | sort | less
+$ ps aux | grep httpd | cut -c1-8 | sort | uniq | less
+```
+
 ### Piping Data in Ruby
+
+When piping data in ruby you can start with
+an Array
 
 ``` ruby
 languages = %w[Fortran Ada C C++ Java Scala Haskell]
 languages.sort.first(3)
 ```
 
-
-### some methods for Enumerables
+Here are some simple methods you can use on Arrays (and other Enumerables)
+that return a new Array.  You can connect theses methods to each other:
 
 * sort
 * first(n)
 * drop(n)
 * last(n)
 * grep(/pattern/)
+* reverse
+
+Some other methods return just a single value, and thus end the pipe:
+
 * count
 * count("only this exact value")
-* max, min
+* max
+* min
 
-
-
-### methods for Enumerables that take a block
-
+More advanced methods take a Block (of code) as their argument.
+The method `map` applys the Block to each piece of data, and
+returns an Array of the now data:
 
 ``` ruby
-(1..10).map{ |x| x*2 }.reverse
+>> (1..10).map{ |x| x*2 }
+=> [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
+>> (1..10).map{ |x| x*2 }.reverse
+=> [20, 18, 16, 14, 12, 10, 8, 6, 4, 2]
+```
+
+If the computation is more complex you can write
+the Block on several lines, ending with `end`
+
+``` ruby
+>> (1..10).map do |x|
+?>   x*2
+>> end
+=> [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
+>> (1..10).map do |x|
+?>   x*2
+>> end.reverse
+=> [20, 18, 16, 14, 12, 10, 8, 6, 4, 2]
 ```
 
 
-
-### methods for Enumerables that take a block
-
-
-``` ruby
-(1..10).map do |x| 
-  x*2 
-end.reverse
-```
-
-
-
-### methods for Enumerables that take a block
+Some other methods for Enumerables that take a Block:
 
 * map {|x| new value computed from x} 
 * select {|x| should x be selected? }
@@ -258,16 +366,20 @@ end.reverse
 * reduce{|memo, item| compute new value for memo}
 
 
-### avoid loops!
+These methods should help you avoid loops and thus simplify
+code considerably.
 
 
 
-Blocks etc.
------------
+Blocks 
+------
 
+Blocks of code are not just used in Enumerables, they are
+ab basic building block of ruby.  You can write functions
+that take a Block as an argument:
 
 ### My Function takes a Block of Code 
-as it's last argument
+as its last argument
 
 ``` ruby
 def my_function_with_block_arg
@@ -277,19 +389,16 @@ def my_function_with_block_arg
 end
 
 my_function_with_block_arg { puts "code in the block" }
+
+# OUTPUT:
+# code in the funtion
+# code in the block
+# more code in the function
 ```
 
-
-### My Function takes a Block of Code 
-as it's last argument
+Alternate syntax for defining the Block when calling the function:
 
 ``` ruby
-def my_function_with_block_arg
-  puts "code in the funtion"
-  yield
-  puts "more code in the function"
-end
-
 my_function_with_block_arg do
   puts "code in the block"
   puts "more code in the block"
@@ -301,3 +410,25 @@ Ruby Style
 
 [Githubs Style Guide](https://github.com/styleguide/ruby) is good enough
 for you!
+
+Summary
+-------
+
+You now know about the basic data types, about enumerables and about block -   
+features that distinguish ruby from other scripting languages. This should
+be a good anough basis to digg deeper into rails next.  
+
+But do take every
+oppertunity you got to learn more about ruby itself: if you are unsure about
+a line of code, look it up in the ruby documentation and use the
+opportunity to read a bit more than strictly necessary.
+I can highly recommend getting an offline version of the documentation
+installed on your development machine, so you can use it even if you
+are offline.
+
+
+
+But you should come back and learn more about ruby later on.
+
+* TODO: link to ruby documentation
+* TODO: link ruby off rails

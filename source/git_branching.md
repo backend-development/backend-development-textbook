@@ -1,7 +1,7 @@
 Git Branching
 =============
 
-This Guide will give you a very quick introduce to
+This Guide will give you a very quick introduction to
 git, and then focus on using branches in git.
 
 After reading this guide, you will know:
@@ -31,18 +31,26 @@ These systems are known under many names
 In german they are most commonly called "Versionskontrollsystem".
 
 
-### A short - and incomplete - history of revision control
+### A short history of revision control
 
-Some ancient systems that are no longer in use are:
+When we look at open source revision control systems
+wen find: Some ancient systems that are no longer in use:
 
 * RCS
 * CVS
 
-Systems are open source systems and that are still in use today:
+and several systems that are still in use today:
 
 * SVN, also called Subversion
 * Hg, also called Mercurial
 * Git
+
+SVN uses a central server. If you cannot reach this server
+for a longer time (e.g. because you are travelling)  then
+you cannot work with the system effectively.
+
+Both Mercurial and Git are distributed systems, they
+do not need a central server.
 
 ### Why use revision control?
 
@@ -58,12 +66,13 @@ small projects:
 ![background](images/linus-torvalds.jpg)
 photo [cc](http://www.flickr.com/photos/48923114@N00/116787425)
 
-Git was invented by Linus Torvalds, see [this video of a talk by him](http://www.youtube.com/watch?v=4XpnKHJAok8)
+Git was invented by Linus Torvalds, 
 to manage the source of the linux kernel and it's many contributors.
+See [this video of a talk by him](http://www.youtube.com/watch?v=4XpnKHJAok8).
 
 Git is a **distributed vcs** - it does not depend on one central repository, every
 repository is created equal. You  can transfer code in "both directions".
-You can work online and offline. Its architecture is not fixed: if on server
+You can work online and offline. Its architecture is not fixed: if one server
 breaks down, you can move to new server without any trouble.
 
 Branching and merging is easy in git.
@@ -76,10 +85,12 @@ content of a commit after it has been made without the hash breaking!
 
 ### Why use github.com?
 
-1. it's free for open source projects
-2. it offers a convenient web interface
-3. with forking + pull requests it offers a good way how to contribute to open soruce projects
-4. it's mascopt is cute: octocat 
+Github.com is a commercial hoster for git repositories.
+Their web interface adds a lot of convenient features to git.
+
+1. it's free for open source projects and used by many such projects
+2. with forking + pull requests it offers an easy way to contribute to open soruce projects
+3. it's mascopt is cute: octocat 
 
 ![octocat](images/octocat.png)
 
@@ -104,16 +115,22 @@ you need to learn about:
 * the *workspace* is what you see in your computers file system
 * the *index* is an invisible space where you can *add*  files you want to commit (see [what's the deal with the git index](http://www.gitguys.com/topics/whats-the-deal-with-the-git-index/))
 * you can always commit to your *local repository* - it's really stored in the `.git` folder
-* the *remote repository* can be on another computer. it may not be reachable all the time
+* a *remote repository* can be on another computer. it may not be reachable all the time
 
 
 ### Configuring Git
 
-* command "git config"
-* for project: stored in .git/config
-* for user: is stored in ~/.gitconfig
-* use flag --global for user
+Before you start working with git you should configure
+your name and e-mail address.  This information will be 
+added to all commits you make.  (So if you want to work
+anonymously get a new e-mail address for this)
 
+* use the command "git config"
+* for a specific repository  the information is stored in .git/config
+* for a user is stored in ~/.gitconfig
+* use "git config --global" to change your user config
+
+This is how you save the information:
 
 ``` sh
 $ git config --global user.name "Firstname Lastname"
@@ -125,7 +142,11 @@ $ git config --list --global
 
 ### Create a Repository from scratch
 
+When you start a new project and have no data
+yet you can start like this:
+
 ``` sh
+mkdir project_directory
 cd project_directory
 git init
 # creates subdirectory .git
@@ -133,17 +154,17 @@ git init
 # .git/config 
 ```
 
-
-Windows Only: line breaks?
-
-Some configs you might want to set
+If you are working on windows but collaborating
+with developers on other systems you might want to
+change the following setting:
 
 ``` sh
 core.autocrlf false
 core.editor "C:/Programme/Notepad++/Notepad++.exe"
 ```
 
-Aliases
+If you ever find yourself annoyed by typing in long git
+commands you can define aliases:
 
 ``` sh
 git config --global alias.co checkout
@@ -156,114 +177,218 @@ git checkout master
 
 ### Plain git Workflow
 
+The "innermost loop" of working with git
+is the "commit":  a change in one or severl files
+that belong together.  This is how you create a commit:
 
 ``` sh
 # what's up?
 git status
 
-# i've edited a file
+# i've created or edited a file
 git add FILE
 
-# i've edited a lot of files
+# i've created and/or edited a lot of files
 git add .
 
 git commit -m "describe the commit"
 ```
 
-### Index / Staging area
+The "add" command puts your changes into the
+staging area, the "commit" commands saves them
+to the local repository.  
+
+The staging area is the place where you collect
+the pieces that will make up a commit.
+
 ![git-transport](images/git-2-commit.svg)
+
+
 
 Workspace ("working copy") is managed by git!
 
 
-### content, not file!
+### Git adds content, not just filenames
+
+A word of warning: The "add" command puts
+the content of the added file into the staging area,
+not just the filename.
+
+Try out the following sequence with a file of your own:
 
 ``` sh
-# change file
-git add file
-# change file again
+# change FILE
+git add FILE
+# change FILE again
 git status
+# you will find the FILE mentioned both under
+#  "Changes to be committed" and under "Changes not staged for commit"
 git diff
+# between the staged version and the current version
 git diff --staged 
+# between the staged version and the last commit
 ```
 
-*the first change has beed staged, but not the second!*
+You will find that the first change has been staged,
+but the second one has not.  Therefore: only add your
+files when you are sure you are done.
 
-### delete file
+### Deleting a file from git
 
-* deleting file from workspace alone is not enough
-* opposite of "git add" is "git rm"
+If you want to delete a file from the repository
+you should use the command
 
 ``` sh
 git rm FILE
 ```
 
-### rename file
+This removes the FILE from the file system and
+at the same time addes the information to the staging area.
+so on the next commit the deletion will be entered into
+the repository.
+
+If you just delete the file from the file system
+the process get's a bit more inconvenient.  `git status` will
+show you 
+
+``` sh
+rm README
+git status
+# On branch master
+# Changes not staged for commit:
+#   (use "git add/rm <file>..." to update what will be committed)
+#
+#       deleted:    README
+git rm README
+```
+
+On the last line there you have to type in the filename again. And you
+won't have any help from your shell (like autocompletion) because
+the file is not there any more.
+
+After the commit the file will no longer show up when we
+use the repository. But the information is still there! You
+can still go back to the previous commit and thus "resurrect" the file.
+
+
+### Rename a File
 
 ``` sh
 git mv SOURCE DESTINATION
 ```
 
+
+### What is a good commit?
+
+When implementing a feature or fixing a bug you will usually need several commits to get the work done.
+Or maybe it's the other way round: when you work with git you will soon find that making several
+small commits is quite convenient, because it helps you structure (and maybe undo) your work.
+Even if you made several changes, you can split those up  into two commits by first adding
+and commiting one set of files, and then adding and commiting the rest.
+
+
+If - on the other hand - you do not want to add the files by hand
+there is a convenient way to commiting all the changes at once: add
+the `-a`  flag to the commit:
+
+
+``` sh
+git commit -a -m 'some stuff i did'
+```
+
+
 ![git-transport](images/git-3-commit-a.svg)
 
-### remotes
+
+Remote Repositories
+-------------------
+
+You can work with several remote repositories. The most
+important remote repository is usually called `origin`.
+
+### Adding a Remote Repository
+
+If you created the repository locally you can connect it
+to a remote repository later on:
 
 ````SH
 git add remote origin https://github.com/myname/myrepository.git
 ```
 
+Look into `.git/config` to find the information again.
 
-### clone an existing repository
+### Clone an existing repository
+
+When you want to work with an existing remote repository
+you need to find out the repositories URL.  The URLs may
+start with http, https, ssh, or git.  Two examples are:
+
+* `https://github.com/web-engineering/web-engineering-textbook`
+* `git@github.com:web-engineering/web-engineering-textbook`
+
+To get the data for the first time use the `clone` command:
 
 ``` sh
 git clone REPOSITORY_URL
 git clone REPOSITORY_URL DIR_NAME
 ```
 
-* implicitly sets
+If you do not specify a directory name, the last part of the
+URL will be used.  The clone command will implicitly set the
+origin to the repository url, you don't need to type:
 
 ``` sh
 git remote add origin REPOSITORY_URL
 ```
 
-### add a remote 
-
-``` sh
-git remote add REMOTE_NAME REMOTE_URL
-
-git remote add origin ssh://repos.mediacube.at/opt/git/username.git
-git remote add github git@github.com:bjelline/web-engineering-textbook.git
-```
-
 ### workflow with remote
+
+When working with a remote repositories you need two now
+commands: `push` and `pull`.
+
+
 ![git-transport](images/git-4-remote.svg)
 
-### push
-
-* specify local branch and remote repository
+When you push your local commits to the remote repository
+you have to specify a local branch and the name of the remote repository.
+When you haven't worked with branches yet there is only the `master` branch.
 
 ``` sh
 git push origin master
 ```
 
-
-### pull
-
-* specify local branch and remote repository
+When you pull changes from the remote repository you havt
+to specify the local branch again (probably `master`) and 
+the name of the remote repository.
 
 ``` sh
 git pull origin master
 ```
 
+Now you are ready to work with git on your own.  You can make
+a backup or publish to the world by pushing to a remote
+repository.
 
+But if you want to work in a team you will need to handle branches.
 
 Branching and Merging
 ---------------------
 
+When you create a branch in the repository you enable two
+different development directions.  later on you might want to
+merge the branches again, or you might want to discard one.
+
+Different tools offer visual displays of these branches,
+here a screenshot from SourceTree:
+
+![SourceTree branches](images/source-tree-branches.png)
+
 ### Branching
 
+To create or delete a branch use the `branch` command:
+
 ``` sh
-git branch -v # shows branches
+git branch -v # shows branches + last commits
 * master 7a98805 Merge branch 'iss49'
   iss50  782fd34 add scott to the author list in the readmes
 
@@ -272,15 +397,31 @@ git branch BRANCH_NAME
 
 # delete a branch
 git branch -d BRANCH_NAME
+```
 
-# get data from a different branch
+Creating and deleting branches in itself doenst not do anything.
+To actually use a branch you have to check it out:
+
+``` sh
+# switch to a different branch
 git checkout BRANCH_NAME
 
 # shortcut: create a new branch + checkout
 git checkout -b foo
 ```
 
-### Basic workflow
+If this is a new, newly created branch, the files in your
+working copy do not change.  you can now work in this
+branch as usual: add, commit, add, commit.  
+Now the branch is really different from other branches.
+If you check out another branch now you will see the
+files in your filesystem change!
+
+Only checkout another branch when your working directory is clean,
+after you have commited all changes!
+
+### Behind the scene of a branch
+
 before we branch
 
 ![no branches yet](images/branch-and-merge-1.svg)
@@ -391,3 +532,4 @@ index.html: needs merge
 [Git Book: Chapter 3.2](http://git-scm.com/book/en/Git-Branching-Basic-Branching-and-Merging)
 [Ry's git tutorial: Branches 1](http://rypress.com/tutorials/git/branches-1.html)
 [Ry's git tutorial: Branches 2](http://rypress.com/tutorials/git/branches-2.html)
+
