@@ -74,6 +74,8 @@ Then come back and read on:
 
 ### Some code conventions
 
+Try to stick to [https://github.com/styleguide/ruby githubs style for ruby]. 
+
 When you chose names for your objects, classes and methods
 you should stick to the following conventions to avoid
 confusing other ruby developers:
@@ -189,6 +191,36 @@ a = input_value || default_value
 ```
 
 
+### Symbols
+
+A Symbol looks - at first glance - similar to a string: you can
+invent it at any time (no 'declaration') and give it any name:
+
+``` ruby
+a = :foo
+a = :bar
+
+s = "foo"
+s = "bar"
+```
+
+But: there is always just one instance of a symbol while
+There can be several strings that have the same content, but are different objects:
+
+``` ruby
+>> :foo.object_id
+=> 635528
+>> :foo.object_id
+=> 635528
+>> "foo".object_id
+=> 70099463087600
+>> "foo".object_id
+=> 70099463106400
+```
+
+Use symbols where you would enums in a database or another language,
+or if you need constants (whos 'real value' is not important).
+
 ### Methods
 
 Methods in ruby return the last expression - even
@@ -228,7 +260,8 @@ use a Range and convert it to an Array:
 => [1, 2, 3, 4]
 ```
 
-### Hashes
+Hashes
+----------------------------
 
 A Hash is a datastructure similar to an array. An array uses integers as
 the index while a Hash takes any object. Mostly strings and symbols
@@ -261,13 +294,36 @@ This datastructure seems like an serious waste of memory
 at first. But it offers the following intresting features:
 
 * looking up a key can be accomplised in constant time
-* inserting a new key / value pari can be accomplised in constant time
+* inserting a new key / value pair can be accomplised in constant time
 
 Most scripting languages offer Hashes as a basic data type,
 most compiled languages as a library.  Read more about
 hashes in Wikipedia:
 
 * [Hashtables in Wikipedia](http://en.wikipedia.org/wiki/Hash_table)
+
+
+### Implicit Form
+
+A Hash can be created by using its "implicit form":
+
+``` ruby
+roomnumber = { "Jane Doe" => 10, "Jim Doe" => 6 }
+```
+
+Hashes allow an alternate syntax when all the keys are symbols. Instead of
+
+``` ruby
+style = { :font_size => 10, :font_family => "Arial" }
+```
+
+Since Ruby 1.9.3 you could write this  in  a JSON-like way:
+
+``` ruby
+style = { font_size: 10, font_family: "Arial" }
+```
+
+
 
 
 Enumerables and Piping Data
@@ -375,7 +431,7 @@ Blocks
 ------
 
 Blocks of code are not just used in Enumerables, they are
-ab basic building block of ruby.  You can write functions
+a basic building block of ruby.  You can write functions
 that take a Block as an argument:
 
 ### My Function takes a Block of Code 
@@ -405,18 +461,13 @@ my_function_with_block_arg do
 end
 ```
 
-Ruby Style
-----------
-
-[Githubs Style Guide](https://github.com/styleguide/ruby) is good enough
-for you!
 
 Summary
 -------
 
 You now know about the basic data types, about enumerables and about block -   
 features that distinguish ruby from other scripting languages. This should
-be a good anough basis to digg deeper into rails next.  
+be a good enough basis to digg deeper into rails next.  
 
 But do take every
 oppertunity you got to learn more about ruby itself: if you are unsure about
@@ -430,5 +481,16 @@ are offline.
 
 But you should come back and learn more about ruby later on.
 
-* TODO: link to ruby documentation
-* TODO: link ruby off rails
+### Online Resources 
+
+* [try ruby](http://tryruby.org) - interactive online course
+* [Ruby Bits](http://www.codeschool.com/courses/ruby-bits) - interactive online course, with 8bit game graphics 
+* [Ruby 2.0 Core Documentation: Enumerable](http://ruby-doc.org/core/Enumerable.html)
+* [learningruby.com tutorial](http://rubylearning.com/satishtalim/tutorial.html)
+
+### Books
+
+* Flanagan, Matsumoto(2008): [The Ruby Programming Language](http://www.amazon.com/Ruby-Programming-Language-David-Flanagan/dp/0596516177). O'Reilly. ISBN 0596516177.
+* Thomas(2013): [Programming Ruby 1.9 + 2.0](http://www.amazon.com/Programming-Ruby-1-9-2-0-Programmers/dp/1937785491/). Pragmatic Porgrammers. ISBN 1937785491 
+* Olsen (2011): [Eloquent Ruby](http://www.amazon.com/Eloquent-Ruby-Addison-Wesley-Professional/dp/0321584104/). Addison-Wesley. ISBN 0321584104 
+* Tate(2010): [Seven Languages in Seven Weeks: A Pragmatic Guide to Learning Programming Languages](http://www.amazon.com/Seven-Languages-Weeks-Programming-Programmers/dp/193435659X/). Pragmatic Programmers.  ISBN 193435659X 
