@@ -61,7 +61,7 @@ once you've found it:  First we write a test for the problem: `spec/features/use
   end
   ```
 
-When we run this test it rails, because right now passwords are displayed:
+When we run this test it fails, because right now passwords are displayed:
 
 ![](images/security-password-test-fails.png)
 
