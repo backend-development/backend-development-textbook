@@ -31,7 +31,7 @@ To create or delete a branch use the `branch` command:
 ``` sh
 git branch -v # shows branches + last commits
 * master 7a98805 Merge branch 'iss49'
-  iss50  782fd34 add scott to the author list in the readmes
+  iss50  782fd34 add scott to the readme
 
 # create a branch 
 git branch BRANCH_NAME
@@ -40,7 +40,7 @@ git branch BRANCH_NAME
 git branch -d BRANCH_NAME
 ```
 
-Creating and deleting branches in itself doenst not do anything.
+Creating and deleting branches in itself doesn't not do anything.
 To actually use a branch you have to check it out:
 
 ``` sh
@@ -65,7 +65,7 @@ after you have commited all changes!
 
 before we branch
 
-![no branches yet](images/branch-and-merge-1.svg)
+![no branches yet](images/branch-and-merge-0.svg)
 
 ### create a new branch 
 
@@ -73,7 +73,7 @@ before we branch
 $git checkout -b iss53
 ```
 
-![no branches yet](images/branch-and-merge-2.svg) 
+![no branches yet](images/branch-and-merge-1.svg) 
 
 ### switch to a branch
 
@@ -170,7 +170,7 @@ index.html: needs merge
 
 ### Resources 
 
-[Git Book: Chapter 3.2](http://git-scm.com/book/en/Git-Branching-Basic-Branching-and-Merging)
-[Ry's git tutorial: Branches 1](http://rypress.com/tutorials/git/branches-1.html)
-[Ry's git tutorial: Branches 2](http://rypress.com/tutorials/git/branches-2.html)
+* [Git Book: Chapter 3.2](http://git-scm.com/book/en/Git-Branching-Basic-Branching-and-Merging)
+* [Ry's git tutorial: Branches 1](http://rypress.com/tutorials/git/branches-1.html)
+* [Ry's git tutorial: Branches 2](http://rypress.com/tutorials/git/branches-2.html)
 
