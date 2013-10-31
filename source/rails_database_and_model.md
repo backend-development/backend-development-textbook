@@ -1,41 +1,77 @@
-Rails: Database and Model
-=========================
+Rails: Database and Models
+==========================
 
 Models are the basic Classes of a Rails Project.  The
 data is actually stored in a relational database.
 
 After working through this guide you should
 
-* know this
-* be able to do that
+* Understand how ActiveRecord works
+* Understand what Database Migrations are
+* Be able to create a model
 
 -------------------------------------------------------------
+
+
+Models and Databases
+--------------------
+
+In a modern programming language like rails we represent 
+things in the real world with objects. For example if you are
+building a web application for project management, you will
+have objects of classes Project, and WorkPackage, and User.
+
+To save these objects permanently we use a relational Database,
+in most cases Postgres or MySQL/MariaDB.
+
+Here we hit on an old problem in computer science: storing
+objects into a relational database does not work all that well.
+This problem is called the 
+[Object-relational impedance mismatch](http://en.wikipedia.org/wiki/Object-relational_impedance_mismatch)
+and has been discussed scince the early 1980ies.
+
+Today there exist several Design Patterns and Libraries for solving this.
+The solution is called an Object Relational Mapper or ORM.
+
+Two Patterns used in Rails are ActiveRecord and ObjectMapper, both first
+described by Fowler in his 2003 book [Patterns of Enterprise Application Architecture](http://martinfowler.com/books/eaa.html).
+ActiveRecord is the default solution used in Rails.
 
 
 ActiveRecord
 ------------
 
-* "Object Relational Mapper"
-* Active Record is a pattern for working with a relational database in a object oriented language
-* Rails implements the Active Record pattern in a class called ActiveRecord
+Rails implements the Active Record pattern in a class called ActiveRecord.
+All the models in a rails project inherit from ActiveRecor
+
+
+``` ruby
+class Thing < ActiveRecord::Base
+end
+```
 
 
 
-### the mapping
+### The Mapping
 
-* Database Table `courses` corresponds to...
-* Class Course, defined in  `app/models/course.rb`
+A quick overview of how Objects and Database relate when using
+the ActiveRecord Pattern:
 
-* One row in the Table `courses` corresponds to...
-* one object of the class Course
+```
+Database                           Ruby on Rails
+---------------------------        --------------------------
+Table `courses`                    Class Course app/models/course.rb
+One row in the Table               one object of the class Course
+SELECT * FROM courses WHERE id=7   Course.find(7)` 
+```
 
-* `SELECT * FROM courses WHERE id=7` corresponds to...
-* `Course.find(7)` 
 
+### How to build
 
-### how to build
-
-with a scaffold:
+To build your first model and it's corresponding
+database table you can use the scaffold generator.
+You need to work on the command line using the commands
+`rails` and `rake`.
 
 * `rails generate scaffold tweet status:string zombie:string`
 * look at the migration that was generated in `db/migrate/*create_tweets.rb`
@@ -45,26 +81,25 @@ with a scaffold:
 
 
 
-### work with the model interactively
+### Work with the Model Interactively
 
 You can use the rails console to work with
-the model.  Any changes you make are really written
+the model.  This is similar to the ruby console `irb`
+but with your rails app already loaded. 
+Any changes you make are really written
 to the development database!
 
+* `rails console`
 
 ### Now do 'Rails for Zombies' Episode #1
 
 ![Rails for Zombies 1](images/rails-for-zombies-1.jpg)
-
-### validations #
-
 
 ### Validations
 
 * validations are declared on the model
 * checked every time data is saved to the database
 * if data does not conform, error are available through the object
-
 
 ### Validations
 
@@ -101,6 +136,15 @@ Rails for Zombies
 Now do 'Rails for Zombies' Episode #2
 
 ![Rails for Zombies 2](images/rails-for-zombies-2.jpg)
+
+### On Documentation
+
+You should have the ruby and rails documentation available
+on your computer at all times.  A handy tool for this on mac os x is
+[Dash](http://kapeli.com/dash).  This is what a Rails Guide looks like in Dash:
+
+
+![Dash](images/dash-rails-guide.png)
 
 ### Further reading
 

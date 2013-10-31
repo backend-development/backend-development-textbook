@@ -6,7 +6,7 @@
       url: ruby_commandline.html
       description: The essential ruby you need to know to understand rails
     -
-      name: Rails Database and Model
+      name: Rails Database and Models
       url: rails_database_and_model.html
       description: How does Rails use the database? How are models and database tables related?
     -
