@@ -8,7 +8,8 @@ After working through this guide you should
 
 * Understand how ActiveRecord works
 * Understand what Database Migrations are
-* Be able to create a model
+* Be able to create models with associations to other models
+* Be able to write validations to check data before it is saved in a model
 
 -------------------------------------------------------------
 
@@ -21,28 +22,29 @@ things in the real world with objects. For example if you are
 building a web application for project management, you will
 have objects of classes Project, and WorkPackage, and User.
 
-To save these objects permanently we use a relational Database,
+To save these objects permanently (often called "persistance") 
+we use a relational Database,
 in most cases Postgres or MySQL/MariaDB.
 
 Here we hit on an old problem in computer science: storing
 objects into a relational database does not work all that well.
 This problem is called the 
 [Object-relational impedance mismatch](http://en.wikipedia.org/wiki/Object-relational_impedance_mismatch)
-and has been discussed scince the early 1980ies.
+and has been discussed since the early 1980ies.
 
 Today there exist several Design Patterns and Libraries for solving this.
 The solution is called an Object Relational Mapper or ORM.
 
-Two Patterns used in Rails are ActiveRecord and ObjectMapper, both first
+Two Patterns used in Rails for this problem are ActiveRecord and ObjectMapper, both first
 described by Fowler in his 2003 book [Patterns of Enterprise Application Architecture](http://martinfowler.com/books/eaa.html).
-ActiveRecord is the default solution used in Rails.
+ActiveRecord is the default solution used in Rails, we will look into it in detail here.
 
 
 ActiveRecord
 ------------
 
-Rails implements the Active Record pattern in a class called ActiveRecord.
-All the models in a rails project inherit from ActiveRecor
+Rails implements the Active Record pattern in a class called `ActiveRecord`.
+All the models in a rails project inherit from `ActiveRecord`.
 
 
 ``` ruby
@@ -55,31 +57,103 @@ end
 ### The Mapping
 
 A quick overview of how Objects and Database relate when using
-the ActiveRecord Pattern:
+ActiveRecord in Rails:
 
 ```
 Database                           Ruby on Rails
 ---------------------------        --------------------------
-Table `courses`                    Class Course app/models/course.rb
-One row in the Table               one object of the class Course
-SELECT * FROM courses WHERE id=7   Course.find(7)` 
+table courses                      class Course 
+  in the Database                    in file app/models/course.rb
+one row in the table               one object of the class Course
+an attibute in the table           a property of the object
+SELECT * FROM courses WHERE id=7   Course.find(7)
 ```
 
+Rails has several conventions regarding ActiveRecord and the database:
+
+* The Model Class is written in first-letter-uppercase, and uses a singular noun: `Course`
+* The table in the database is written in lowercase, and uses the plural of this noun: `courses`
+* The table contains an integer attribute `id` as its primary key
+* All the attributes from the database table will show up as properties of the model in rails automatically
+* If there's an 1:n relationship between two models, the table on the "one" side will contain a foreign key like so:
+   * table `users`  and table `phones`  (one user has many phones)
+   * table `phones` contains `user_id` that references `users.id`
+* If there's a n:m relationship between two models, there will be a join table  like so:
+   * table `users`  and table `projects`  (one user has many projects, one project has many users)
+   * table `projects_users` contains `user_id` and `projects_id` (and nothing else)
+   * there is no class in rails to represent the join table 
+
+If you stick to these conventions building the web app will be very easy.  You 
+can deviate from these conventions, but this takes some extra configuration and programming work.
+
+One scenarion where deviating from the conventions might make sense is when
+you build a rails app to replace an old php app. You can start with the models
+in rails configured to fit with your old database, and then refactor and migrate towards
+the rails conventions step by step.
 
 ### How to build
 
-To build your first model and it's corresponding
-database table you can use the scaffold generator.
+To build the first model and its corresponding database table,
+you can use the scaffold generator.
 You need to work on the command line using the commands
 `rails` and `rake`.
 
 * `rails generate scaffold tweet status:string zombie:string`
+   * This will generate a Model `Tweet` and a migration to create table `tweets`
 * look at the migration that was generated in `db/migrate/*create_tweets.rb`
+* you can edit the migration now - but not later!
 * run the migration: `rake db:migrate`
+   * this will run the appropriate `CREATE TABLE` statement in your database
 * look at the model generated in `app/models/tweet.rb`
-* add validations, associations to model
+* add validations, associations to the model
 
+### Database Migrations
 
+During Development the database schema will change just as much as
+the code will change. Changes to both are interdependent: if I push out
+a code change to my fellow developers without the db schema changes,
+they will not be able to use the code.
+
+Rails offers "Database Migrations" to cope with this fact.
+
+A "Migration" is a (small) change in the database schema. The change is
+described in ruby and saved to a file in the folder `db/migrations`.
+The files are identified by a timestamp and a uniqe name, for example:
+
+```
+20131031100433_create_venues.rb  
+20131031100442_create_events.rb  
+20131031100501_add_venue_ref_to_events.rb
+```
+
+The first two of these migrations were generated by the scaffold,
+the last one by `rails generate migration AddVenueRefToEvent`.
+
+The scaffold creates a migration for creating a table:
+
+``` Ruby
+class CreateEvents < ActiveRecord::Migration
+  def change
+    create_table :events do |t|
+      t.string :title
+      t.text :description
+      t.datetime :start_time
+      t.datetime :stop_time
+      t.boolean :free
+
+      t.timestamps
+    end
+  end
+end
+```
+
+Use `rake` to apply this migration to the existing database:
+
+* `rake db:migrate`  # apply all open migrations
+* `rake db:rollback` # roll back last migration
+
+A word of warning:  you never, ever need to change a migration after
+using and commiting it.  You only ever add new migrations!
 
 ### Work with the Model Interactively
 

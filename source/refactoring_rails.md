@@ -84,4 +84,9 @@ the main directory of your app.  The result will be written to
 
 
 
+Tools
+-----
 
+Most IDEs now have some refactorings built in.
+
+* [codemod](https://github.com/facebook/codemod) a python script 

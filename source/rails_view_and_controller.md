@@ -16,11 +16,17 @@ After reading this guide you should
 The View
 --------
 
-### view in MVC
+The View in the Model-View-Controller pattern
+is responsible for displaying Data to the user in various ways.
 
-* responsible for displaying stuff
-* both web designers and developers might work on these files!
+In Ruby on Rails **Embedded Ruby** (ERB) is normally used
+as the templating languages to define the views.  If you have
+used Templates in other languages or have used PHP embedded in HTML
+than you will recognize the similarities.
 
+Both Web Designers and Web Developers might want to edit
+the files concerning the view. (This is one of the points where
+using git to relove merge conflicts comes in handy!).
 
 ### rails views
 
@@ -48,7 +54,7 @@ The View
 
 ### Now do 'Rails for Zombies' Episode no3
 
-![Rails for Zombies Episode 4](images/rails-for-zombies-4.jpg)
+![Rails for Zombies Episode 3](images/rails-for-zombies-3.jpg)
 
 The Controller
 --------------
