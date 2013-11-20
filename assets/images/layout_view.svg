@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 14.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 43363)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="500px"
+	 height="460.943px" viewBox="0 0 500 460.943" enable-background="new 0 0 500 460.943" xml:space="preserve">
+<g id="Ebene_1">
+	<rect x="30.647" y="60.943" fill="#AECCED" stroke="#000000" width="437.324" height="371.127"/>
+	<text transform="matrix(1 0 0 1 30.6475 32.2524)" font-family="'LucidaGrande-Bold'" font-size="14">Layouts, Views </text>
+	<text transform="matrix(1 0 0 1 36.8867 79.4146)" font-family="'LucidaGrande'" font-size="14">app/views/layouts/application.html.erb</text>
+	<rect x="55.794" y="153.577" fill="#FFFDFD" stroke="#000000" width="377.193" height="207.042"/>
+	<text transform="matrix(1 0 0 1 63.999 171.0771)"><tspan x="0" y="0" font-family="'LucidaGrande'" font-size="14">app/views/</tspan><tspan x="77.055" y="0" fill="#2C22FF" font-family="'LucidaGrande-Bold'" font-size="14">controller</tspan><tspan x="147.294" y="0" font-family="'LucidaGrande'" font-size="14">/</tspan><tspan x="154.636" y="0" fill="#FFA63F" font-family="'LucidaGrande-Bold'" font-size="14">action</tspan><tspan x="198.68" y="0" font-family="'LucidaGrande'" font-size="14">.html.erb</tspan></text>
+</g>
+<g id="Ebene_2" display="none">
+	
+		<rect x="78.401" y="218.767" display="inline" fill="#F9DA41" stroke="#000000" stroke-dasharray="12" width="329.007" height="114.006"/>
+	<text transform="matrix(1 0 0 1 91.4219 242.9722)" display="inline"><tspan x="0" y="0" font-family="'LucidaGrande'" font-size="14">app/views/</tspan><tspan x="77.055" y="0" fill="#2266FF" font-family="'LucidaGrande-Bold'" font-size="14">controller</tspan><tspan x="147.294" y="0" font-family="'LucidaGrande'" font-size="14">/_form.html.erb</tspan></text>
+	<text transform="matrix(1 0 0 1 68.8154 117.542)" display="inline" font-family="'LucidaGrande'" font-size="14">app/views/shared/_topmenu.html.erb</text>
+	<text transform="matrix(1 0 0 1 141.7456 32.252)" display="inline" font-family="'LucidaGrande-Bold'" font-size="14">and Partials</text>
+	
+		<rect x="55.794" y="93.337" display="inline" fill="#F9DA41" stroke="#000000" stroke-dasharray="12" width="377.193" height="42.5"/>
+</g>
+</svg>

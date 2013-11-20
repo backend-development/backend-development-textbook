@@ -91,7 +91,7 @@ you build a rails app to replace an old php app. You can start with the models
 in rails configured to fit with your old database, and then refactor and migrate towards
 the rails conventions step by step.
 
-### How to build
+### How to build a model
 
 To build the first model and its corresponding database table,
 you can use the scaffold generator.
@@ -155,17 +155,19 @@ Use `rake` to apply this migration to the existing database:
 A word of warning:  you never, ever need to change a migration after
 using and commiting it.  You only ever add new migrations!
 
-### Work with the Model Interactively
+### the Model on the console
 
 You can use the rails console to work with
-the model.  This is similar to the ruby console `irb`
+the model interactively.  This is similar to the ruby console `irb`
 but with your rails app already loaded. 
 Any changes you make are really written
 to the development database!
 
 * `rails console`
 
-### Now do 'Rails for Zombies' Episode #1
+### Learn from Zombies
+
+Now do 'Rails for Zombies' Episode #1
 
 ![Rails for Zombies 1](images/rails-for-zombies-1.jpg)
 

@@ -1,7 +1,52 @@
+Deploying Rails
+==========================
 
+Your "Minimal Viable Product" is finished, now you
+want to publish it on the web.
+
+After working through this guide you should be able to
+
+* deploy a rails app to heroku using git
+* deploy a rails app to any unix server using capistrano
+
+-------------------------------------------------------------
+
+Deploying with git
+---------------------
+
+heroku is one "Platform as a Service" provider that offers
+to host your rails app.  Heroku uses git to push the code to
+the production server.
+
+(See also 
+[Railsbridge Installfest: Create A Heroku Account](http://installfest.railsbridge.org/installfest/create_a_heroku_account)
+and
+[Railsbridge Installfest: Create And Deploy A Rails App](http://installfest.railsbridge.org/installfest/create_a_heroku_account#step7)
+)
+
+
+* create an account on https://heroku.com
+* add your public key to your heroku account
+* install the heroku toolbelt on your local development machine
+
+in your rails app, which is already using git:
+
+* heroku create
+* make some changes in the Gemfile (rubyracer, pg instead of sqlite)
+* don't forget to commit all changes!  
+* git push heroku master
+* heroku run rake db:migrate
+* heroku open  
+* heroku logs
+
+That's it.   You should now have an app with a very strange URL, like
+[http://mighty-shore-1497.herokuapp.com/](http://mighty-shore-1497.herokuapp.com/)
 
 Public Key Authentication in SSH
 ---------------------
+
+(See also [Railsbridge Installfest](http://installfest.railsbridge.org/installfest/create_an_ssh_key))
+
 
 ![public key login](images/public_key_crypto.svg)
 
@@ -123,6 +168,7 @@ $ cap display_free_disk_space
 ** [out :: multimediaart.at] 98G   70G   24G  75% /var/www
   command finished in 165ms
 ```
+
 
 
 

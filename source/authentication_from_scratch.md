@@ -5,90 +5,11 @@ This guide is about Logins and Logouts.
 
 After reading this guide you will
 
-* know several ways of reusing code in rails: layouts, partials, helpers, filters
 * understand how cookies, sessions, logins are connected
 * be able to write a model is more than just the mapping of a database table
 * be able to build simple authentication into your rails app
 
 ------------------------------------------------------------
-
-Code Reuse in Rails
--------------------
-
-But first a short recap of code reuse in ruby on rails.
-
-
-### Code Reuse in Views 
-
-The Rails Templating System pieces together the html output
-from several files, as shown in the following illustration:
-
-![Views, Layouts and Partials](images/layout_view_partial.svg)
-
-There are three types of files involved here:
-
-* Layouts
-  * The layout is the outermost part of the resulting output
-  * `app/views/layout/application.html.erb` is the default layout
-  * in this file you can use `yield` to insert the view. You can also use partials, like `topmenu` in the illustration above
-* Views
-  * The main part of the view is found in a file defined by the controllers name and the actions name
-  * `app/views/<controllername>/<actionname>.html.erb` 
-  * in this file you can use partials
-* Partials
-  * partials are the smallest parts. their filename always starts with an
-    underscore, they can belong to a specific controller. if not, they are
-    stored in the `shared` directory 
-  * `app/views/<controllername>/_form.html.erb` partial used by edit and new action
-  * `app/views/shared/_topmenu.html.erb` shared partial
-
-This hierarchy of templates is well suited for outputting html with a bit of
-ruby embedded. If you find yourself repeating bigger pieces of ruby code, you
-might want to look into Helper Methods instead.
-
-### Code Reuse in Views and Controllers
-
-A helper method is a method that can be called from
-both the view and the controller.  
-
-`app/helpers/application_helper.rb` is the main file
-for helpers.  
-
-
-### Code Reuse in Controllers
-
-If you find yourself writing the same code over and over
-again for serveral actions in a controller, you can use
-a filter to refactor that:
-
-`before_filter <methodname>`  adds the method before any action
-
-`before_filter <methodname>, :only => [:show, :edit, :update]`  specifies which
-action. There is also the reverse `:except => ....`
-
-A very common pattern is to use a before_filter to find
-the ressource the controller is working on:
-
-``` ruby
-before_filter find_foo, :only => [:show, :edit, :update, :destroy]
-
-...
-
-private
-
-def find_foo
-  @foo = Foo.find(params[:id])
-end
-```
-
-If you want to share code between several controllers
-you can use inheritance to do that:
-all your controller inherit from `app/controllers/application_controller.rb`.
-(Only the ApplicationController inherits from ActionController::Base.)
-
-By default ApplicationController already contains a call to
-`protect_from_forgery` - a security measure we will look into in a later chapter.
-
 
 Sessions in Rails 
 ------------------
