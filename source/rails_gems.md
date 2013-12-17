@@ -71,27 +71,39 @@ But there is a more sophisticated alternative to bootstrap: **Neat** uses a *sem
 
 ### Testing
 
-[factory_girl](https://github.com/thoughtbot/factory_girl) for creating test data.
-
-[capybara](https://github.com/jnicklas/capybara) as the "browser" for acceptance tests, with
-[poltergeist](https://github.com/jonleighton/poltergeist) for testing client side javascript.
+* [factory_girl](https://github.com/thoughtbot/factory_girl) for creating test data.
+* [capybara](https://github.com/jnicklas/capybara) as the "browser" for acceptance tests, with
+* [poltergeist](https://github.com/jonleighton/poltergeist) for testing client side javascript.
 
 
 ### File Upload
 
-[carrierwave](https://github.com/carrierwaveuploader/carrierwave) or
-[paperclip](https://github.com/thoughtbot/paperclip)
+* [carrierwave](https://github.com/carrierwaveuploader/carrierwave) or
+* [paperclip](https://github.com/thoughtbot/paperclip)
+* [image processing with image magick](https://github.com/rmagick/rmagick)
+
+
 
 ### Authentication
 
-[devise](https://github.com/plataformatec/devise) for login,
-[omniauth](https://github.com/intridea/omniauth) to integrate authentication methods.
-
-[cancan](https://github.com/ryanb/cancan) if you need roles and permissions [sceencast](http://railscasts.com/episodes/192-authorization-with-cancan?view=asciicast).
+* [devise](https://github.com/plataformatec/devise) for login,
+* [omniauth](https://github.com/intridea/omniauth) to integrate authentication methods.
+* [cancan](https://github.com/ryanb/cancan) if you need roles and permissions [sceencast](http://railscasts.com/episodes/192-authorization-with-cancan?view=asciicast).
 
 ### Permalinks
 
-[friendlyid](https://github.com/norman/friendly_id)
+* [friendlyid](https://github.com/norman/friendly_id)
+
+### Parsing xml and html
+
+* [nokogiri](http://nokogiri.org/)
+
+(this is also used by capybara)
+
+### Admin Backend
+
+![ActiveAdmin Screenshot|]
+[ActiveAdmin](http://activeadmin.info/)
 
 ### Activity Stream
 
@@ -108,10 +120,15 @@ To see the generated mails in your web browser *instead* for sending them use th
 ![better_errors screenshot](images/gem-better_errors.png)
 [carliesome/better_errors](https://github.com/charliesome/better_errors)
 
+* anbindung an chrome developer tools: https://github.com/dejan/rails_panel/tree/master/meta_request
 * [annotate inserts the db schema as comments in your model.rb file](https://github.com/ctran/annotate_models)
 * [bullet helps you improve your usage of activerecord queries](https://github.com/flyerhzm/bullet)
 * [flay finds structural similarities in your code, so you can refactor](https://github.com/seattlerb/flay)
 * [rails_best_practices](https://github.com/railsbp/rails_best_practices)
+
+### HTTP Requests, Zeug runterladen
+
+* [curb](https://github.com/taf2/curb)
 
 ### Using APIs
 
@@ -119,6 +136,8 @@ To see the generated mails in your web browser *instead* for sending them use th
 * [twitter](https://github.com/sferik/twitter)
 * [gravatar](https://github.com/sinisterchipmunk/gravatar)
 * [koala for facebook](https://github.com/arsduo/koala)
+* [barometer - A multi API consuming weather forecasting superstar](https://github.com/attack/barometer)
+* [gmaps4rails](https://github.com/apneadiving/Google-Maps-for-Rails)
 
 Finding more Gems
 ----------
