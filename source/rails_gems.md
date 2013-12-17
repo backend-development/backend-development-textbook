@@ -15,7 +15,7 @@ After reading this guide you will
 Installing
 ----------
 
-Gems are ruby packages, they are the preferred unit of code reuse in ruby.
+Gems are ruby packages, they are the prefered unit of code reuse in ruby.
 You can install them using the command line tool `gem`:
 
 
@@ -23,7 +23,7 @@ You can install them using the command line tool `gem`:
 gem install devise
 ```
 
-In a Rails project you should let bundler do the work: you just add the
+In a Rails Project you should let bundler do the work: you just add the
 gem to the `Gemfile`, and then run
 
 ``` shell
@@ -126,9 +126,9 @@ To see the generated mails in your web browser *instead* for sending them use th
 * [flay finds structural similarities in your code, so you can refactor](https://github.com/seattlerb/flay)
 * [rails_best_practices](https://github.com/railsbp/rails_best_practices)
 
-### HTTP Requests, Zeug runterladen
+### HTTP Requests, Downloading from Webpages or APIs
 
-* [curb](https://github.com/taf2/curb)
+* [curb - curl for ruby](https://github.com/taf2/curb) 
 
 ### Using APIs
 
