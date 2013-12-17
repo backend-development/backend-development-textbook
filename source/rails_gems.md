@@ -45,7 +45,8 @@ they may contain C code and use C libraries. From the [RubyGems Guides](http://g
 Some Gems
 ----------
 
-This list is based on [Dwellables statistics on the Rails Rumble 2013](http://www.dwellable.com/blog/Rails-Rumble-Gem-Teardown).
+This list is based on [Dwellables statistics on the Rails Rumble 2013](http://www.dwellable.com/blog/Rails-Rumble-Gem-Teardown) and
+[coodbeerstartups "Must Have Gems for Development Machine in Ruby on Rails "](http://www.codebeerstartups.com/2013/04/must-have-gems-for-development-machine-in-ruby-on-rails).
 
 
 ### Mixins
@@ -88,7 +89,13 @@ But there is a more sophisticated alternative to bootstrap: **Neat** uses a *sem
 
 [cancan](https://github.com/ryanb/cancan) if you need roles and permissions [sceencast](http://railscasts.com/episodes/192-authorization-with-cancan?view=asciicast).
 
+### Permalinks
 
+[friendlyid](https://github.com/norman/friendly_id)
+
+### Activity Stream
+
+[public_activity](https://github.com/pokonski/public_activity)
 
 ### Sending Mail
 
@@ -96,11 +103,21 @@ To send mail from Rails use [ActionMailer](http://guides.rubyonrails.org/action_
 
 To see the generated mails in your web browser *instead* for sending them use the gem [letter_opener](https://github.com/ryanb/letter_opener)
 
-### Errors
+### Understanding your Code better
 
 ![better_errors screenshot](images/gem-better_errors.png)
 [carliesome/better_errors](https://github.com/charliesome/better_errors)
 
+* [annotate inserts the db schema as comments in your model.rb file](https://github.com/ctran/annotate_models)
+* [bullet helps you improve your usage of activerecord queries](https://github.com/flyerhzm/bullet)
+* [flay finds structural similarities in your code, so you can refactor](https://github.com/seattlerb/flay)
+
+### Using APIs
+
+* [octokit for github](https://github.com/octokit/octokit.rb)
+* [twitter](https://github.com/sferik/twitter)
+* [gravatar](https://github.com/sinisterchipmunk/gravatar)
+* [koala for facebook](https://github.com/arsduo/koala)
 
 Finding more Gems
 ----------

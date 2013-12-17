@@ -33,6 +33,10 @@
       name: Deploying Rails with Capistrano
       url: deploying_rails.html
       description:
+    -
+      name: Ruby Gems for your Rails Project
+      url: rails_gems.html
+      description:
 -
   name: Ruby on Rails 2
   documents:
