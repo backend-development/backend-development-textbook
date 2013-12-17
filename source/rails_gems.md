@@ -111,6 +111,7 @@ To see the generated mails in your web browser *instead* for sending them use th
 * [annotate inserts the db schema as comments in your model.rb file](https://github.com/ctran/annotate_models)
 * [bullet helps you improve your usage of activerecord queries](https://github.com/flyerhzm/bullet)
 * [flay finds structural similarities in your code, so you can refactor](https://github.com/seattlerb/flay)
+* [rails_best_practices](https://github.com/railsbp/rails_best_practices)
 
 ### Using APIs
 
