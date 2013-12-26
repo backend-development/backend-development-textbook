@@ -61,7 +61,7 @@ and frameworks?
 
 All these answers are equally valid.
 
-Also, we have cool t-shirts:
+Also, there are cool t-shirts:
 
 ![Ruby and Rails T-Shirts](images/ruby-and-rails-t-shirts.png)
 
@@ -74,7 +74,7 @@ Then come back and read on:
 
 ### Some code conventions
 
-Try to stick to [https://github.com/styleguide/ruby githubs style for ruby]. 
+Try to stick to [githubs style for ruby](https://github.com/styleguide/ruby). 
 
 When you chose names for your objects, classes and methods
 you should stick to the following conventions to avoid
@@ -97,7 +97,7 @@ In the last to examples the punctuation marks are really
 part of the method name!
 
 
-The parantheses around a methods arguments are optional.
+The parantheses around the arguments of a method are optional.
 Leave them off unless your code get's confusing:
 
 ``` ruby
@@ -109,11 +109,11 @@ puts "less code"
 
 All of rubys basic data types are Classes.
 
-* Numeric, Integer, Fixnum, Bignum, Float # are converted automatically to each other
+* Numeric, Integer, Fixnum, Bignum, Float `# are converted automatically to each other`
 * Ranges
 * String
-* true  # TrueClass
-* false # FalseClass
+* true  `# TrueClass`
+* false `# FalseClass`
 * Symbol
 * Array
 * Hash
@@ -124,7 +124,8 @@ All of rubys basic data types are Classes.
 
 ``` ruby
 s = 'just a string of characters'
-s = "string with #{the_variable} or even #{a+b/c} a ruby expression embedded"
+s = "string with #{the_variable} embedded"
+s = "string with #{a+b/c} a ruby expression embedded"
 s = <<EOM
 This is a so called "Here-Document"
 it can contain many lines of text
@@ -205,7 +206,7 @@ s = "bar"
 ```
 
 But: there is always just one instance of a symbol while
-There can be several strings that have the same content, but are different objects:
+there can be several strings that have the same content, but are different objects:
 
 ``` ruby
 >> :foo.object_id
@@ -219,7 +220,7 @@ There can be several strings that have the same content, but are different objec
 ```
 
 Use symbols where you would enums in a database or another language,
-or if you need constants (whos 'real value' is not important).
+or if you need distnict constants, when there value is not important.
 
 ### Methods
 
@@ -263,9 +264,8 @@ use a Range and convert it to an Array:
 Hashes
 ----------------------------
 
-A Hash is a datastructure similar to an array. An array uses integers as
-the index while a Hash takes any object. Mostly strings and symbols
-are used as keys:
+A Hash is a datastructure similar to an array. An array uses integers as keys
+while a Hash uses any. Mostly strings and symbols are used:
 
 ``` ruby
 h = Hash.new
@@ -282,9 +282,9 @@ h[t] = "recently"
 ``` 
 
 The data structure behind a ruby Hash is more complex
-than an array: The key is sent though a function  (called hashfunction)
+than an array: The key is sent though a function  (called hash function)
 that returns a number. This number is used as the index
-for an array.  If the hashfunction for two keys is the
+for an array.  If the hash function for two keys is the
 same a linked list is built.
 
 
@@ -296,12 +296,18 @@ at first. But it offers the following intresting features:
 * looking up a key can be accomplised in constant time
 * inserting a new key / value pair can be accomplised in constant time
 
+
 Most scripting languages offer Hashes as a basic data type,
 most compiled languages as a library.  Read more about
 hashes in Wikipedia:
 
 * [Hashtables in Wikipedia](http://en.wikipedia.org/wiki/Hash_table)
 
+(If you don't know what "in constant time" means above, you
+should learn more about the analysis of algorithms. e.g. by
+taking a algorithms and data strcture course as offered in the second
+semester of most computer science programs.  Or by working through the 
+[the book by Bruno R. Preiss](http://www.brpreiss.com/books/opus8/)).
 
 ### Implicit Form
 
@@ -311,20 +317,29 @@ A Hash can be created by using its "implicit form":
 roomnumber = { "Jane Doe" => 10, "Jim Doe" => 6 }
 ```
 
-Hashes allow an alternate syntax when all the keys are symbols. Instead of
+Since Ruby 1.9.3 hashes allow an alternate syntax when the keys are symbols. Instead of
 
 ``` ruby
 style = { :font_size => 10, :font_family => "Arial" }
 ```
 
-Since Ruby 1.9.3 you could write this  in  a JSON-like way:
+you could write this  in  a JSON-like way:
 
 ``` ruby
 style = { font_size: 10, font_family: "Arial" }
 ```
 
+This style of hash is often used as an argument for a method,
+that way we get named arguments:
 
+``` ruby
+def apply_the_style( h )
+  ...
+end
 
+apply_the_style(font_size: 10, font_family: "Arial")
+apply_the_style font_size: 10, font_family: "Arial" 
+```
 
 Enumerables and Piping Data
 ----------------------------
@@ -345,7 +360,7 @@ $ ps aux | grep httpd | cut -c1-8 | sort | uniq
 ```
 
 Each of those programs reads data from "Standard Input" and
-writes data to "Standard Output".  The vertical bar symbol takes
+writes data to "Standard Output".  The vertical bar symbol (called "pipe") takes
 the output of the preceding program and sends it input the next
 program.  The data in question is plain text, consisting
 of several lines.
@@ -371,8 +386,12 @@ languages = %w[Fortran Ada C C++ Java Scala Haskell]
 languages.sort.first(3)
 ```
 
+The elements of the array are piped into the sort-method, which again outputs a list
+of elements. Theses are piped into first, which only returns the first three and discards
+the rest. The result is a list of 3 elements.
+
 Here are some simple methods you can use on Arrays (and other Enumerables)
-that return a new Array.  You can connect theses methods to each other:
+that return a new Enumerable.  You can connect theses methods to each other:
 
 * sort
 * first(n)
@@ -390,11 +409,12 @@ Some other methods return just a single value, and thus end the pipe:
 
 More advanced methods take a Block (of code) as their argument.
 The method `map` applys the Block to each piece of data, and
-returns an Array of the now data:
+returns an Enumerable of the new data:
 
 ``` ruby
 >> (1..10).map{ |x| x*2 }
 => [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
+
 >> (1..10).map{ |x| x*2 }.reverse
 => [20, 18, 16, 14, 12, 10, 8, 6, 4, 2]
 ```
@@ -407,6 +427,7 @@ the Block on several lines, ending with `end`
 ?>   x*2
 >> end
 => [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
+
 >> (1..10).map do |x|
 ?>   x*2
 >> end.reverse
@@ -425,6 +446,10 @@ Some other methods for Enumerables that take a Block:
 These methods should help you avoid loops and thus simplify
 code considerably.
 
+Read the Reference on
+
+* [Enumerable](http://ruby-doc.org/core-2.1.0/Enumerable.html)
+* [Array](http://ruby-doc.org/core-2.1.0/Array.html)
 
 
 Blocks 
@@ -473,19 +498,16 @@ But do take every
 oppertunity you got to learn more about ruby itself: if you are unsure about
 a line of code, look it up in the ruby documentation and use the
 opportunity to read a bit more than strictly necessary.
-I can highly recommend getting an offline version of the documentation
-installed on your development machine, so you can use it even if you
-are offline.
 
+Get an offline version of the documentation
+installed on your development machine so you can look up stuff instantly.
 
-
-But you should come back and learn more about ruby later on.
+* Mac Tool [Dash](http://kapeli.com/dash) for keeping offline copies of documentation
 
 ### Online Resources 
 
 * [try ruby](http://tryruby.org) - interactive online course
 * [Ruby Bits](http://www.codeschool.com/courses/ruby-bits) - interactive online course, with 8bit game graphics 
-* [Ruby 2.0 Core Documentation: Enumerable](http://ruby-doc.org/core/Enumerable.html)
 * [learningruby.com tutorial](http://rubylearning.com/satishtalim/tutorial.html)
 
 ### Books

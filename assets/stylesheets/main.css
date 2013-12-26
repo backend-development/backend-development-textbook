@@ -330,7 +330,7 @@ body {
 #mainCol img, #mainCol svg {
   border: 2px #888 solid;
   box-shadow: 0px 10px 5px #bbb;
-  background-color: #bbb;
+  background-color: white;
   max-width: 100%;
 }
 
