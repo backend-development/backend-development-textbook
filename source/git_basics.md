@@ -33,7 +33,7 @@ In german they are most commonly called "Versionskontrollsystem".
 ### A short history of revision control
 
 When we look at open source revision control systems
-wen find: Some ancient systems that are no longer in use:
+we find: Some ancient systems that are no longer in use:
 
 * RCS
 * CVS
