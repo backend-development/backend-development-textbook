@@ -4,41 +4,39 @@
 <svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 width="500px" height="460.943px" viewBox="0 0 500 460.943" enable-background="new 0 0 500 460.943" xml:space="preserve">
 <defs>
-<style type="text/css">
-<![CDATA[
-@font-face {
-  font-weight:normal; font-style: normal; font-family: Biolinum;
-  src: url('../fonts/LinBiolinum_R.woff');
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-  font-weight:normal; font-style: normal; font-family: Libertine;
-  src: url('../fonts/LinLibertine_R.woff');
-  font-weight: normal;
-  font-style: normal;
-}
-]]>
-</style>
+<font-face font-family="Libertine">
+  <font-face-src>
+    <font-face-uri xlink:href="../fonts/LinLibertine_R.svg#LinuxLibertineORegular">
+      <font-face-format string="svg"/>
+    </font-face-uri>
+  </font-face-src>
+</font-face>
+<font-face font-family="Biolinum">
+  <font-face-src>
+    <font-face-uri xlink:href="../fonts/LinBiolinum_R.svg#LinBiolinumO">
+      <font-face-format string="svg"/>
+    </font-face-uri>
+  </font-face-src>
+</font-face>
 </defs>
 <rect x="30.647" y="60.943" fill="#AECCED" stroke="#000000" width="437.323" height="371.127"/>
-<text transform="matrix(1 0 0 1 30.6477 32.252)" style="font-weight:normal; font-style: normal; font-family: 'Biolinum'; font-size:28px;">Layouts, Views </text>
-<text transform="matrix(1 0 0 1 36.887 79.415)" style="font-weight:normal; font-style: normal; font-family: 'Libertine'; font-size:14px;">app/views/layouts/application.html.erb</text>
+<text transform="matrix(1 0 0 1 30.6477 32.252)" font-family="'Biolinum', sans-serif" font-size="28">Layouts, Views </text>
+<text transform="matrix(1 0 0 1 36.887 79.415)" font-family="'Libertine', sans-serif" font-size="14">app/views/layouts/application.html.erb</text>
 <rect x="55.794" y="153.577" fill="#FFFDFD" stroke="#000000" width="377.193" height="207.042"/>
-<text transform="matrix(1 0 0 1 63.9993 171.0771)" style="font-weight:normal; font-style: normal; font-family: 'Libertine'; font-size:14px;">app/views/</text>
-<text transform="matrix(1 0 0 1 149.0544 171.0771)" fill="#2C22FF" style="font-weight:normal; font-style: normal; font-family: 'Libertine'; font-size:14px;">controller</text>
-<text transform="matrix(1 0 0 1 232.2932 171.0771)" style="font-weight:normal; font-style: normal; font-family: 'Libertine'; font-size:14px;">/</text>
-<text transform="matrix(1 0 0 1 239.635 171.0771)" fill="#FFA63F" style="font-weight:normal; font-style: normal; font-family: 'Libertine'; font-size:14px;">action</text>
-<text transform="matrix(1 0 0 1 290.6794 171.0771)" style="font-weight:normal; font-style: normal; font-family: 'Libertine'; font-size:14px;">.html.erb</text>
+<text transform="matrix(1 0 0 1 63.9993 171.0771)" font-family="'Libertine', sans-serif" font-size="14">app/views/</text>
+<text transform="matrix(1 0 0 1 149.0544 171.0771)" fill="#2C22FF" font-family="'Libertine', sans-serif" font-size="14">controller</text>
+<text transform="matrix(1 0 0 1 232.2932 171.0771)" font-family="'Libertine', sans-serif" font-size="14">/</text>
+<text transform="matrix(1 0 0 1 239.635 171.0771)" fill="#FFA63F" font-family="'Libertine', sans-serif" font-size="14">action</text>
+<text transform="matrix(1 0 0 1 290.6794 171.0771)" font-family="'Libertine', sans-serif" font-size="14">.html.erb</text>
 <g id="Ebene_2" display="none">
 
 <rect x="78.401" y="218.767" display="inline" fill="#F9DA41" stroke="#000000" stroke-dasharray="12" width="329.007" height="114.005"/>
-<text transform="matrix(1 0 0 1 91.4221 242.9727)" display="inline" style="font-weight:normal; font-style: normal; font-family: 'Libertine'; font-size:14px;">app/views/</text>
+<text transform="matrix(1 0 0 1 91.4221 242.9727)" display="inline" font-family="'Libertine', sans-serif" font-size="14">app/views/</text>
 
-<text transform="matrix(1 0 0 1 168.4773 242.9727)" display="inline" fill="#2266FF" style="font-weight:normal; font-style: normal; font-family: 'Libertine'; font-size:14px;">controller</text>
-<text transform="matrix(1 0 0 1 238.7161 242.9727)" display="inline" style="font-weight:normal; font-style: normal; font-family: 'Libertine'; font-size:14px;">/_form.html.erb</text>
-<text transform="matrix(1 0 0 1 68.8157 117.542)" display="inline" style="font-weight:normal; font-style: normal; font-family: 'Libertine'; font-size:14px;">app/views/shared/_topmenu.html.erb</text>
-<text transform="matrix(1 0 0 1 141.7458 32.252)" display="inline" style="font-weight:normal; font-style: normal; font-family: 'Libertine'; font-size:14px;">and Partials</text>
+<text transform="matrix(1 0 0 1 168.4773 242.9727)" display="inline" fill="#2266FF" font-family="'Libertine', sans-serif" font-size="14">controller</text>
+<text transform="matrix(1 0 0 1 238.7161 242.9727)" display="inline" font-family="'Libertine', sans-serif" font-size="14">/_form.html.erb</text>
+<text transform="matrix(1 0 0 1 68.8157 117.542)" display="inline" font-family="'Libertine', sans-serif" font-size="14">app/views/shared/_topmenu.html.erb</text>
+<text transform="matrix(1 0 0 1 141.7458 32.252)" display="inline" font-family="'Libertine', sans-serif" font-size="14">and Partials</text>
 
 <rect x="55.794" y="93.337" display="inline" fill="#F9DA41" stroke="#000000" stroke-dasharray="12" width="377.193" height="42.5"/>
 </g>
