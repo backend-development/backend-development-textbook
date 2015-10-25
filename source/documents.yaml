@@ -79,14 +79,6 @@
   name: Software Process
   documents:
     -
-      name: Good Practices
-      url: good_practices.html
-      description: 
-    -
-      name: Agile Methods
-      url: agile.html
-      description: 
-    -
       name: Refactoring Rails
       url: refactoring_rails.html
-      description: Some examples from real students projects
+      description: How to improve your code in a systematic way.

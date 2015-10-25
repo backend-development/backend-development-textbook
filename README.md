@@ -1,16 +1,16 @@
-# Textbook 'Web Engineering'
+# Textbook 'Web Development'
 
-My Textbook on Web Engineering. Developed on github, published at
-http://web-engineering.github.com
+My Textbook on Web Development. Developed on github, published at
+http://web-development.github.io
 
 I hope this grows into a full textbook over time,
-like http://web-development.github.com did.
+like http://web-development.github.io did.
 
 
 ## How to Read the book
 
 Point your browser at
-http://web-engineering.github.com
+http://web-development.github.io
 
 
 ## How to contribute small changes

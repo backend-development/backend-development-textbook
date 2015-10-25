@@ -26,36 +26,25 @@ Web Engineering - a textbook
     <!--
     <dd class="kindle">This textbook is also available for <%= link_to 'Kindle', @mobi %>.</dd>
     -->
-    <dd class="work-in-progress"><p>This whole book is currently a work in progress. <p>While still useful, it may contain incomplete information and even errors. <p>You can help by reviewing the documents and posting your comments and corrections.</dd>
+    <dd class="work-in-progress"><p>This whole book is currently a work in progress. <p>You can help by reviewing the documents and posting your comments and corrections.</dd>
   </dl>
 </div>
 <% end %>
 
 
-<h3>Why Web Engineering</h3>
+<h3>Why Rails on the Backend?</h3>
 
-<p>Is there really a need for "Web Engineering" as a separate subject?
-Doesn't "Software Engineering" cover Web Development also?</p>
+<p>There are many frameworks in other languages that
+could also be used instead of Rails. If you have learned
+Django or Symphony or any number of other frameworks you did nothing wrong.</p>
 
-<p>I would argue that web development has reached a level of
-complexity where it makes sense to study it in depth, in it's
-own right.  Web projects have some features in common, that separate
-them from other software projects:</p>
+<p>We decided on Ruby on Rails in 2008 because the framework seemd well rounded
+and modern then, and have not been disappointed. Rails has not stopped innovating
+and improving.</p>
 
-<ul>
-  <li><strong>different people</strong>: in web projects there are many 
-  non-programmers involved: designers, usability-experts, community managers, ... 
-  more so than in other software development projects.</li>
-  <li><strong>different languages</strong>: for web development dynamic 
-  languages are used. this implies different design patterns 
-  than strongly typed languages</li>
-  <li><strong>no software in boxes</strong>: web apps are not delivered 
-  once a year in a box. they have to be maintained and updated all 
-  the time, continous delivery is needed!</li>
-</ul>
+<p>We can wholeheartetly recommend it both for learning and for building production
+ready software with it.</p>
 
-<p>This textbook will try to teach you about general good software engineering practices
-while always sticking to examples that are actually useful in web development today.</p>
 
 <% documents_by_section.each do |section| %>
   <h3><%= section['name'] %></h3>
