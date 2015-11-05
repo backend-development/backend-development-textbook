@@ -83,7 +83,7 @@ Rails has several conventions regarding ActiveRecord and the database:
    * table `phones` contains `user_id` that references `users.id`
 * If there's a n:m relationship between two models, there will be a join table  like so:
    * table `users`  and table `projects`  (one user has many projects, one project has many users)
-   * table `projects_users` contains `user_id` and `projects_id` (and nothing else)
+   * table `projects_users` contains `user_id` and `project_id` (and nothing else)
    * there is no class in rails to represent the join table 
 
 If you stick to these conventions building the web app will be very easy.  You 
