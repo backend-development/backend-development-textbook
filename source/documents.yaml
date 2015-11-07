@@ -14,12 +14,8 @@
       url: rails_view_and_controller.html
       description: 
     -
-      name: Authentication from Scratch
+      name: Authentication
       url: authentication_from_scratch.html
-      description: 
-    -
-      name: Authentication with Devise
-      url: authentication_with_devise.html
       description: 
     -
       name: Asset Pipeline

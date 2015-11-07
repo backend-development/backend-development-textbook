@@ -178,8 +178,6 @@ read the logfile, try to find out how capistrano lays out
 the folders
 
 
-### capistrano folders
-
 * current --> links to a release
 * release
   * 20121201113038

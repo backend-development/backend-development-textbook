@@ -8,6 +8,9 @@ By referring to this guide, you will be able to:
 * Understand Rails testing terminology
 * Write unit and integration tests for your application
 
+<dd class="work-in-progress"><p>This chapter is still a work in progress. </p>
+<p>You can help by reviewing the documents and posting your comments and corrections.</p></dd>
+
 ---------------------------------------------------------------------------
 
 Why Test?

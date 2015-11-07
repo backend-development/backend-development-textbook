@@ -6,11 +6,73 @@ your first Rails Project.
 
 After reading this guide you will
 
-* know how to install and use a gem
-* know some gems
-* know where to find more gems
+* understand how gems are installed
+* understand how bundler handles dependencies
+* be able to configure the gems you use
+* be able to deliberately chose version numbers for your gems
 
-------------------------------------------------------------
+<dd class="work-in-progress"><p>This chapter is still a work in progress. </p>
+<p>You can help by reviewing the documents and posting your comments and corrections.</p></dd>
+
+-----------------------------------------------------------------
+
+Gems and Bundler
+----------------
+
+### gem
+
+* rubygems is the package manager for ruby
+* a gem has a name  (e.g. rake) and a version (e.g. 0.9.2.2)
+* [what is a gem](http://docs.rubygems.org/read/chapter/24)
+* find 100.000 gems at [rubygems.org](http://rubygems.org/)
+
+
+### the problem
+
+![bundler](images/bundler-small.png)
+
+* you write an app
+* using 100 gems
+* then deploy it to a server
+* where all theses gems are present in slightly different versions
+
+### the solution
+
+* `Gemfile` : define which gems + versions you want
+* run `bundle install`
+* picks out compatible versions of gems, includes dependencies, writes `Gemfile.lock`
+* versions are now locked!
+* deploy, run `bundle install` on the production server
+* exact same versions are now installed
+
+
+### defining versions
+
+``` ruby
+gem "devise"
+gem "rails", "4.0.0.beta"
+gem "rack",  ">=1.0"
+gem "thin",  "~>1.1"
+gem "nokogiri", :git => "git://github.com/tenderlove/nokogiri.git"
+```
+
+### Gemfile.lock
+
+```
+devise (2.1.0)
+  bcrypt-ruby (~> 3.0)
+  orm_adapter (~> 0.0.7)
+  railties (~> 3.1)
+  warden (~> 1.1.1)
+```
+
+### gems and rails
+
+* configuration for a gem: `config/initializers/devise.rb`
+* gem may install generators: `rails generate`
+* gem may install rake tasks: `rake -T`
+
+
 
 Installing
 ----------
@@ -33,6 +95,9 @@ bundle install
 Bundler will resolve version conflicts between the gems for you and 
 install and use a set of gems that will work well with each other.
 
+
+Installing gems with C code
+--------
 
 A word of warning: some gems are not written exclusively in ruby,
 they may contain C code and use C libraries. From the [RubyGems Guides](http://guides.rubygems.org/gems-with-extensions/):
@@ -185,9 +250,11 @@ This might be handy for downloading from Webpages or APIs
 * gem [flay](https://github.com/seattlerb/flay) - finds structural similarities in your code, so you can refactor
 * gem [rails_best_practices](https://github.com/railsbp/rails_best_practices)
 
-Finding more Gems
+
+Ressources
 ----------
 
+* [Ruby Gems](https://rubygems.org/)
+* [Bundler](http://bundler.io/)
 * the [Ruby Toolbox](https://www.ruby-toolbox.com/) is organized in categories that help you find alternative solutions
-
 

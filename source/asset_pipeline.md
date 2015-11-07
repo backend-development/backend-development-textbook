@@ -14,8 +14,8 @@ By referring to this guide, you will be able to:
 Compile to the Web
 -------------------
 
-### compiling to css
-### compiling to javascript
+* compiling to css
+* compiling to javascript
 
 
 
@@ -132,7 +132,7 @@ Web Performance
 
 
 
-### ...Rules...
+### ...more Rules...
 
 *   Make JavaScript and CSS External
 *   Reduce DNS Lookups

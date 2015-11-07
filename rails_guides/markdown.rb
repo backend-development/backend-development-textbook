@@ -122,9 +122,6 @@ module RailsGuides
           <div id="subCol">
             <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
             #{@index}
-            <dl>
-               <dd class="work-in-progress">This whole book is currently a work in progress. While still useful, it may contain incomplete information and even errors. You can help by reviewing them and posting your comments and corrections.</dd>
-            </dl>
           </div>
           INDEX
         end

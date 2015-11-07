@@ -645,7 +645,7 @@ h6 {
   }
 }
 
-#mainCol dd.work-in-progress, #subCol dd.work-in-progress {
+dd.work-in-progress {
   background: #fff9d8 url(../images/tab_yellow.gif) no-repeat left top;
   border: none;
   padding: 1.25em 1em 1.25em 48px;
