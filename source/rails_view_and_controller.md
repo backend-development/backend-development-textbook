@@ -272,8 +272,8 @@ params Hash and only pick out it's sub-entries `uid`, `name`, `email` and `homep
 # PATCH /users/1.json
 def update
   @user = User.find(params[:id])
-  good_user_params = params.require(:user).permit(:uid, :name, :email, :homepage)
-  @user.update(good_user_params)
+  good_params = params.require(:user).permit(:uid, :name, :email, :homepage)
+  @user.update(good_params)
   redirect_to @user, notice: 'User updated.'
 end
 ```
@@ -287,8 +287,8 @@ the edit-view from before:
 # PATCH /users/1.json
 def update
   @user = User.find(params[:id])
-  good_user_params = params.require(:user).permit(:uid, :name, :email, :homepage)
-  if @user.update(good_user_params)
+  good_params = params.require(:user).permit(:uid, :name, :email, :homepage)
+  if @user.update(good_params)
     redirect_to @user, notice: 'User was successfully updated.'
   else
     render :edit 
@@ -381,6 +381,6 @@ Further reading
 * Rails Guide: [Action Controller Overview](http://guides.rubyonrails.org/action_controller_overview.html)
 * Rails Guide: [Rails Routing from the Outside In](http://guides.rubyonrails.org/routing.html)
 * [link_to](http://apidock.com/rails/v3.2.8/ActionView/Helpers/UrlHelper/link_to)
-* [before_filter](http://apidock.com/rails/AbstractController/Callbacks/ClassMethods/before_filter)
+* [before_action](http://guides.rubyonrails.org/form_helpers.html#select-boxes-for-dealing-with-models)
 * [resources](http://apidock.com/rails/ActionDispatch/Routing/Mapper/Resources/resources)
 * Alternative to ERB: [HAML](http://haml.info/tutorial.html)  similar to SASS
