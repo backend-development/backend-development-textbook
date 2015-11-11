@@ -86,17 +86,17 @@ Use `rake routes` on the command line do find out which URLs exist:
 
 ``` shell
 $ rake routes
-          Prefix Verb     URI Pattern                        Controller#Action
-  add_user_group PUT      /groups/:id/add_user(.:format)     groups#add_user
-  del_user_group PUT      /groups/:id/del_user(.:format)     groups#del_user
-          groups GET      /groups(.:format)                  groups#index
-                 POST     /groups(.:format)                  groups#create
-       new_group GET      /groups/new(.:format)              groups#new
-      edit_group GET      /groups/:id/edit(.:format)         groups#edit
-           group GET      /groups/:id(.:format)              groups#show
-                 PATCH    /groups/:id(.:format)              groups#update
-                 PUT      /groups/:id(.:format)              groups#update
-                 DELETE   /groups/:id(.:format)              groups#destroy
+          Prefix Verb     URI Pattern
+  add_user_group PUT      /groups/:id/add_user(.:format)
+  del_user_group PUT      /groups/:id/del_user(.:format)
+          groups GET      /groups(.:format)
+                 POST     /groups(.:format)
+       new_group GET      /groups/new(.:format)
+      edit_group GET      /groups/:id/edit(.:format)
+           group GET      /groups/:id(.:format)
+                 PATCH    /groups/:id(.:format)
+                 PUT      /groups/:id(.:format)
+                 DELETE   /groups/:id(.:format)
 ```
 
 Use the "prefix" and `_path` or `_url` to get the path or full URL of the
@@ -302,6 +302,7 @@ end
 When displaying the form we always display errors that are
 available throught the `errors` attribute of the user object:
 
+``` ruby
 <%= form_for(@user) do |f| %>
   <% if @user.errors.any? %>
     <div id="error_explanation">
@@ -318,6 +319,7 @@ available throught the `errors` attribute of the user object:
 <% end %>
 ```
 
+<!--
 
 Nested Resources
 -------
@@ -369,6 +371,7 @@ Another change is needed in the form for editing or creating a card:
 <%= form_for  [ @board, @card ]  do |f| %>
 ```
 
+-->
 
 
 Further reading
@@ -380,3 +383,4 @@ Further reading
 * [link_to](http://apidock.com/rails/v3.2.8/ActionView/Helpers/UrlHelper/link_to)
 * [before_filter](http://apidock.com/rails/AbstractController/Callbacks/ClassMethods/before_filter)
 * [resources](http://apidock.com/rails/ActionDispatch/Routing/Mapper/Resources/resources)
+* Alternative to ERB: [HAML](http://haml.info/tutorial.html)  similar to SASS
