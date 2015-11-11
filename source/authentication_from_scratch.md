@@ -253,10 +253,13 @@ exist (any more) we just return nil as the current_user.
 app/app/controllers/application_controller.rb:
 
 ``` ruby
-  def current_user
-    @current_user ||= User.where(id: session[:user_id]).first if session[:user_id]
+def current_user
+  @current_user = nil
+  if session[:user_id]
+    @current_user ||= User.where(id: session[:user_id]).first 
   end
-  helper_method :current_user
+end
+helper_method :current_user
 ```
 
 
@@ -266,13 +269,13 @@ to display different things for logged in users and non logged in visitors:
 
 ``` ruby
 <!-- app/views/layouts/application.html.erb -->
-  <% if current_user %> 
-    Logged in as <%= current_user.name %> 
-    <%= link_to "log out", logout_path %>
-  <% else %>
-    <%= link_to "log in", login_path %>
-    | <%= link_to "register", new_user_path %>
-  <% end %>
+<% if current_user %> 
+  Logged in as <%= current_user.name %> 
+  <%= link_to "log out", logout_path %>
+<% else %>
+  <%= link_to "log in", login_path %>
+  | <%= link_to "register", new_user_path %>
+<% end %>
 ```
 
 Login using twitter, facebook, github, ...
@@ -356,8 +359,8 @@ This URL you need to map to the session controller:
 
 ``` ruby
 # config/routes.rb:
-  match '/auth/:provider/callback', :to => 'sessions#create',  via: [:get, :post]
-  match '/auth/failure',            :to => 'sessions#failure', via: [:get, :post]
+match '/auth/:provider/callback', to: 'sessions#create',  via: [:get, :post]
+match '/auth/failure',            to: 'sessions#failure', via: [:get, :post]
 ```
 
 In the session controller you can now read the data that omniauth provides
@@ -365,9 +368,9 @@ from the environment variable.  As a first step you could just print it out,
 to see what data is provided:
 
 ``` ruby
-  def create
-    render :text => "<pre>" + env["omniauth.auth"].to_yaml and return
-  end
+def create
+  render :text => "<pre>" + env["omniauth.auth"].to_yaml and return
+end
 ```
 
 There are two basic cases to consider: either the user has logged in using
@@ -377,42 +380,46 @@ or they are logging in for the first time.
 This can get quite involved, so we hide it away inside the user model:
 
 ``` ruby
-  def create
-    user = User.find_or_create_with_omniauth( request.env['omniauth.auth'] )
+def create
+  user = User.find_or_create_with_omniauth( request.env['omniauth.auth'] )
 
-    if user 
-      session[:user_id] = user.id
-      redirect_to root_path, notice: 'Logged in'
-    else
-      redirect_to login_path, alert: 'Log in failed'
-    end
+  if user 
+    session[:user_id] = user.id
+    redirect_to root_path, notice: 'Logged in'
+  else
+    redirect_to login_path, alert: 'Log in failed'
   end
+end
 ```
 
 ``` ruby
 # app/model/user.rb
 
-  def self.find_or_create_with_omniauth(auth)
-    # look for an existing authorisation 
-    # provider + uid uniquely identify a user
-    a = Authentication.find_or_create_by( provider: auth['provider'], uid: auth['uid'] )
-    # save other info you want to remember:
-    a.update( secret: auth["credentials"]["secret"],  token: auth["credentials"]["token"]  )
-    a.save!
-    
-    if a.user.nil? 
-      # all new user
-      u = create! do |user|
-        user.uid      = auth["uid"]
-        user.name     = auth["info"]["name"]
-      end
-
-      a.user = u
-      a.save!
+def self.find_or_create_with_omniauth(auth)
+  # look for an existing authorisation 
+  # provider + uid uniquely identify a user
+  a = Authentication.find_or_create_by( 
+         provider: auth['provider'], 
+         uid:      auth['uid'] 
+  )
+  # save other info you want to remember:
+  a.update( secret: auth["credentials"]["secret"],  
+            token:  auth["credentials"]["token"]  )
+  a.save!
+  
+  if a.user.nil? 
+    # all new user
+    u = create! do |user|
+      user.uid      = auth["uid"]
+      user.name     = auth["info"]["name"]
     end
 
-    return a.user
-  end # def self.find_or_create_with_omniauth(auth)
+    a.user = u
+    a.save!
+  end
+
+  return a.user
+end # def self.find_or_create_with_omniauth(auth)
 ```
 
 The method `find_or_create_by` handles both cases in one: either it
@@ -436,3 +443,10 @@ the gem `devise` offers a lot of features. It makes your logins ...
 Devise can also be combined with omniauth:
 
 * Omniauthable: adds OmniAuth support.
+
+Further Reading
+-------
+
+* OmniAuth [wiki](https://github.com/intridea/omniauth/wiki)
+* Devise [github page](https://github.com/plataformatec/devise)
+* Rails Security Guide on [User Management](http://guides.rubyonrails.org/security.html#user-management)
