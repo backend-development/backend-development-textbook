@@ -292,7 +292,34 @@ is quite impressive.  Think carefully about what services your users
 are using, and which services might be useful to your app: could
 you use Dropbox to authenticate, and also to deliver data directly
 to your users dropbox? Would it make sense to use facebook or twitter and also
-send out messages that way?
+send out messages that way?  
+
+
+You will have to register your app with the authentication
+provider, eg. at [https://developers.facebook.com/apps/](https://developers.facebook.com/apps/) 
+or [https://apps.twitter.com/](https://apps.twitter.com/).
+For every provider you get two pieces of information: a key and a secret.
+These you add to the configuration of omniauth:
+
+``` ruby
+# config/initializers/omniauth.rb:
+
+Rails.application.config.middleware.use OmniAuth::Builder do
+  provider :twitter, 'TWITTER_KEY', 'TWITTER_SECRET'
+end
+```
+
+If you plan on publishing your source code (e.g. because you use github for free ;-)
+you might want to set these values in a way that is NOT saved to the repository.
+You could use environment variables for that:
+
+``` ruby
+# config/initializers/omniauth.rb:
+
+Rails.application.config.middleware.use OmniAuth::Builder do
+  provider :twitter, ENV['TWITTER_KEY'], ENV['TWITTER_SECRET']
+end
+```
 
 For authentication you need to save at least the provider and the uid in your database
 somewhere.  But you can get more information out of the authentication:
