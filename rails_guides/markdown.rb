@@ -36,7 +36,7 @@ module RailsGuides
             duplicate_nodes.last[:id] = new_node_id
             @node_ids[new_node_id] = duplicate_nodes
           end
-
+          puts "fixing node #{nodes.last.text}"
           dom_id = "#{nodes[-2][:id]}-#{dom_id}"
         end
 
