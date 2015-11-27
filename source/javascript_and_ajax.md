@@ -364,7 +364,71 @@ Ajax isn't just client-side, you also need to do some work on the server
 side to support it. Often, people like their Ajax requests to return JSON
 rather than HTML. Let's discuss what it takes to make that happen.
 
-### A Simple Example
+### The Recipe / Ingredients Example
+
+On the List of Ingredients page we want the 'edit' links to 
+load an inline form for editing the ingredient.
+As a first step we change the `link_to` to `remote`:
+
+```
+link_to 'Edit', edit_ingredient_path(ingredient), remote: true
+```
+
+Now clicking the link fails silently.  In the log file you can
+see that the edit-view is rendered normally.  But we need
+a different behaviour in case this view is called from JavaScript.
+We also want to keep the normal behaviour as it is.
+
+In a rails controller you can use `resond_to` to handle
+different expected results:  in our case the browser once 
+expects HTML as the result when doing a normal GET Request,
+while the Rails `link_to :remote` link expects javascript
+as a result:
+
+```
+respond_to do |format|
+  format.html { render :new }
+  format.js   { render 'new.js.erb' }
+end
+```
+
+The link still fails silently. We can handle
+the AJAX error like so:
+
+```  
+$(".edit_ingredient").on("ajax:error", function(e, xhr, status, error) {
+  $(this).parent().append("<b>AJAX ERROR " + status + ": " + error + "</b>");
+});
+```
+
+Now we implement the `new.js.erb` view.  The Javascript
+created here is sent back to the client and executed
+there.  Try it out with a simple alert:
+
+```
+alert("this was sent back from the server, for ingredient  <%= @ingredient.id %>");
+```
+
+If this works we can start building the 
+behaviour we actually want:  We want to replace
+the existing display of the ingredient with the
+edit form.
+
+```
+console.log("now running for <%= @ingredient.id %>");
+$("#ingredient_<%= @ingredient.id %>").find('span').html("edit form here");
+```
+
+For the creation of the form we can use the existing form partial:
+
+```
+console.log("now running for <%= @ingredient.id %>");
+$("#ingredient_<%= @ingredient.id %>").find('span').html(<%= escape_javascript(render 'form') %>);
+```
+
+...TBC...
+
+### Another Example
 
 Imagine you have a series of users that you would like to display and provide a
 form on that same page to create a new user. The index action of your
