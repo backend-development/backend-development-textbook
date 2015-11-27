@@ -366,8 +366,14 @@ rather than HTML. Let's discuss what it takes to make that happen.
 
 ### The Recipe / Ingredients Example
 
+You can clone the source code for the example from
+[github](https://github.com/backend-development/rails-example-recipes-js)
+
 On the List of Ingredients page we want the 'edit' links to 
 load an inline form for editing the ingredient.
+
+![](images/inline_form_2.png)
+
 As a first step we change the `link_to` to `remote`:
 
 ```
@@ -416,17 +422,19 @@ edit form.
 
 ```
 console.log("now running for <%= @ingredient.id %>");
-$("#ingredient_<%= @ingredient.id %>").find('span').html("edit form here");
+$("#ingredient_<%= @ingredient.id %>").find('span').html('edit form here');
 ```
 
-For the creation of the form we can use the existing form partial:
+For the creation of the form we can use the existing form partial
+in place of the string. We need to escape the resulting code
+in the proper way for using it in javascript:
 
 ```
-console.log("now running for <%= @ingredient.id %>");
-$("#ingredient_<%= @ingredient.id %>").find('span').html(<%= escape_javascript(render 'form') %>);
+....html('<%= escape_javascript(render 'form') %>');
 ```
 
-...TBC...
+As a more advanced exercise you could also make the "update" button of the form 
+work with AJAX.
 
 ### Another Example
 
@@ -509,8 +517,9 @@ Other Resources
 
 Here are some helpful links to help you learn even more:
 
+* [Original Rails Guide Working with JavaScript](http://guides.rubyonrails.org/working_with_javascript_in_rails.html).
 * [jquery-ujs wiki](https://github.com/rails/jquery-ujs/wiki)
-* [jquery-ujs list of external articles](https://github.com/rails/jquery-ujs/wiki/External-articles)
-* [Rails 3 Remote Links and Forms: A Definitive Guide](http://www.alfajango.com/blog/rails-3-remote-links-and-forms/)
+* [Events created by Rails AJAX](https://github.com/rails/jquery-ujs/wiki/ajax)
+* [Using ES6 in Rails article](http://www.kwanso.com/blog/using-ecmascript-6-with-rails-4-2-projects/)
 * [Railscasts: Unobtrusive JavaScript](http://railscasts.com/episodes/205-unobtrusive-javascript)
 * [Railscasts: Turbolinks](http://railscasts.com/episodes/390-turbolinks)
