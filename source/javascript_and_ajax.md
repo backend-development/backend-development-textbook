@@ -136,6 +136,45 @@ and you can expect that many libraries will also
 follow this pattern.
 
 
+Using ES6 in Rails
+----------
+
+Rails comes with CoffeeScript as a default. It is transpiled to JavaScript
+by the asset pipeline. To disable this just comment out the gem in the Gemfile
+and remove any *.coffee files the scaffold might have created from `/app/assets/javascript`
+
+To use Ecmascript 6 instead add the following to the Gemfile:
+
+```
+gem 'sprockets'
+gem 'sprockets-es6', require: 'sprockets/es6'
+```
+
+Now any file `/app/assets/javascript/hello_world.js.es6` will be
+transpiled to `/app/assets/javascript/hello_world.js` first, and
+later be minified and combined by the asset pipeline.
+
+For example:
+
+```
+class HelloWorld {  
+  constructor(name) {
+    this.name = name;
+  }
+ 
+  sayHello() {
+    alert("Hello " + this.name);
+  }
+}
+```
+
+```
+<button data-hello="world">Hello World</button>
+```
+
+Can now can write the ES6 / JavaScript to call this unobstrusively!
+
+
 Turbolinks
 ----------
 
@@ -233,7 +272,7 @@ You probably want to do something upon a successful submission. To do that,
 bind to the `ajax:success` event. On failure, use `ajax:error`. Check it out:
 
 ```js
-  $(document).on("page:change",
+  $(document).on("page:change", function(){
     $("#new_article").on("ajax:success", function(e, data, status, xhr) {
       $("#new_article").append(xhr.responseText);
     }).on("ajax:error", function(e, xhr, status, error) {
