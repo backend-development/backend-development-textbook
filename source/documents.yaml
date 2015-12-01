@@ -26,8 +26,8 @@
       url: javascript_and_ajax.html
       description:
     -
-      name: Testing and Refactoring
-      url: testing_and_refactoring.html
+      name: Getting started with Testing
+      url: testing.html
       description:
     -
       name: Deploying Rails with Capistrano
