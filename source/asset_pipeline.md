@@ -8,6 +8,8 @@ By referring to this guide, you will be able to:
 * keep your assets in the right place
 * have all your assets compiled and minified for production
 
+REPO: Fork the [example app 'recipes'](https://github.com/backend-development/rails-example-recipes) and try out what you learn here.
+
 ---------------------------------------------------------------------------
 
 
