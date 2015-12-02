@@ -30,10 +30,6 @@
       url: testing.html
       description:
     -
-      name: Deploying Rails with Capistrano
-      url: deploying_rails.html
-      description:
-    -
       name: Ruby Gems for your Rails Project
       url: rails_gems.html
       description:
@@ -60,6 +56,10 @@
       name: Security
       url: security.html
       description: How Rails helps with security, and how to mess it up
+    -
+      name: Deploying Rails with Capistrano
+      url: deploying_rails.html
+      description:
 -
   name: Git
   documents:
