@@ -129,6 +129,10 @@ Some Gems
 This list is based on [Dwellables statistics on the Rails Rumble 2013](http://www.dwellable.com/blog/Rails-Rumble-Gem-Teardown) and
 [coodbeerstartups "Must Have Gems for Development Machine in Ruby on Rails "](http://www.codebeerstartups.com/2013/04/must-have-gems-for-development-machine-in-ruby-on-rails).
 
+### Bootstrap for rails
+
+*[Bootstrap SASS](https://github.com/twbs/bootstrap-sass) - don't just use bootstrap, configure it with SASS
+*[bootstrap_forms](https://github.com/bootstrap-ruby/rails-bootstrap-forms) - form helper to generate form tags and input fields that work well with bootstrap
 
 ### Mixins for CSS
 
@@ -160,7 +164,7 @@ Both use the library [ImageMagick](http://www.imagemagick.org/):
 
 * gem [rmagick](https://github.com/rmagick/rmagick) image processing with image magick
 
-You should also know how to use ImageMagick on the UNIX commandline: 
+You might also want to know how to use ImageMagick on the UNIX commandline: 
 
 * command line tool [convert](http://www.imagemagick.org/script/convert.php) to convert to different formats and
 * command line tool [mogrify](http://www.imagemagick.org/script/mogrify.php) to  resize, blur, crop, draw on, flip, join, ... an image and overwrite it.
@@ -169,7 +173,7 @@ You should also know how to use ImageMagick on the UNIX commandline:
 
 * gem [devise](https://github.com/plataformatec/devise) for login,
 * gem [omniauth](https://github.com/intridea/omniauth) to integrate authentication methods.
-* gem [cancan](https://github.com/ryanb/cancan) if you need roles and permissions [sceencast](http://railscasts.com/episodes/192-authorization-with-cancan?view=asciicast).
+* gem [pundit](https://github.com/elabs/pundit) if you need roles and permissions 
 
 ### Permalinks
 
