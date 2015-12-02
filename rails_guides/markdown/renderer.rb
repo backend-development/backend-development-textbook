@@ -23,7 +23,7 @@ HTML
       end
 
       def paragraph(text)
-        if text =~ /^(TIP|IMPORTANT|CAUTION|WARNING|NOTE|INFO|TODO)[.:](.*?)/
+        if text =~ /^(TIP|IMPORTANT|CAUTION|WARNING|NOTE|REPO|INFO|TODO)[.:](.*?)/
           convert_notes(text)
         elsif text =~ /^\[<sup>(\d+)\]:<\/sup> (.+)$/
           linkback = %(<a href="#footnote-#{$1}-ref"><sup>#{$1}</sup></a>)
@@ -75,6 +75,16 @@ HTML
                           $1.downcase
                         end
             %(<div class="#{css_class}"><p>#{$2.strip}</p></div>)
+          end
+          body.gsub(/^REPO[.:](.*?)(\n(?=\n)|\Z)/m) do |m|
+            puts "REPO: $1, $2"
+            text = $2.strip
+            git_url = ""
+            text.gsub(/https:\/\/github.com[\/\w]*/, '') do |m2|
+              puts "REPO2: $0"
+              git_url = $0
+            end
+            %(<div class="repo ribbon right red"><a href="#{git_url}">Fork on Github</a><p>#{text}</p></div>)
           end
         end
     end

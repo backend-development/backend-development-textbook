@@ -98,7 +98,7 @@ pre, code {
   overflow: auto;
   color: #222;
 }
-pre,tt,code,.note>p {
+pre,tt,code,.note>p,.repo>p {
  white-space: pre-wrap;       /* css-3 */
  white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
  white-space: -pre-wrap;      /* Opera 4-6 */
@@ -692,6 +692,13 @@ div.code_container {
 
 .note {
   background: #fff9d8 url(../images/tab_note.gif) no-repeat left top;
+  border: none;
+  padding: 1em 1em 0.25em 48px;
+  margin: 0.25em 0 1.5em 0;
+}
+
+.repo {
+  background: #fff9d8;
   border: none;
   padding: 1em 1em 0.25em 48px;
   margin: 0.25em 0 1.5em 0;
