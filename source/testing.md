@@ -13,7 +13,7 @@ After reading this guide, you will know:
 This guide is a shorter version of 
 [a Guide to Testing Rails Applications](http://guides.rubyonrails.org/testing.html).
 
-REPO:https://github.com/backend-development/rails-example-testing-for-stars:Fork the [example app 'testing for stars'](https://github.com/backend-development/rails-example-testing-for-stars) and try out what you learn here.
+REPO: Fork the [example app 'testing for stars'](https://github.com/backend-development/rails-example-testing-for-stars) and try out what you learn here.
 
 --------------------------------------------------------------------------------
 

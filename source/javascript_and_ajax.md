@@ -18,6 +18,8 @@ This guide is based on the original
 The original guide uses coffeescript, this guide uses ES6 and
 refers to an [example app](https://github.com/backend-development/rails-example-recipes-js)
 
+REPO: Fork the [example app 'recipes'](https://github.com/backend-development/rails-example-recipes-js) and try out what you learn here.
+
 -------------------------------------------------------------------------------
 
 An Introduction to Ajax

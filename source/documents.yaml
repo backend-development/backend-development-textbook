@@ -6,33 +6,33 @@
       url: ruby_commandline.html
       description: The essential ruby you need to know to understand rails
     -
-      name: Rails Database and Models
+      name: Database and Models
       url: rails_database_and_model.html
       description: How does Rails use the database? How are models and database tables related?
     -
-      name: Rails View and Controller
+      name: Routing, View and Controller
       url: rails_view_and_controller.html
-      description: 
+      description: How Rails gets from a HTTP Request to a finishd HTML document
     -
       name: Authentication
       url: authentication_from_scratch.html
-      description: 
+      description: Loggin in with Passwords or with another service like github, twitter, facebook
     -
       name: Asset Pipeline
       url: asset_pipeline.html
-      description:
+      description: How CSS, Javascript, Images are prepared for publishing
     -
       name: Javascript and AJAX
       url: javascript_and_ajax.html
-      description:
+      description: Rails style remote forms and links
     -
       name: Getting started with Testing
       url: testing.html
-      description:
+      description: Write your first unit tests and integration tests for Rails
     -
       name: Ruby Gems for your Rails Project
       url: rails_gems.html
-      description:
+      description: How bundler helps with dependencies, and some gems you might need for your first Rails project
 -
   name: Ruby on Rails 2
   documents:

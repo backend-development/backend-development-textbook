@@ -698,9 +698,9 @@ div.code_container {
 }
 
 .repo {
-  background: #fff9d8;
+  background: #fff9d8 url(../images/tab_repo.png) no-repeat left top;
   border: none;
-  padding: 1em 1em 0.25em 48px;
+  padding: 1em 1em 0.25em 66px;
   margin: 0.25em 0 1.5em 0;
 }
 
