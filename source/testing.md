@@ -489,10 +489,14 @@ to implement features. You can use a software "browser" to test your app:
 * Webkit the browser engine of Safari and Chrome.  It can be used without a visible window. It will interpret javascript just as chrome or safari would.
 
 ```
+# Gemfile
 group :development, :test do
   gem 'minitest-rails-capybara'
   gem 'capybara-webkit'
 end
+
+# test_helper.rb
+require "minitest/rails/capybara"
 ```
 
 For creating Rails feature tests, we use the 'test/features' directory for your application. 

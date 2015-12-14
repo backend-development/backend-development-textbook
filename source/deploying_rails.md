@@ -134,10 +134,14 @@ $ sudo gem install capistrano
 Fetching: capistrano-2.13.5.gem (100%)
 Successfully installed capistrano-2.13.5
 1 gem installed
-$ capify .
-[add] writing './Capfile'
-[add] writing './config/deploy.rb'
-[done] capified!
+$ $ cap install
+mkdir -p config/deploy
+create config/deploy.rb
+create config/deploy/staging.rb
+create config/deploy/production.rb
+mkdir -p lib/capistrano/tasks
+create Capfile
+Capified
 ```
 
 
@@ -150,14 +154,24 @@ local information, see our wiki
 
 ``` ruby
 task :display_free_disk_space do
-run "df -h"
+  run "df -h"
 end
 ```
 
 
+### prepare capistranoe
+
+``` sh
+$ cap production git:check
+$ scp config/database.yml deployuser@server:/var/www/.../shared/config
+$ scp config/secrets.yml deployuser@server:/var/www/.../shared/config
+$ cap production deploy
+```
+
 ### run a capistrano task
 
 ``` sh
+$ cap production deploy
 $ cap display_free_disk_space
 * 2012-11-29 05:34:45 executing 'display_free_disk_space'
 * executing "df -h"

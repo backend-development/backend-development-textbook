@@ -2,39 +2,74 @@ Refactoring Rails
 =======================
 
 This guide will show you how to refactor
-your code.  All the examples were taken from
-students projects. For all of them it was their
-first rails project, and they all ended up with
-a fully functional, finished project. The perfect
-starting place for some refactoring.
+your code.  
 
 By referring to this guide, you will be able to:
 
-* Understand how testing can help you during refactoring
 * Get to know some tools that help you find problematic aspects of your code
 * Learn general refactoring practice from concrete examples
 
 ---------------------------------------------------------------------------
 
-Never be ashamed...
-------------------
+Refactoring
+----------
 
-of making you code better.  On the contrary: recognizing code smells
+Never be ashamed of making you code better.  On the contrary: recognizing code smells
 in your old code means that you learnt something in the meantime.
 Only very inexperienced people think that the code they wrote yesterday is
 perfect.
 
 
-As we have [learned previously](/testing_and_refactoring.html) refactoring is 
+Refactoring is 
 
-* "restructuring an existing body of code
+* restructuring an existing body of code
 * altering its internal structure
-* without changing its external behavior" [wikipedia](http://en.wikipedia.org/wiki/Refactoring)
+* without changing its external behavior [wikipedia](http://en.wikipedia.org/wiki/Refactoring)
 
 We will use **tests** to ensure that we do not change the external behavior 
 of the code we are refactoring.
 
-### Tools for Code Quality
+A **code smell** is a piece of bad code that we recognize.
+
+Read the Ruby version of Fowlers refactoring book to 
+learn both code smells and refactorings:
+
+Code Smells
+--------
+
+This is the list of code smells from 
+Fields, Harvie, Fowler(2010): Refactoring, Ruby Edition. Addison-Wesley.
+In chapter 6 to 12 of that book they describe refactorings to handle
+all these problems and more:
+
+* Duplicated Code
+* Long Method
+* Large Class
+* Long Parameter List
+* Divergent Change
+* Shotgun Surgery
+* Feature Envy.
+* Data Clumps.
+* Primitive Obsession
+* Case Statements
+* Parallel Inheritance Hierarchies
+* Lazy Class.
+* Speculative Generality.
+* Temporary Field
+* Message Chains
+* Middle Man
+* Inappropriate Intimacy
+* Alternative Classes with Different Interfaces.
+* Incomplete Library Class
+* Data Class
+* Refused Bequest
+* Comments
+* Metaprogramming Madness
+* Disjointed API
+* Repetitive Boilerplate
+
+Tools for Code Quality
+--------
 
 Recognizing code that is problematic and should be refactored
 is one of the main skills of a developer.  Often it is not a
@@ -50,31 +85,15 @@ A [code metric](http://en.wikipedia.org/wiki/Software_metric) is
 a quantitive measure of the quality of a piece of code.
 
 The Gem `metric_fu` combines some metrics. Install it in your
-Gemfile, and add a task-file, `lib/tasks/metric_fu.rake`.
-Sadly, three of the metrics have not been adapted for Ruby 1.9 yet,
-so you have to disable them in `lib/tasks/metric_fu.rake`.
+Gemfile, and add a task-file, and run it on the command line `metriy_fu`.
+It will generate a report in `tmp/metric_fu/output/`. 
 
-``` rake
-begin
-  require 'metric_fu'
-
-  MetricFu::Configuration.run do |config|
-    config.metrics -= [:reek, :flay, :flog]
-  end
-
-rescue LoadError
-end
-```
-
-Run `rake metrics:all` and the results will be saved as html-files
-in `tmp/metric_fu/output/`. **Saikuro** is a good place to start: it
+**Saikuro** is a good place to start reading the report: it
 measures  cyclomatic complexity, or how deep you nest your control structures.
 
 See [Rails Cast no
 166](http://railscasts.com/episodes/166-metric-fu?view=asciicast) for a more
 detailed introduction to metric_fu.
-
-
 
 Another tool to help find spots where you can improve the quality of
 your code is `rails_best_practices`.  Install the gem, but don't put
@@ -83,10 +102,9 @@ the main directory of your app.  The result will be written to
 `./rails_best_practices_output.html`.
 
 
+Futher Reading
+------
 
-Tools
------
-
-Most IDEs now have some refactorings built in.
-
+* Fowler, Beck, Brant, Opdyke, Roberts(1999). Refactoring: improving the design of existing code. Addison Wesley. ISBN: 0-201-48567-2.
+* Fields, Harvie, Fowler(2010): Refactoring, Ruby Edition. Addison-Wesley.
 * [codemod](https://github.com/facebook/codemod) a python script 

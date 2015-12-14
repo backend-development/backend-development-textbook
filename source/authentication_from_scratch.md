@@ -185,6 +185,12 @@ Let's start by creating the routes:
   get  '/logout' => 'sessions#destroy'
 ```
 
+and the session controller to handle this routes:
+
+``` bash
+rails g controller sessions new create destroy
+```
+
 Now you can direct your browser to http://localhost:3000/login
 Next you need to set up the view for the login form there: 
 
