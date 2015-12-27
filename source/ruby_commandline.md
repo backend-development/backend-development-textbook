@@ -1,4 +1,4 @@
-Ruby 
+Ruby
 ====
 
 This guide will focus on ruby - the language - alone.
@@ -46,7 +46,7 @@ Rails is famous for the high productivity it gives to developers. It
 is often used in startups, where speed of delivery is very important.
 Rails moves fast, new versions with major improvement appear about every 18
 months.  The rails community values speed of development, DRY code, testing,
-version control, ... when you learn rails you also pick up a whole culture 
+version control, ... when you learn rails you also pick up a whole culture
 surrounding it.
 
 
@@ -66,7 +66,7 @@ Also, there are cool t-shirts:
 ![Ruby and Rails T-Shirts](images/ruby-and-rails-t-shirts.png)
 
 
-Ruby Basics 
+Ruby Basics
 -----------
 
 For a hands-on introdcution to ruby got to [try ruby](http://tryruby.org).
@@ -74,7 +74,7 @@ Then come back and read on:
 
 ### Some code conventions
 
-Try to stick to [githubs style for ruby](https://github.com/styleguide/ruby). 
+Try to stick to [github's style for ruby](https://github.com/styleguide/ruby). 
 
 When you chose names for your objects, classes and methods
 you should stick to the following conventions to avoid
@@ -86,10 +86,10 @@ the_variable = SomeClass.new
              # classes in capital CamelCase
 
              # method names are written in snake_case
-a = b.sugar  # a method the returns something 
-b.sweet?     # a method that returns true or false 
+a = b.sugar  # a method the returns something
+b.sweet?     # a method that returns true or false
              # ends in a question mark
-b.sugar!     # a method that changes its object 
+b.sugar!     # a method that changes its object
              # ends in an exclamation mark
 ```
 
@@ -102,10 +102,10 @@ Leave them off unless your code get's confusing:
 
 ``` ruby
 puts("less code")
-puts "less code" 
+puts "less code"
 ```
 
-# Data Types 
+# Data Types
 
 All of rubys basic data types are Classes.
 
@@ -131,7 +131,7 @@ This is a so called "Here-Document"
 it can contain many lines of text
 and ends with the identifier EOM (that i chose!)
 but only if it's alone on a line all by itself:
-EOM 
+EOM
 ```
 
 ### Boolean Values
@@ -141,8 +141,8 @@ be confusing for programmers used to other languages with
 more complex rules for truthyness:
 
 ``` ruby
-if 0 
-  puts '0 is true!' 
+if 0
+  puts '0 is true!'
 end
 if "false"
   puts '"false" (the string) is not false'       
@@ -160,7 +160,7 @@ appending the condition to the statement,
 like so:
 
 ``` ruby
-puts '0 is true!' if 0 
+puts '0 is true!' if 0
 puts '"false" is not false' if "false"
 ```
 
@@ -171,7 +171,7 @@ sentence using the same syntax).
 ### Boolean Operators
 
 When ruby evaluates a boolean operator,
-it does as little work as possible.  It 
+it does as little work as possible.  It
 stops evaluation as soon as the result is clear:
 
 ``` ruby
@@ -272,14 +272,14 @@ h = Hash.new
 h["alice"] = "beer"
 h["chris"] = "tea"
 h["bob"] = "mate"
-``` 
+```
 
 But you can use other objects:
 
 ``` ruby
 t = Date.new
 h[t] = "recently"
-``` 
+```
 
 The data structure behind a ruby Hash is more complex
 than an array: The key is sent though a function  (called hash function)
@@ -306,7 +306,7 @@ hashes in Wikipedia:
 (If you don't know what "in constant time" means above, you
 should learn more about the analysis of algorithms. e.g. by
 taking a algorithms and data strcture course as offered in the second
-semester of most computer science programs.  Or by working through the 
+semester of most computer science programs.  Or by working through the
 [the book by Bruno R. Preiss](http://www.brpreiss.com/books/opus8/)).
 
 ### Implicit Form
@@ -338,7 +338,7 @@ def apply_the_style( h )
 end
 
 apply_the_style(font_size: 10, font_family: "Arial")
-apply_the_style font_size: 10, font_family: "Arial" 
+apply_the_style font_size: 10, font_family: "Arial"
 ```
 
 Enumerables and Piping Data
@@ -355,7 +355,7 @@ from one command to the next:
 
 ``` shell
 # many httpd processes are running. as which user(s) ?
-# 
+#
 $ ps aux | grep httpd | cut -c1-8 | sort | uniq
 ```
 
@@ -437,7 +437,7 @@ the Block on several lines, ending with `end`
 
 Some other methods for Enumerables that take a Block:
 
-* map {|x| new value computed from x} 
+* map {|x| new value computed from x}
 * select {|x| should x be selected? }
 * reduce(:+)
 * reduce{|memo, item| compute new value for memo}
@@ -452,14 +452,14 @@ Read the Reference on
 * [Array](http://ruby-doc.org/core-2.1.0/Array.html)
 
 
-Blocks 
+Blocks
 ------
 
 Blocks of code are not just used in Enumerables, they are
 a basic building block of ruby.  You can write functions
 that take a Block as an argument:
 
-### My Function takes a Block of Code 
+### My Function takes a Block of Code
 as its last argument
 
 ``` ruby
@@ -504,15 +504,15 @@ installed on your development machine so you can look up stuff instantly.
 
 * Mac Tool [Dash](http://kapeli.com/dash) for keeping offline copies of documentation
 
-### Online Resources 
+### Online Resources
 
 * [try ruby](http://tryruby.org) - interactive online course
-* [Ruby Bits](http://www.codeschool.com/courses/ruby-bits) - interactive online course, with 8bit game graphics 
+* [Ruby Bits](http://www.codeschool.com/courses/ruby-bits) - interactive online course, with 8bit game graphics
 * [learningruby.com tutorial](http://rubylearning.com/satishtalim/tutorial.html)
 
 ### Books
 
 * Flanagan, Matsumoto(2008): [The Ruby Programming Language](http://www.amazon.com/Ruby-Programming-Language-David-Flanagan/dp/0596516177). O'Reilly. ISBN 0596516177.
-* Thomas(2013): [Programming Ruby 1.9 + 2.0](http://www.amazon.com/Programming-Ruby-1-9-2-0-Programmers/dp/1937785491/). Pragmatic Porgrammers. ISBN 1937785491 
-* Olsen (2011): [Eloquent Ruby](http://www.amazon.com/Eloquent-Ruby-Addison-Wesley-Professional/dp/0321584104/). Addison-Wesley. ISBN 0321584104 
-* Tate(2010): [Seven Languages in Seven Weeks: A Pragmatic Guide to Learning Programming Languages](http://www.amazon.com/Seven-Languages-Weeks-Programming-Programmers/dp/193435659X/). Pragmatic Programmers.  ISBN 193435659X 
+* Thomas(2013): [Programming Ruby 1.9 + 2.0](http://www.amazon.com/Programming-Ruby-1-9-2-0-Programmers/dp/1937785491/). Pragmatic Porgrammers. ISBN 1937785491
+* Olsen (2011): [Eloquent Ruby](http://www.amazon.com/Eloquent-Ruby-Addison-Wesley-Professional/dp/0321584104/). Addison-Wesley. ISBN 0321584104
+* Tate(2010): [Seven Languages in Seven Weeks: A Pragmatic Guide to Learning Programming Languages](http://www.amazon.com/Seven-Languages-Weeks-Programming-Programmers/dp/193435659X/). Pragmatic Programmers.  ISBN 193435659X

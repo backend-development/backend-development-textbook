@@ -16,7 +16,7 @@
     -
       name: Authentication
       url: authentication_from_scratch.html
-      description: Loggin in with Passwords or with another service like github, twitter, facebook
+      description: Logging   in with Passwords or with another service like github, twitter, facebook
     -
       name: Asset Pipeline
       url: asset_pipeline.html
@@ -74,7 +74,7 @@
     -
       name: Teamwork
       url: git_teamwork.html
-      description: When two programmers work at one computer this is called "pair programming".  
+      description: When two programmers work at one computer this is called "pair programming".
 -
   name: Software Process
   documents:
