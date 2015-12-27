@@ -88,12 +88,14 @@ of several browsers, and into the online tool [webpagetest](https://webpagetest.
 
 ![network view in chrom](images/network-view-chrome.png)
 
-NOTE: This guide is still a work in progress
-
 
 ### Rules...
 
-*   Less HTTP Requests
+Yahoo first published 14 rules for web performance in 2007, based
+on the measurements back then.  Even with changing browsers and
+protocols these are still valid today:
+
+*   Make Less HTTP Requests
 *   Use a Content Delivery Network
 *   Avoid empty src or href
 *   Add an Expires or a Cache-Control Header
@@ -101,183 +103,134 @@ NOTE: This guide is still a work in progress
 *   Put StyleSheets at the Top
 *   Put Scripts at the Bottom
 *   Avoid CSS Expressions...
-
-
-
-### ...more Rules...
-
 *   Make JavaScript and CSS External
 *   Reduce DNS Lookups
 *   Minify JavaScript and CSS
 *   Avoid Redirects
 *   Remove Duplicate Scripts
-*   ...
 
+As a web developer you should always keep an eye on the changing
+landscape of web performance! These rules and their priority will change!
 
-### rails can help
+How Rails helps with Performance
+----------------
 
-* Minify JavaScript and CSS
+To comply with rule 1 "make fewer HTTP requests" there now exist
+a lot of tools.  The Rails asset pipeline let's you use all theses
+tools automatically:
+
+* compile to JavaScript  (e.g. coffeescript, typescript)
+* compile to CSS (e.g. LESS, SASS)
+* Minify and combine JavaScript and CSS
+* Optimize Images
 * Create CSS Sprites
 * Set Expires Header for static assets
 
 
+![Asset Pipeline](images/asset-pipeline.svg)
 
-Rails Environments
--------------------
+There are two main folders:
+
+* you put source files to `app/assets/*`
+* files for publishing land  in `public/assets/*`
+** this folder (like all of `public`) can be served by web server, without going through the rails stack
+**  `public/assets/manifest.yml`
+
+### Rails Environments
+
+The Asset Pipeline works differently in different Rails Environments.
+There are three environments that exist by default:
+
+* `development` 
+** this is the environment you have been working in until now. 
+** It is optimized for debugging, shows error messages and the error console.
+* `testing` 
+** this is used for running the [automatic tests](testing.html)
+* `production` 
+** this is how the finished app will run after it is published. 
+** It is optimized for speed and stability.
+
+How each envirnoments behaves is configured in files in `config/environments/*.rb`.
+
+The development environment is used by default on your machine. If you deploy
+to heroku or to another hosting server, production will be used there.
+
+### Rails Environments and the Asset Pipeline
+
+In `development` the asset pipeline will not write files to `public/assets`.  Instead
+these files will be created on the fly, and not be conactenated.  The two lines
+in your Layout:
+
+```
+# app/views/layouts/application.html.erb
+<%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true %>
+<%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+```
+
+Will each result in a number of links, here an example from a real project:
+
+```
+<link rel="stylesheet" media="all" href="/asset-files/search-a01b09195d4a788281acc42b98ea9f40.css?body=1" />
+<link rel="stylesheet" media="all" href="/asset-files/slider-974d585dcb6f5aec673164664a4e49d5.css?body=1" />
+<link rel="stylesheet" media="all" href="/asset-files/static-7fe63030a2965b9ae0c0b8163ddfe99e.css?body=1" />
+<link rel="stylesheet" media="all" href="/asset-files/token-input-f5feb1252bf1ceca217ea7074edc2abd.css?body=1" />
+<link rel="stylesheet" media="all" href="/asset-files/uniform-default-0aaf1390d775ee4d4a26890ec3d9d491.css?body=1" />
+<link rel="stylesheet" media="all" href="/asset-files/wizzard-9a065f755cb85f91ed7400d6059c176a.css?body=1" />
+<script src="/asset-files/jquery-4075e3b7b3964707c653f61b66f46dec.js?body=1"></script>
+<script src="/asset-files/jquery_ujs-f9f4ae336c0d19804775e0e2c8749423.js?body=1"></script>
+<script src="/asset-files/portfolio/portfolio-7877567ffd355de1b768f0bcd36a7656.js?body=1"></script>
+<script src="/asset-files/swfobject-40913a86d09c505c085fbb493636eb4b.js?body=1"></script>
+<script src="/asset-files/jquery-uploadify-702eaefa7b122d07d061abf774484392.js?body=1"></script>
+<script src="/asset-files/application-d772724b4e3bd9557210a5d49d2cc147.js?body=1"></script>
+<script src="/asset-files/can-custom-c11b4a37bb25945832e57620f5464078.js?body=1"></script>
+<script src="/asset-files/easySlider-6386dd89386e83adc6c97f266f4df4b6.js?body=1"></script>
+```
+
+When you deploy to production, you deployment process will run `rake assets:precompile`,
+which generates the files in `public/assets`, including `public/assets/manifest-md5hash.json`.
 
 
-### Three pre-defined Environments
+If you look at the generated HTML code on the production server,
+you will only find two links (plus some code to handle IE 8): in production
+the many css files have been concatenated into one `application*.css`, and
+all JavaScript files have bin concatenated int one `application*.js`:
 
-* development - optimized for debugging
-* testing
-* production - optimized for speed, stability
+```
+<link href="/assets/application-dee96bcbc337324efd1fb60c6a4e0187.css" media="screen" rel="stylesheet" type="text/css" />
+<!--[if lte IE 8]>
+  <link href="/assets/application-ie-d3692247bd5bc98e710dd5e93e1b4c99.css" media="all" rel="stylesheet" type="text/css" />
+<![endif]-->
+<script src="/assets/application-c51a733194a0f42c5dadae898daff713.js" type="text/javascript"></script>
+```
 
 
-### How to Configure
 
-* config/environments/development.rb
-* config/environments/production.rb
-
-
-### How to use different environment
+You can also try out the production environment on your own machine:
 
 * webrick server: `rails server -e production`
-* Rake tasks: add `RAILS_ENV="production"` at the end of the command.
+* Rake tasks: add `RAILS_ENV=production` at the beginning or the end of the command.
 * Rails console: `rails console production`
 
 
-### Asset Pipeline (since Rails 3)
+### Fingerprinting for better Expiery
 
-*   source in `app/assets/*`
-*   `rake assets:precompile`
-*   assets in `public/assets/*`
-*   can be served by web server, without going through the rails stack
-*   `public/assets/manifest.yml`
-* files look like this: `application-107e9bb2ab22174acce34bbbbe8f6d7f.css`
-* expires header is set far into the future
-* change in file --> new file name
+The filenames mentioned in the last chapter all contain a part that seems random:
 
-### all git repositories are created equal in dignity and rights
+* you named the file `slider.css`
+* but it shows up as `slider-974d585dcb6f5aec673164664a4e49d5.css`
 
-* we've been using a centralized model, pushing to a remote on repos.mediacube.at
-* today we need two working copies, but we can't push to the `origin`
-* clone a local git repository:
-* `git clone /path/to/the/repository new_directory_name`
-* origin will point back to old repository
-* push and pull as usual!
+Where do the extra characters come from and what do they mean?
 
+These extra characters are the "fingerprint".  It is computed from the full
+content of the file.  If only one byte changes in the file, the fingerprint will
+be different. 
 
-### example app 'rezepte'
+This enables a neat trick with the expiery of the file: You can set the expiery time
+to infinite, every browser can save the file forever and never try to reload it.
+If the contents of the file change, a new file with a new fingerprint in the name will 
+be generated, and the HTML-page will link to that file.
 
-``` sh
-cd /my/work
-git clone ssh://repos.mediacube.at/opt/git/web_2012/example/rezepte.git/ rezepte_development
-git clone /my/work/rezepte_development rezepte_production
-```
-
-### remember!
-
-every significant step in development should be a commit!
-
-
-The Asset Pipeline
----------------
-
-
-![Asset Pipeline](images/asset-pipeline.svg)
-
-
-
-Compile to the Web
--------------------
-
-* compiling to css
-* compiling to javascript
-
-
-
-### compiling to css
-
-* [sass](http://sass-lang.com/) - default in ruby
-* [less](http://lesscss.org/)
-* [stylus](http://learnboost.github.com/stylus/)
-
-
-### no { } and no ;
-
-``` sass
-h1
-  color: black
-  background-color: yellow
-
-p
-  text-align: justify
-```
-
-
-### nesting
-
-``` sass
-h1 strong
-  color: red
-
-nav
-  a:link, a:visited, a:active
-    text-decoration: none
-  a:link
-    color: blue
-  a:visited
-    color: white
-```
-
-
-### variables and computation
-
-``` sass
-$blue: #3bbfce
-$x: 16px
-
-.content-navigation
-  border-color: $blue
-  color: darken($blue, 9%)
-
-.border
-  padding: $x / 2
-  margin: $x / 2
-  border-color: $blue
-```
-
-
-
-### mixins for reusing css-code
-
-``` sass
-@mixin left($dist)
-  float: left
-  margin-left: $dist
-
-#data
-  @include left(10px)
-```
-
-
-### automatically create sass from css after every change
-
-``` sass
-### for one file in the current directory
-sass --watch style.scss:style.css
-
-### for a whole directory of files
-sass --watch stylesheets/sass:stylesheets/compiled
-```
-
-
-### sass comes with a reverse compiler
-
-``` sass
-sass-convert --from css --to sass style.css > style.sass
-```
-
+This way we avoid one the the [two hard problems in computer science](https://twitter.com/codinghorror/status/506010907021828096): cache invalidation. 
 
 Further Reading
 --------------
