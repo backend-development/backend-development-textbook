@@ -10,9 +10,7 @@ After reading this guide you will
 * understand how bundler handles dependencies
 * be able to configure the gems you use
 * be able to deliberately chose version numbers for your gems
-
-<dd class="work-in-progress"><p>This chapter is still a work in progress. </p>
-<p>You can help by reviewing the documents and posting your comments and corrections.</p></dd>
+* know a few intresting gems for your next rails project
 
 -----------------------------------------------------------------
 
@@ -42,8 +40,8 @@ Done installing documentation for rails_best_practices after 2 seconds
 1 gem installed
 ```
 
-But sometimes you have to do other installations first. On
-your development machine you can always do this, e.g:
+But sometimes you have to do other installations first. 
+On your development machine this might look like this:
 
 ```bash
 # install node on a mac
@@ -51,7 +49,18 @@ your development machine you can always do this, e.g:
 > gem install uglifier
 ```
 
+Sometimes you need to set include paths when compiling the c-part of the gem, e.g.:
 
+```bash
+> gem install eventmachine 
+... error messages ...
+In file included from binder.cpp:20:
+./project.h:116:10: fatal error: 'openssl/ssl.h' file not found
+#include <openssl/ssl.h>
+         ^
+> brew install openssl
+> gem install eventmachine -- --with-cppflags=-I/usr/local/opt/openssl/include
+```
 
 In production you probably have to deal with Linux, and you
 may not have the right permissions to install system libraries.
@@ -68,6 +77,7 @@ Now that you have installed the gem once by hand
 you can be sure that it can also be reinstalled by bundler.
 
 See also:
+
 * [what is a gem](http://docs.rubygems.org/read/chapter/24)
 * find 100.000 gems at [rubygems.org](http://rubygems.org/)
 
