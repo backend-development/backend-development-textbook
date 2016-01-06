@@ -19,109 +19,128 @@ After reading this guide you will
 Gems and Bundler
 ----------------
 
-### gem
+### gems
 
-* rubygems is the package manager for ruby
-* a gem has a name  (e.g. rake) and a version (e.g. 0.9.2.2)
-* [what is a gem](http://docs.rubygems.org/read/chapter/24)
-* find 100.000 gems at [rubygems.org](http://rubygems.org/)
+Code reuse is a deciding factor for programmer productivity. In Ruby
+the unit of reuse is called a `gem`. `rubygems` is the package manager for ruby,
+it let's you install gems on your system.
 
+A gem has a name  (e.g. `rake`) and a version number (e.g. `10.4.2`).
+It can be written in plain ruby or sometimes in ruby and c.  Many gems
+depend on system libraries that need to be installed before the gem can
+be installed.  For example the [rmagick](https://rubygems.org/gems/rmagick/versions/2.15.4)
+gem for image manipulation needs the library `ImageMagick`.
 
-### the problem
+So most of the time installing a gem is as simple as
 
-![bundler](images/bundler-small.png)
-
-* you write an app
-* using 100 gems
-* then deploy it to a server
-* where all theses gems are present in slightly different versions
-
-### the solution
-
-* `Gemfile` : define which gems + versions you want
-* run `bundle install`
-* picks out compatible versions of gems, includes dependencies, writes `Gemfile.lock`
-* versions are now locked!
-* deploy, run `bundle install` on the production server
-* exact same versions are now installed
-
-
-### defining versions
-
-``` ruby
-gem "devise"
-gem "rails", "4.0.0.beta"
-gem "rack",  ">=1.0"
-gem "thin",  "~>1.1"
-gem "nokogiri", :git => "git://github.com/tenderlove/nokogiri.git"
+```bash
+> gem install rails_best_practices
+Successfully installed rails_best_practices-1.15.7
+Parsing documentation for rails_best_practices-1.15.7
+Installing ri documentation for rails_best_practices-1.15.7
+Done installing documentation for rails_best_practices after 2 seconds
+1 gem installed
 ```
 
-### Gemfile.lock
+But sometimes you have to do other installations first. On
+your development machine you can always do this, e.g:
 
-```
-devise (2.1.0)
-  bcrypt-ruby (~> 3.0)
-  orm_adapter (~> 0.0.7)
-  railties (~> 3.1)
-  warden (~> 1.1.1)
-```
-
-### gems and rails
-
-* configuration for a gem: `config/initializers/devise.rb`
-* gem may install generators: `rails generate`
-* gem may install rake tasks: `rake -T`
-
-
-
-Installing
-----------
-
-Gems are ruby packages, they are the prefered unit of code reuse in ruby.
-You can install them using the command line tool `gem`:
-
-
-``` shell
-gem install devise
+```bash
+# install node on a mac
+> brew install nodejs
+> gem install uglifier
 ```
 
-In a Rails Project you should let bundler do the work: you just add the
-gem to the `Gemfile`, and then run
-
-``` shell
-bundle install
-```
-
-Bundler will resolve version conflicts between the gems for you and 
-install and use a set of gems that will work well with each other.
 
 
-Installing gems with C code
---------
-
-A word of warning: some gems are not written exclusively in ruby,
-they may contain C code and use C libraries. From the [RubyGems Guides](http://guides.rubygems.org/gems-with-extensions/):
-
-> Many gems use extensions to wrap libraries that are written in C with a ruby wrapper. 
-> Examples include nokogiri which wraps libxml2 and libxslt, pg which is an interface 
-> to the PostgreSQL database and the mysql and mysql2 gems which provide an interface to the MySQL database.
-
-To install such a gem you first need to research which libraries are used, how they are
-named on your linux distribution, and then install the libraries. The last step might look like this:
+In production you probably have to deal with Linux, and you
+may not have the right permissions to install system libraries.
+A typical example would be:
 
 ``` shell
 $dev> ssh my.production.machine
-$production> apt-get install libmagick++-dev
+$production> sudo apt-get install libmagick++-dev
 $production> gem install rmagick
 $production> gem install paperclip
 ```
 
 Now that you have installed the gem once by hand
-you can be sure that it can also be installed by bundler.
+you can be sure that it can also be reinstalled by bundler.
 
-You might not have permission to install system wide packages and gems 
-on the production machine. If you can't sudo,
-you need to ask the system administrator to do it for you.
+See also:
+* [what is a gem](http://docs.rubygems.org/read/chapter/24)
+* find 100.000 gems at [rubygems.org](http://rubygems.org/)
+
+### dependency hell
+
+For a rails project you will be using a lot of gems. This will lead
+to two problems:
+
+1. dependency resolution: gem A depends on version 1.1 of gem C, while gem B wants at least version 1.5.  You need to find the right version of every gem in your project that actually fits together
+2. different installation: when deploying to a production server, or even just when shareing code with other developers you need to make sure that the same constellation of gems and versions is used on every machine
+
+
+### bundler saves us
+
+![bundler](images/bundler-small.png)
+
+Bundler is the name of the tool that saves us from dependency hell.
+Bundler is itself a gem, so you install it with `gem install bundler`.
+Beware: the command you will be using called `bundle`, not bundler.
+
+There is how it works: In every ruby project you write
+a `Gemfile` in which you define which gems and (to a certain degree) which versions you want.
+When you run `bundle install` bundler will:
+
+* read the Gemfile, 
+* pick out compatible versions of all the gems (if possible), 
+* install all these gems
+* write `Gemfile.lock`
+
+The lock-file contains a complete list of all the gems necessary for
+your project, and their version numbers.  These are now locked down,
+and will not change!
+
+When deploying to a new development machine or the production server, 
+you run `bundle install` and the exact same versions are now installed.
+
+
+### defining versions
+
+In the Gemfile you can specify which versions should be used.
+But don't overdo it!  Bundler does a good job picking versions,
+if you specify every version number by hand you are doing too much work.
+
+Some examples of the different ways of specifying version number and source:
+
+``` ruby
+# Gemfile
+source 'https://rubygems.org'
+
+ruby '2.1.5'
+
+gem 'devise'
+gem 'rails', '4.2.5'
+gem 'uglifier', '>= 1.3.0'
+gem 'coffee-rails', '~> 4.1.0'
+```
+
+The arrow `~>` will only allow an increase in the 
+last (right most) number, so `~> 4.1.0` does allow `4.1.17` but not `4.2`.
+This is called a pessimistic version constraint, read more about 
+it in [the rubygem documentation](http://guides.rubygems.org/patterns/#pessimistic-version-constraint).
+
+
+### gems and rails
+
+The configuration for a gem is found in the initializer directory,
+for example for `devise` the configuration file would be `config/initializers/devise.rb`.
+
+A gem may install new generators for rails, run `rails generate` to see a list
+of available generators.
+
+A gem may install rake tasks, run `rake -T` to see a list.
+
 
 Some Gems
 ----------
@@ -261,4 +280,4 @@ Ressources
 * [Ruby Gems](https://rubygems.org/)
 * [Bundler](http://bundler.io/)
 * the [Ruby Toolbox](https://www.ruby-toolbox.com/) is organized in categories that help you find alternative solutions
-
+* [How does Bundler work, anyway?](https://www.youtube.com/watch?v=4DqzaqeeMgY) talk by Andre Arko at RubyConf 2015
