@@ -224,6 +224,7 @@ class SessionsController < ApplicationController
 
   # checks login data and starts session
   def create
+    reset_session # prevent session fixation
     par = login_params
     user = User.find_by(email: par[:email])
     if user && user.authenticate(par[:password])
@@ -239,7 +240,7 @@ class SessionsController < ApplicationController
 
   # deletes sesssion
   def destroy
-    session[:user_id] = nil
+    reset_session
     redirect_to login_path, notice: 'Logged out' 
   end
 
