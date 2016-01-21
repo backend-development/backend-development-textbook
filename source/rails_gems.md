@@ -158,29 +158,23 @@ Some Gems
 This list is based on [Dwellables statistics on the Rails Rumble 2013](http://www.dwellable.com/blog/Rails-Rumble-Gem-Teardown) and
 [coodbeerstartups "Must Have Gems for Development Machine in Ruby on Rails "](http://www.codebeerstartups.com/2013/04/must-have-gems-for-development-machine-in-ruby-on-rails).
 
-### Bootstrap for rails
+### Frontend Stuff for rails
 
-*[Bootstrap SASS](https://github.com/twbs/bootstrap-sass) - don't just use bootstrap, configure it with SASS
-*[bootstrap_forms](https://github.com/bootstrap-ruby/rails-bootstrap-forms) - form helper to generate form tags and input fields that work well with bootstrap
+Use rails-assets.org to get javascript libraries.
+It is a proxy to Bower, so any library that is available
+through Bower is available to rails.
 
-### Mixins for CSS
+In your gemfile:
 
-You don't want to waste your time writing vendor-prefixes for css3 features.
-Use a mixin library instead:
+```
+source 'https://rails-assets.org' do
+  gem 'rails-assets-bootstrap-sass'
+  gem 'rails-assets-angular'
+  gem 'rails-assets-leaflet'
+end
+```
 
-![bourbon screenshot](images/gem-bourbon.png)
-[http://bourbon.io/](http://bourbon.io/)
-
-### CSS Grid 
-
-Bootstrap is used by a lot of projects. See [Kehoe(2013)](http://railsapps.github.io/twitter-bootstrap-rails.html) for help
-with choosing the right bootstrap gem.
-
-But there is a more sophisticated alternative to bootstrap: **Neat** uses a *semantic* grid system:
-
-![neat screenshot](images/gem-neat.png)
-[http://neat.bourbon.io/](http://neat.bourbon.io/)
-
+Search for libraries at [https://rails-assets.org](https://rails-assets.org)
 
 ### File Upload
 
