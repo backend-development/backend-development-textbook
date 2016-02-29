@@ -8,8 +8,13 @@ help the framework is giving you
 
 By referring to this guide, you will be able to:
 
-* Use rails's security features consciously
+* Use rails's security features 
 * Appreciate how hard security is
+
+TODO:
+
+* check out
+* rewrite example test for minitest
 
 ---------------------------------------------------------------------------
 
@@ -32,42 +37,35 @@ are displayed on "/users". No framework can prevent that!
 ![](images/security-password-shown.png)
 
 Let's use this as an example of how to fix a security problem
-once you've found it:  First we write a test for the problem: `spec/features/user_spec.rb`
+once you've found it:  First we write a test for the problem: `rails g integration_test users`
 
-  ``` ruby
-  describe "Users", :type => :feature do
+``` ruby
+require 'test_helper'
 
-    describe "are listed publicly" do
+class UsersTest < ActionDispatch::IntegrationTest
+  fixtures :users
 
-      it "shows name and e-mail" do
-        u = User.create!({ :name => 'noob', 
-                           :email => 'foo@bar.com', 
-                           :password => 'secret'})
-        visit "/users"
-        page.body.should have_text('noob')
-        page.body.should have_text('foo@bar.com')
-      end
-
-      it "does not show password" do
-        u = User.create!({ :name => 'noob', 
-                           :email => 'foo@bar.com', 
-                           :password => 'secret'})
-        visit "/users"
-        page.body.should_not have_text('secret')
-      end
-
-      # ....
-    end
+  test 'users are listed publicly' do
+    get '/users'
+    assert_response :success
+    assert_select 'td', users(:one).email
   end
-  ```
+
+  test 'users passwords are not shown publicly' do
+    get '/users'
+    assert_response :success
+    assert_select 'td', { text: users(:one).password, count: 0 }, 'no table cell contains a password'
+  end
+end
+```
 
 When we run this test it fails, because right now passwords are displayed:
 
 ![](images/security-password-test-fails.png)
 
-Now we change the view to not display the passwords any more. Running the test again we get success:
+Now we change the view to not display the passwords any more. We can
+run the test to make sure we succeeded.
 
-![](images/security-password-test-ok.png)
 
 
 See Also
