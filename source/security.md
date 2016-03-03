@@ -71,4 +71,6 @@ run the test to make sure we succeeded.
 See Also
 --------
 
-[Rails Guide: Security](http://guides.rubyonrails.org/security.html)
+* [Rails Guide: Security](http://guides.rubyonrails.org/security.html)
+* Tool: [loofah](https://github.com/flavorjones/loofah)
+* Tool: [brakeman](https://github.com/presidentbeef/brakeman)

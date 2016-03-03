@@ -219,6 +219,22 @@ You store the markdown in your database, and convert it to HTML when displayed u
 
 * gem [redcarpet](https://github.com/vmg/redcarpet) - see [Railscast #272](http://railscasts.com/episodes/272-markdown-with-redcarpet?view=asciicast)
 
+### Pagination
+
+Do you need to displaying a lot of items?  Use a pagination gem
+to go through them page by page:
+
+* gem [kaminari](https://github.com/amatsuda/kaminari), [asciicast bout it](http://railscasts.com/episodes/254-pagination-with-kaminari?view=asciicast)
+* other gems in [category pagination](https://www.ruby-toolbox.com/categories/pagination) of the ruby toolbox
+
+### search
+
+You need to search in more than just one attribute of your
+model?  use a search gem:
+
+* gem [pg_search](https://github.com/Casecommons/pg_search) uses postgresql's fulltext search
+* other gems in [category rails_search](https://www.ruby-toolbox.com/categories/rails_search) of the ruby toolbox
+
 ### Activity Stream
 
 If you want to give users an overview of what happened recently
