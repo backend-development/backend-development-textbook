@@ -25,10 +25,11 @@ a picture or a link as an attachment.
 On way to model this is to have two associations
 for the article:
 
-    @@@ruby
-    Article
-      has_one :image
-      has_one :link
+```ruby
+Article
+  has_one :image
+  has_one :link
+```
 
 but this will lead to very awkward code later on:
 when displaying an article, we always have to ask: does

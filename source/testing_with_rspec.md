@@ -32,10 +32,10 @@ this feature you
 * this test will fail, because you haven't written any code to fulfill it yet
 * then you think about how you would implement this feature, which smaller units of you code will have to do what
 * for each unit:
-** you write the unit test
-** this test will fail,  because you haven't written any code to fulfill it yet
-** then you implement what is necessary to fulfill the test, until it passes
-** if the feature still fails, you go back to working on the next unit
+ * you write the unit test
+ * this test will fail,  because you haven't written any code to fulfill it yet
+ * then you implement what is necessary to fulfill the test, until it passes
+ * if the feature still fails, you go back to working on the next unit
 * finally the feature passes
 
 and you're done.

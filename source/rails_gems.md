@@ -174,7 +174,17 @@ source 'https://rails-assets.org' do
 end
 ```
 
+* gem [autoprefixer-rails]() - Parse CSS and add vendor prefixes to CSS rules using values from the Can I Use website.
 Search for libraries at [https://rails-assets.org](https://rails-assets.org)
+
+### Graphing, Graphics, WebGL
+
+* gem [chartkick](https://github.com/ankane/chartkick) chartcick javascript library, creates svg graphs
+* gem [raphael](https://github.com/DmitryBaranovskiy/raphael) for the raphael javascript library, creates svg graphs and images
+* gem [novus-nvd3-rails](https://github.com/dbackowski/novus-nvd3-rails) A reusable chart library for d3.js
+* gem [gruff](https://github.com/topfunky/gruff) create PNG graphs (e.g. for reuse in non-html documents)
+* gem [rmagick](https://github.com/rmagick/rmagick) Ruby bindings for [ImageMagick](https://rmagick.github.io/) image manipulation library
+* gem [rqrcode](https://github.com/whomwah/rqrcode) create QR codes
 
 ### File Upload
 
@@ -274,6 +284,12 @@ This might be handy for downloading from Webpages or APIs
 * gem [barometer](https://github.com/attack/barometer) - A multi API consuming weather forecasting superstar
 * gem [gmaps4rails](https://github.com/apneadiving/Google-Maps-for-Rails)
 
+### Geocoding 
+sometimes you want to convert longitude/latitude coordinates
+to street addresses, or the reverse
+
+* gem [geocoder](https://github.com/alexreisner/geocoder)
+
 ### Testing
 
 * gem [factory_girl](https://github.com/thoughtbot/factory_girl) for creating test data.
@@ -286,11 +302,11 @@ This might be handy for downloading from Webpages or APIs
 ![better_errors screenshot](images/gem-better_errors.png)
 
 * gem [better_errors](https://github.com/charliesome/better_errors)
-
 * gem [meta_request](https://github.com/dejan/rails_panel/tree/master/meta_request) - supporting gem for [Rails Panel, a Google Chrome extension for Rails development](https://github.com/dejan/rails_panel)
 * gem [annotate](https://github.com/ctran/annotate_models) - inserts the db schema as comments in your model.rb file
+* gem [railroady](http://railroady.prestonlee.com/) - UML diagram generation for Rails projects, capable of analyzing existing models and controllers
 * gem [bullet](https://github.com/flyerhzm/bullet) - helps you improve your usage of activerecord queries
-* gem [flay](https://github.com/seattlerb/flay) - finds structural similarities in your code, so you can refactor
+* gem [metric_fu]() - many code metrics for your rails project
 * gem [rails_best_practices](https://github.com/railsbp/rails_best_practices)
 
 
