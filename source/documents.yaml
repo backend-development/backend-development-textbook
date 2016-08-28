@@ -1,5 +1,5 @@
 -
-  name: Ruby on Rails 1
+  name: Ruby on Rails
   documents:
     -
       name: Ruby Commandline
@@ -38,16 +38,16 @@
       url: rails_gems.html
       description: How bundler helps with dependencies, and some gems you might need for your first Rails project
 -
-  name: Ruby on Rails 2
+  name: Overarching Concerns
   documents:
     -
       name: Security
       url: security.html
-      description: How Rails helps with security, and how to mess it up
+      description: How a backend framework helps with web security
     -
-      name: Frontends
-      url: rails_frontends.html
-      description: Many possible architectures for frontends
+      name: Caching
+      url: caching.html
+      description: Speed up your web app through caching
     -
       name: Advanced Testing
       url: advanced_testing.html
@@ -57,25 +57,9 @@
       url: internationalization.html
       description: How to prepare you app for many languages, many countries
 -
-  name: Leftovers
+  name: Nodes.js
   documents:
     -
-      name: Git Basics
-      url: git_basics.html
-      description: With branches you can work on two separate versions of your code in parallel. For example you can work on a new feature, but go back and fix an error in production in the middle of it. Git will help you keep your code sorted.
-    -
-      name: Branching and Merging
-      url: git_branching.html
-      description: With branches you can work on two separate versions of your code in parallel. For example you can work on a new feature, but go back and fix an error in production in the middle of it. Git will help you keep your code sorted.
-    -
-      name: Teamwork
-      url: git_teamwork.html
-      description: When two programmers work at one computer this is called "pair programming".
-    -
-      name: Deploying Rails with Capistrano
-      url: deploying_rails.html
-      description:
-    -
-      name: Advanced Rails Models
-      url: rails_advanced_models.html
-      description: Learn about inheritance and how to implement it in rails
+      name: Node Basics
+      url: node_basics.html
+      description: Program your first web server in node

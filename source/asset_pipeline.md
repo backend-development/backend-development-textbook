@@ -36,20 +36,19 @@ question that goes beyond the scope of this guide.
 ### Myths About Performance
 
 If you have never studied this subject you might still have
-an intutation about where performance problems come from.
+an intuition about where performance problems come from.
 Many beginners are fascinated by details of their programming
-language like: will using more variables make my program slower?
-or: is string concatenation faster than string interpolation.
+language like: `will using more variables make my program slower?`
+or `is string concatenation faster than string interpolation?`.
 
 These 'micro optimizations' are hardly ever necssary with modern
-programming languages and computers.  Using rails, postgres and any
-of hundres of hosting or cloud services you will have no trouble
-serving hundreds of users a day and achieving adequate performance for
-all of them.
+programming languages and computers.  Using rails, postgres and a modern
+hosting service you will have no trouble serving hundreds 
+of users a day and achieving adequate performance for all of them.
 
-Trying to 'optimize' you code without having a problem at all
-or without knowing which part of the system is causing the performance
-problem will make your code worse, not better.
+Trying to 'optimize' you code if there is no problem, or
+if you don't know where the problem is, 
+will make your code worse, not better.
 
 Donald Knuth stated this quite forcefully:
 
@@ -116,7 +115,7 @@ How Rails helps with Performance
 ----------------
 
 To comply with rule 1 "make fewer HTTP requests" there now exist
-a lot of tools.  The Rails asset pipeline let's you use all theses
+a lot of tools.  The Rails asset pipeline lets you use all theses
 tools automatically:
 
 * compile to JavaScript  (e.g. coffeescript, typescript)
@@ -133,8 +132,9 @@ There are two main folders:
 
 * you put source files to `app/assets/*`
 * files for publishing land  in `public/assets/*`
-** this folder (like all of `public`) can be served by web server, without going through the rails stack
-**  `public/assets/manifest.yml`
+
+
+The second folder will be served by web server, without going through the rails stack
 
 ### Rails Environments
 
@@ -142,13 +142,13 @@ The Asset Pipeline works differently in different Rails Environments.
 There are three environments that exist by default:
 
 * `development` 
-** this is the environment you have been working in until now. 
-** It is optimized for debugging, shows error messages and the error console.
+  * this is the environment you have been working in until now. 
+  * It is optimized for debugging, shows error messages and the error console.
 * `testing` 
-** this is used for running the [automatic tests](testing.html)
+  * this is used for running the [automatic tests](testing.html)
 * `production` 
-** this is how the finished app will run after it is published. 
-** It is optimized for speed and stability.
+  * this is how the finished app will run after it is published. 
+  * It is optimized for speed and stability.
 
 How each envirnoments behaves is configured in files in `config/environments/*.rb`.
 
@@ -170,20 +170,19 @@ in your Layout:
 Will each result in a number of links, here an example from a real project:
 
 ```
-<link rel="stylesheet" media="all" href="/asset-files/search-a01b09195d4a788281acc42b98ea9f40.css?body=1" />
-<link rel="stylesheet" media="all" href="/asset-files/slider-974d585dcb6f5aec673164664a4e49d5.css?body=1" />
-<link rel="stylesheet" media="all" href="/asset-files/static-7fe63030a2965b9ae0c0b8163ddfe99e.css?body=1" />
-<link rel="stylesheet" media="all" href="/asset-files/token-input-f5feb1252bf1ceca217ea7074edc2abd.css?body=1" />
-<link rel="stylesheet" media="all" href="/asset-files/uniform-default-0aaf1390d775ee4d4a26890ec3d9d491.css?body=1" />
-<link rel="stylesheet" media="all" href="/asset-files/wizzard-9a065f755cb85f91ed7400d6059c176a.css?body=1" />
-<script src="/asset-files/jquery-4075e3b7b3964707c653f61b66f46dec.js?body=1"></script>
-<script src="/asset-files/jquery_ujs-f9f4ae336c0d19804775e0e2c8749423.js?body=1"></script>
-<script src="/asset-files/portfolio/portfolio-7877567ffd355de1b768f0bcd36a7656.js?body=1"></script>
-<script src="/asset-files/swfobject-40913a86d09c505c085fbb493636eb4b.js?body=1"></script>
-<script src="/asset-files/jquery-uploadify-702eaefa7b122d07d061abf774484392.js?body=1"></script>
-<script src="/asset-files/application-d772724b4e3bd9557210a5d49d2cc147.js?body=1"></script>
-<script src="/asset-files/can-custom-c11b4a37bb25945832e57620f5464078.js?body=1"></script>
-<script src="/asset-files/easySlider-6386dd89386e83adc6c97f266f4df4b6.js?body=1"></script>
+<link rel="stylesheet" href="/asset-files/search-a01b0css?body=1" />
+<link rel="stylesheet" href="/asset-files/slider-974d5css?body=1" />
+<link rel="stylesheet" href="/asset-files/static-7fe63css?body=1" />
+<link rel="stylesheet" href="/asset-files/token-input-f5febcss?body=1" />
+<link rel="stylesheet" href="/asset-files/wizzard-9a065css?body=1" />
+<script src="/asset-files/jquery-4075ejs?body=1"></script>
+<script src="/asset-files/jquery_ujs-f9f4ajs?body=1"></script>
+<script src="/asset-files/portfolio/portfolio-78775js?body=1"></script>
+<script src="/asset-files/swfobject-40913js?body=1"></script>
+<script src="/asset-files/jquery-uploadify-702eajs?body=1"></script>
+<script src="/asset-files/application-d7727js?body=1"></script>
+<script src="/asset-files/can-custom-c11b4js?body=1"></script>
+<script src="/asset-files/easySlider-6386djs?body=1"></script>
 ```
 
 When you deploy to production, you deployment process will run `rake assets:precompile`,
@@ -196,18 +195,18 @@ the many css files have been concatenated into one `application*.css`, and
 all JavaScript files have bin concatenated int one `application*.js`:
 
 ```
-<link href="/assets/application-dee96bcbc337324efd1fb60c6a4e0187.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="/assets/application-dee0187.css" media="screen" rel="stylesheet" />
 <!--[if lte IE 8]>
-  <link href="/assets/application-ie-d3692247bd5bc98e710dd5e93e1b4c99.css" media="all" rel="stylesheet" type="text/css" />
+  <link href="/assets/application-ie-d369224.css" rel="stylesheet" />
 <![endif]-->
-<script src="/assets/application-c51a733194a0f42c5dadae898daff713.js" type="text/javascript"></script>
+<script src="/assets/application-c51a73.js" type="text/javascript"></script>
 ```
 
 
 
 You can also try out the production environment on your own machine:
 
-* webrick server: `rails server -e production`
+* start the web server: `rails server -e production`
 * Rake tasks: add `RAILS_ENV=production` at the beginning or the end of the command.
 * Rails console: `rails console production`
 
