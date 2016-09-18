@@ -69,8 +69,19 @@ Also, there are cool t-shirts:
 Ruby Basics
 -----------
 
-For a hands-on introdcution to ruby got to [try ruby](http://tryruby.org).
-Then come back and read on:
+To get to know ruby you don't need to write
+whole programes.  You can start out with **interactive ruby - irb**.
+When you start irb you get a command line to type in ruby code. When
+you press enter the code is evaluted immediatly and you get the result.
+Use the commands `exit` or `quit` or the key combination CONTROL-D to get out.
+
+In this guide we will show code run in irb by marking the prompt as `>>` and
+the result as `=>`, for example:
+
+``` ruby
+>> 2 + 2
+=> 4
+```
 
 ### Some code conventions
 
@@ -94,7 +105,7 @@ b.sugar!     # a method that changes its object
 ```
 
 In the last to examples the punctuation marks are really
-part of the method name!
+part of the method names!
 
 
 The parantheses around the arguments of a method are optional.
@@ -107,7 +118,7 @@ puts "less code"
 
 # Data Types
 
-All of rubys basic data types are Classes.
+All of rubys basic data types are Classes.  
 
 * Numeric, Integer, Fixnum, Bignum, Float `# are converted automatically to each other`
 * Ranges
@@ -119,6 +130,21 @@ All of rubys basic data types are Classes.
 * Hash
 * Object
 * Regex
+
+Ruby is strict about data types, there is no automatic conversion except
+between numeric types.
+
+``` ruby
+>> "a string" + "another"
+=> "a stringanother"
+
+>> "a string" + 2
+TypeError: no implicit conversion of Fixnum into String
+
+>> 42 + 3.141
+=> 45.141
+```
+
 
 ### Strings
 
@@ -220,7 +246,7 @@ there can be several strings that have the same content, but are different objec
 ```
 
 Use symbols where you would enums in a database or another language,
-or if you need distnict constants, when there value is not important.
+or if you need distinct constants, when the value is not important.
 
 ### Methods
 
@@ -241,7 +267,7 @@ There are several ways of writing literal arrays in ruby.
 The first one looks like JSON:
 
 ``` ruby
-a = ["this", "that", "something"]
+>> a = ["this", "that", "something"]
 => ["this", "that", "something"]
 ```
 
@@ -265,7 +291,7 @@ Hashes
 ----------------------------
 
 A Hash is a datastructure similar to an array. An array uses integers as keys
-while a Hash uses any. Mostly strings and symbols are used:
+while a Hash allows any type as the keys. Mostly strings and symbols are used:
 
 ``` ruby
 h = Hash.new
@@ -299,7 +325,7 @@ at first. But it offers the following intresting features:
 
 Most scripting languages offer Hashes as a basic data type,
 most compiled languages as a library.  Read more about
-hashes in Wikipedia:
+Hashes in Wikipedia:
 
 * [Hashtables in Wikipedia](http://en.wikipedia.org/wiki/Hash_table)
 
@@ -317,7 +343,7 @@ A Hash can be created by using its "implicit form":
 roomnumber = { "Jane Doe" => 10, "Jim Doe" => 6 }
 ```
 
-Since Ruby 1.9.3 hashes allow an alternate syntax when the keys are symbols. Instead of
+Since Ruby 1.9.3 Hashes allow an alternate syntax when the keys are symbols. Instead of
 
 ``` ruby
 style = { :font_size => 10, :font_family => "Arial" }
@@ -329,8 +355,8 @@ you could write this  in  a JSON-like way:
 style = { font_size: 10, font_family: "Arial" }
 ```
 
-This style of hash is often used as an argument for a method,
-that way we get named arguments:
+This style of hash is often used as an argument for a method.
+Calling the method then reads like named arguments:
 
 ``` ruby
 def apply_the_style( h )
@@ -412,10 +438,10 @@ The method `map` applys the Block to each piece of data, and
 returns an Enumerable of the new data:
 
 ``` ruby
->> (1..10).map{ |x| x*2 }
+>> (1..10).map{ |x| 2*x }
 => [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
 
->> (1..10).map{ |x| x*2 }.reverse
+>> (1..10).map{ |x| 2*x }.reverse
 => [20, 18, 16, 14, 12, 10, 8, 6, 4, 2]
 ```
 
@@ -437,10 +463,10 @@ the Block on several lines, ending with `end`
 
 Some other methods for Enumerables that take a Block:
 
-* map {|x| new value computed from x}
-* select {|x| should x be selected? }
-* reduce(:+)
-* reduce{|memo, item| compute new value for memo}
+* `map {|x|` new value computed from x `}`
+* `select {|x|` should x be selected? `}`
+* `reduce(:+)`
+* `reduce{|memo, item|` compute new value for memo, using current item `}`
 
 
 These methods should help you avoid loops and thus simplify
@@ -460,7 +486,10 @@ a basic building block of ruby.  You can write functions
 that take a Block as an argument:
 
 ### My Function takes a Block of Code
-as its last argument
+
+Any function you write can take an addictional block
+of code as its last argument.  The block is only
+called if and when you call `yield` inside the function:
 
 ``` ruby
 def my_function_with_block_arg
@@ -490,9 +519,9 @@ end
 Summary
 -------
 
-You now know about the basic data types, about enumerables and about block -   
+You now know about the basic data types, about enumerables and about blocks -   
 features that distinguish ruby from other scripting languages. This should
-be a good enough basis to digg deeper into rails next.  
+be a good enough basis to start with rails.  
 
 But do take every
 oppertunity you got to learn more about ruby itself: if you are unsure about

@@ -129,9 +129,9 @@ module RailsGuides
 
       def generate_title
         if heading = Nokogiri::HTML(@header).at(:h2)
-          @title = "Web Engineering Textbook: #{heading.text}".html_safe
+          @title = "Backend Development Textbook: #{heading.text}".html_safe
         else
-          @title = "Web Egineeering Textbook"
+          @title = "Backend Development Textbook"
         end
       end
 

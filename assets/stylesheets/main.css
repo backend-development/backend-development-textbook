@@ -118,9 +118,7 @@ sup, sub { line-height: 0; }
 p {
   margin: 0 0 1.5em;
 }
-li {
-  font-size: 18px;
-}
+/* li { font-size: 18px; } */
 li, p {
   line-height: 1.5;
 }
