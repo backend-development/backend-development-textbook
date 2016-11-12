@@ -34,8 +34,9 @@ In our exmple we would find:
 * a relational database in the backend. this database contains a table `courses`
 
 As a rails programmer you know about all these folders and files.  If you are
-told that there is a problem in http://myapp.com/courses/5/edit you immediately
-know to look in conf/routes.rb to find out exactly whic files are concerned,
+told that there is a problem in the webpage with url http://myapp.com/courses/5/edit 
+you immediately
+know to look in conf/routes.rb to find out exactly which files are concerned,
 but that the most likely canditates are
 
 * app/models/course.rb
@@ -44,8 +45,11 @@ but that the most likely canditates are
 
 If you have not used a framework before this might feel very restrictive in the
 beginning: you can't just make up filenames any way you want, there is a
-**convention** for everything.  And you have to stick to the convention if you
-want to profit from the framework.  But you will profit from this convention
+**convention** for everything.  
+
+You have to stick to the convention if you want to profit from the framework,
+it will make your work as a programmer a lot easier.
+And you will profit from this convention
 every time you look at a new project - you'll instantly know your way around.
 
 
@@ -59,21 +63,20 @@ To use them on a windows system you need a lot more patience and troubleshooting
 ability.  So if you are a windows user you might consider running
 ruby and rails in a virtual (unix) machine (without GUI) instead. 
 
-Make sure you are using a current ruby (>= 2.0) and rails (>= 4.0) before
+Make sure you are using a current ruby (>= 2.3) and rails (>= 5.0) before
 you proceed:
 
 ``` sh
 $ ruby -v
-ruby 2.0
+ruby 2.3.1p112 (2016-04-26 revision 54768) [x86_64-darwin15]
 $ rails -v
-Rails 4.0
+Rails 5.0.0.1
 ```
 
-Another word of warning: rails moves fast.  This was first written in the fall/winter
-of 2012 for rails 3.2 and adapted in 1013 for rails 4.0. If you are reading this in the far future
-(which in rails terms means: in late 1014 or later) you are probably
-using ruby 2.2 or later, and rails 5 or later, and this text is **not** for you!
-
+Another word of warning: rails moves fast.  This textbook first written in the fall
+of 2012 for rails 3.2, and has been updated every year until fall 2016. 
+If you are reading this in the far future (which in rails terms means: in late 1017 or later) 
+you are probably using ruby 3 or later, and rails 6 or later, and this text is **not** for you!
 
 Before you start your rails project you have to decide on the name (and folder
 name) of your application.  The name of application cannot easily be changed
@@ -112,7 +115,7 @@ or submline or RubyMine:
 
 ### Start the Webserver
 
-Rails comes with a tiny webserver called `WEBrick`.  You start
+Rails comes with a tiny webserver called `puma`.  You start
 it in your terminal window (and then you need another window to go on working)
 
 ``` sh 
@@ -120,8 +123,8 @@ $ rails server
 ```
 
 Now you can point your browser at `http://localhost:3000/` to find the first
-webpage of your app.  It's just a static page, you can find it in
-`public/index.html`.
+webpage of your app.  It's just a dummy page that will vanish once
+you add your own pages.
 
 
 Make it a Git Repository
@@ -131,7 +134,7 @@ A new rails project is already prepared to be turned
 into a git repository: there is a `.gitignore` file in the main 
 folder.   (If you are using rubymine you could add `/.idea` to
 your `.gitignore` - that's the directory where rubymine stores
-it's configuration.  you probably want to keep that private to
+it's configuration.  You probably want to keep that private to
 each developer.
 
 Create a new repository and commit in the current status:
@@ -169,9 +172,9 @@ of the attributes.  short strings / varchars do not need a type at all.
 
 ``` sh
 $ rails generate scaffold joke title fulltext:text 
-invoke  active_record
-create    db/migrate/20130725120328_create_jokes.rb
-create    app/models/joke.rb
+      invoke  active_record
+      create    db/migrate/20161112171526_create_jokes.rb
+      create    app/models/joke.rb
 ```
 
 This will generate about 30 lines of output, and create 15 new files.
@@ -186,7 +189,7 @@ will be different from the one shown above, because it contains a timestamp.
 Inside the file you will find
 
 ``` ruby
-class CreateJokes < ActiveRecord::Migration
+class CreateJokes < ActiveRecord::Migration[5.0]
   def change
     create_table :jokes do |t|
       t.string :title
@@ -206,27 +209,26 @@ automatically.
 
 
 You can run the migration (tell ruby to actually create the table) by
-typing in `rake db:migrate` on the command line:
+typing in `rails db:migrate` on the command line:
 
 
 ``` sh
-$ rake db:migrate
-==  CreateJokes: migrating ====================
+$ rails db:migrate
+== 20161112171526 CreateJokes: migrating ======
 -- create_table(:jokes)
    -> 0.0012s
-==  CreateJokes: migrated (0.0013s) ===========
+== 20161112171526 CreateJokes: migrated (0.0013s) ===========
 ```
 
 This actually created the table in a sqlite3 database called
 `db/development.sqlite3`.  As a side effect it also dumped the current
-database schema into `db/schema.rb` and created a second table
-`schema_migrations`. This table is used to keep track of which migrations
-have already been run.
+database schema into `db/schema.rb` and created a two extra tables
+`schema_migrations` and `ar_internal_metadata`. 
 
 ### Use your app
 
 After running the migration your app is ready to be used:
-point your browser at `http://localhost:3030/jokes/` to start.
+point your browser at `http://localhost:3000/jokes/` to start.
 
 The scaffold generated four webpages that you can visit, to
 list, show, create, edit and destroy jokes:
@@ -251,14 +253,12 @@ of html to the following two views:
 The model is stored in `app/models`.  Add the following validation:
 
 ``` ruby
-class Joke < ActiveRecord::Base
-  attr_accessible :fulltext, :title
-
-  validates_presence_of :title
+class Joke < ApplicationRecord
+  validates :title, presence: true
 end
 ```
 
-This tell the model not to accept jokes that have no title.
+This tell the model not only accept jokes that have a title.
 
 Now try to enter a new joke without a title, you should get a 
 error message:

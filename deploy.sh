@@ -16,14 +16,11 @@ EMAIL=`git log -1 --pretty=%ae`
 echo "will commit ${AUTHOR} <${EMAIL}>: commit ${SHA} ${MESSAGE}"
 echo "to repo ${SSH_REPO}"
 
-echo "openssl aes-256-cbc -K $encrypted_bcc9cafb15dd_key -iv $encrypted_bcc9cafb15dd_iv -in deploy.key.enc -out deploy.key -d"
-openssl aes-256-cbc -K $encrypted_bcc9cafb15dd_key \
-                   -iv $encrypted_bcc9cafb15dd_iv  \
-                   -in deploy.key.enc \
-                   -out deploy.key -d
+echo "openssl aes-256-cbc -K ... -iv ... -in deploy.key.enc -out deploy.key -d"
+openssl aes-256-cbc -K $encrypted_bcc9cafb15dd_key -iv $encrypted_bcc9cafb15dd_iv -in deploy.key.enc -out deploy.key -d
 
-chmod 600 deploy_key
 echo `file deploy_key`
+chmod 600 deploy_key
 
 echo "adding to ssh-agent"
 eval `ssh-agent -s`
