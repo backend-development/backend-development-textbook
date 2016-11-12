@@ -1,7 +1,7 @@
 Rails Views and Controller
 ==========================
 
-The Rails View is concerened with displaying (HTML and JSON) output. The
+The Rails View is concerned with displaying (HTML and JSON) output. The
 controller is concerned with handling incoming requests,
 and using the model and views to generate a result.
 
@@ -28,9 +28,9 @@ is responsible for generating output that will be
 displayed the user in various ways.
 
 In Ruby on Rails **Embedded Ruby** (ERB) is normally used
-as the templating languages to define the views.  If you have
-used templates in other languages or have used PHP embedded in HTML
-than you will recognize the similarities.
+as the templating languages to define the views.  This will
+be familiar to you if you have
+used templates in other languages or have used PHP embedded in HTML.
 
 Both Web Designers and Web Developers might want to edit
 the files concerning the view. (This is one of the points where
@@ -41,14 +41,14 @@ using git to resolve merge conflicts comes in handy!).
 The view file (e.g. `app/views/thing/show.html.erb` will only
 contain the HTML that is specific for this view.  There is
 another file `app/views/layouts/application.html.erb` that contains
-the surrounding stuff that stays the same for every webpage: head, main
+the surrounding stuff that stays the same for every page in the app: head, main
 navigation, footer.
 
 ![Layouts and Views](images/layout_view.svg)
 
 
 If you find other parts of your code that you want to reuse
-in severl views you can extract it into a "partial".  An example
+in several views you can extract it into a "partial".  An example
 is the `_form.html.erb` partial created by the scaffold: it is
 used both by the `new.html.erb` and the `edit.html.erb` view.
 
@@ -57,12 +57,12 @@ used both by the `new.html.erb` and the `edit.html.erb` view.
 ### Views with ERB
 
 When it comes to templating systems there are two competing
-schools of thought: on the one side there are minimal
+schools of thought: on the one side there are minimal "logic-less"
 templating systems that only offer the inclusion of variable values
 and maybe iteration.  On the other hand are full programming
 languages embedded in HTML.
 
-ERB is an example of the latter: the full power of ruby is
+ERB is an example of the latter: the full power of Ruby is
 available inside the template:
 
 * Instance Variables of the controller are available in the view
@@ -101,7 +101,7 @@ $ rake routes
                  DELETE   /groups/:id(.:format)
 ```
 
-Use the "prefix" and `_path` or `_url` to get the path or full URL of the
+Use the "prefix" from `rake routes` and `_path` or `_url` to get the path or full URL of the
 action.
 
 * `link_to "Add a User", add_user_group_path` links to the groups#add_user action
@@ -116,14 +116,14 @@ The Controller
 --------------
 
 The controller is the central part of MVC. An incoming HTTP request 
-is routet to exactly one Controller Action that will respond to the Request.
-The controller than uses the model(s) to load and manipulate the right data, 
+is routed to exactly one controller action that will respond to the request.
+The controller then uses the model(s) to load and manipulate the right data, 
 and finally displays the resulting page by rendering a view.
 
 ### Restful Resources
 
 Rails uses [REST](https://en.wikipedia.org/wiki/Representational_state_transfer) as
-a convention about which actions should be available.  For example
+a convention for which actions should be available.  For example
 if you specify in `config/routes.rb`  
 
 ``` ruby
@@ -150,8 +150,8 @@ capability for zombies:
 
 ![scaffold](images/rest.png)
 
-Do adapt the views to better fit your users needs, but at the same
-time try to keep the underlying routes the same!
+Do adapt the views to better fit your users needs, but 
+try to keep the underlying routes the same!
 
 ### Now do 'Rails for Zombies' Episode no 4
 
@@ -179,7 +179,7 @@ Let's look at a very simple edit-form for a Resource called user:
 <% end %>
 ```
 
-The form helber `form_for`  will create the form-tag
+The form helper `form_for`  will create the form-tag
 and set the action and method according to the REST conventions.
 For example if the `@user` variable contains a user object with id 16, 
 the resulting form tag will look like this:
@@ -192,7 +192,7 @@ the resulting form tag will look like this:
 ```
 
 The conventions say we should use the PATCH method for updating an existing
-resource, but this is not available in current html forms. Rails get's around
+resource, but this is not available in current html forms. Rails gets around
 this by using a hidden field and some javascript to actually send the HTTP
 request with the correct method.
 
@@ -223,7 +223,7 @@ sent in.  For example `<%= f.text_field :name %>` might  be displayed as
 
 ### Sending the Data
 
-When you press the submit-Data, the date from the form is sent via a HTTP request.
+When you press the submit-button, the data from the form is sent via a HTTP request.
 In the development-log file on the server you can see the request coming in and being
 routed to the right action:
 
@@ -267,7 +267,7 @@ end
 For mass-assignments (update, create) rails offers an easy
 way to filter out only the parameters you really want to be changed / created,
 and ignore all others. The following code will look for a key `user` in the
-params Hash and only pick out it's sub-entries `uid`, `name`, `email` and `homepage`:
+params Hash and only pick out its sub-entries `uid`, `name`, `email` and `homepage`:
 
 ```
 # PATCH /users/1
