@@ -1,7 +1,7 @@
-# Textbook 'Web Development'
+# Textbook 'Backend Development'
 
-My Textbook on Web Development. Developed on github, published at
-http://web-development.github.io
+My Textbook on Backend Development. Developed on github, published at
+http://backend-development.github.io
 
 I hope this grows into a full textbook over time,
 like http://web-development.github.io did.
@@ -10,12 +10,13 @@ like http://web-development.github.io did.
 ## How to Read the book
 
 Point your browser at
-http://web-development.github.io
+https://backend-development.github.io
 
 
 ## How to contribute small changes
 
-fork this repository.
+fork the repository 
+https://github.com/backend-development/backend-development-textbook
 
 on the github site, browse the folders `sources`... you'll find
 all the texts there.  Use github's editing capability to fix
@@ -25,7 +26,8 @@ Send me a pull request when you're done.
 
 ## How to contribute large changes
 
-fork this repository.
+fork the repository 
+https://github.com/backend-development/backend-development-textbook
 
 run `rake` to find out how to generate the html-version
 
