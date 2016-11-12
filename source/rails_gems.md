@@ -127,16 +127,15 @@ Some examples of the different ways of specifying version number and source:
 # Gemfile
 source 'https://rubygems.org'
 
-ruby '2.1.5'
+ruby '2.3.1'
 
-gem 'devise'
-gem 'rails', '4.2.5'
-gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.1.0'
+gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
+gem 'sqlite3'
+gem 'puma', '~> 3.0'
 ```
 
 The arrow `~>` will only allow an increase in the 
-last (right most) number, so `~> 4.1.0` does allow `4.1.17` but not `4.2`.
+last (right most) number, so `~> 5.0.0` does allow `5.0.0.7` but not `5.0.1` or `5.1`.
 This is called a pessimistic version constraint, read more about 
 it in [the rubygem documentation](http://guides.rubygems.org/patterns/#pessimistic-version-constraint).
 
@@ -149,7 +148,7 @@ for example for `devise` the configuration file would be `config/initializers/de
 A gem may install new generators for rails, run `rails generate` to see a list
 of available generators.
 
-A gem may install rake tasks, run `rake -T` to see a list.
+A gem may install rake tasks, run `rails -T` to see a list.
 
 
 Some Gems
