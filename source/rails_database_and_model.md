@@ -47,15 +47,13 @@ ActiveRecord Basics
 ------------
 
 Rails implements the Active Record pattern in a class called `ActiveRecord`.
-All the models in a rails project inherit from `ActiveRecord`.
+All the '''models''' in a rails project inherit from `ActiveRecord`.
 
 
 ``` ruby
 class Thing < ActiveRecord::Base
 end
 ```
-
-
 
 ### The Mapping
 
@@ -89,8 +87,9 @@ Rails has several conventions regarding ActiveRecord and the database:
 If you stick to these conventions building the web app will be very easy.  You 
 can deviate from these conventions, but this takes some extra configuration and programming work.
 
-One scenarion where deviating from the conventions might make sense is when
-you build a rails app to replace an old php app. You can start with the models
+Here is one scenario where deviating from the conventions might make sense:
+You are building a rails app to replace an old php app, but you want to
+keep using the same database. You can start with the models
 in rails configured to fit with your old database, and then refactor and migrate towards
 the rails conventions step by step.
 
@@ -99,13 +98,13 @@ the rails conventions step by step.
 To build the first model and its corresponding database table,
 you can use the scaffold generator.
 You need to work on the command line using the commands
-`rails` and `rake`.
+`rails`.  (bwfore rails 5 some of this was handled by `rake`)
 
 * `rails generate scaffold tweet status:string zombie:string`
    * This will generate a Model `Tweet` and a migration to create table `tweets`
 * look at the migration that was generated in `db/migrate/*create_tweets.rb`
 * you can edit the migration now - but not later!
-* run the migration: `rake db:migrate`
+* run the migration: `rails db:migrate`
    * this will run the appropriate `CREATE TABLE` statement in your database
 * look at the model generated in `app/models/tweet.rb`
 * add validations, associations to the model
@@ -150,10 +149,10 @@ class CreateEvents < ActiveRecord::Migration
 end
 ```
 
-Use `rake` to apply this migration to the existing database:
+Use `rails` to apply this migration to the existing database:
 
-* `rake db:migrate`  # apply all open migrations
-* `rake db:rollback` # roll back last migration
+* `rails db:migrate`  # apply all open migrations
+* `rails db:rollback` # roll back last migration
 
 A word of warning:  you never, ever need to change a migration after
 using and commiting it.  You only ever add new migrations!

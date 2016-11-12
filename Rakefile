@@ -9,6 +9,8 @@ namespace :guides do
     task :html do
       ENV["WARN_BROKEN_LINKS"] = "1" # authors can't disable this
       ruby "generate_book.rb"
+      cp 'README.md', 'output/', :verbose => true
+      sh './deploy.sh'
     end
 
     desc "Generate .mobi file. The kindlegen executable must be in your PATH. You can get it for free from http://www.amazon.com/kindlepublishing"

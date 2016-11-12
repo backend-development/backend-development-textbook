@@ -1,3 +1,0 @@
-[submodule "output"]
-	path = output
-	url = git@github.com:backend-development/backend-development.github.com.git
