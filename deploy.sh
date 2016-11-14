@@ -19,15 +19,16 @@ echo "to repo ${SSH_REPO}"
 ENCRYPTED_KEY=$encrypted_bcc9cafb15dd_key
 ENCRYPTED_IV=$encrypted_bcc9cafb15dd_iv
 
+echo `file deploy.key.enc`
 echo "openssl aes-256-cbc -K encrypted_bcc9cafb15dd_key -iv encrypted_bcc9cafb15dd_iv -in deploy.key.enc -out deploy.key -d"
 openssl aes-256-cbc -K $ENCRYPTED_KEY -iv $ENCRYPTED_IV -in deploy.key.enc -out deploy.key -d
 
-echo `file deploy_key`
-chmod 600 deploy_key
+echo `file deploy.key`
+chmod 600 deploy.key
 
 echo "adding to ssh-agent"
 eval `ssh-agent -s`
-ssh-add deploy_key
+ssh-add deploy.key
 
 # Clone the existing github pages into out/
 echo "git clone $REPO out"
