@@ -98,7 +98,7 @@ the rails conventions step by step.
 To build the first model and its corresponding database table,
 you can use the scaffold generator.
 You need to work on the command line using the commands
-`rails`.  (bwfore rails 5 some of this was handled by `rake`)
+`rails`.  (before rails 5 some of this was handled by `rake`)
 
 * `rails generate scaffold tweet status:string zombie:string`
    * This will generate a Model `Tweet` and a migration to create table `tweets`
