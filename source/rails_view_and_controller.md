@@ -25,7 +25,7 @@ The View
 
 The View in the Model-View-Controller pattern
 is responsible for generating output that will be
-displayed the user in various ways.
+displayed to the user in various ways.
 
 In Ruby on Rails **Embedded Ruby** (ERB) is normally used
 as the templating languages to define the views.  This will
@@ -84,10 +84,10 @@ Here's an example of a loop:
 ### Links
 
 Never write links to your own app "by hand"! Use helper methods to get the right URLs.
-Use `rake routes` on the command line do find out which URLs exist:
+Use `rails routes` on the command line do find out which URLs exist:
 
 ``` shell
-$ rake routes
+$ rails routes
           Prefix Verb     URI Pattern
   add_user_group PUT      /groups/:id/add_user(.:format)
   del_user_group PUT      /groups/:id/del_user(.:format)
@@ -101,14 +101,14 @@ $ rake routes
                  DELETE   /groups/:id(.:format)
 ```
 
-Use the "prefix" from `rake routes` and `_path` or `_url` to get the path or full URL of the
+Use the "prefix" from `rails routes` and `_path` or `_url` to get the path or full URL of the
 action.
 
 * `link_to "Add a User", add_user_group_path` links to the groups#add_user action
-* `link_to "Show the Object", object` links to show action of the object
+* `link_to "Show the Object", object` links to the show action of the object
 
 
-### Now do 'Rails for Zombies' Episode no3
+Now do 'Rails for Zombies' Episode no3
 
 ![Rails for Zombies Episode 3](images/rails-for-zombies-3.jpg)
 
@@ -130,7 +130,7 @@ if you specify in `config/routes.rb`
 resources :zombies
 ```
 
-This will generate the following mappings (visibile through `rake routes`):
+This will generate the following mappings (visibile through `rails routes`):
 
 ``` 
 HTTP
@@ -191,9 +191,10 @@ the resulting form tag will look like this:
 </form>
 ```
 
-The conventions say we should use the PATCH method for updating an existing
-resource, but this is not available in current html forms. Rails gets around
-this by using a hidden field and some javascript to actually send the HTTP
+The REST conventions say we should use the PATCH method for updating an existing
+resource, but this is not available in html forms currently. Current browsers
+only support Html forms using `GET` or `POST` methods. Rails gets around
+this restriction by using a hidden field and some javascript to actually send the HTTP
 request with the correct method.
 
 
@@ -235,7 +236,7 @@ Processing by UsersController#update as HTML
 
 Actually the Parameter came in through two separate channels: the data for the
 user came through the body of the HTTP request, the `id` came in as part of the URL.
-Observe the URI Pattern in the output of `rake routes`:
+Observe the URI Pattern in the output of `rails routes`:
 
 ```
           Prefix Verb     URI Pattern                        Controller#Action
