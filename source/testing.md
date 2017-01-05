@@ -7,11 +7,11 @@ to built-in mechanisms in Rails for testing your application.
 After reading this guide, you will know:
 
 * Rails testing terminology.
-* How to write tests for your applications models
+* How to write unit tests for your applications models and controllers
 * How to write integration tests for your application.
 
-This guide is a shorter version of 
-[a Guide to Testing Rails Applications](http://guides.rubyonrails.org/testing.html).
+This guide is a shorter version of the offical
+[Guide to Testing Rails Applications](http://guides.rubyonrails.org/testing.html).
 
 REPO: Fork the [example app 'testing for stars'](https://github.com/backend-development/rails-example-testing-for-stars) and try out what you learn here.
 
@@ -39,9 +39,12 @@ controllers/    helpers/        mailers/        test_helper.rb
 fixtures/       integration/    models/
 ```
 
-The `models`, `controllers`, `mailers` and `helpers` directory hold tests for (surprise) models, controllers, mailers and view helpers respectively. These tests that are focussed on one single class are also called *unit tests*. 
+The `models`, `controllers`, `mailers` and `helpers` directory 
+hold tests for (surprise) models, controllers, mailers and view helpers respectively. 
+These tests that are focussed on one single class are also called *unit tests*. 
 
-The `integration` directory is meant to hold tests that test the whole system by accessing the app as a browser would.
+The `integration` directory is meant to hold tests that test the 
+whole system by accessing the app as a browser would.
 
 Fixtures are a way of organizing test data; they reside in the `fixtures` directory.
 
@@ -148,10 +151,10 @@ end
 
 ### Running Tests
 
-To run all the tests for your project use `rake test`.
+To run all the tests for your project use `rails test`.
 
 ```bash
-$ rake test
+$ rails test
 Run options: --seed 8625
 
 # Running:
@@ -178,7 +181,7 @@ end
 If you run this newly added test the result might look like this:
 
 ```bash
-$ rake test
+$ rails test
 Run options: --seed 33837
 
 # Running:
@@ -242,7 +245,7 @@ end
 Now you can see even more output in the console from running the tests:
 
 ```bash
-$ rake test
+$ rails test
 .....E...
 
 Finished tests in 0.030974s, 32.2851 tests/s, 0.0000 assertions/s.
@@ -263,7 +266,7 @@ test. All test methods are executed in random order.
 
 When a test fails you are presented with the corresponding backtrace. By default
 Rails filters that backtrace and will only print lines relevant to your
-application. Read this!
+application. Read the backtrace!
 
 
 If you want to ensure that an exception is raised 
@@ -282,12 +285,12 @@ This test should now pass.
 
 ### Available Assertions
 
-By now you've caught a glimpse of some of the assertions that are available. Assertions are the worker bees of testing. They are the ones that actually perform the checks to ensure that things are going as planned.
+You have seen some assertions above.
 
 Here's an extract of the assertions you can use with
 [`Minitest`](https://github.com/seattlerb/minitest), the default testing library
 used by Rails. The `[msg]` parameter is an optional string message that is only
-displayed if the test fails.  It is available in all assertions, but only show in
+displayed if the test fails.  It is available in all assertions, but only shown in
 the first one here.  For most assertions there is a simple negation `assert` and `assert_not`, `assert_equal` and
 `assert_no_equal`, and so on. 
 
@@ -296,7 +299,7 @@ the first one here.  For most assertions there is a simple negation `assert` and
 | `assert( test, [msg] )`                                          | Ensures that `test` is true.|
 | `assert_not( test )`                                      | Ensures that `test` is false.|
 | `assert_equal( expected, actual )`                        | Ensures that `expected == actual` is true.|
-| `assert_same( expected, actual )`                         | Ensures that expected and actual are the same object.|
+| `assert_same( expected, actual )`                         | Ensures that expected and actual are the exact same object.|
 | `assert_nil( obj )`                                       | Ensures that `obj.nil?` is true.|
 | `assert_empty( obj )`                                     | Ensures that `obj` is `empty?`.|
 | `assert_match( regexp, string )`                          | Ensures that a string matches the regular expression.|
@@ -305,7 +308,7 @@ the first one here.  For most assertions there is a simple negation `assert` and
 | `assert_in_delta(expectated,actual,delta)`            | Ensures that the numbers `expectated` and `actual` are within `+/-delta` of each other.|
 | `assert_raises( exception ){ block }`         | Ensures that the given block raises the given exception.|
 | `assert_instance_of( class, obj )`                        | Ensures that `obj` is an instance of `class`.|
-| `assert_kind_of( class, obj )`                            | Ensures that `obj` is an instance of `class` or is descending from it.|
+| `assert_kind_of( class, obj )`                            | Ensures that `obj` is an instance of `class` or is descended from it.|
 | `assert_respond_to( obj, symbol )`                        | Ensures that `obj` responds to `symbol`, for example because it implements a method by that name or inherits one. |
 
 The above are a subset of assertions that minitest supports. For an exhaustive &
@@ -317,21 +320,47 @@ Because of the modular nature of the testing framework, it is possible to create
 
 ### Testing a Controller
 
+To activate controller test add to your Gemfile:
+
+```
+group :development, :test do
+  gem 'rails-controller-testing'
+end
+```
+
 Testing the controller _without_ testing the view or the
-models at the same time is quite tricky.
+models at the same time is quite tricky.  You should test for things such as:
+
+* was the web request successful?
+* was the user redirected to the right page?
+* was the user successfully authenticated?
+* was the correct object stored in the response template?
+* was the appropriate message displayed to the user in the view?
 
 In a controller test you can use the methods `get`, `post`, and so on
 to call action in the controller with certain http methods and parameters.
 
-In this example the `create` action of the article controller is called, 
-and the params hash is set up with key `article[title]` and value `some title`:
+In this example the `create` action of the article controller is called by
+sending a post request to articles_url. 
+The params hash is set up with key `article[title]` and value `some title`:
 
 ```
-post :create, article: { title: 'some title' }
+post articles_url, params: { article: { title: 'some title' } }
 ```
+This example just shows `params`, you can also set:
 
-Rails adds some custom assertions of its own to the `minitest` framework
-to help with that.
+* `headers` a hash of HTTP Request headers 
+* `env` a hash of environment variables
+* `xhr` true or false to make this an AJAX request or not
+* `as` to request a content type, for example `as: :json`
+
+After the request you get the result in three hashes:
+
+* `session* 
+* `flash`
+* `cookies`
+
+Rails adds some custom assertions for controllers.
 You can see them at work in the tests created by scaffold:
 
 `assert_response`  checks the status code of the HTTP response generated
@@ -352,7 +381,7 @@ by one:
 ```
 test "should create article" do
   assert_difference('Article.count') do
-    post :create, article: { title: 'some title' }
+    post :create, params: { article: { title: 'some title' } }
   end
 end
 ```
@@ -363,7 +392,7 @@ a HTTP redirect header to the appropriate url:
 ```
 test "should destroy article" do
   assert_difference('Article.count', -1) do
-    delete :destroy, id: 1
+    delete :destroy, params: { id: 1 }
   end
 
   assert_redirected_to articles_path
@@ -373,11 +402,16 @@ end
 The Test Database
 -----------------
 
-Just about every Rails application interacts heavily with a database and, as a result, your tests will need a database to interact with as well. To write efficient tests, you'll need to understand how to set up this database and populate it with sample data.
+Just about every Rails application interacts heavily with a database and, 
+as a result, your tests will need a database to interact with as well. 
+To write efficient tests, you'll need to understand how to set up 
+this database and populate it with sample data.
 
-By default, every Rails application has three environments: development, test, and production. The database for each one of them is configured in `config/database.yml`.
+The database for each environment is configured in `config/database.yml`.
 
-A dedicated test database allows you to set up and interact with test data in isolation. This way your tests can mangle test data with confidence, without worrying about the data in the development or production databases.
+A dedicated test database allows you to set up and interact with test data in 
+isolation. This way your tests can mangle test data with confidence, 
+without worrying about the data in the development or production databases.
 
 
 ### Maintaining the test database schema
@@ -387,11 +421,11 @@ structure. The test helper checks whether your test database has any pending
 migrations. If so, it will try to load `db/schema.rb`
 into the test database. If migrations are still pending, an error will be
 raised. Usually this indicates that your schema is not fully migrated. Running
-the migrations against the development database (`rake db:migrate`) will
+the migrations against the development database (`rails db:migrate`) will
 bring the schema up to date.
 
 NOTE: If existing migrations required modifications, the test database needs to
-be rebuilt. This can be done by executing `rake db:test:prepare`.
+be rebuilt. This can be done by executing `rails db:test:prepare`.
 
 ### Test Data with Fixtures
 
@@ -399,11 +433,14 @@ For good tests, you'll need to give some thought to setting up test data.
 In Rails, the most simple way of doing this is by defining and customizing fixtures. 
 Fixtures are database independent and written in YAML. There is one file per model.
 
-You'll find fixtures under your `test/fixtures` directory. When you run `rails generate model` to create a new model, Rails automatically creates fixture stubs in this directory.
+You'll find fixtures under your `test/fixtures` directory. When you run 
+`rails generate model` to create a new model, 
+Rails automatically creates fixture stubs in this directory.
 
 #### YAML
 
-YAML-formatted fixtures are a human-friendly way to describe your sample data. These types of fixtures have the **.yml** file extension (as in `users.yml`).
+YAML-formatted fixtures are a human-friendly way to describe 
+your sample data. These types of fixtures have the **.yml** file extension (as in `users.yml`).
 
 Here's a sample YAML fixture file:
 
@@ -420,9 +457,12 @@ steve:
   profession: guy with keyboard
 ```
 
-Each fixture is given a name followed by an indented list of colon-separated key/value pairs. Records are typically separated by a blank line. You can place comments in a fixture file by using the # character in the first column.
+Each fixture is given a name followed by an indented list of colon-separated 
+key/value pairs. Records are typically separated by a blank line. 
+You can place comments in a fixture file by using the # character in the first column.
 
-If there are [associations](/association_basics.html) between models, you can 
+If there are [associations](/rails_database_and_model.html#1-n-associations) 
+between models, you can 
 simply refer to the fixture in a related model using its name.
 Here's an example with a `belongs_to`/`has_many` association:
 
@@ -438,13 +478,21 @@ one:
   category: about
 ```
 
-Notice the `category` key of the `one` article found in `fixtures/articles.yml` has a value of `about`. This tells Rails to load the category `about` found in `fixtures/categories.yml`.
+Notice the `category` key of the `one` article found in `fixtures/articles.yml` 
+has a value of `about`. This tells Rails to load the 
+category `about` found in `fixtures/categories.yml`.
 
-NOTE: For associations to reference one another by name, you cannot specify the `id:` attribute on the associated fixtures. Rails will auto assign a primary key to be consistent between runs. For more information on this association behavior please read the [Fixtures API documentation](http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html).
+NOTE: For associations to reference one another by name, 
+you cannot specify the `id:` attribute on the associated fixtures. 
+Rails will auto assign a primary key to be consistent between runs. 
+For more information on this association behavior please read 
+the [Fixtures API documentation](http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html).
 
 #### Fixtures with ERB
 
-ERB allows you to embed Ruby code. The YAML fixture format is pre-processed with ERB when Rails loads fixtures. This allows you to use Ruby to help you generate some sample data. For example, the following code generates a thousand users:
+ERB allows you to embed Ruby code. The YAML fixture format is pre-processed with 
+ERB when Rails loads fixtures. This allows you to use Ruby to help you generate 
+some sample data. For example, the following code generates a thousand users:
 
 ```erb
 <% 1000.times do |n| %>
@@ -456,7 +504,8 @@ user_<%= n %>:
 
 #### Using fixtures in Tests
 
-The data defined by the fixture files will be available in your tests as Active Record objects. For example:
+The data defined by the fixture files will be available 
+in your tests as Active Record objects. For example:
 
 ```ruby
 # in test/models/user_test.rb
@@ -477,18 +526,18 @@ To get multiple fixtures at once, you can pass in a list of fixture names. For e
 users(:david, :steve)
 ```
 
-
-
-Feature Testing with Capybara
+Integration Testing with Capybara and Webkit
 -------------------
 
-Feature tests are used to test that the various parts of your application interact correctly
-to implement features. You can use a software "browser" to test your app:
+Integration test are used to test that the various parts of your application interact correctly
+to implement features. You can use a software "browser" to test your app. Rails 5 comes
+with built in integration tests, that simulate a browser without javascript. These
+are stored in the folder `test/integration/`
 
-* Capybara implements HTTP requests, cookies and inspecting the resulting HTML. so it is basically a browser without javascript.
-* Webkit the browser engine of Safari and Chrome.  It can be used without a visible window. It will interpret javascript just as chrome or safari would.
+We will use the gem `capybara` and additionally the headless browser `webkit`
+to write our integration tests.  This way we can test with javascript enabled
+or disabled in our simulated browser.
 
-```
 # Gemfile
 group :development, :test do
   gem 'minitest-rails-capybara'
@@ -497,9 +546,11 @@ end
 
 # test_helper.rb
 require "minitest/rails/capybara"
+Capybara.javascript_driver = :webkit
 ```
 
-For creating Rails feature tests, we use the 'test/features' directory for your application. 
+The integration tests written with capybara are also called feature
+tests (and stored in the 'test/features' directory).
 Minitest and Capybara provide a generator to create a test skeleton for you.
 
 ```bash
@@ -526,8 +577,10 @@ end
 
 #### Testing a form 
 
-Test with Capybara as a black box test: only interact with the
-app through the web browser.  Some helper methods:
+Integration tests are black box tests: we only interact with the
+app through the web browser, and have no "inside knowledge" about the app.  
+
+Some helper methods:
 
 ```
 click_link('id-of-link')
@@ -585,11 +638,14 @@ You can save a screenshot to a file automatically:
   save_screenshot('tmp/list_of_users_screenshot.png', :full => true)
 ```
 
+For debugging purposes it might also be useful
+to see if anything was written to the javascript console.
+The console is available through `page.driver.console_messages`.
+But it is probably best not to write tests that expect certain
+console output.
+
 Further Reading
 ---------------
 
 * [A Guide to Testing Rails Applications](http://guides.rubyonrails.org/testing.html) - also contains an introduction to testing routes, mailers, helpers, jobs and more in depth information on testing controllers
 * [Fixtures API documentation](http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html)
-* requests in integration test: [`ActionDispatch::Integration::RequestHelpers`](http://api.rubyonrails.org/classes/ActionDispatch/Integration/RequestHelpers.html) 
-* session in integration tests: [`ActionDispatch::Integration::Session`](http://api.rubyonrails.org/classes/ActionDispatch/Integration/Session.html) to help.
-
