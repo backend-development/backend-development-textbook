@@ -1,16 +1,16 @@
-Authentication from Scratch
+Rails Authentication
 ===========================
 
-This guide is about Logins and Logouts.
+This guide is about Logins and Logouts for your Rails app.
 
 After reading this guide you will
 
 * understand how cookies, sessions, logins are connected
 * be able to build a rails app with simple login and logout
-* be able to use other authentication providers
 * be able to offer password reminders to your users
+* be able to use other authentication providers
 
-REPO: You can study the [code](https://github.com/backend-development/rails-example-kanban-login) and try out [the demos](https://kanban-1.herokuapp.com/) for the authentication examples described here.
+REPO: You can study the [code](https://github.com/backend-development/rails-example-kanban-board-login) and try out [the demos](https://kanban-1.herokuapp.com/) for the authentication examples described here.
 
 ------------------------------------------------------------
 
@@ -81,9 +81,16 @@ in chrome developer tools.
 
 ![cookie set by rails,  as displayed by chrome](images/cookie-in-chrome.png)
 
-If you copy over this cookie to another browser, you are getting access to
-the session in that new browser!
+The cookie is set with the `HttpOnly` option, which means it cannot be
+change by JavaScript in the browser.  But it is still vunerable to a
+replay attack: by using `curl` on the command line we can send a stolen
+cookie with the HTTP request and will be 'logged in' for that request:
 
+```
+curl -v --cookie "_kanban_session=bWdwc...d4c; path=/; HttpOnly" https://kanban-2.herokuapp.com/
+...
+<span>Logged in as mariam <a href="/logout">logout</a>
+```
 
 When programming the backend In Ruby on Rails you 
 find a Hash `session` that is accessible from
@@ -91,52 +98,6 @@ both controllers and views.
 
 See [Rails Guide: Controller](http://guides.rubyonrails.org/action_controller_overview.html#session)
 for more details.
-
-
-Virtual Attributes 
---------------
-
-When building your first rails app with the scaffolds generator
-or the model generator you immediately see how tightly the
-rails model is connected to the database table.
-
-But there is more to the model than just that.  The model 
-is a ruby class. You can use it to add the so called "business logic"
-to your model:  for a model representing a book in the library
-this would be methods for checking out and handing in the book, .... for
-every model this will be different.
-
-In many cases you want the object from your model class 
-to have a different set of attributes than the underlying database has.
-To achieve this disconnect we will look into virtual attributes 
-
-In the following example the attribute `fullname`
-is computed from two other attributes, and does not really
-exist in the database:
-
-``` ruby
-attr_accessible :firstname, :lastname, :fullname
-
-def fullname
-  "#{firstname} #{lastname}"
-end
-```
-
-To set the attribute 
-is computed from two other attributes, does not really
-exist in the database.
-
-``` ruby
-def fullname=(name)
-  split = name.split(' ', 2)
-  self.firstname = split.first
-  self.lastname = split.last
-end
-```
-
-
-See [Railscast no.16](http://railscasts.com/episodes/16-virtual-attributes?view=asciicast) for
-more details on virtual attributes.
 
 
 Password Storage
