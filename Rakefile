@@ -9,6 +9,9 @@ namespace :guides do
     task :html do
       ENV["WARN_BROKEN_LINKS"] = "1" # authors can't disable this
       ruby "generate_book.rb"
+      FileList['source/*.html'].each do |source_file|
+        cp source_file, 'output/', :verbose => true
+      end
       cp 'README.md', 'output/', :verbose => true
       sh './deploy.sh'
     end

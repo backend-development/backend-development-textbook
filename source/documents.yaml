@@ -60,6 +60,10 @@
   name: Nodes.js
   documents:
     -
+      name: Node vs. Rails
+      url: node_vs_rails.html
+      description: What are the differences, and why should I learn both?
+    -
       name: Node Basics
       url: node_basics.html
       description: Program your first web server in node

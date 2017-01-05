@@ -10,29 +10,69 @@ After reading this guide you will
 * be able to use other authentication providers
 * be able to offer password reminders to your users
 
+REPO: You can study the [code](https://github.com/backend-development/rails-example-kanban-login) and try out [the demos](https://kanban-1.herokuapp.com/) for the authentication examples described here.
+
 ------------------------------------------------------------
 
-Sessions in Rails 
+Stateless HTTP and Sessions
 ------------------
 
-HTTP is a **stateless** protocol. This means that the web server
-does not need to remember anything about the client from one
-request to the next.  
+HTTP is a **stateless** protocol. This means that the protocol
+does not require the web server to remember anything from one
+request to the next.  So calling the same URL from different
+clients will basically return the same result.
 
-Building a Login for your web app means getting around the
-statlessness, creating a way for the web app to remember: oh, this is user
-Susan, I already know her, she has these three things in her shopping cart
-and is allowed to view this secret page.
+But this is not enough for many web apps we want to build: we
+want certain pages to only be available to some users.  We want
+to offer shopping carts or wizards that let a user complete
+a complex action through several small steps, that carry over state.
 
-Cookies are a way to achive statefulness in HTTP. A cookie
-is an abitrary piece of information that the server sends to the
-client, and that the client will echo back with every request.
+In an old style GUI application running on windows or mac it
+is clear that that only one user is using the app at a time. We
+can use variables in main memory to store information pertaining
+to that user, and they will carry over through many interactions
+(opening a new window of our app, clicking a button, selecting
+something from a menu).
+
+In a web app this true for the front end of the app, in a very
+restricted sense: If you set a variable in javascript it will only 
+be available for this one user in this one webbrowser.  
+But if the user leaves your app
+by typing in a new URL, or following a link or just reloading the
+page this information will be lost.
+
+
+In the backend we need some way to identify that a certain
+request comes from a certain user, and to "reattach" the state
+to this request.  There are several ways to do this:
+
+; HTTP Basic Authentication according to [rfc 1945, section 11](https://tools.ietf.org/html/rfc1945#section-11)
+: The browser sends (hashed) username and password to the server with each request. The HTTP Headers `WWW-Authenticate` and `Authorization` are used.
+; HTTP Cookies according to [rfc 6265](https://tools.ietf.org/html/rfc6265)
+: A cookie is an abitrary piece of information that the server sends to the client, and that the client will echo back with every request. The HTTP Header `Cookie` is used.
+; Using a JSON-Token according to [jwt.io](https://jwt.io/) / [rfc 7519](https://tools.ietf.org/html/rfc7519)
+: in the URL, HTTP-Header or as POST data 
+
+
+### Security
+
+If you use any of these methods over HTTP, unencrypted,
+then an attacker might be able to steal the authentication information.
+So always use HTTPS!
+
+Both HTTP Basic Authentication and Cookies are sent automatically
+by the browser each time you access the web app.  This can be used
+exploited by [Cross Site Request Forgery attacks](https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)).
+
+### Session in Backend Development
+
 
 ![cookie set by rails,  as displayed by firebug](images/cookie-in-ff-inspector.png)
 
-Web frameworks use cookies to offer so called **sessions** to the
+Web frameworks use any of the methods described above
+to offer so called **sessions** to the
 developer: a session is a key-value store that is associated with
-the cookie, and thus with one specific user.
+the requests of one specific user.
 
 Ruby on Rails by default sets a cookie named after the application.
 In the above screenshot you can see the cookie set by the `wichteln`
@@ -195,12 +235,12 @@ Now you can direct your browser to http://localhost:3000/login
 Next you need to set up the view for the login form there: 
 
 ``` ruby
-<!-- app/views/session/new.html.erb: -->
+<!-- app/views/sessions/new.html.erb: -->
 
 <h1>Log in</h1>
 
 <%= form_tag login_path do |f| %>
-    E-Mail:   <%= text_field_tag     :email    %> <br>
+    Username: <%= text_field_tag     :username %> <br>
     Password: <%= password_field_tag :password %> <br>
     <%= submit_tag 'Log In' %>
 <% end %>
@@ -226,11 +266,11 @@ class SessionsController < ApplicationController
   def create
     reset_session # prevent session fixation
     par = login_params
-    user = User.find_by(email: par[:email])
+    user = User.find_by(username: par[:username])
     if user && user.authenticate(par[:password])
-      # Save the user id inside the browser cookie. 
-      # This is how we keep the user # logged in 
-      # when they navigate around our website.
+      # Save the user id in the session
+      # rails will take care of setting + reading cookies
+      # when the user navigates around our website.
       session[:user_id] = user.id
       redirect_to root_path, notice: 'Logged in'
     else
@@ -241,13 +281,13 @@ class SessionsController < ApplicationController
   # deletes sesssion
   def destroy
     reset_session
-    redirect_to login_path, notice: 'Logged out' 
+    redirect_to root_path, notice: 'Logged out' 
   end
 
 private
 
   def login_params
-    params.permit(:email, :password)
+    params.permit(:username, :password)
   end
 end
 ```
@@ -257,9 +297,9 @@ the application controller.  If the user_id is not
 set in the session or if the user with this id does not
 exist (any more) we just return nil as the current_user.
 
-app/app/controllers/application_controller.rb:
 
 ``` ruby
+<!-- app/app/controllers/application_controller.rb -->
 def current_user
   @current_user = nil
   if session[:user_id]
