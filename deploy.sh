@@ -35,7 +35,7 @@ echo "git clone $REPO out"
 git clone $REPO out
 
 echo "Clean out existing contents"
-rm -rf out/**/* || exit 0
+rm -rf out/* || exit 0
 
 echo "Copy over results of build"
 cp -a output/* out/
@@ -44,12 +44,6 @@ cp -a output/* out/
 cd out
 git config user.name "$AUTHOR via Travis CI"
 git config user.email "$EMAIL"
-
-# If there are no changes to the compiled out (e.g. this is a README update) then just bail.
-if [ -z `git diff --exit-code` ]; then
-    echo "No changes to the output on this build; exiting."
-    exit 0
-fi
 
 echo 'Commit the "changes", i.e. the new version.'
 # The delta will show diffs between new and old versions.
