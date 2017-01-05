@@ -205,7 +205,7 @@ You might also want to know how to use ImageMagick on the UNIX commandline:
 
 * gem [devise](https://github.com/plataformatec/devise) for login,
 * gem [omniauth](https://github.com/intridea/omniauth) to integrate authentication methods.
-* gem [pundit](https://github.com/elabs/pundit) if you need roles and permissions 
+* gem [cancancan](https://github.com/CanCanCommunity/cancancan) if you need roles and permissions 
 
 ### Permalinks
 
@@ -233,7 +233,7 @@ You store the markdown in your database, and convert it to HTML when displayed u
 Do you need to displaying a lot of items?  Use a pagination gem
 to go through them page by page:
 
-* gem [kaminari](https://github.com/amatsuda/kaminari), [asciicast bout it](http://railscasts.com/episodes/254-pagination-with-kaminari?view=asciicast)
+* gem [kaminari](https://github.com/amatsuda/kaminari), [asciicast about it](http://railscasts.com/episodes/254-pagination-with-kaminari?view=asciicast)
 * other gems in [category pagination](https://www.ruby-toolbox.com/categories/pagination) of the ruby toolbox
 
 ### search
@@ -241,8 +241,10 @@ to go through them page by page:
 You need to search in more than just one attribute of your
 model?  use a search gem:
 
+* gem [ransack](https://github.com/activerecord-hackery/ransack) for building search fields
 * gem [pg_search](https://github.com/Casecommons/pg_search) uses postgresql's fulltext search
-* other gems in [category rails_search](https://www.ruby-toolbox.com/categories/rails_search) of the ruby toolbox
+* gem [searchkick](https://github.com/ankane/searchkick) uses elasticsearch with many more options for fulltext search, e.g. for misspellings 
+* other gems in [category rails_search](https://www.ruby-toolbox.com/categories/rails_search) of the ruby toolbox 
 
 ### Activity Stream
 
@@ -293,7 +295,7 @@ to street addresses, or the reverse
 
 * gem [factory_girl](https://github.com/thoughtbot/factory_girl) for creating test data.
 * gem [capybara](https://github.com/jnicklas/capybara) as the "browser" for acceptance tests, with
-* gem [poltergeist](https://github.com/jonleighton/poltergeist) for testing client side javascript.
+* gem [capybara-webkit](https://github.com/thoughtbot/capybara-webkit) for testing client side javascript.
 
 
 ### Understanding your Code better
@@ -307,6 +309,9 @@ to street addresses, or the reverse
 * gem [bullet](https://github.com/flyerhzm/bullet) - helps you improve your usage of activerecord queries
 * gem [metric_fu]() - many code metrics for your rails project
 * gem [rails_best_practices](https://github.com/railsbp/rails_best_practices)
+* gem [rubocop](https://github.com/bbatsov/rubocop) - static code analyzer
+* gem [derailed_benchmarks](https://github.com/schneems/derailed_benchmarks)
+* gem [brakeman](https://github.com/presidentbeef/brakeman) - checks for security vulnerabilities
 
 
 Ressources
