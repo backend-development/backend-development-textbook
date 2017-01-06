@@ -112,84 +112,172 @@ powerful technique called [Ajax](https://en.wikipedia.org/wiki/Ajax_(programming
 Rails provides quite a bit of built-in support for building web pages with this
 technique. 
 
-Server-Side Concerns
+Ajax and Rails
 --------------------
 
 Ajax isn't just client-side, you also need to do some work on the server
 side to support it. Often, people like their Ajax requests to return JSON
-rather than HTML. Let's discuss what it takes to make that happen.
+rather than HTML. In Rails a different style of programming is supported:
+The Server returns JavaScript code to the client.  
 
 ### The Recipe / Ingredients Example
 
 You can clone the source code for the example from
 [github](https://github.com/backend-development/rails-example-recipes-js)
 
-On the List of Ingredients page we want the 'edit' links to 
-load an inline form for editing the ingredient.
+Let's have a look at the list of ingredients, and how an ingredient
+can be edited with the normal CRUD operations created by the scaffold.
+There are four HTTP requests and three full page loads in this process:
 
-![](images/inline_form_2.png)
+![](images/rails-js-1.jpg)
+
+We want to replace this with a version that uses Rails typical AJAX. When
+the 'edit' link is clicked the server returns JavaScript that places
+the form into the existing page.
+When the form is submitted - also via AJAX - the server returns
+JavaScript that enters the name of the new ingredient into 
+the existing list.
+
+This still needs four HTTP requests, but a lot less data is transferred
+and - more importantly - there is no new full  HTML page for the browser
+to parse and display.  The URLs stay almost the same: 
+
+![](images/rails-js-2.jpg)
 
 As a first step we change the `link_to` to `remote`:
 
 ```
-link_to 'Edit', edit_ingredient_path(ingredient), remote: true
+link_to 'Edit', edit_ingredient_path(ingredient), remote: true, class: 'edit_ingredient'
 ```
 
-Now clicking the link fails silently.  In the log file you can
-see that the edit-view is rendered normally.  But we need
-a different behaviour in case this view is called from JavaScript.
-We also want to keep the normal behaviour as it is.
+Now clicking the link fails silently.  In your
+browsers network view you can
+see that a GET request is sent, and HTML code
+is returned (just like before):
 
-In a rails controller you can use `resond_to` to handle
-different expected results:  in our case the browser once 
-expects HTML as the result when doing a normal GET Request,
-while the Rails `link_to :remote` link expects javascript
-as a result:
+![](images/rails-js-network-html.png) 
 
-```
-respond_to do |format|
-  format.html { render :new }
-  format.js   { render 'new.js.erb' }
-end
-```
+But our Ajax request does not handle the HTML.
+In fact, our Ajax requests expects the response to
+contain JavaScript code!  If you look in the Rails log
+you can see that:
 
-The link still fails silently. We can handle
-the AJAX error like so:
+![](images/rails-js-log.png) 
 
-```  
-$(".edit_ingredient").on("ajax:error", function(e, xhr, status, error) {
-  $(this).parent().append("<b>AJAX ERROR " + status + ": " + error + "</b>");
-});
-```
+Rails is already prepared to respond to both requests
+that expect HTML and those that expect JavaScript.
+In fact we only have to create a view `new.js.erb`
+and Rails will render that.
 
-Now we implement the `new.js.erb` view.  The Javascript
-created here is sent back to the client and executed
-there.  Try it out with a simple alert:
+Try it out with a simple alert:
 
 ```
-alert("this was sent back from the server, for ingredient  <%= @ingredient.id %>");
+alert("from the server, for ingredient  <%= @ingredient.id %>");
 ```
+
+The result should be an alert in your browser:
+
+![](images/rails-js-alert.png) 
 
 If this works we can start building the 
 behaviour we actually want:  We want to replace
 the existing display of the ingredient with the
-edit form.
+edit form. Let's find a good place in the
+DOM to do that:
+
+![](images/rails-js-dom.png) 
+
+The paragraph has an id that identifies the ingredient.
+That is a good place to start.  Then we find the first
+span inside that and replace the existing content:
 
 ```
 console.log("now running for <%= @ingredient.id %>");
-$("#ingredient_<%= @ingredient.id %>").find('span').html('edit form here');
+$("#ingredient_<%= @ingredient.id %> span").html('put the form here!');
 ```
 
-For the creation of the form we can use the existing form partial
-in place of the string. We need to escape the resulting code
+For the creation of the form we can use the existing form partial. 
+We need to escape the resulting code
 in the proper way for using it in javascript:
 
 ```
 ....html('<%= escape_javascript(render 'form') %>');
 ```
 
-As a more advanced exercise you could also make the "update" button of the form 
-work with AJAX.
+There is a short version for `escape_javascript`: just the letter `j`.
+And we can leave the braces off:
+
+```
+....html('<%= j render 'form' %>');
+```
+
+At this stage the app is fully functional again: If you send
+in the form via normal PATCH request a new page is rendered,
+and everything works.
+
+But we will not stop here. We will turn this form into a "remote form".
+We can do this by adding the `data-` attribute to it.
+The form has a unique id we can use to identify it:
+
+```
+$("#edit_ingredient_<%= @ingredient.id %>").data('remote', true);
+```
+
+The form sends a PATCH request via Ajax, which will be handled
+by the `update` action.  This action already specifies
+two formats it can handle: html and json:
+
+```
+# PATCH/PUT /ingredients/1
+# PATCH/PUT /ingredients/1.json
+def update
+  respond_to do |format|
+    if @ingredient.update(ingredient_params)
+      format.html { redirect_to ingredients_path, notice: 'Ingredient was successfully updated.' }
+      format.json { render :show, status: :ok, location: @ingredient }
+    else
+      format.html { render :edit }
+      format.json { render json: @ingredient.errors, status: :unprocessable_entity }
+    end
+  end
+end
+```
+
+This limits the allowed format, we have to add `.js` explicitly:
+```
+# PATCH/PUT /ingredients/1
+# PATCH/PUT /ingredients/1.json
+# PATCH/PUT /ingredients/1.js
+def update
+  respond_to do |format|
+    if @ingredient.update(ingredient_params)
+      format.html { redirect_to ingredients_path, notice: 'Ingredient was successfully updated.' }
+      format.json { render :show, status: :ok, location: @ingredient }
+      format.js { }
+    else
+      format.html { render :edit }
+      format.json { render json: @ingredient.errors, status: :unprocessable_entity }
+      format.js { }
+    end
+  end
+end
+```
+
+Now we have to handle both cases: saving `@ingredient` caused errors or went through
+successfully.  There is a length validation on the ingredient name,
+so typing in just one letter should cause an error. Try it out with this code:
+
+```
+<% if @ingredient.errors.any? %>
+alert("error: <%= @ingredient.errors.full_messages.first %>");
+<% else %>
+alert("saved successfully");
+<% end %>
+```
+
+In case of success we want to remove the form and replace it with
+the new name of the ingredient.  This is left as an exercise for the reader.
+
 
 ### Another Example
 
