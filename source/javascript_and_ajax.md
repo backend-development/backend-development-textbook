@@ -90,8 +90,10 @@ transpiled to JavaScript first, and later be minified and combined by the asset 
 You do not need to write modules or import them, because all the JavaScript
 code will be combined into one file.
 
-An Introduction to Ajax
-------------------------
+Ajax and Rails
+--------------------
+
+### What is Ajax
 
 In order to understand Ajax, you must first understand what a web browser does
 normally.
@@ -112,15 +114,7 @@ powerful technique called [Ajax](https://en.wikipedia.org/wiki/Ajax_(programming
 Rails provides quite a bit of built-in support for building web pages with this
 technique. 
 
-Ajax and Rails
---------------------
-
-Ajax isn't just client-side, you also need to do some work on the server
-side to support it. Often, people like their Ajax requests to return JSON
-rather than HTML. In Rails a different style of programming is supported:
-The Server returns JavaScript code to the client.  
-
-### The Recipe / Ingredients Example
+### Ajax Example
 
 You can clone the source code for the example from
 [github](https://github.com/backend-development/rails-example-recipes-js)
@@ -244,6 +238,7 @@ end
 ```
 
 This limits the allowed format, we have to add `.js` explicitly:
+
 ```
 # PATCH/PUT /ingredients/1
 # PATCH/PUT /ingredients/1.json
@@ -251,12 +246,16 @@ This limits the allowed format, we have to add `.js` explicitly:
 def update
   respond_to do |format|
     if @ingredient.update(ingredient_params)
-      format.html { redirect_to ingredients_path, notice: 'Ingredient was successfully updated.' }
+      format.html { 
+        redirect_to ingredients_path, notice: 'Successfully updated.' 
+      }
       format.json { render :show, status: :ok, location: @ingredient }
       format.js { }
     else
       format.html { render :edit }
-      format.json { render json: @ingredient.errors, status: :unprocessable_entity }
+      format.json { 
+        render json: @ingredient.errors, status: :unprocessable_entity 
+      }
       format.js { }
     end
   end
@@ -279,102 +278,38 @@ In case of success we want to remove the form and replace it with
 the new name of the ingredient.  This is left as an exercise for the reader.
 
 
-### Another Example
+### The Rails Ajax Style
 
-Imagine you have a series of users that you would like to display and provide a
-form on that same page to create a new user. The index action of your
-controller looks like this:
+Sending JavaScript from the Server to the client is a very
+strange concept at first.  But as you have seen you can achive
+a lot with a few lines of jQuery and some clever reuse of existing
+templates.
 
-```ruby
-class UsersController < ApplicationController
-  def index
-    @users = User.all
-    @user = User.new
-  end
-  # ...
-```
+You may have noticed that the HTML code for the example
+app included some additional tags and ids that turned
+out to be very helpful in the example.
 
-The index view (`app/views/users/index.html.erb`) contains:
+This style of using Ajax is very specific to Rails.  Other
+frameworks use XML or Json or HTML as responses to Ajax requests.
+(Actually Ajax is an acronym for 'Asynchronous Javascript and XML'.
+So only the XML people are doing it correctly.)
 
-```erb
-<b>Users</b>
 
-<ul id="users">
-<%= render @users %>
-</ul>
-
-<br>
-
-<%= form_for(@user, remote: true) do |f| %>
-  <%= f.label :name %><br>
-  <%= f.text_field :name %>
-  <%= f.submit %>
-<% end %>
-```
-
-The `app/views/users/_user.html.erb` partial contains the following:
-
-```erb
-<li><%= user.name %></li>
-```
-
-The top portion of the index page displays the users. The bottom portion
-provides a form to create a new user.
-
-The bottom form will call the `create` action on the `UsersController`. Because
-the form's remote option is set to true, the request will be posted to the
-`UsersController` as an Ajax request, looking for JavaScript. In order to
-serve that request, the `create` action of your controller would look like
-this:
-
-```ruby
-  # app/controllers/users_controller.rb
-  # ......
-  def create
-    @user = User.new(params[:user])
-
-    respond_to do |format|
-      if @user.save
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
-        format.js   {}
-        format.json { render json: @user, status: :created, location: @user }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-```
-
-Notice the format.js in the `respond_to` block; that allows the controller to
-respond to your Ajax request. You then have a corresponding
-`app/views/users/create.js.erb` view file that generates the actual JavaScript
-code that will be sent and executed on the client side.
-
-```erb
-$("<%= escape_javascript(render @user) %>").appendTo("#users");
-```
-
-Built-in Helpers 
-----------------------
-
-Rails provides a bunch of view helper methods written in Ruby to assist you
-in generating HTML. Sometimes, you want to add a little Ajax to those elements,
-and Rails has got your back in those cases.
+### Helper Methods
 
 Because of Unobtrusive JavaScript, the Rails "Ajax helpers" are actually in two
 parts: the JavaScript half and the Ruby half.
 
 [rails.js](https://github.com/rails/jquery-ujs/blob/master/src/rails.js)
-provides the JavaScript half, and the regular Ruby view helpers add appropriate
-tags to your DOM. The JavaScript in rails.js then listens for these
+provides the JavaScript half, and the regular Ruby view helpers add 
+tags and data-attributes to the DOM. The JavaScript in rails.js then listens for these
 attributes, and attaches appropriate handlers.
 
-### form_for
+#### form_for and form_tag
 
 [`form_for`](http://api.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i-form_for)
-is a helper that assists with writing forms. `form_for` takes a `:remote`
-option. It works like this:
+and [`form_tag`](http://api.rubyonrails.org/classes/ActionView/Helpers/FormTagHelper.html#method-i-form_tag)
+are helpers that assists with writing forms. Both take a `:remote` option. It works like this:
 
 ```erb
 <%= form_for(@article, remote: true) do |f| %>
@@ -385,59 +320,41 @@ option. It works like this:
 This will generate the following HTML:
 
 ```html
-<form accept-charset="UTF-8" action="/articles" class="new_article" data-remote="true" id="new_article" method="post">
+<form 
+  accept-charset="UTF-8" 
+  action="/articles" 
+  class="new_article" 
+  data-remote="true" 
+  id="new_article" 
+  method="post">
   ...
 </form>
 ```
 
-Note the `data-remote="true"`. Now, the form will be submitted by Ajax rather
-than by the browser's normal submit mechanism.
+rails.js will remove the `data-remote="true"` attribute and
+add a handler that turns the form into an Ajax form.
 
-You probably don't want to just sit there with a filled out `<form>`, though.
-You probably want to do something upon a successful submission. To do that,
-bind to the `ajax:success` event. On failure, use `ajax:error`. Check it out:
+
+#### error handling
+
+You can handle errors (for example: no answer from the server)
+on the client side by listening to the "ajax:error" event:
 
 ```js
-  $(document).on("page:change", function(){
-    $("#new_article").on("ajax:success", function(e, data, status, xhr) {
-      $("#new_article").append(xhr.responseText);
-    }).on("ajax:error", function(e, xhr, status, error) {
-      $("#new_article").append("<p>ERROR</p>");
-    });
-  });
+$("#new_article").on("ajax:error", function(e, xhr, status, error) {
+  $("#new_article").append("<p>ERROR " + error + "</p>");
+});
 ```
 
-Obviously, you'll want to be a bit more sophisticated than that, but it's a
-start. You can see more about the events [in the jquery-ujs wiki](https://github.com/rails/jquery-ujs/wiki/ajax).
+These events work for all the helpers discussed here.
+You can learn more about the available
+events [in the jquery-ujs wiki](https://github.com/rails/jquery-ujs/wiki/ajax).
 
-### form_tag
-
-[`form_tag`](http://api.rubyonrails.org/classes/ActionView/Helpers/FormTagHelper.html#method-i-form_tag)
-is very similar to `form_for`. It has a `:remote` option that you can use like
-this:
-
-```erb
-<%= form_tag('/articles', remote: true) do %>
-  ...
-<% end %>
-```
-
-This will generate the following HTML:
-
-```html
-<form accept-charset="UTF-8" action="/articles" data-remote="true" method="post">
-  ...
-</form>
-```
-
-Everything else is the same as `form_for`. See its documentation for full
-details.
-
-### link_to
+#### link_to
 
 [`link_to`](http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to)
-is a helper that assists with generating links. It has a `:remote` option you
-can use like this:
+and its cousin `link_to_unless_current` 
+are helper that generate links. Again they have a `:remote` option:
 
 ```erb
 <%= link_to "an article", @article, remote: true %>
@@ -449,61 +366,49 @@ which generates
 <a href="/articles/1" data-remote="true">an article</a>
 ```
 
-You can bind to the same Ajax events as `form_for`. Here's an example. Let's
-assume that we have a list of articles that can be deleted with just one
-click. We would generate some HTML like this:
+Again rails.js removes the data-attribute and attaches a
+hander that deactivates the normal link and sends an Ajax request instead.
+
+#### button_to
+
+[`button_to`](http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-button_to) 
+is a shorthand for creating a form that consists of just one button. This
+help in using consistent REST requests.
 
 ```erb
-<%= link_to "Delete article", @article, remote: true, method: :delete %>
-```
-
-and write some JavaScript like this:
-
-```js
-$("a[data-remote]").on("ajax:success", function(e, data, status, xhr) {
-  alert("The article was deleted.");
-});
-```
-
-### button_to
-
-[`button_to`](http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-button_to) is a helper that helps you create buttons. It has a `:remote` option that you can call like this:
-
-```erb
-<%= button_to "An article", @article, remote: true %>
+<%= button_to "Delete Image", 
+      { action: "delete", id: @image.id },
+      method: :delete, 
+      data: { confirm: "Are you sure?" } %>
 ```
 
 this generates
 
 ```html
-<form action="/articles/1" class="button_to" data-remote="true" method="post">
-  <input type="submit" value="An article" />
-</form>
+<form method="post" action="/images/delete/1" class="button_to">
+  <input type="hidden" name="_method" value="delete" />
+  <input data-confirm='Are you sure?' value="Delete Image" type="submit" />
+  <input name="authenticity_token" type="hidden" value="10f2...05a6"/>
+</form>"
 ```
-
-Since it's just a `<form>`, all of the information on `form_for` also applies.
 
 Turbolinks
 ----------
 
-Rails ships with the [Turbolinks gem](https://github.com/rails/turbolinks).
-This gem uses Ajax to speed up page rendering in most applications.
+Rails ships with the [Turbolinks](https://github.com/turbolinks/turbolinks) gem.
+Turbolinks are a method of speeding up user interaction with the webpage
+withoug making changes in the backend.
 
 ### How Turbolinks Works
 
-Turbolinks attaches a click handler to all `<a>` on the page. If your browser
-supports
-[PushState](https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Manipulating_the_browser_history#The_pushState%28%29_method),
-Turbolinks will make an Ajax request for the page, parse the response, and
-replace the entire `<body>` of the page with the `<body>` of the response. It
-will then use PushState to change the URL to the correct one, preserving
-refresh semantics and giving you pretty URLs.
+Turbolinks attaches a click handler to all `<a>` Tags on the page. When
+the link is clicked, Turbolinks will make an Ajax request for the page, 
+parse the response, and replace the entire `<body>` of the page with the 
+`<body>` of the response. It will then use the [HTML History API](http://caniuse.com/#search=pushState)
+to change the URL to the correct one. In unsupported browsers
+, Turbolinks gracefully degrades to standard navigation.
 
 Turbolinks are enabeld by default in new rails applications.
-
-For older applications add Turbolinks to the Gemfile,
-and put `//= require turbolinks` in your JavasScript manifest
-`app/assets/javascripts/application.js`.
 
 If you want to disable Turbolinks for certain links, add a `data-no-turbolink`
 attribute to the tag:
@@ -518,14 +423,14 @@ When writing JavaScript, you'll often want to do some sort of processing upon
 page load. With jQuery, you'd write something like this:
 
 ```js
-$(document).ready(function(){
+$(function(){
   alert("page has loaded!");
 });
 ```
 
 However, because Turbolinks overrides the normal page loading process, the
 event that this relies on will not be fired. If you have code that looks like
-this, you must change your code to do this instead:
+this, you must change it to:
 
 ```js
 $(document).on("page:change", function(){
@@ -548,4 +453,4 @@ Here are some helpful links to help you learn even more:
 * [Events created by Rails AJAX](https://github.com/rails/jquery-ujs/wiki/ajax)
 * [Using ES6 in Rails article](http://www.kwanso.com/blog/using-ecmascript-6-with-rails-4-2-projects/)
 * [Railscasts: Unobtrusive JavaScript](http://railscasts.com/episodes/205-unobtrusive-javascript)
-* [Railscasts: Turbolinks](http://railscasts.com/episodes/390-turbolinks)
+* [RailsConf 2016 - Turbolinks 5](https://www.youtube.com/watch?v=SWEts0rlezA) video of the talk on using turbolinks on ios and android
