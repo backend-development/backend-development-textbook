@@ -183,9 +183,9 @@ Let's start by creating the routes:
 
 ``` ruby
 # config/routes.rb:
-  get  '/login'  => 'sessions#new'
-  post '/login'  => 'sessions#create'
-  get  '/logout' => 'sessions#destroy'
+  get  '/login',  to: 'sessions#new'
+  post '/login',  to: 'sessions#create'
+  get  '/logout', to: 'sessions#destroy'
 ```
 
 and the session controller to handle this routes:
@@ -347,8 +347,19 @@ gem 'omniauth-stackoverflow'
 You will have to register your app with the authentication
 provider, eg. at [https://developers.facebook.com/apps/](https://developers.facebook.com/apps/) 
 or [https://apps.twitter.com/](https://apps.twitter.com/).
-For every provider you get two pieces of information: a key and a secret.
-These you add to the configuration of omniauth:
+You have to specify the URL of your web app, and a callback URL:
+
+![oauth app configuration](images/oauth-app-config.png)
+
+You get back two pieces of information: a key and a secret.
+In Twitter this looks like this:
+
+![facebook app configuration](images/oauth-app-secret.png)
+
+(A word of warning: if you change the configuration in developers.facebook.com the
+you will get a new key and secret!)
+
+You need add the key and the secret to the configuration of omniauth:
 
 ``` ruby
 # config/initializers/omniauth.rb:
@@ -387,43 +398,36 @@ heroku config:set TWITTER_SECRET=123
 
 ### Models
 
-For authentication you need to save at least the provider and the uid in your database
-somewhere.  But you can get more information out of the authentication:
-name, e-mail, and the token and secret needed to actually use the service.
+For authentication you need to save at least the provider name and the uid in your database
+somewhere.  In the simplest case you just save them in a user model:
 
-If you will only use one service, you can save the information directly
-in the user model.  But it might be more prudent to plan for different authentication
-methods, and create a separate Authentication model. This way you can
-let users choose one of several authentication methods.
-
-``` ruby
-# created with
-# rails g migration CreateAuthentication provider uid user:references token secret
-
-class CreateAuthentication < ActiveRecord::Migration
-  def change
-    create_table :authentications do |t|
-      t.string :provider
-      t.string :uid
-      t.references :user, index: true, foreign_key: true
-      t.string :token
-      t.string :secret
-    end
-  end
-end
+```shell
+rails g model user provider uid
 ```
 
-The `uid` is unique within each provider. There is only one
-user with id `42` at twitter, but there might be a users with the
-same desigation at facebook.
+To use additional services and get additional info from the provider
+you also need to save a per-user token and secret:
 
+```shell
+rails g model user provider uid token secret
+```
+
+If you want to enable that one user can log in via different 
+providers and still be recognised as the same user you need to
+create a user model with a has_many relationship to an authentiation model
+that stores provider uid. 
+
+But we will stick to the simple version:
 
 ``` ruby
-# app/model/authentication.rb
-class Authentication < ActiveRecord::Base
-  belongs_to :user  # also add has_many to users model!
-  validates :provider, :uid, presence: true
-  validates :uid, uniqueness: { scope: :provider }
+class CreateUsers < ActiveRecord::Migration[5.0]
+  def change
+    create_table :users do |t|
+      t.string :provider
+      t.string :uid
+      t.timestamps
+    end
+  end
 end
 ```
 
@@ -442,7 +446,7 @@ To log in you send the user to `/auth/:provider` (e.g. `/auth/facebook`).
     Logged in as <%= current_user.name %> 
     <%= link_to "log out", logout_path %>
   <% else %>
-    <%= link_to "log in with twitter", "/auth/twitter" %>
+    log in with <%= link_to "twitter", "/auth/twitter" %>
   <% end %>
 ```
 
@@ -450,7 +454,7 @@ This URL is handled by omniauth, not by your rails app.  omniauth will send
 the users browser on to a URL at the provider.  There the user can log in. After
 that the browser is redirected to your app again, to `/auth/:provider/callback`
 
-This URL you need to map to the session controller:
+This URL you need to map to a session controller:
 
 
 ``` ruby
@@ -465,21 +469,35 @@ to see what data is provided:
 
 ``` ruby
 def create
-  render :text => "<pre>" + env["omniauth.auth"].to_yaml and return
+  render text: "<pre>" + env["omniauth.auth"].to_yaml and return
 end
 ```
 
+The data always contains values for `provider` and `uid` at the
+top level. There may be a lot more data.
+Here some example data from a twitter login:
+
+```
+provider: twitter
+uid: '8506142'
+info: 
+  nickname: bjelline
+  name: Brigitte Jellinek
+  ...
+```
+
+Now let's look at session#create:
 There are two basic cases to consider: either the user has logged in using
-this authorisation method before (then we should find that in our database),
+this authorisation method before (then we should find them in our database),
 or they are logging in for the first time.
 
 This can get quite involved, so we hide it away inside the user model:
 
 ``` ruby
 def create
-  user = User.find_or_create_with_omniauth( request.env['omniauth.auth'] )
+  user = User.find_or_create_with_omniauth(request.env['omniauth.auth'])
 
-  if user 
+  if user
     session[:user_id] = user.id
     redirect_to root_path, notice: 'Logged in'
   else
@@ -488,43 +506,34 @@ def create
 end
 ```
 
+In the model we pick apart the information from omniauth:
+
 ``` ruby
 # app/model/user.rb
 
 def self.find_or_create_with_omniauth(auth)
-  # look for an existing authorisation 
+  # look for an existing authorisation
   # provider + uid uniquely identify a user
-  a = Authentication.find_or_create_by( 
-         provider: auth['provider'], 
-         uid:      auth['uid'] 
+  User.find_or_create_by!(
+    provider: auth['provider'],
+    uid:      auth['uid']
   )
-  # save other info you want to remember:
-  a.update( secret: auth["credentials"]["secret"],  
-            token:  auth["credentials"]["token"]  )
-  a.save!
-  
-  if a.user.nil? 
-    # all new user
-    u = create! do |user|
-      user.uid      = auth["uid"]
-      user.name     = auth["info"]["name"]
-    end
-
-    a.user = u
-    a.save!
-  end
-
-  return a.user
-end # def self.find_or_create_with_omniauth(auth)
+end
 ```
 
-The method `find_or_create_by` handles both cases in one: either it
-finds an existing authentication or it creates a new one.
+The ActiveRecord method `find_or_create_by` handles both cases in one: either it
+finds an existing user or it creates a new one.
 
+We don't really have a name for each user, but
+we can fake that in the model:
 
-Devise can also be combined with omniauth:
+```ruby
+# app/model/user.rb
+def name
+  "#{uid}@#{provider}"
+end
+```
 
-* Omniauthable: adds OmniAuth support.
 
 Further Reading
 -------
