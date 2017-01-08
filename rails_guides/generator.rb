@@ -212,7 +212,8 @@ module RailsGuides
     end
 
     def add_retina_images(html)
-      # src="images/chapters_icon.gif"
+      # find <img src="images/chapters_icon.gif"
+      # replace only the src part
       html.gsub(/(?<=<img )(src="[^"]+")/) do |src|
         base_file = src[5..-2]
         pattern = 'assets/' + base_file.sub(/\./, '@*.')
@@ -227,10 +228,8 @@ module RailsGuides
             fn.sub!(/^assets./,'')
             "#{fn} #{factor}x"
           end.join(', ')
-          puts "replacing #{src} srcset='#{srcset}'"
           "#{src} srcset='#{srcset}'"
         else
-          puts "keeping #{src}"
           src
         end
       end

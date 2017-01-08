@@ -14,7 +14,7 @@ REPO: You can study the [code](https://github.com/backend-development/rails-exam
 
 ------------------------------------------------------------
 
-Stateless HTTP and Sessions
+HTTP and Sessions
 ------------------
 
 HTTP is a **stateless** protocol. This means that the protocol
@@ -70,13 +70,14 @@ developer: a session is a key-value store that is associated with
 the requests of one specific user.
 
 Ruby on Rails by default sets a cookie named after the application.
-In the screenshot below you can see the cookie set by the `wichteln`
-application as displayed by firebug storage inspector.
+In the screenshot below you can see the cookie set by the `kanban`
+application as displayed by firefox develoepr tools in the
+tab Storage.
 
-![cookie set by rails,  as displayed by firebug](images/cookie-in-ff-inspector.png)
+![cookie set by rails, as displayed by firefox develoepr tools ](images/cookie-in-ff-inspector.png)
 
 The cookie is set with the `HttpOnly` option, which means it cannot be
-change by JavaScript in the browser.  But it is still vunerable to a
+changed by JavaScript in the browser.  But it is still vunerable to a
 replay attack: by using `curl` on the command line we can send a stolen
 cookie with the HTTP request and will be 'logged in' for that request:
 
@@ -85,10 +86,15 @@ curl -v --cookie "_kanban_session=bWdwc...d4c; path=/; HttpOnly" https://kanban-
 ...
 <span>Logged in as mariam <a href="/logout">logout</a>
 ```
+This makes it all the more important that the cookie not be stolen!
+Remember to always use https if your app authenticates users at
+any point.
 
-When programming the backend In Ruby on Rails you 
-find a Hash `session` that is accessible from
-both controllers and views.
+The Rails framework automatically sets and reads this cookie,
+and offers a Hash `session` that is accessible from
+both controllers and views.   By default the keys and values you store
+in the session hash are serialized, encrypted with a secret key and 
+sent as the value of the session cookie.
 
 See [Rails Guide: Controller](http://guides.rubyonrails.org/action_controller_overview.html#session)
 for more details.
@@ -97,16 +103,19 @@ for more details.
 Password Storage
 --------------
 
-### has secure password
+When storing passwords in a web app there are a lot of things you
+can do wrong: store the password as plain text, for example.
 
-Rails comes with the following automatism for handling passwords,
+Rails comes with built in functions for handling passwords,
 which go a long way to following the [OWASP recommendations](https://www.owasp.org/index.php/Password_Storage_Cheat_Sheet).
 
 It assumes that you have an attribute "password_digest"
-in your database (and no attribute "password").
+in your model (and no attribute "password"), and that you
+have added 'bcrypt' to the Gemfile.
 
-You can use it like this: Add the gem 'bcrypt' to the Gemfile, and
-`has_secure_password` to your user model:
+### has secure password
+
+Add `has_secure_password` to your user model:
 
 ``` ruby
 class User < ActiveRecord::Base
@@ -135,7 +144,7 @@ the password does not match.
 ### validates confirmation of password
 
 It is good UX practice to have users supply their
-password twice, to make it less likely that typoes go through.
+password twice, to make it less likely that typos go through.
 Rails also helps you with this:  You can add `validates_confirmation_of :password`
 to the user model:
 
@@ -158,8 +167,7 @@ This use of create will not actually succeed, because the password_confirmation 
 not match the password.
 
 
-
-Login from Scratch
+Basic Login
 -----------
 
 We now have all the bits and pieces to build a Login.  
@@ -280,8 +288,34 @@ to display different things for logged in users and non logged in visitors:
 <% end %>
 ```
 
-Login using twitter, facebook, github, ...
+Devise
 -----------
+
+If your app deals with more then just one or two users
+that you set up "by hand", the gem devise can help you a lot.
+It can makes your logins ...
+
+* Confirmable: sends emails with confirmation instructions and verifies whether an account is already confirmed during sign in.
+* Recoverable: resets the user password and sends reset instructions.
+* Registerable: handles signing up users through a registration process, also allowing them to edit and destroy their account.
+* Rememberable: manages generating and clearing a token for remembering the user from a saved cookie.
+* Trackable: tracks sign in count, timestamps and IP address.
+* Timeoutable: expires sessions that have not been active in a specified period of time.
+* Validatable: provides validations of email and password. It's optional and can be customized, so you're able to define your own validations.
+* Lockable: locks an account after a specified number of failed sign-in attempts. Can unlock via email or after a specified time period.
+
+See the [devise documentation](http://devise.plataformatec.com.br/#getting-started) on how to set it up.
+
+When set up correctly devise gives you helper methods to use in your controllers and views:
+
+* `current_user` 
+* `user_signed_in?` # to check if a user is signed in (in views and controllers)
+* `before_action :authenticate_user!` # to make a controller only accessible to authenticated users
+
+
+
+Omniauth
+---------------
 
 In many scenarios it might be more convenient for your users
 to not have to register on your site, but to use another service
@@ -295,6 +329,19 @@ are using, and which services might be useful to your app: could
 you use Dropbox to authenticate, and also to deliver data directly
 to your users dropbox? Would it make sense to use facebook or twitter and also
 send out messages that way?  
+
+
+### Providers 
+
+You will need the Gem `omniauth` and 
+additional gems for each provider.  For example if you
+want to use both github and stackoverflow for your web app geared
+towards developers, you would need three gems:
+
+```
+gem 'omniauth'
+gem 'omniauth-github'
+gem 'omniauth-stackoverflow'
 
 
 You will have to register your app with the authentication
@@ -322,6 +369,23 @@ Rails.application.config.middleware.use OmniAuth::Builder do
   provider :twitter, ENV['TWITTER_KEY'], ENV['TWITTER_SECRET']
 end
 ```
+
+Then you can set the environment variables locally on the command line:
+
+```sh
+TWITTER_KEY=abc
+TWITTER_SECRET=123
+```
+
+If you deploy to heroku, use the heroku command line interface to set
+the variables there:
+
+```sh
+heroku config:set TWITTER_KEY=abc
+heroku config:set TWITTER_SECRET=123
+```
+
+### Models
 
 For authentication you need to save at least the provider and the uid in your database
 somewhere.  But you can get more information out of the authentication:
@@ -363,9 +427,12 @@ class Authentication < ActiveRecord::Base
 end
 ```
 
+### Login and Logout
+
 Omniauth is a "Rack Middleware". That means it is somewhat independant
 of the rails app you are building.  It has access to the HTTP request, will
-analyze that, and pass on data to your rails app through the environment variable `omniauth.auth`.
+analyze that, and pass on data to your rails app through the 
+environment variable `omniauth.auth`.
 
 To log in you send the user to `/auth/:provider` (e.g. `/auth/facebook`).
 
@@ -454,20 +521,6 @@ end # def self.find_or_create_with_omniauth(auth)
 The method `find_or_create_by` handles both cases in one: either it
 finds an existing authentication or it creates a new one.
 
-Confirmation E-Mail, Password Reminder, ...
------------
-
-If you want to stick with registering users in your own app
-the gem `devise` offers a lot of features. It makes your logins ...
-
-* Confirmable: sends emails with confirmation instructions and verifies whether an account is already confirmed during sign in.
-* Recoverable: resets the user password and sends reset instructions.
-* Registerable: handles signing up users through a registration process, also allowing them to edit and destroy their account.
-* Rememberable: manages generating and clearing a token for remembering the user from a saved cookie.
-* Trackable: tracks sign in count, timestamps and IP address.
-* Timeoutable: expires sessions that have not been active in a specified period of time.
-* Validatable: provides validations of email and password. It's optional and can be customized, so you're able to define your own validations.
-* Lockable: locks an account after a specified number of failed sign-in attempts. Can unlock via email or after a specified time period.
 
 Devise can also be combined with omniauth:
 
