@@ -342,7 +342,7 @@ towards developers, you would need three gems:
 gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-stackoverflow'
-
+```
 
 You will have to register your app with the authentication
 provider, eg. at [https://developers.facebook.com/apps/](https://developers.facebook.com/apps/) 
