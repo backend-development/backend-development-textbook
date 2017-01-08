@@ -203,11 +203,36 @@ module RailsGuides
         else
           body = File.read(File.join(source_dir, guide))
           result = RailsGuides::Markdown.new(view, layout).render(body, guide)
-
+          result = add_retina_images(result)
           warn_about_broken_links(result) if @warnings
         end
 
         f.write(result)
+      end
+    end
+
+    def add_retina_images(html)
+      # src="images/chapters_icon.gif"
+      html.gsub(/(?<=<img )(src="[^"]+")/) do |src|
+        base_file = src[5..-2]
+        pattern = 'assets/' + base_file.sub(/\./, '@*.')
+        alternate_files = Dir.glob(pattern)
+        if alternate_files.any?
+          alternate_files.unshift(base_file)
+          srcset = alternate_files.map do |fn|
+            factor = 1
+            if match = fn.match(/@(\d)x/)
+              factor = match.captures.first
+            end
+            fn.sub!(/^assets./,'')
+            "#{fn} #{factor}x"
+          end.join(', ')
+          puts "replacing #{src} srcset='#{srcset}'"
+          "#{src} srcset='#{srcset}'"
+        else
+          puts "keeping #{src}"
+          src
+        end
       end
     end
 

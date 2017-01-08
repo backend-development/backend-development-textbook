@@ -27,31 +27,29 @@ want certain pages to only be available to some users.  We want
 to offer shopping carts or wizards that let a user complete
 a complex action through several small steps, that carry over state.
 
+![cookie set by rails,  as displayed by firebug](images/session-cart.jpg)
+
 In an old style GUI application running on windows or mac it
 is clear that that only one user is using the app at a time. We
 can use variables in main memory to store information pertaining
 to that user, and they will carry over through many interactions
 (opening a new window of our app, clicking a button, selecting
-something from a menu).
+something from a menu). 
 
 In a web app this true for the front end of the app, in a very
 restricted sense: If you set a variable in javascript it will only 
 be available for this one user in this one webbrowser.  
-But if the user leaves your app
-by typing in a new URL, or following a link or just reloading the
-page this information will be lost.
+But if the user leaves your app by typing in a new URL, 
+or following a link or just reloading the page this information will be lost.
 
 
 In the backend we need some way to identify that a certain
 request comes from a certain user, and to "reattach" the state
 to this request.  There are several ways to do this:
 
-; HTTP Basic Authentication according to [rfc 1945, section 11](https://tools.ietf.org/html/rfc1945#section-11)
-: The browser sends (hashed) username and password to the server with each request. The HTTP Headers `WWW-Authenticate` and `Authorization` are used.
-; HTTP Cookies according to [rfc 6265](https://tools.ietf.org/html/rfc6265)
-: A cookie is an abitrary piece of information that the server sends to the client, and that the client will echo back with every request. The HTTP Header `Cookie` is used.
-; Using a JSON-Token according to [jwt.io](https://jwt.io/) / [rfc 7519](https://tools.ietf.org/html/rfc7519)
-: in the URL, HTTP-Header or as POST data 
+1. **HTTP Basic Authentication** according to [rfc 1945, section 11](https://tools.ietf.org/html/rfc1945#section-11): The browser sends (hashed) username and password to the server with each request. The HTTP Headers `Authorization: Basic ...` and `WWW-Authenticate: Basic ...` are used. The client sends the info automatically for every subsequent request to the server.
+2. **HTTP Cookies** according to [rfc 6265](https://tools.ietf.org/html/rfc6265). The HTTP Header `Cookie` is used. The server sets the cookie, the client returns the cookie automatically for every subsequent request to the server.
+3. **JSON-Token** according to [jwt.io](https://jwt.io/) / [rfc 7519](https://tools.ietf.org/html/rfc7519) use a can be used directly in HTTP with  `Authorization: Bearer ...` and `WWW-Authenticate: Bearer ...` or in an URL or as POST data 
 
 
 ### Security
@@ -60,14 +58,11 @@ If you use any of these methods over HTTP, unencrypted,
 then an attacker might be able to steal the authentication information.
 So always use HTTPS!
 
-Both HTTP Basic Authentication and Cookies are sent automatically
+Both Authenticate-Headers and Cookies are sent automatically
 by the browser each time you access the web app.  This can be used
 exploited by [Cross Site Request Forgery attacks](https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)).
 
 ### Session in Backend Development
-
-
-![cookie set by rails,  as displayed by firebug](images/cookie-in-ff-inspector.png)
 
 Web frameworks use any of the methods described above
 to offer so called **sessions** to the
@@ -75,11 +70,10 @@ developer: a session is a key-value store that is associated with
 the requests of one specific user.
 
 Ruby on Rails by default sets a cookie named after the application.
-In the above screenshot you can see the cookie set by the `wichteln`
-application as displayed by firebug storage inspector, below the same cookie
-in chrome developer tools.
+In the screenshot below you can see the cookie set by the `wichteln`
+application as displayed by firebug storage inspector.
 
-![cookie set by rails,  as displayed by chrome](images/cookie-in-chrome.png)
+![cookie set by rails,  as displayed by firebug](images/cookie-in-ff-inspector.png)
 
 The cookie is set with the `HttpOnly` option, which means it cannot be
 change by JavaScript in the browser.  But it is still vunerable to a
