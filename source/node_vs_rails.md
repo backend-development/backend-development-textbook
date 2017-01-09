@@ -8,7 +8,6 @@ After working through this guide you should
 
 -------------------------------------------------------------
 
-
 JavaScript vs. Ruby
 -------------
 
@@ -42,7 +41,6 @@ if this
 end
 ```
 
-
 ### Variables and Types
 
 Both Interpreter will check if your variables were initialized before 
@@ -56,7 +54,6 @@ a = 3.141
 ```
 
 Ruby is strongly typed:
-
 
 ```
 irb> "3" + 5
@@ -218,7 +215,7 @@ ThumbnailJob.perform_later current_user
 Summary
 ---------
 
-Ruby and JavaScript a similar. JavaScript Syntax is a bit more involved.
+Ruby and JavaScript a similar programming languages.
 
 node.js and Rails represent two very different approaches for programming a web backend. 
 As a developer, nodes.js will confront you with harder problems to solve, 
@@ -229,7 +226,5 @@ For beginners I would recommend Ruby and Rails in the backend and
 JavaScript with jQuery in the frontend. For more advanced programmers 
 I would recommend getting to know node.js, and deciding between node.js 
 and Rails on a case by case basis.
-
-
 
 This text was first published as [an answer on quora](https://www.quora.com/Is-Ruby-on-Rails-easier-to-learn-than-Node).
