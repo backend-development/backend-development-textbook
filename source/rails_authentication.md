@@ -264,7 +264,6 @@ exist (any more) we just return nil as the current_user.
 ``` ruby
 <!-- app/app/controllers/application_controller.rb -->
 def current_user
-  @current_user = nil
   if session[:user_id]
     @current_user ||= User.where(id: session[:user_id]).first 
   end
