@@ -160,7 +160,7 @@ you can see that:
 
 Rails is already prepared to respond to both requests
 that expect HTML and those that expect JavaScript.
-In fact we only have to create a view `new.js.erb`
+In fact we only have to create a view `edit.js.erb`
 and Rails will render that.
 
 Try it out with a simple alert:
@@ -262,8 +262,13 @@ def update
 end
 ```
 
-Now we have to handle both cases: saving `@ingredient` caused errors or went through
-successfully.  There is a length validation on the ingredient name,
+This will render the view update.js.erb.
+
+Now we have to make this view handle both cases: 
+saving `@ingredient` caused errors or went through
+successfully.  
+
+There is a length validation on the ingredient name,
 so typing in just one letter should cause an error. Try it out with this code:
 
 ```
