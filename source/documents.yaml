@@ -34,6 +34,10 @@
       url: rails_gems.html
       description: How bundler helps with dependencies, and some gems you might need for your first Rails project
     -
+      name: Websocket in Rails
+      url: rails_websockets.html
+      description: Websockets offer a permanent connection between client and server. With Actioncable you can use websockets for publish-subscribe communication
+    -
       name: Refactoring Rails
       url: refactoring_rails.html
       description: How to improve your code in a systematic way.
