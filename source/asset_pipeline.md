@@ -274,7 +274,9 @@ config.middleware.insert_after Rack::Head, Rack::LiveReload
 Now stop and start your webserver, reload your app in the browser, and change
 a stylesheet or view to see it in action.
 
+The window with `guard` running needs to stay open, it will look like this:
 
+![guard](images/guard.png)
 
 
 Further Reading
