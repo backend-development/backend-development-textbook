@@ -235,12 +235,10 @@ Live Reloading
 --------------
 
 When you are working on the frontend of your app, fiddling
-aroud in views and stylsheets it may be helpful to immediatly
+around in views and stylsheets, it may be helpful to immediatly
 see the changes you make reflected in the browser.
 
-To achive this in Rails you can use the `guard` gem:
-
-Add three gems to your Gemfile:
+To achive this in Rails you can use `guard`.  Add three gems to your Gemfile:
 
 ```
 group :development do
@@ -252,10 +250,10 @@ end
 
 We are using two separate components here:
 
-* `guard-livereload` does the actual file-watching, and runs a separate webserver on port 35729 that sends out messages when a file changed
-* `rack-livereload` adds some javascript to every webpage produced. This javascript will connect to port 35729, listen for messages and reload the page when a message arrives
+* `guard-livereload` does the actual file-watching, and runs a separate webserver on port 35729 that sends out messages when a file changes,
+* `rack-livereload` adds some javascript to every webpage in your app. This javascript will connect to port 35729, listen for messages and reload the page when a message arrives.
 
-To configure gurad run:
+To configure guard run:
 
 ```
 bundle exec guard init livereload
