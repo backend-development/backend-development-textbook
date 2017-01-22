@@ -538,10 +538,12 @@ We will use the gem `capybara` and additionally the headless browser `webkit`
 to write our integration tests.  This way we can test with javascript enabled
 or disabled in our simulated browser.
 
+```
 # Gemfile
 group :development, :test do
   gem 'minitest-rails-capybara'
   gem 'capybara-webkit'
+  gem 'transactional_capybara'
 end
 
 # test_helper.rb
