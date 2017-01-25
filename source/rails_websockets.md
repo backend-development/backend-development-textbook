@@ -10,7 +10,7 @@ By referring to this guide, you will be able to:
 * Incorporate "Server Push" funktionality in your app
 * Build a chat app in your webapp
 
-REPO: You can study the [code](https://github.com/backend-development/rails-websockets) and try out [the demos](https://stepstones.herokuapp.com/) for the example app described here.
+REPO: You can study the [code](https://github.com/backend-development/rails_websockets) and try out [the demo](https://stepstones.herokuapp.com/) for the example app described here.
 
 ---------------------------------------------------------------------------
 
