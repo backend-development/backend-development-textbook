@@ -328,7 +328,7 @@ body {
   border: 2px #888 solid;
   box-shadow: 0px 10px 5px #bbb;
   background-color: white;
-  max-width: 100%;
+  width: 100%;
 }
 
 @media screen and (max-width: 800px) {
