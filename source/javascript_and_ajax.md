@@ -438,14 +438,14 @@ event that this relies on will not be fired. If you have code that looks like
 this, you must change it to:
 
 ```js
-$(document).on("page:change", function(){
+$(document).on("turbolinks:load", function(){
   alert("page has loaded!");
 });
 ```
 
 For more details, including other events you can bind to, check out [the
 Turbolinks
-README](https://github.com/rails/turbolinks/blob/master/README.md).
+README](https://github.com/turbolinks/turbolinks/blob/master/README.md).
 
 
 Other Resources
