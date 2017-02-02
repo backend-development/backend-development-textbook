@@ -422,6 +422,16 @@ attribute to the tag:
 <a href="..." data-no-turbolink>No turbolinks here</a>.
 ```
 
+If you want to keep an element when the page changes, add the `data-turbolinks-permanent` attribute,
+for example in the layout:
+
+```
+<%= yield %>
+<div class="media-player" data-turbolinks-permanent id="music-player">
+   [audio player should not be reloaded, audio can contiue to play]
+</div>
+```
+
 ### Page Change Events
 
 When writing JavaScript, you'll often want to do some sort of processing upon

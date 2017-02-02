@@ -263,7 +263,7 @@ This will create a `Guardfile` in your main directory.
 
 Now you can start `bundle exec guard` in a separate terminal window.
 
-To configure `rack-livereload` add the following to `config/application.rb` inside the Application class:
+To configure `rack-livereload` add the following to `config/environments/development.rb`:
 
 ```
 config.middleware.insert_after Rack::Head, Rack::LiveReload
