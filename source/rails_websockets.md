@@ -7,8 +7,9 @@ With Actioncable you can use websockets for publish-subscribe communication.
 
 By referring to this guide, you will be able to:
 
-* Incorporate "Server Push" funktionality in your app
 * Build a chat app in your webapp
+* Incorporate "server push" functionality in your app
+
 
 REPO: You can study the [code](https://github.com/backend-development/rails_websockets) and try out [the demo](https://stepstones.herokuapp.com/) for the example app described here.
 
@@ -38,18 +39,35 @@ Publish-Subscribe
 
 
 
-In Rails we have to distinguish two concepts:
+In Rails we have to distinguish three concepts:
 
-* The websocket **connection** deals with authenticating a user - see `app/channels/application_cable/connection.rb`
+* The websocket **connection** deals with authenticating a user 
+  * see `app/channels/application_cable/connection.rb`
+  * see `app/assets/javascripts/cabel.js`
 * A **channel** 
+  * see `app/channels/*_channel.rb`
+  * see `app/assets/javascripts/channels/*.js`
 * A **stream** inside a channel
+  * inside each channel streams are identified by a string
+
+
+In our example app we will be using:
+
+* a ChatChannel with one stream, 
+  * the stream is identified by `room: main`
+* an AdventureChannel with one stream per adventure, for example
+  * a stream identified by `url_path: /adventures/1`
+  * a stream identified by `url_path: /adventures/2`
+  * a stream identified by `url_path: /adventures/3`
+
+
 
 
 Chat Example
 -------
 
 In our example app several users should be able to chat with each other,
-no matter on which page they are currently.
+no matter which page of the app they are currently viewing.
 
 ![Screenshot of the Chat Area on the Homepage](images/chat-screenshot-annotated.png)
 
