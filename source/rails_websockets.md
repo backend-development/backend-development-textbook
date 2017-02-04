@@ -45,13 +45,13 @@ In Rails we have to distinguish two concepts:
 * A **stream** inside a channel
 
 
-Example App
+Chat Example
 -------
 
-In our example app several users are working on "adventures" which
-consist of several "steps".  All the users should be able to chat
-with teach other in one big chatroom.
-All the users *in one adventure* should see each other progress through the steps.
+In our example app several users should be able to chat with each other,
+no matter on which page they are currently.
+
+![Screenshot of the Chat Area on the Homepage](images/chat-screenshot-annotated.png)
 
 
 We will build the app starting from the client side:
@@ -88,7 +88,21 @@ App.chatChannel = App.cable.subscriptions.create({
 }
 ```
 
-This tries to subscribe to a channel on the server via websocket
+This Javascript code also depends on one meta-tag being set in the webpage:
+
+```
+<meta name="action-cable-url" content="/cable" />
+```
+
+Do not write this by hand, use the rails helper in the
+file `app/views/layouts/application.html.erb`:
+
+```
+<%= action_cable_meta_tag %>
+```
+
+Now the client tries to connect to the websocket at URL `/cable`
+and then subscribe to the chat channel.
 If you open your app in the browser now, you should
 see an error in the developer tools console:
 
@@ -100,7 +114,7 @@ So the client is trying to connect, but it does not work yet.
 
 
 
-### Server accepts
+### Server accepts and Authentication
 
 The server side code is stored in the folder `app/channels`. We first
 take a look at `app/channels/application_cable/connection.rb`, which was
@@ -182,8 +196,8 @@ module ApplicationCable
 end
 ```
 
-After this a user that has logged in to the rails app is
-automatically also logged in to the websocket, as you
+After this, a user that has logged in to the rails app
+is automatically also logged in to the websocket, as you
 can see in the log file:
 
 
@@ -198,13 +212,15 @@ ChatChannel is transmitting the subscription confirmation
 ChatChannel is streaming from chat_main
 ```
 
+Now the server is ready to receive data from this client and send data to this client.
+
 
 ### Client sends data
 
 To implement the chat we can use the already existing HTML in application.html.erb:
 
 ```
-<section id="chat" class="holder">
+<section id="chat" class="holder" style="display:none;">
   <div id="output">
     <p>Chat...</p>
   </div>
@@ -214,6 +230,23 @@ To implement the chat we can use the already existing HTML in application.html.e
     <input type="button" value="send">
   </div>
 </section>
+```
+
+We just have to make it visible as soon as we have a websocket connection.
+We change  `app/assets/javascripts/channels/chat.js`, adding a second
+argument to subscriptions.create: an object that holds a `connected`-function:
+
+```
+// create(channelName, mixin)
+App.chatChannel = App.cable.subscriptions.create({
+  channel: 'ChatChannel',
+  room: 'main'}, 
+  {
+    connected: function() {
+      $('#chat').show();
+    }
+  }
+);
 ```
 
 If a user types something into the chat-input field and
@@ -243,7 +276,7 @@ being sent in the websocket tab of firefox developer tools:
 
 ![chat message being sent to the server](images/ws_firefox_send.png)
 
-### Server recives data
+### Server receives data
 
 Right now the server does not know how to handle the incoming data,
 in the log file you will read:
@@ -291,16 +324,235 @@ App.chatChannel = App.cable.subscriptions.create({
   room: 'main'}, 
   {
     received: function(data) {
-      $("#output").append('<p>' + data['user'] + ': ' + data['body'] + '</p>');
+      $("#output").append(
+        '<p>' + data['user'] + ': ' + data['body'] + '</p>'
+      );
     }
   }
 );
 ```
 
 
+Progress Example
+---------------
+
+For the second example the communication structure is a bit more complex:
+All the users *in one adventure* should see each other progress through the steps.
+
+
+![Screenshot of the Adventure Page](images/adventures-screenshot-annotated.png)
+
+The page displays the adventure and the three steps it consists of.
+
+The currently logged in user is 'Brigitte Jellinek'. Her progress is described
+at the top of the page (purple box) as "You are currently working on step 2.".
+A blue cursor just above step 2 also indicates this.
+
+At every step we can see the status of all users. For example at the 2nd step,
+in the green box, we can see the status of four users. We can see
+that Alyssa P. Hacker is blocked.
+
+Inside the yellow box we find the interface the current user can use to change
+their status at step 2.
+
+
+We will use websockets to communicate changes to all users.  So if Alyssa changes
+her status from blocked to finished, the server will send websocket messages to
+all the other users currently viewing the page, and their display will change
+accordingly.
+
+Contrast this to a classic web app built with HTTP requests, where you would
+need to reload the page to get the new status. 
+
+
+### Client subscribes
+
+There is no need to change anything in `app/assets/javascripts/cabel.js`. We 
+add another file to the channels folder `app/assets/javascripts/channels/adventure.js`:
+
+```
+App.cable.subscriptions.create({ channel: "AdventureChannel" })
+```
+
+In `channels/chat.js` we also set a room when creating the subscription,
+and we used the same room for all users. This time we want to treat users
+who are working on different adventures differently.
+
+One simple way of doing this is to supply the URL of the current page
+as a parameter when creating the subscription:
+
+```
+App.adventureChannel = App.cable.subscriptions.create({
+  channel: "AdventureChannel",  
+  url_path: document.location.pathname
+});
+```
+
+The path is communicated via websocket:
+
+![Websocket in Firefox with Extension Websocket Monitor](images/subscribe_adventure.png)
+
+
+### Server accepts
+
+On the server side we create a new file `app/channels/adventure_channel.rb`:
+
+```ruby
+class AdventureChannel < ApplicationCable::Channel
+
+  def subscribed
+    stream_from '/adventures/4'   # TODO: read param url_path
+  end
+  
+end
+```
+
+We only want to send out messages to users who are viewing on
+of the adventure-pages, not to people who are on the homepage or anywhere
+else.
+
+So we analyze the `url_path` parameter we recive from the client,
+and only `stream_from` if the path fits:
+
+
+```ruby
+def subscribed
+  if params[:url_path] =~ %r{^/adventures/\d+$}
+    stream_from params[:url_path]
+  end
+end
+```
+
+### Client recieves data
+
+To help with debugging the channel while we are building it,
+we will copy over any data recived by the client to the chat window:
+
+```javascript
+App.adventureChannel = App.cable.subscriptions.create({
+  channel: "AdventureChannel",  
+  url_path: document.location.pathname
+},
+{ 
+  received: function(data) {
+    $("#output").append('<p>' + data.description + '</p>');
+  }
+});
+```
+
+### Server sends data if status changes
+
+Every time a user changes their status we want the server
+to send out messages.  The model where the status is stored
+is `Step`. ActiveRecord supplies hooks for [callbacks](http://guides.rubyonrails.org/active_record_callbacks.html#transaction-callbacks) we can use here:
+
+```
+class Step < ApplicationRecord
+
+  delegate :url_helpers, to: 'Rails.application.routes' 
+
+  after_create_commit :notify_adventure_channel
+  after_update_commit :notify_adventure_channel
+
+  def notify_adventure_channel
+    ActionCable.server.broadcast(
+      url_helpers.adventure_path(stepstone.adventure),
+      description: describe_new_state
+    )
+  end
+```
+
+The `ActionCable.server.broadcast` methods takes one string argument
+for identifying the stream to broadcast on. We used the
+path to the adventure page, for example `"/adventure/3"`. Here
+we use a helper to contruct this string, we could also have
+done it directly with `"/adventure/#{stepstone.adventure_id}"`.
+
+With these pieces in place a change in status should already
+appear in the chat window.
+
+### Client recieves data: partial as html
+
+
+The display of all the users status involves a lot of html and
+additional resources.
+
+![partial show_status](images/adventures-screenshot-show-status.png)
+
+There is already a separate partial to handle this, it is 
+called in the `adventures/show.html.erb` view repeatedly:
+
+```
+<% @stepstones.each_with_index do |stepstone, i| %>
+  <div id="step_<%= i %>">
+    <h2>
+      <span class="number"><%= (i + 1).ordinalize %>.</span> Step   
+    </h2>
+    ...
+    <article>
+      ....
+      <div id="step_<%= i %>_show_status" class="step_show_status">
+        <%= render 'stepstones/show_status', stepstone: stepstone, i: i %>
+      </div>
+    </article>
+  </div>
+<% end %>
+```
+
+We can reuse the `stepstones/show_status` partial on the server side,
+when we send the message to the websocket.  And we can reuse the
+`div` with id `step_3` on the client side, when we incorpoarte the
+recieved html into the page. 
+
+We will add two new keys to the message, which now looks like this:
+
+```
+{
+  "description": "Alyssa P. Hacker is now blocked at the 2nd step.", 
+  "selector": "#step_1_show_status", 
+  "html" : "<div class=\"user blocked\"><span><img...> ....</div>\n"
+}
+```
+
+
+On the server we add another key/value pair to message:
+
+
+```
+  def notify_adventure_channel
+    ActionCable.server.broadcast(
+      url_helpers.adventure_path(stepstone.adventure),
+      description: describe_new_state,
+      selector: "#step_#{i}_show_status",
+      html:
+        ApplicationController.renderer.render(
+          partial: 'stepstones/show_status',
+          locals: { stepstone: stepstone, i: i }
+        )
+    )
+  end
+```  
+
+on the client we just use jQuery to replace the html inside
+the div:
+
+```
+received: function(data) {
+  $(data.selector).html(data.html);
+  $("#output").append('<p>' + data.description + '</p>');
+}
+```  
+
+Now the status-display with all the users should work!
+
 
 Deployment
 ------
 
+
+Further Reading
+-----------
+
+* [O'Riordan(2016) Rails ActionCable — The good and bad parts](https://blog.ably.io/rails-5-actioncable-the-good-and-bad-parts-1b56c3b31404#.nhzs3q1qd) - a good overview of the uses and limitation of ActionCable
 
 
