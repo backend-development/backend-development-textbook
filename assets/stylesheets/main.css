@@ -1,4 +1,4 @@
-* { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: * border-box; }
+* { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
 
 html {
   font-size: 20px;
@@ -331,13 +331,21 @@ body {
   width: 100%;
 }
 
+h2#preheader { display: none; }
+
 @media screen and (max-width: 800px) {
-  #subCol {
+  h2#preheader { display: block; }
+
+  #feature .wrapper #subCol {
+
     position: static;
-    width: inherit;
-    margin-left: -1em;
-    margin-right: 0;
-    padding-right: 1.25em;
+    float: none;
+    width: 100%;
+    box-shadow: none;
+    margin: 0;
+  }
+  #feature .wrapper .rest_header h2 {
+    display: none;
   }
 }
 

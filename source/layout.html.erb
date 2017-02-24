@@ -52,7 +52,6 @@
             <% end %>
           </div>
         </li>
-        <li><a class="nav-item" href="https://github.com/backend-development/backend-development-textbook/">Contribute</a></li>
       </ul>
       </div>
     </div>
@@ -61,8 +60,11 @@
 
   <div id="feature">
     <div class="wrapper">
+      <h2 id="preheader"><%= yield :header_h2_section %></h2>      
       <%= yield :index_section %>
-      <%= yield :header_section %>
+      <div class="rest_header">
+        <%= yield :header_section %>
+      </div>
     </div>
   </div>
 
