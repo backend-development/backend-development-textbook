@@ -33,6 +33,41 @@ When an API returns JSON data this could take many forms.
 The [json:api specification](http://jsonapi.org/) is a well thought out
 convention for this.  
 
+It is especially good with the HATEOS aspect of Rest:
+
+**Hypermedia As The Engine Of Application State** (HATEOAS), is a constraint of the REST application architecture that states that a client interacts with a network application entirely through hypermedia, and needs no prior knowledge of URLs.
+
+If an API returns the following JSON:
+
+```
+{
+    "id": "1",
+    "name": "Example User",
+    "email": "example@railstutorial.org"
+    "profile_pics": [ 2, 5 ]
+}
+```
+
+Then the Client needs to know how to get profile_pics from the API.
+For example because the developer read the docs.
+
+HATEOAS demands that the full URL is used to refer to other resources:
+
+```
+{
+    "id": "1",
+    "name": "Example User",
+    "email": "example@railstutorial.org"
+    "profile_pics": [ 
+       "https://sample.com/api/profile/pictures/2", 
+       "https://sample.com/api/profile/pictures/5"
+    ]
+}
+```
+
+The json:api specification adhers to this principle.
+
+
 Rendering JSON
 ---------
 
@@ -72,7 +107,7 @@ Content-Type: application/json; charset=utf-8
 
 This error message is meant for a
 client expecting JSON data.  It uses both the HTTP status code
-and the JSON to indigate an error.
+and the JSON to indicate the error.
 
 
 We could create views using erb in `app/views/users/show.json.erb`:
@@ -86,6 +121,7 @@ We could create views using erb in `app/views/users/show.json.erb`:
 ```
 
 and `app/views/users/index.json.erb`:
+
 ```
 [
 <% 
@@ -118,13 +154,17 @@ but there should be no comma after the last.
 ```
 
 
-Formatting JSON would get quite repetitive if we need
-to create views for several resources. 
-Rails 5 comes with the gem `jbuilder` which helps you
-create JSON. 
+Formatting JSON would get quite repetitive if we need to create views for several resources.
+We have not even touched on the problem of escaping: what happens
+if a users name contains a quote?  For example <kbd>Jack "the Ripper"</kbd>.
+That would break our current view.
 
+Rails 5 comes with the gem `jbuilder` which helps you create JSON, and
+which handles all the escaping and formatting correctly.
 
-in `app/views/users/show.json.jbuilder`:
+We need to name the view `app/views/users/show.json.jbuilder`, 
+and then can use the the following code to extract three properties
+from the user object:
 
 ```
 json.id @user.id
@@ -132,25 +172,68 @@ json.name @user.name
 json.email @user.email
 ```
 
-or, shorter:
+There is also a shorthand for this: 
 
 ```
 json.extract! @user, :id, :name, :email
 ```
 
+For the index view we want to create a JSON array. 
+In `app/views/users/index.json.jbuilder` we write:
 
-in `app/views/users/index.json.jbuilder`:
 ```
 json.array! @users do |user|
   json.extract! user, :id, :name, :email
 end
 ```
 
+All the authentication and access control we built into the
+rails app before is still applicable to the JSON views.
+
+In fact the scaffold generator always adds handling JSON responses
+to the create, update and destroy actions of a controller.
+
+For handling just HTML only this code would be needed:
+
+```
+  # POST /users
+  def create
+    @user = User.new(user_params)
+    if @user.save
+      redirect_to @user, notice: 'User was successfully created.' 
+    else
+      render :new 
+    end
+    end
+  end
+```
+
+But the scaffold generator also adds `resond_to` and `format` commands,
+to handle json differently from html:
+
+```
+  # POST /users
+  # POST /users.json
+  def create
+    @user = User.new(user_params)
+    respond_to do |format|
+      if @user.save
+        format.html { redirect_to @user, notice: 'User was successfully created.' }
+        format.json { render :show, status: :created, location: @user }
+      else
+        format.html { render :new }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+```
 
 
 
 Stand Alone API
 ---------
+
+
 
 
 See Also
