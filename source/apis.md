@@ -109,6 +109,42 @@ This error message is meant for a
 client expecting JSON data.  It uses both the HTTP status code
 and the JSON to indicate the error.
 
+### API for the sample app
+
+The "Frontend 1" in the example app expects a very simple JSON structure:
+
+To display one user, it loads from `/user/1.json` and expects
+a single JSON object with three attributes:
+
+```
+{
+   "id":1,
+   "name":"Example User",
+   "email":"example@railstutorial.org"
+}
+```
+
+
+To display the table of users, it loads from `/users.json` and
+expects a JSON array of objects like above:
+
+```
+[
+  {
+    "id":2,
+    "name":"Precious Heaney",
+    "email":"example-1@railstutorial.org"
+  },
+  {
+    "id":3,
+    "name":"Warren Considine Sr.",
+    "email":"example-2@railstutorial.org"
+  }
+]
+```
+
+### creating JSON with erb
+
 
 We could create views using erb in `app/views/users/show.json.erb`:
 
@@ -153,6 +189,7 @@ but there should be no comma after the last.
 ]
 ```
 
+### creating JSON with jbuilder
 
 Formatting JSON would get quite repetitive if we need to create views for several resources.
 We have not even touched on the problem of escaping: what happens
@@ -186,6 +223,9 @@ json.array! @users do |user|
   json.extract! user, :id, :name, :email
 end
 ```
+
+
+### authentication
 
 All the authentication and access control we built into the
 rails app before is still applicable to the JSON views.
