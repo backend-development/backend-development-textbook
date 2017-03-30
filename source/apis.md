@@ -273,7 +273,117 @@ to handle json differently from html:
 Stand Alone API
 ---------
 
+To create a stand alone API we define new, separate routes under `/api/v1`.
 
+
+```
+namespace :api do
+  namespace :v1 do
+    resources :users, only: [:index, :create, :show, :update, :destroy]
+  end
+end
+```
+
+we will be using the `active_model_serializers` gem for creating jsonapi:
+
+```
+gem 'active_model_serializers'
+```
+
+
+### JSONAPI for the sample app
+
+The "Frontend 2" in the example app expects the json to be formed
+according to the json api specification.
+
+`/api/v1/user/1` will return data about one resource:
+
+```
+{
+
+    "data": {
+        "id": "1",
+        "type": "users",
+        "attributes": {
+            "name": "Example User",
+            "email": "example@railstutorial.org"
+        }
+    }
+
+}
+```
+
+
+`/api/v1/users/` returns an array, but the top level JSON structure
+is an object with on attribute `data`:
+
+```
+{
+
+    "data": [
+        {
+            "id": "2",
+            "type": "users",
+            "attributes": {
+                "name": "Precious Heaney",
+                "email": "example-1@railstutorial.org"
+            },
+        },
+        ...
+    ]
+}
+```
+
+### creating JSON with active_model_serializers
+
+After we defined the routes, we next need to create a controller.
+As we are setting up a new hierarchy of controllers that will only
+concerned with the API, it makes sense to inhert from `ActionController::API`, 
+not from `ActionController::Base`.
+
+All the "normal" controllers first inhert from `ApplicationController`. We
+will build a similar structure for the api controllers, the will inhert from
+`Api::V1::BaseController`:
+
+
+```
+# app/controllers/api/v1/base_controller.rb
+
+class Api::V1::BaseController < ActionController::API
+end
+```
+
+The users controller is the one that's actually called by the route:
+
+```
+# app/controllers/api/v1/users_controller.rb
+
+class Api::V1::UsersController < Api::V1::BaseController
+  def show
+    user = User.find(params[:id])
+
+    render jsonapi: user, serializer: Api::V1::UserSerializer
+  end
+end
+```
+
+The controller loads the right model, and then calls a **serializer** to
+do the actual rendering of the json data.
+
+The serializer needs to be defined in a separate file:
+
+```
+# app/serializers/api/v1/user_serializer.rb
+
+class Api::V1::UserSerializer < ActiveModel::Serializer
+  attributes(:name, :email)
+end
+
+
+
+### Relationships in json api
+
+### Token Authentication 
 
 
 See Also
