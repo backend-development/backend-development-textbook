@@ -32,8 +32,8 @@ A REST API allows to access and manipulate textual representations of Web resour
 [Tilkov(2007)](https://www.infoq.com/articles/rest-introduction) gives a brief introduction to REST.  The main points are:
 
 1. Give every resource a  unique URL
-2. “Hypermedia as the engine of application state” (HATEOAS) - use URLs to reference 
-3. Use HTTP Methods (and Status Codes) as intended. See [Status codes](https://httpstatuses.com/422)
+2. “Hypermedia as the engine of application state” (HATEOAS) - use URLs to reference other resources (not just ids)
+3. Use HTTP Methods (and Status Codes) as intended. See [Methods](https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html) and [Status codes](https://httpstatuses.com/422)
 4. One resource can have multiple representations, for example HTML, JSON and XML
 5. Communicate statelessly - if possible!
 
@@ -302,6 +302,14 @@ we will be using the `active_model_serializers` gem for creating jsonapi:
 gem 'active_model_serializers'
 ```
 
+this gem needs an initizalizer `config/initializers/json_api.rb`
+
+```
+require 'active_model_serializers/register_jsonapi_renderer'
+
+ActiveModelSerializers.config.adapter = :json_api
+```
+
 
 ### JSONAPI for the sample app
 
@@ -407,3 +415,5 @@ See Also
 * [Rails Guide: Rendering JSON in Action Controller Overview](http://edgeguides.rubyonrails.org/action_controller_overview.html#rendering-xml-and-json-data)
 * [Rails Guide: Using Rails for API-only Applications](http://edgeguides.rubyonrails.org/api_app.html)
 * [Vasilakis(2017): Rails 5 API Tutorial](https://github.com/vasilakisfil/rails5_api_tutorial)
+* [Methods HTTP/1.0](https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html) 
+* [Status codes](https://httpstatuses.com/422)
