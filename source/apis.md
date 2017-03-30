@@ -302,7 +302,7 @@ we will be using the `active_model_serializers` gem for creating jsonapi:
 gem 'active_model_serializers'
 ```
 
-this gem needs an initizalizer `config/initializers/json_api.rb`
+this gem needs an initizalizer `config/initializers/active_model_serializers.rb`
 
 ```
 require 'active_model_serializers/register_jsonapi_renderer'
