@@ -33,21 +33,38 @@ A REST API allows to access and manipulate textual representations of Web resour
 
 1. Give every resource a  unique URL
 2. “Hypermedia as the engine of application state” (HATEOAS) - use URLs to reference other resources (not just ids)
-3. Use HTTP Methods (and Status Codes) as intended. See [Methods](https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html) and [Status codes](https://httpstatuses.com/422)
+3. Use HTTP Methods (and Status Codes) as intended. 
 4. One resource can have multiple representations, for example HTML, JSON and XML
 5. Communicate statelessly - if possible!
 
 
-## JSON API
+
+### URLS
+
+Please not that REST does not demand a certain form of URL.
+While URLs with no parameters are often used:
+
+```
+https://example.com/users/
+https://example.com/users/1/
+https://example.com/users/2/
+https://example.com/users/3/
+```
+
+it is just as restful to use parameters:
+
+```
+https://example.com/users.php
+https://example.com/users.php?id=1
+https://example.com/users.php?id=2
+https://example.com/users.php?id=3
+```
 
 
-When an API returns JSON data this could take many forms.
-The [json:api specification](http://jsonapi.org/) is a well thought out
-convention for this.  
+### HATEOAS
 
-It is especially good with the HATEOS aspect of Rest:
 
-**Hypermedia As The Engine Of Application State** (HATEOAS), is a constraint of the REST application architecture that states that a client interacts with a network application entirely through hypermedia, and needs no prior knowledge of URLs.
+“Hypermedia as the engine of application state”  means that a client interacts with a network application entirely through hypermedia, and needs no prior knowledge of URLs.
 
 If an API returns the following JSON:
 
@@ -76,6 +93,123 @@ HATEOAS demands that the full URL is used to refer to other resources:
     ]
 }
 ```
+
+
+### HTTP Methods and Status Codes
+
+The are two important distinctions
+
+* the GET and HEAD methods should take no other action than retrieval. These methods ought to be considered **safe**.
+* The methods GET, HEAD, PUT and DELETE are idempotent: repeating the request will not change the end result (aside from error or expiration issues)
+
+The definition of the [Methods](https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html) in HTTP1.0 is just a short read, and worth its while!
+
+
+References for status codes:
+
+* [Status codes](https://httpstatuses.com/422)
+* [Status cats](https://http.cat/)
+
+
+### Multiple Representations
+
+The same resource can be available in different formats.
+There are two common ways of requesting different formats:
+
+With the HTTP Header `Accept`:
+
+
+```
+GET /mini/person/83 HTTP/1.1
+Host: ich.multimediatechnology.at 
+Accept: application/xml
+```
+
+Or by adding an "extension" as part of the URL:
+
+```
+http://ich.multimediatechnology.at/mini/person/83.html
+http://ich.multimediatechnology.at/mini/person/83.xml
+http://ich.multimediatechnology.at/mini/person/83.json
+```
+
+The three different versions of person number 83 might look
+like this: the HTML web page:
+
+
+```
+<h1>Details zu einer Person</h1>
+<p><img src="http://ich.multimediatechnology.at/mini/profil/edvard_1_2.jpg" />
+Herr Edvard Paul Beisteiner hat insgesamt 4 Werke in dieser Datenbank.
+Er hat den Usernamen fhs14287.</p>
+<ul>
+  <li><a href='http://ich.multimediatechnology.at/mini/werk/24'>The Thin Red Line</a></li>
+  <li><a href='http://ich.multimediatechnology.at/mini/werk/50'>Der böse Wolf</a></li>
+  <li><a href='http://ich.multimediatechnology.at/mini/werk/83'>nimm zwei, schatz</a></li>
+  <li><a href='http://ich.multimediatechnology.at/mini/werk/303'>the neighbour.</a></li>
+</ul>
+```
+
+For an API the same resource might be represented as XML:
+
+```
+<person>
+  <image ref='http://ich.multimediatechnology.at/mini/profil/edvard_1_2.jpg' />
+  <vorname>Edvard</vorname>
+  <nachname>Beisteiner</nachname>
+  <username>fhs14287</username>
+  <werke>
+    <werk ref='http://ich.multimediatechnology.at/mini/werk/24'>The Thin Red Line</werk>
+    <werk ref='http://ich.multimediatechnology.at/mini/werk/50'>Der böse Wolf</werk>
+    <werk ref='http://ich.multimediatechnology.at/mini/werk/83'>nimm zwei, schatz</werk>
+    <werk ref='http://ich.multimediatechnology.at/mini/werk/303'>the neighbour.</werk>
+  </werke>
+</person>
+
+```
+
+or as JSON:
+
+```
+{"image":"http://ich.multimediatechnology.at/mini/profil/edvard_1_2.jpg",
+ "vorname":"Eduard",
+ "nachname":"Beisteiner",
+ "werk":[
+    {"titel":"The Thin Red Line",
+     "url":"http://ich.multimediatechnology.at/mini/werk/24"},
+    {"titel":"Der böse Wolf",
+     "url":"http://ich.multimediatechnology.at/mini/werk/50"},
+    {"titel":"nimm zwei, schatz",
+     "url":"http://ich.multimediatechnology.at/mini/werk/83"},
+    {"titel":"the neighbour.",
+     "url":"http://ich.multimediatechnology.at/mini/werk/303"}]}
+
+```
+
+
+
+### Statelessness
+
+
+ Tilkov wirtes: "REST mandates that state be either turned into resource state, or kept on the client. In other words, a server should not have to retain some sort of communication state for any of the clients it communicates with beyond a single request."
+
+ This is important for performance and scalability and performance.  
+ Statelessness makes caching easy.  And in a scenario with serveral
+ servers behind a load balancer, not having state on the server means
+ the application will work if the requests bei one client are routest
+ to different servers.
+
+
+
+
+## JSON API
+
+
+When an API returns JSON data this could take many forms.
+The [json:api specification](http://jsonapi.org/) is a well thought out
+convention for this.  
+
+It is especially good with the HATEOS aspect of REST.
 
 The json:api specification adhers to this principle.
 
