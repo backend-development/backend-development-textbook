@@ -1,10 +1,10 @@
 APIs
-=======================
+=====
 
 After working through this guide you will:
 
 * know about the thinking behind REST APIs and JSON API
-* be able to configure your existing controllers to offer resourses as JSON
+* be able to configure your existing controllers to offer resources as JSON
 * be able to set up an API for your rails app that is separate from existing controllers
 
 REPO: You can study the [code](https://github.com/backend-development/api_sample_app) and try out [the demo](https://dry-cove-38472.herokuapp.com/) for the example described here.
