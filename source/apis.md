@@ -22,7 +22,7 @@ the architecture of the web, and what made it so successfull on a technical leve
 he desribed this architecture as "Representational State Transfer" (REST).
 
 This Acronym was later picked up to describe a certain style of API,
-and to distiguishe such APIs from SOAP APIs.
+and to distiguish such APIs from SOAP APIs.
 
 A REST API allows to access and manipulate textual representations of Web resources using HTTP Methods and stateless operations. 
 
@@ -41,7 +41,8 @@ A REST API allows to access and manipulate textual representations of Web resour
 
 ### URLS
 
-Please not that REST does not demand a certain form of URL.
+Give every resource a  unique URL.
+Please note that REST does not demand a certain form of URL.
 While URLs with no parameters are often used:
 
 ```
@@ -59,6 +60,18 @@ https://example.com/users.php?id=1
 https://example.com/users.php?id=2
 https://example.com/users.php?id=3
 ```
+
+In REST, the URLs correspond to resources, which are represented by nouns.
+This is a difference to SOAP, there there is typically just one endpoint:
+
+
+```
+https://example.com/soap/router/
+```
+
+Through this endpoint you can access methods like `getUserData()` or `deleteUser()`. 
+
+
 
 
 ### HATEOAS
@@ -97,7 +110,9 @@ HATEOAS demands that the full URL is used to refer to other resources:
 
 ### HTTP Methods and Status Codes
 
-The are two important distinctions
+Use HTTP Methods (and Status Codes) as intended.  
+
+Regarding the HTTP Methods there are two important distinctions:
 
 * the GET and HEAD methods should take no other action than retrieval. These methods ought to be considered **safe**.
 * The methods GET, HEAD, PUT and DELETE are idempotent: repeating the request will not change the end result (aside from error or expiration issues)
@@ -110,6 +125,11 @@ References for status codes:
 * [Status codes](https://httpstatuses.com/422)
 * [Status cats](https://http.cat/)
 
+
+When buidling a REST API, the HTTP Protocol already defines a lot
+about that API. There is no need to come up with a way to delete
+a resource, or to indicate failure. HTTP already offers the DELETE method
+and status codes that indicate errors.
 
 ### Multiple Representations
 
@@ -535,9 +555,12 @@ end
 ```
 
 
-### Relationships in json api
+# Documenting an API
 
-### Token Authentication 
+
+
+See Halliday(2016): [Producing Documentation for Your Rails API](https://blog.codeship.com/producing-documentation-for-your-rails-api/) for a discussion of automatic methods of documentation generation.
+
 
 
 See Also
