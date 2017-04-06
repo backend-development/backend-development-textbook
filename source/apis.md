@@ -11,9 +11,17 @@ REPO: You can study the [code](https://github.com/backend-development/api_sample
 
 ---------------------------------------------------------------------------
 
-What is an API
----------------
+## What is an API
 
+API stands for "Application Programming Interface". It is a set of clearly defined methods 
+of communication with a software component. So the objects and methods exposed by a library
+form an API, for example the 
+
+In Web development the acronym API is most
+commonly used when the software component in question runs on a different server on the
+Internet and is accessed via the network.  
+
+This Guide is concerned with APIs that you build and run using Ruby on Rails.
 
 ## REST
 
@@ -141,16 +149,16 @@ With the HTTP Header `Accept`:
 
 ```
 GET /mini/person/83 HTTP/1.1
-Host: ich.multimediatechnology.at 
+Host: example.com 
 Accept: application/xml
 ```
 
 Or by adding an "extension" as part of the URL:
 
 ```
-http://ich.multimediatechnology.at/mini/person/83.html
-http://ich.multimediatechnology.at/mini/person/83.xml
-http://ich.multimediatechnology.at/mini/person/83.json
+http://example.com/mini/person/83.html
+http://example.com/mini/person/83.xml
+http://example.com/mini/person/83.json
 ```
 
 The three different versions of person number 83 might look
@@ -159,14 +167,14 @@ like this: the HTML web page:
 
 ```
 <h1>Details zu einer Person</h1>
-<p><img src="http://ich.multimediatechnology.at/mini/profil/edvard_1_2.jpg" />
+<p><img src="http://example.com/mini/profil/edvard_1_2.jpg" />
 Herr Edvard Paul Beisteiner hat insgesamt 4 Werke in dieser Datenbank.
 Er hat den Usernamen fhs14287.</p>
 <ul>
-  <li><a href='http://ich.multimediatechnology.at/mini/werk/24'>The Thin Red Line</a></li>
-  <li><a href='http://ich.multimediatechnology.at/mini/werk/50'>Der böse Wolf</a></li>
-  <li><a href='http://ich.multimediatechnology.at/mini/werk/83'>nimm zwei, schatz</a></li>
-  <li><a href='http://ich.multimediatechnology.at/mini/werk/303'>the neighbour.</a></li>
+  <li><a href='http://example.com/mini/werk/24'>The Thin Red Line</a></li>
+  <li><a href='http://example.com/mini/werk/50'>Der böse Wolf</a></li>
+  <li><a href='http://example.com/mini/werk/83'>nimm zwei, schatz</a></li>
+  <li><a href='http://example.com/mini/werk/303'>the neighbour.</a></li>
 </ul>
 ```
 
@@ -174,15 +182,15 @@ For an API the same resource might be represented as XML:
 
 ```
 <person>
-  <image ref='http://ich.multimediatechnology.at/mini/profil/edvard_1_2.jpg' />
+  <image ref='http://example.com/mini/profil/edvard_1_2.jpg' />
   <vorname>Edvard</vorname>
   <nachname>Beisteiner</nachname>
   <username>fhs14287</username>
   <werke>
-    <werk ref='http://ich.multimediatechnology.at/mini/werk/24'>The Thin Red Line</werk>
-    <werk ref='http://ich.multimediatechnology.at/mini/werk/50'>Der böse Wolf</werk>
-    <werk ref='http://ich.multimediatechnology.at/mini/werk/83'>nimm zwei, schatz</werk>
-    <werk ref='http://ich.multimediatechnology.at/mini/werk/303'>the neighbour.</werk>
+    <werk ref='http://example.com/mini/werk/24'>The Thin Red Line</werk>
+    <werk ref='http://example.com/mini/werk/50'>Der böse Wolf</werk>
+    <werk ref='http://example.com/mini/werk/83'>nimm zwei, schatz</werk>
+    <werk ref='http://example.com/mini/werk/303'>the neighbour.</werk>
   </werke>
 </person>
 
@@ -191,18 +199,18 @@ For an API the same resource might be represented as XML:
 or as JSON:
 
 ```
-{"image":"http://ich.multimediatechnology.at/mini/profil/edvard_1_2.jpg",
+{"image":"http://example.com/mini/profil/edvard_1_2.jpg",
  "vorname":"Eduard",
  "nachname":"Beisteiner",
  "werk":[
     {"titel":"The Thin Red Line",
-     "url":"http://ich.multimediatechnology.at/mini/werk/24"},
+     "url":"http://example.com/mini/werk/24"},
     {"titel":"Der böse Wolf",
-     "url":"http://ich.multimediatechnology.at/mini/werk/50"},
+     "url":"http://example.com/mini/werk/50"},
     {"titel":"nimm zwei, schatz",
-     "url":"http://ich.multimediatechnology.at/mini/werk/83"},
+     "url":"http://example.com/mini/werk/83"},
     {"titel":"the neighbour.",
-     "url":"http://ich.multimediatechnology.at/mini/werk/303"}]}
+     "url":"http://example.com/mini/werk/303"}]}
 
 ```
 
@@ -218,8 +226,6 @@ or as JSON:
  servers behind a load balancer, not having state on the server means
  the application will work if the requests bei one client are routest
  to different servers.
-
-
 
 
 ## JSON API
