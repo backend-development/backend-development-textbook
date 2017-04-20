@@ -730,13 +730,15 @@ faster access.
 ### final thoughts
 
 
-If we add the relationship from projects to collaborators to degree_programs
-to the Project and Collaborator model, we can also include degree_programs in our
+If we add a relationship from projects to degree_program (actually: three `has_many through:` steps to get from projects to collaborators,
+and from collaborators to users, and from users to degree_programs), we can also include degree_programs in our
 includes statement when loading the project:
 
 ```
 @project = Project.includes(:users, :roles, :assets, :urls, :tags, :degree_programs).friendly.find(params[:id])
 ```
+
+
 
 This way we end up with only very few sql queries, and a big performance improvement:
 
