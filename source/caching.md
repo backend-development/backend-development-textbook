@@ -400,10 +400,10 @@ The next time the same page was rendered the edition cache was reused.
 
 Caching is really helpful for pages that are accessed a lot.
 In our example app this might be true for the homepage and
-maybe the editions.   But there are hundres of projects in the portfolio.
-Each individual project page will only get very view hits.
+maybe the editions.   But there are hundreds of projects in the portfolio.
+Each individual project page will only get very few hits.
 Which means that chances are high that the page will not
-already be in the cache.
+already be in the cache when it is requested.
 
 So caching cannot be the solution to all performance problems.
 We need to take a closer look at the first render of a page
@@ -742,7 +742,10 @@ This way we end up with only very few sql queries, and a big performance improve
 
 ![final state of the app](images/before-after.png)
 
-
+ActiveRecord was a big help when writing this app. But it cannot find
+the best solution for every situation. As a developer you have to keep
+an eye on your ORM, and check now and again if the SQL queries that the
+ORM creates make sense and are efficient.
 
 
 See Also
