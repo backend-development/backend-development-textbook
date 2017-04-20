@@ -316,7 +316,7 @@ In Rails 5 you can add caching here:
 <%= render :partial => "projects/project", :collection => @samples[i], :cached => true %>
 ```
 
-Now instead of fetching each pratial from the cache one by one
+Now instead of fetching each partial from the cache one by one
 rails will do a multi-fetch, which is faster.  But our example app is written
 in Rails 4, so this does not work yet.
 
@@ -347,7 +347,7 @@ This change will again speed up the display of the page:
 ![russian doll caching](images/russian.png)
 
 But now we have  problem:  if we change one of the projects
-inside this edition, the cache for the pratial would be recreated.
+inside this edition, the cache for the partial would be recreated.
 But this never gets triggered, because the cache for the
 whole edition is still valid:
 
@@ -390,7 +390,7 @@ This key works for all changes in an edition:
 
 In this example the title of one of the projects was changed:
 You can see in rack-mini-profiler that only one of the
-pratials was recreated, all the other partials were loaded from cache.
+partials was recreated, all the other partials were loaded from cache.
 The next time the same page was rendered the edition cache was reused.
 
 ![russian doll caching at work: changes when a project changes](images/russian-change.png)
