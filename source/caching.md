@@ -4,12 +4,16 @@ Caching
 What is even better than having a really fast web
 server, framework, programming language that creates
 your web page?  Not having to create and load the page at all
-becaus it's already there in a cache.
+because it's already there in a cache.
 
 After working through this guide you will:
 
-* be aware of many levels of caches that influence your web app
+* know that many different caches influence your web app:
+** HTTP caching (you know that already from the asset pipeline)
+** Fragment caching
+** ActiveRecord QueryCachg
 * be able to configure rails for caching
+* be able to measure if a change you made improved the performance of your rails app
 
 
 REPO: You can study [the demo](https://shrouded-dawn-29154.herokuapp.com/) for the example described here.
@@ -28,7 +32,6 @@ you should consider these wise words:
 This is a warning against making things worst by trying to "optimize" them.
 It's not an "optimization" if you make things worst. So keep these things
 in the right order:
-
 
 1. Is there a performance problem? If not: stop. do not change your system. It is good enough.
 2. Find out where the bottleneck is. Do this by measuring, using appropriate tools.
@@ -122,8 +125,13 @@ the webpage.  So we need to compare the numbers Mini Profiler gives us to the
 300ms threshold defined above.
 
 
+## Caching in the Asset Pipeline
 
-## Caching Examples
+See the chapter about the [Asset Pipeline](https://backend-development.github.io/asset_pipeline.html) 
+for HTTP caching.
+
+
+## Fragment Caching
 
 We will use a portfolio site as an example app.  All the screenshots
 above already show this example app.   You can study [the demo](https://shrouded-dawn-29154.herokuapp.com/) 
@@ -388,7 +396,7 @@ The next time the same page was rendered the edition cache was reused.
 ![russian doll caching at work: changes when a project changes](images/russian-change.png)
 
 
-### The limits of caching
+### The limits of fragment caching
 
 Caching is really helpful for pages that are accessed a lot.
 In our example app this might be true for the homepage and
@@ -410,7 +418,7 @@ config.action_controller.perform_caching = false
 [...]
 ```
 
-## ActiveRecord Examples
+## ActiveRecord and DB
 
 Accessing the database takes a long time - compared to all
 the computation that is done in ruby code itself.  So looking
@@ -742,6 +750,7 @@ See Also
 
 * [Rails Guide: Caching](http://guides.rubyonrails.org/caching_with_rails.html)
 * [Rails Guide: Active Record Query Interface. N+1 problems](http://guides.rubyonrails.org/active_record_querying.html#eager-loading-associations)
+* [Berkopec(2015): Speed Up Your Rails App by 66% - The Complete Guide to Rails Caching](https://www.speedshop.co/2015/07/15/the-complete-guide-to-rails-caching.html)
 * [bullet gem for finding n+1 problems](https://github.com/flyerhzm/bullet#readme)
 * [Using database views for performance wins in Rails](https://content.pivotal.io/blog/using-database-views-for-performance-wins-in-rails)
 * [materialized views in mysql](http://www.fromdual.ch/mysql-materialized-views)
