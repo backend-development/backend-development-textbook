@@ -13,18 +13,16 @@ By referring to this guide, you will be able to:
 
 TODO:
 
-* check out
 * rewrite example test for minitest
+
+
+REPO: You can fork the [code of the example app](https://github.com/web-engineering/rails-example-security). his app is full of security holes. While reading this guide you should
+work on the app and fix those holes one by one.
+
 
 ---------------------------------------------------------------------------
 
-Example App
----------------
 
-This guide comes with an example app, you can find the source on github:
-[rails-example-security](https://github.com/web-engineering/rails-example-security).
-This app is full of security holes. While reading this guide you should
-work on the app and fix those holes one by one.
 
 
 Don't display confidential data

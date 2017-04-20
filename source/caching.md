@@ -123,53 +123,272 @@ the webpage.  So we need to compare the numbers Mini Profiler gives us to the
 
 
 
-## Example App
+## Caching Examples
 
 We will use a portfolio site as an example app.  All the screenshots
-above already show this example app.  We will focus on the projects show action.
+above already show this example app.   You can study [the demo](https://shrouded-dawn-29154.herokuapp.com/) 
+on heroku, there all the caching is already implemented. 
 
-If you look at the miniprofiler above, a first glance rendering
-the view takes too long: 450ms is spent there.
-118ms are spent in rendering one `_collaborator` partial.  So this seems a promising
-place to start optimizing.
+
+### Configure Caching
 
 Caching is deactivated by default in the development environment. 
 You have to activate it if you want to try this out in development:
 
 
 ```
-#config/environments/development.rb
+# config/environments/development.rb
 
 [...]
 config.action_controller.perform_caching = true
 [...]
 ```
 
-You have to decide on a cache store, for example in-memory:
+You have to decide on a cache store. For production the simplest
+method when using just one web server is in-memory:
 
 
 ```
+# config/environments/production.rb
+
    require 'active_support/core_ext/numeric/bytes'
    config.cache_store = :memory_store, { size: 64.megabytes }
 ```
 
+To get a quick impression of what is saved to the cache
+it is helpful to use the file_store in development:
 
-### caching the project show view
+```
+# config/environments/development.rb
+
+  config.cache_store = :file_store, "#{Rails.root}/tmp/file_store"  
+```
 
 
-add this around the project view:
+### Caching a View
+
+If you look at the miniprofiler above, a first glance rendering
+the project show view takes too long: 450ms.  We could dig
+into the details, but let's try a simple approach first: cache
+the whole view.
+
+
+add this around the  whole project view:
 
 ```
 <% cache @project do %>
+...
 <% end %>
 ```
 
-The result is stunning:
+The result is stunning: from 450ms down to 45ms:
 
 ![https://github.com/MiniProfiler/rack-mini-profiler](images/rack-mini-profiler-faster.png)
 
 
-tbc...
+#### How caching works
+
+So what happens here?  When the view is rendered for the first time
+for a project, it will be rendered normally (and still take around 450ms).
+In the log file you will see a message like this:
+
+```
+Write fragment views/projects/1679-20140722193808000000000/0db0955317bafa37cc34ffcb7567a874 (19.1ms)
+```
+
+This shows the key that is used for the fragment.  This key depends
+on both the object we specified (here @project), and on the view fragment.
+In this example '1679' is the id of @project, and '20140722193808000000000' is
+the current value of its `updated_at` attribute. The last part
+of the key is a hash of the view fragment inside the `cache` block.
+
+So if either the object or the view changes, a new key will be generated
+and thus the cache is expired.
+
+
+When the view is rendered for the second time, you find the following message in the
+log file:
+
+```
+Read fragment views/projects/1679-20140722193808000000000/0db0955317bafa37cc34ffcb7567a874 (1.9ms)
+```
+
+Here the cache is read out.  
+
+#### Peeking into the cache
+
+You can also read from the cache in the rails console:
+
+```
+irb(main):002:0> Rails.cache.read('views/projects/1679-20140722193808000000000/0db0955317bafa37cc34ffcb7567a874')
+```
+
+The result is a string with 14716 bytes of html (too long to show here).
+
+
+
+When using file_store you can also find the cache in the directory you specified. 
+A two level directory structure will be generated for the cache files, 
+for example:
+
+```
+$ ls  tmp/file_store/*/*/*
+tmp/file_store/5CD/A81/views%2Fprojects%2F2205-20170312162506000000000%2F0db0955317bafa37cc34ffcb7567a874
+tmp/file_store/5D0/6A1/views%2Fprojects%2F2182-20170313205317000000000%2F0db0955317bafa37cc34ffcb7567a874
+tmp/file_store/5D7/A81/views%2Fprojects%2F2208-20170321190926000000000%2F0db0955317bafa37cc34ffcb7567a874
+tmp/file_store/5E6/091/views%2Fprojects%2F1679-20140722193808000000000%2F0db0955317bafa37cc34ffcb7567a874
+```
+
+#### Changing the model
+
+Now let's check if the cache is really invalidated when the underlying model
+changes.  Load the project "Origin" in your web browser: http://localhost:3000/projects/2015-origin
+
+In the rails console you can find the corresponding model, and change an attribute:
+
+```
+project = Project.find_by_title('Origin')
+project.description = project.description + " and some new information"
+project.save
+```
+
+Now reload the browser to make sure that a new version of the page is rendered.
+Reload again to check if the new version is cached.
+
+
+### Caching a Partial
+
+If you look at the homepage of [the demo](https://shrouded-dawn-29154.herokuapp.com/)
+you can see that the list of project under "Bachelorprojete" is different every time
+you reload the page. There are 9 projects in all, but only 5 will be picked randomly
+and will be displayed.
+
+If we want to keep this feature caching the whole homepage will not work: once
+the homepage is cached, a reload of the page will show the exact same page.
+The same five projects will appear on the homepage indefinetly.
+
+We could change our expectations for the random display: 
+We could decide that the same 5 projects should be shown for a whole day, 
+and only on the next day new projects should be picked.
+
+This would work for our example app. a second approeach would be
+to not cache the whole homepage, but only the display of an individual project. 
+This means going down to the `projects/_project` partial, and caching that.
+
+This second approach is useful not just for our "random projects". Think
+of the "activity stream" on the facebook hompage: it will look differently
+for each user, and each time the page is loaded.  But it consists of
+smaller fragments which can be cached: the individual status message, or event,
+or photo can be reused.
+
+#### Implementation
+
+When you add the code for caching to the `projects/_project` view
+make sure that you specify the correct object.  If not, you might up
+loading the same partial again and again:
+
+![problem with fragement caching](images/caching-error.png)
+
+If you implement it correctly each rendering of the partial should 
+be faster now:
+
+![successful fragement caching](images/compare-caching.png)
+
+In Rails 5 you can speed up the rendering even more. 
+If you look at the `fronts/show` view you can see that the project partial
+is rendered through a collection:
+
+```
+<%= render :partial => "projects/project", :collection => @samples[i] %>
+```
+
+In Rails 5 you can add caching here:
+
+```
+<%= render :partial => "projects/project", :collection => @samples[i], :cached => true %>
+```
+
+Now instead of fetching each pratial from the cache one by one
+rails will do a multi-fetch, which is faster.  But our example app is written
+in Rails 4, so this does not work yet.
+
+See [Deshmane(2016)](http://blog.bigbinary.com/2016/03/09/rails-5-makes-partial-redering-from-cache-substantially-faster.html)
+
+#### Side Effects
+
+An unexpected side effect of caching the partial can be seen in the
+[edition view](https://shrouded-dawn-29154.herokuapp.com/editions/bachelorprojekte-web-2015):
+this view also uses the `projects/_project` partial, so it too will 
+profit from the caching.
+
+### Russian Doll Caching
+
+In the previous step we implemented caching for the `projects/_project` partial,
+which is also used in the `editions/show` view.  Now let's add caching to this
+view also:
+
+
+```
+<% cache @edition do %>
+...
+<% end %>
+```
+
+This change will again speed up the display of the page:
+
+![russian doll caching](images/russian.png)
+
+But now we have  problem:  if we change one of the projects
+inside this edition, the cache for the pratial would be recreated.
+But this never gets triggered, because the cache for the
+whole edition is still valid:
+
+
+```
+project = Project.find_by_title('Origin')
+project.title = 'Orange'
+project.save
+```
+
+If you reload the page now, you can still see the project named "Origin", not
+"Orange".
+
+The problem here is a missing dependency: our cache entry only depends
+on the edition, not on the projects contained in the edition.
+
+We can declare the full dependency by supplying an array of objects to
+the cache helper method:
+
+```
+<% cache [@edition,@edition.projects] do %>
+...
+<% end %>
+```
+
+If you reload the page now, you can see that a much longer cache key is
+generated:
+
+```
+Write fragment views/editions/16-20160202125058000000000/projects/1622-20141216101932000000000 /projects/1658-20150601055523000000000/projects/1773-20170420014824000000000/projects/1835-20150604061050000000000/projects/1864-20150611174811000000000/projects/1872-20150603140238000000000/projects/1873-20150603084648000000000/projects/1879-20150606174629000000000/projects/2044-20161010124545000000000/e212725e51fc97160af625b6651e38b8
+```
+
+This key works for all changes in an edition:  
+
+* changing an attribute of the **edition** will change the `updated_at` attribute also, and will change the key
+* changing an attribute of one of the **projects** will change the corresponding `updated_at` attribute also, and will change the key
+* adding a **new project** to the edition will make the key longer
+* **removing a project** from the edition will make the key shorter 
+
+
+In this example the title of one of the projects was changed:
+You can see in rack-mini-profiler that only one of the
+pratials was recreated, all the other partials were loaded from cache.
+The next time the same page was rendered the edition cache was reused.
+
+![russian doll caching at work: changes when a project changes](images/russian-change.png)
+
+
+
 
 See Also
 --------
