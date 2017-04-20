@@ -388,9 +388,324 @@ The next time the same page was rendered the edition cache was reused.
 ![russian doll caching at work: changes when a project changes](images/russian-change.png)
 
 
+### The limits of caching
+
+Caching is really helpful for pages that are accessed a lot.
+In our example app this might be true for the homepage and
+maybe the editions.   But there are hundres of projects in the portfolio.
+Each individual project page will only get very view hits.
+Which means that chances are high that the page will not
+already be in the cache.
+
+So caching cannot be the solution to all performance problems.
+We need to take a closer look at the first render of a page
+to find where we are wasting time.
+To do this it makes sense to switch off caching in development:
+
+```
+# config/environments/development.rb
+
+[...]
+config.action_controller.perform_caching = false
+[...]
+```
+
+## ActiveRecord Optimisation Examples
+
+Accessing the database takes a long time - compared to all
+the computation that is done in ruby code itself.  So looking
+at the Database, and the ORM we use to access the database, might
+make sense for performance optimisation.
+
+
+### Ignore this
+
+If you  find `SHOW FULL FIELDS` queries in your log file or in rack-mini-profiler,
+you can ignore them.  These
+queries are used by activerecord to find out which attributes an
+object has.  In production these will only occur when the first
+object of a type is loaded, so you can savely ignore them.
+
+
+### QueryCache
+
+If you look into the log file `logs/development.log` you will
+see all the SQL queries made to the database, and also some that
+are not really sent to the database.
+
+Here are some lines from a log file:
+
+```
+Started GET "/projects/2014-yokaisho" for ::1 at 2017-04-20 04:40:10 +0200
+Processing by ProjectsController#show as HTML
+  Parameters: {"id"=>"2014-yokaisho"}
+...
+  User Load (6.9ms)  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 953 LIMIT 1
+...
+  CACHE (0.1ms)  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 953 LIMIT 1  [["id", 953]]
+...
+  CACHE (0.0ms)  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 953 LIMIT 1  [["id", 953]]
+...
+  CACHE (0.1ms)  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 953 LIMIT 1  [["id", 953]]
+```
+
+What we can see here is that the Data for user 953 was loaded four times.
+Somewhere in our rails app we call `User.find(953)` or similar ActiveRecord
+methods four times.
+
+But only the first time a SQL requests is really sent to the database. Loading
+the data from the database took 6.9 ms here.
+
+The next three times the same user was loaded, it was loaded from the
+ActiveRecord QueryCache, which only took 0.1ms or less.
+
+The default behaviour is that rails loads each model only once for each
+HTTP request. For the next HTTP request the QueryCache is cleard.
+
+If you ever run into problems with the QueryCache, you can always
+reload a model explicitly:
+
+
+```
+user = User.find(953)
+# will do SQL request
+user = User.find(953)
+# will use the query cache
+user.reload
+# bust the query cache, do a real SQL query
+``` 
+
+### n+1 queries
+
+When analysing the SQL queries a rails project generates
+you will often find this situation: you have a 1:n relationship,
+for example: a project has many users.  When displaying
+the project with all of its users you see n+1 queries.
+In our example app this happens:
+
+```
+SELECT * FROM `projects` WHERE `slug` = '2014-yokaisho' ORDER BY `projects`.`id` ASC LIMIT 1
+SELECT * FROM `projects_roles_users` WHERE `project_id` IN (1622)
+SELECT * FROM `users` WHERE `id` = 1033 LIMIT 1
+SELECT * FROM `users` WHERE `id` = 1018 LIMIT 1
+SELECT * FROM `users` WHERE `id` = 901 LIMIT 1
+SELECT * FROM `users` WHERE `id` = 938 LIMIT 1
+SELECT * FROM `users` WHERE `id` = 945 LIMIT 1
+SELECT * FROM `users` WHERE `id` = 977 LIMIT 1
+SELECT * FROM `users` WHERE `id` = 953 LIMIT 1
+SELECT * FROM `users` WHERE `id` = 652 LIMIT 1
+SELECT * FROM `users` WHERE `id` = 940 LIMIT 1
+```
+
+Here 9 users belong to the project. They are loaded using 9 requests.
+This is inefficient!  If we were coding SQL by hand, 
+we could get the same data using one query with a join.
+
+We can use rack-mini-profiler to find the code line that generated
+the request:
+
+![finding the source code for a sql request](images/sql-project.png)
+
+
+In this example, the ActiveRecord method that generate
+the first request is in project_controller.rb, line 26
+
+```
+@project = Project.friendly.find(params[:id])
+```
+
+Later, in the view and partials, the relationships from
+@project to users is accessed.
+
+To get ActiveRecord to automatically load **all the users** at once
+we can change this one line to use the 'includes' method:
+
+```
+@project = Project.includes(:users).friendly.find(params[:id])
+```
+
+After this change we find a lot less SQL requests:
+
+```
+SELECT * FROM `projects` WHERE `slug` = '2014-yokaisho' ORDER BY `projects`.`id` ASC LIMIT 1
+SELECT * FROM `projects_roles_users` WHERE `project_id` IN (1622)
+SELECT * FROM `users` WHERE `id` IN (1033, 1018, 901, 938, 945, 977, 953, 652, 940)
+```
+
+This makes a measurable difference:
+
+![compare render times with and withoud include](images/sql-include.png)
+
+In this example there are many more models that belong to a project.
+If we include them all, we end up with a sizable reduction in SQL queries:
+
+```
+@project = Project.includes(:users, :roles, :assets, :urls, :tags).friendly.find(params[:id])
+```
+
+
+![compare render times with many includes](images/sql-include-more.png)
+
+
+### view
+
+We still have many more SQL queries that are created
+for the `collaborators/_show` partial. 
+
+The collaborator partial shows information
+about one team member: the thumbnail, the name, their degree program(s)
+and the role(s) they had in the project.
+
+![collaborator partial](images/collaborator.png)
+
+The information about the degree programs is found in 2 different tables:
+
+* studycourses
+* agegroups_studycourses_departments_users
+
+
+To display "MMT Bachelor 2010, MMT Master 2014"
+for Mr. Huber the helper method `print_studycourses` is used. We can try out this
+helper method in the rails console:
+
+```
+> user = User.find(901)
+  User Load (0.5ms)  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 901 LIMIT 1
+> ApplicationController.helpers.print_studycourses(user)
+  Enrollment Load (0.5ms)  SELECT `agegroups_studycourses_departments_users`.* FROM `agegroups_studycourses_departments_users` WHERE `agegroups_studycourses_departments_users`.`user_id` = 901
+  Studycourse Load (0.3ms)  SELECT  `studycourses`.* FROM `studycourses` WHERE `studycourses`.`id` = 3 LIMIT 1
+  Agegroup Load (0.4ms)  SELECT  `agegroups`.* FROM `agegroups` WHERE `agegroups`.`id` = 3 LIMIT 1
+  Studycourse Load (0.4ms)  SELECT  `studycourses`.* FROM `studycourses` WHERE `studycourses`.`id` = 5 LIMIT 1
+  Agegroup Load (0.4ms)  SELECT  `agegroups`.* FROM `agegroups` WHERE `agegroups`.`id` = 19 LIMIT 1
+```
+
+Here information from three database tables is combined.
+
+In the database console we can build a simple select statement with two
+joins to get the same information:
+
+```
+mysql> SELECT user_id, concat(studycourses.name, ' ', year) AS name 
+FROM agegroups_studycourses_departments_users x 
+LEFT JOIN studycourses ON (x.studycourse_id=studycourses.id) 
+LEFT JOIN agegroups ON (x.agegroup_id=agegroups.id) 
+WHERE user_id=901;
++---------+-------------------+
+| user_id | name              |
++---------+-------------------+
+|     901 | MMT Bachelor 2010 |
+|     901 | MMT Master 2014   |
++---------+-------------------+
+2 rows in set (0,01 sec)
+```
+
+We can create a view in the database that contains this information:
+
+```
+mysql> CREATE VIEW degree_programs AS 
+SELECT user_id, concat(studycourses.name, ' ', year) AS name 
+FROM agegroups_studycourses_departments_users x 
+LEFT JOIN studycourses ON (x.studycourse_id=studycourses.id) 
+LEFT JOIN agegroups ON (x.agegroup_id=agegroups.id);
+Query OK, 0 rows affected (0,06 sec)
+```
+
+This view can now be used like any other table in the database:
+
+```
+mysql> SELECT * from degree_programs WHERE user_id=901 ;
++---------+-------------------+
+| user_id | name              |
++---------+-------------------+
+|     901 | MMT Bachelor 2010 |
+|     901 | MMT Master 2014   |
++---------+-------------------+
+2 rows in set (0,00 sec)
+```
+
+In Rails we can define a model for this view:
+
+```
+app/models/degree_program.rb
+class DegreeProgram < ActiveRecord::Base
+  belongs_to :user
+
+  def to_s
+    name
+  end
+end
+```
+
+And add a relationship from user:
+
+```
+class User < ActiveRecord::Base
+...
+  has_many :degree_programs  
+```
+
+back in the rails console we can now use this new model:
+
+```
+> user = User.find(901)
+  User Load (0.5ms)  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 901 LIMIT 1
+> user.degree_programs.join(', ')
+  DegreeProgram Load (0.6ms)  SELECT `degree_programs`.* FROM `degree_programs` WHERE `degree_programs`.`user_id` = 901
+=> "MMT Bachelor 2010, MMT Master 2014"
+```
+
+And finally we can refactor the helper method print_studycourses
+
+```
+  def print_studycourses(student)
+    student.degree_programs.join(', ')
+  end
+```
+
+This reduces the number of SQL statements to one per collaborator partial:
+
+![view](images/view.png)
+
+
+To deploy the view to production, you need to create it with a migration:
+
+```
+class CreateViewDegreeProgram < ActiveRecord::Migration
+  def up
+    execute <<-SQL
+      CREATE VIEW degree_programs AS
+      SELECT user_id, concat(studycourses.name, ' ', year) AS name
+      FROM agegroups_studycourses_departments_users x
+      LEFT JOIN studycourses ON (x.studycourse_id=studycourses.id)
+      LEFT JOIN agegroups ON (x.agegroup_id=agegroups.id)
+    SQL
+  end
+  def down
+    execute 'DROP VIEW degree_programs'
+  end  
+end
+```
+
+
+If we add the relationship from projects to collaborators to degree_programs
+to the Project and Collaborator model, we can also include degree_programs in our
+includes statement when loading the project:
+
+```
+@project = Project.includes(:users, :roles, :assets, :urls, :tags, :degree_programs).friendly.find(params[:id])
+```
+
+This way we end up with only very few sql queries, and a big performance improvement:
+
+![final state of the app](images/before-after.png)
+
+
 
 
 See Also
 --------
 
 * [Rails Guide: Caching](http://guides.rubyonrails.org/caching_with_rails.html)
+* [Rails Guide: Active Record Query Interface. N+1 problems](http://guides.rubyonrails.org/active_record_querying.html#eager-loading-associations)
+* [bullet gem for finding n+1 problems](https://github.com/flyerhzm/bullet#readme)
+* [Using database views for performance wins in Rails](https://content.pivotal.io/blog/using-database-views-for-performance-wins-in-rails)
