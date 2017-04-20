@@ -410,7 +410,7 @@ config.action_controller.perform_caching = false
 [...]
 ```
 
-## ActiveRecord Optimisation Examples
+## ActiveRecord Examples
 
 Accessing the database takes a long time - compared to all
 the computation that is done in ruby code itself.  So looking
@@ -581,6 +581,8 @@ helper method in the rails console:
 
 Here information from three database tables is combined.
 
+#### createing a database view
+
 In the database console we can build a simple select statement with two
 joins to get the same information:
 
@@ -622,6 +624,9 @@ mysql> SELECT * from degree_programs WHERE user_id=901 ;
 +---------+-------------------+
 2 rows in set (0,00 sec)
 ```
+
+
+#### model and relationships for the view
 
 In Rails we can define a model for this view:
 
@@ -666,6 +671,8 @@ This reduces the number of SQL statements to one per collaborator partial:
 
 ![view](images/view.png)
 
+#### create view in production
+
 
 To deploy the view to production, you need to create it with a migration:
 
@@ -685,6 +692,34 @@ class CreateViewDegreeProgram < ActiveRecord::Migration
   end  
 end
 ```
+
+#### uses and limitations of view
+
+In this case the view might be a first step towards refactoring
+the database.  We just have too many tables in the database that
+are not really needed.
+
+We can rewrite the rails app step by step to use only the new view,
+and not the database tables it is supposed to replace. after we
+have changed all the rails code, we can drop the view, and create
+a table with the same data instead.  Then we can drop the original tables
+and are finished with the database refactoring.
+
+
+In other cases you might use a view permanently: If you need both
+the underlying, more complex data, and the simplified data in the view.
+Reports with aggregated data, top 10 lists, queries that use
+complex database expressions, or tables with a reduced set
+of attributes would be good examples for using a view.
+
+For data that is accessed a lot, but changes very seldom, you can
+us a **materialized view**.  In a normal view each access to the view
+triggers the underlying sql requests.  In a materialized view the
+data is copied over to the view once. This needs more memory, but gives
+faster access.
+
+
+### final thoughts
 
 
 If we add the relationship from projects to collaborators to degree_programs
@@ -709,3 +744,5 @@ See Also
 * [Rails Guide: Active Record Query Interface. N+1 problems](http://guides.rubyonrails.org/active_record_querying.html#eager-loading-associations)
 * [bullet gem for finding n+1 problems](https://github.com/flyerhzm/bullet#readme)
 * [Using database views for performance wins in Rails](https://content.pivotal.io/blog/using-database-views-for-performance-wins-in-rails)
+* [materialized views in mysql](http://www.fromdual.ch/mysql-materialized-views)
+* [materialized view in postgres](https://www.postgresql.org/docs/9.3/static/rules-materializedviews.html)
