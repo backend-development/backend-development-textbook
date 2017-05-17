@@ -29,6 +29,24 @@ Websockets are built on top of HTTP and HTTPS:
 but after the initial request, a websocket turns into
 a permanent connection between the server and the client.
 
+
+```
+GET /chat HTTP/1.1
+Host: server.example.com
+Upgrade: websocket
+Connection: Upgrade
+Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==
+Origin: http://example.com
+Sec-WebSocket-Protocol: chat, superchat
+Sec-WebSocket-Version: 13
+
+HTTP/1.1 101 Switching Protocols
+Upgrade: websocket
+Connection: Upgrade
+Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
+Sec-WebSocket-Protocol: chat 
+```
+
 Both the client and the server can send messages across
 the websocket at any time.  Both the client and the
 server should be able to handle incoming messages at any time.
@@ -568,9 +586,10 @@ Deployment
 ------
 
 
-Further Reading
+See Also
 -----------
 
+* [RFC 6455](https://tools.ietf.org/html/rfc6455)
 * [O'Riordan(2016) Rails ActionCable — The good and bad parts](https://blog.ably.io/rails-5-actioncable-the-good-and-bad-parts-1b56c3b31404#.nhzs3q1qd) - a good overview of the uses and limitation of ActionCable
 
 

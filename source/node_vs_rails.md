@@ -3,7 +3,7 @@ Node.js vs Rails
 
 After working through this guide you should
 
-* understand the differences and similarities of JS and Ruby
+* understand the differences and similarities of JavaScript and Ruby
 * understand the different roles node.js and Rails have
 
 -------------------------------------------------------------
@@ -95,7 +95,7 @@ In Ruby you will use **blocks**:
 
 
 ```
-a.map{|x| x* 2}.each do |x|
+a.map{|x| x * 2}.each do |x|
   puts "#{x} is not a prime"
 end
 ```

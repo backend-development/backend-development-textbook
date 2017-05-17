@@ -75,3 +75,16 @@
       name: Node Basics
       url: node_basics.html
       description: Program your first web server in node
+    -
+      name: Node Websockets
+      url: node_websockets.html
+      description: Program a chat app with socket.io
+    -
+      name: Node Web App
+      url: node_express.html
+      description: write a web app in node with express      
+    -
+      name: Scaling Node
+      url: node_cluster.html
+      description: how to scale node up with cluster.js 
+
