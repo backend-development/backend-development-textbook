@@ -9,9 +9,9 @@ because it's already there in a cache.
 After working through this guide you will:
 
 * know that many different caches influence your web app:
-** HTTP caching (you know that already from the asset pipeline)
-** Fragment caching
-** ActiveRecord QueryCachg
+   * HTTP caching (you know that already from the asset pipeline)
+   * Fragment caching
+   * ActiveRecord QueryCachg
 * be able to configure rails for caching
 * be able to measure if a change you made improved the performance of your rails app
 

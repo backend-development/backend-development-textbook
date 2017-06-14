@@ -574,6 +574,7 @@ See Also
 
 
 * [Fielding, Roy(2000): Architectural Styles and the Design of Network-based Software Architectures](http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm). Dissertation. University of California/Irvine, USA.
+* [Fowler (2010): Richardson Maturity Model](https://martinfowler.com/articles/richardsonMaturityModel.html)
 * [Tilkov(2007): A Brief Introduction to REST](https://www.infoq.com/articles/rest-introduction)
 * [Rails Guide: Rendering JSON in Action Controller Overview](http://edgeguides.rubyonrails.org/action_controller_overview.html#rendering-xml-and-json-data)
 * [Rails Guide: Using Rails for API-only Applications](http://edgeguides.rubyonrails.org/api_app.html)

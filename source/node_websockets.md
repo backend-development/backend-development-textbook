@@ -47,6 +47,16 @@ Both the client and the server can send messages across
 the websocket at any time.  Both the client and the
 server should be able to handle incoming messages at any time.
 
+Warning: Leaving the restful area
+--------
+
+Up to now we have been building RESTful APIs and classical
+web applications that try to be as RESTful as possible.
+Using websockets you are building a completely different
+type of distributed system.
+
+See [jfriend00(2015) answer on stackoverflow](https://stackoverflow.com/questions/29925955/what-are-the-pitfalls-of-using-websockets-in-place-of-restful-http#answer-29933428) for an in depth comparison.
+
 
 Socket.io
 ----

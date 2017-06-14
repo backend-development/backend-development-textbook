@@ -21,7 +21,7 @@ and functional programming.
 ### Syntax
 
 JavaScript Syntax is inspired by the C family of languages: 
-curly braces and semicolons. But it add's it's own idiosyncrasies 
+curly braces and semicolons. But it adds it's own idiosyncrasies 
 (e.g. you can leave out the semicolons).
 
 
@@ -215,7 +215,7 @@ ThumbnailJob.perform_later current_user
 Summary
 ---------
 
-Ruby and JavaScript a similar programming languages.
+Ruby and JavaScript are similar programming languages.
 
 node.js and Rails represent two very different approaches for programming a web backend. 
 As a developer, nodes.js will confront you with harder problems to solve, 
