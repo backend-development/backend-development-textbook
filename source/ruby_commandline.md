@@ -120,6 +120,7 @@ puts "less code"
 
 All of rubys basic data types are Classes.  
 
+* nil
 * Numeric, Integer, Fixnum, Bignum, Float `# are converted automatically to each other`
 * Ranges
 * String
@@ -145,6 +146,19 @@ TypeError: no implicit conversion of Fixnum into String
 => 45.141
 ```
 
+Everything is an Object, even Integers and Strings.
+They have methods and properties, like other objects:
+
+``` ruby
+>> nil.class
+=> NilClass
+
+>> 2.class
+=> Fixnum
+
+>> "some text".length
+=> 9
+```
 
 ### Strings
 
@@ -217,6 +231,28 @@ input_value = nil
 a = input_value || default_value
 ```
 
+## the save navigation Operator
+
+Imagine you have an Object a, that has a property b containing
+another object, and b has a property c.  You can access c through `a.b.c`
+
+But if a is `nil` then you will get an error:
+
+``` ruby
+> a.b.c
+NoMethodError: undefined method `b' for nil:NilClass
+```
+
+The Operator `&.` avoids this error:
+
+``` ruby
+> a&.b&.c
+nil
+```
+
+The Operator was introduced in Ruby 2.3.0 is is called
+"save navigation operator" or sometimes "lonely operator".
+
 
 ### Symbols
 
@@ -286,6 +322,11 @@ use a Range and convert it to an Array:
 >> (1..4).to_a
 => [1, 2, 3, 4]
 ```
+
+
+
+
+
 
 Hashes
 ----------------------------
