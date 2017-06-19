@@ -11,7 +11,7 @@ After working through this guide you will:
 * know that many different caches influence your web app:
    * HTTP caching (you know that already from the asset pipeline)
    * Fragment caching
-   * ActiveRecord QueryCachg
+   * ActiveRecord QueryCache
 * be able to configure rails for caching
 * be able to measure if a change you made improved the performance of your rails app
 
@@ -267,7 +267,7 @@ Reload again to check if the new version is cached.
 ### Caching a Partial
 
 If you look at the homepage of [the demo](https://shrouded-dawn-29154.herokuapp.com/)
-you can see that the list of project under "Bachelorprojete" is different every time
+you can see that the list of project under "Bachelorprojekte" is different every time
 you reload the page. There are 9 projects in all, but only 5 will be picked randomly
 and will be displayed.
 
