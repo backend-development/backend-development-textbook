@@ -22,7 +22,7 @@ Websockets
 
 Websockets are built on top of HTTP and HTTPS:
 
-* they reuse the default ports 80 and 445
+* they reuse the default ports 80 and 443
 * they start out as a normal HTTP request
 * they reuse cookies
 
