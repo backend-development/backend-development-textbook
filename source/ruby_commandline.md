@@ -360,8 +360,8 @@ same a linked list is built.
 This datastructure seems like an serious waste of memory
 at first. But it offers the following intresting features:
 
-* looking up a key can be accomplised in constant time
-* inserting a new key / value pair can be accomplised in constant time
+* looking up a key can be accomplished in constant time
+* inserting a new key / value pair can be accomplished in constant time
 
 
 Most scripting languages offer Hashes as a basic data type,
