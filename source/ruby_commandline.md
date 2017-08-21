@@ -104,7 +104,7 @@ b.sugar!     # a method that changes its object
              # ends in an exclamation mark
 ```
 
-In the last to examples the punctuation marks are really
+In the last two examples the punctuation marks are really
 part of the method names!
 
 
