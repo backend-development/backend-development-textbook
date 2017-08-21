@@ -561,9 +561,15 @@ Summary
 -------
 
 You now know about the basic data types, about enumerables and about blocks -   
-features that distinguish ruby from other scripting languages. This should
-be a good enough basis to start with rails.  
+features that distinguish ruby from other scripting languages. 
 
+
+If you want to get more pracitical with ruby, you can
+do the 
+[Learn Ruby](https://github.com/backend-development/learn_ruby) test driven ruby exercises.
+
+
+This should be a good enough basis to start with rails.  
 But do take every
 oppertunity you got to learn more about ruby itself: if you are unsure about
 a line of code, look it up in the ruby documentation and use the

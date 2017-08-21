@@ -244,6 +244,7 @@ To learn more about validations and associations read the Rails Guides:
 * [Active Record Validations and Callbacks](http://guides.rubyonrails.org/active_record_validations_callbacks.html)
 * [Active Record Associations](http://guides.rubyonrails.org/association_basics.html)
 
+
 On Documentation
 ---------
 
@@ -252,6 +253,8 @@ on your computer at all times.  A handy tool for this on mac os x is
 [Dash](http://kapeli.com/dash).  This is what a Rails Guide looks like in Dash:
 
 ![Dash](images/dash-rails-guide.png)
+
+
 
 ### Further reading
 
