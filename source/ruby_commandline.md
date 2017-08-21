@@ -9,6 +9,9 @@ After finishing this guide you will
 * be able to use list processing functions in ruby
 * be able to use blocks and `yield` in ruby.
 
+REPO: Fork the [learn_ruby](https://github.com/backend-development/learn_ruby) repository to try some test driven ruby learning
+
+
 -----------------------------------------------------------------------
 
 What is Ruby
