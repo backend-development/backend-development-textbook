@@ -38,7 +38,7 @@ using git to resolve merge conflicts comes in handy!).
 
 ### Layouts and Views
 
-The view file (e.g. `app/views/thing/show.html.erb` will only
+The view file (e.g. `app/views/thing/show.html.erb`) will only
 contain the HTML that is specific for this view.  There is
 another file `app/views/layouts/application.html.erb` that contains
 the surrounding stuff that stays the same for every page in the app: head, main
