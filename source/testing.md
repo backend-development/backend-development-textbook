@@ -356,7 +356,7 @@ This example just shows `params`, you can also set:
 
 After the request you get the result in three hashes:
 
-* `session* 
+* `session` 
 * `flash`
 * `cookies`
 
