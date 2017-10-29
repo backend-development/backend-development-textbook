@@ -16,7 +16,8 @@ After working through this guide you will:
 * be able to measure if a change you made improved the performance of your rails app
 
 
-REPO: You can study [the demo](https://shrouded-dawn-29154.herokuapp.com/) for the example described here.
+REPO: You can study [the demo](https://rails-caching-demo.herokuapp.com/) for the example described here
+- if it's currently online.
 
 ---------------------------------------------------------------------------
 

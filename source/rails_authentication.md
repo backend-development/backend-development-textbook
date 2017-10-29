@@ -167,6 +167,33 @@ This use of create will not actually succeed, because the password_confirmation 
 not match the password.
 
 
+This is the minimal user model we need:
+
+``` ruby
+class CreateUsers < ActiveRecord::Migration[5.1]
+  def change
+    create_table :users do |t|
+      t.string :username
+      t.string :password_digest
+
+      t.timestamps
+    end
+  end
+end
+```
+
+You can create the first user in the rails console
+or in  db/seed like so:
+
+``` ruby
+User.create!(
+  username:'admin', 
+  password:'secret', 
+  password_confirmation: 'secret'
+)
+```
+
+
 Basic Login
 -----------
 
