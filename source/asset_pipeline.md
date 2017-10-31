@@ -238,7 +238,7 @@ When you are working on the frontend of your app, fiddling
 around in views and stylsheets, it may be helpful to immediatly
 see the changes you make reflected in the browser.
 
-To achive this in Rails you can use `guard`.  Add three gems to your Gemfile:
+To achieve this in Rails you can use `guard`.  Add three gems to your Gemfile:
 
 ```
 group :development do
