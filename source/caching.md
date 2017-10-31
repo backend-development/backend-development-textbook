@@ -30,8 +30,8 @@ you should consider these wise words:
 
 "We should forget about small efficiencies, say about 97% of the time: premature optimization is the root of all evil" -- Donald Knuth
 
-This is a warning against making things worst by trying to "optimize" them.
-It's not an "optimization" if you make things worst. So keep these things
+This is a warning against making things worse by trying to "optimize" them.
+It's not an "optimization" if you make things worse. So keep these things
 in the right order:
 
 1. Is there a performance problem? If not: stop. do not change your system. It is good enough.
