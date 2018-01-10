@@ -156,13 +156,13 @@ module RailsGuides
         if heading = Nokogiri::HTML(@header).at(:h2) then
           @view.content_for(:header_h2_section) { heading.text.html_safe }
           @view.content_for(:header_section) { @header }
-        else 
+        else
           @view.content_for(:header_h2_section) { "no heading" }
           @view.content_for(:header_section) { @header }
         end
         @view.content_for(:page_title) { @title }
         @view.content_for(:index_section) { @index }
-        @view.render(:layout => @layout, :text => @body)
+        @view.render(:layout => @layout, :html => @body.html_safe)
       end
   end
 end
