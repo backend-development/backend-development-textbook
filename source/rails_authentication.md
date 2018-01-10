@@ -171,7 +171,7 @@ will be stored in the database.
 It will add the `authenticate` method to your User model:
 
 ``` ruby
-user = User.find(username: "USERNAME").authenticate("THE PASSWORD") 
+user = User.find_by(username: "USERNAME").authenticate("THE PASSWORD") 
 ```
 
 The authenticate method will encrypt the password again, and compare
