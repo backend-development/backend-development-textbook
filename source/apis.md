@@ -15,7 +15,7 @@ REPO: You can study the [code](https://github.com/backend-development/api_sample
 
 API stands for "Application Programming Interface". It is a set of clearly defined methods 
 of communication with a software component. So the objects and methods exposed by a library
-form an API, for example the 
+form an API.  
 
 In Web development the acronym API is most
 commonly used when the software component in question runs on a different server on the
@@ -561,7 +561,7 @@ end
 ```
 
 
-# Documenting an API
+## Documenting an API
 
 
 

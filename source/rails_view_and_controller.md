@@ -25,15 +25,20 @@ The View
 
 The View in the Model-View-Controller pattern
 is responsible for generating output that will be
-displayed to the user in various ways.
+displayed to the user in various ways.  This means generating
+HTML that will later be displayed by a browser, or generating
+XML or JSON that will be loaded by another program.
+
+We will focus on HTML for now. Views that generate XML or JSON
+are covered in the chapter on [APIs](apis.html).
 
 In Ruby on Rails **Embedded Ruby** (ERB) is normally used
-as the templating languages to define the views.  This will
+as the templating language for HTML.  This will
 be familiar to you if you have
 used templates in other languages or have used PHP embedded in HTML.
 
 Both Web Designers and Web Developers might want to edit
-the files concerning the view. (This is one of the points where
+the HTML templates. (This is one of the points where
 using git to resolve merge conflicts comes in handy!).
 
 ### Layouts and Views

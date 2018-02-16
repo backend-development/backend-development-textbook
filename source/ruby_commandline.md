@@ -468,6 +468,7 @@ that return a new Enumerable.  You can connect theses methods to each other:
 * drop(n)
 * last(n)
 * grep(/pattern/)
+* chunk(method)
 * reverse
 
 Some other methods return just a single value, and thus end the pipe:
@@ -518,7 +519,7 @@ code considerably.
 
 Read the Reference on
 
-* [Enumerable](http://ruby-doc.org/core-2.1.0/Enumerable.html)
+* [Enumerable](http://ruby-doc.org/core-2.5.0/Enumerable.html)
 * [Array](http://ruby-doc.org/core-2.1.0/Array.html)
 
 
