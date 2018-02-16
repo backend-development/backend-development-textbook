@@ -24,10 +24,13 @@ In a modern programming language like rails we represent
 things in the real world with objects. For example if you are
 building a web application for project management, you will
 have objects of classes Project, and WorkPackage, and User.
-
+These classes also implement the "Business Logic": all the methods
+needed for handling projects are actually implemented in the Project class.
+ 
 To save these objects permanently (often called "persistance") 
-we use a relational Database,
-in most cases Postgres or MySQL/MariaDB.
+we use a relational database,
+in most cases Postgres or MySQL/MariaDB.  Only the data is stored in the database,
+not the behaviour (see "Business Logic" above).
 
 Here we hit on an old problem in computer science: storing
 objects into a relational database does not work all that well.
