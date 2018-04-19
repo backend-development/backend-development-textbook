@@ -187,12 +187,16 @@ Search for libraries at [https://rails-assets.org](https://rails-assets.org)
 
 ### File Upload
 
-Uploading Pictures and displaying them is a common task with two good solutions:
+File Upload has been integrated into Rails 5 with
+[](), there is no need to use 
+[carrierwave](https://github.com/carrierwaveuploader/carrierwave) or
+or
+[paperclip](https://github.com/thoughtbot/paperclip)
+and more.
 
-* gem [carrierwave](https://github.com/carrierwaveuploader/carrierwave) or
-* gem [paperclip](https://github.com/thoughtbot/paperclip)
-
-Both use the library [ImageMagick](http://www.imagemagick.org/):
+After file upload you might want to resize or crop your images
+automatically. This is traditionally done with
+the library [ImageMagick](http://www.imagemagick.org/):
 
 * gem [rmagick](https://github.com/rmagick/rmagick) image processing with image magick
 
@@ -236,7 +240,13 @@ to go through them page by page:
 * gem [kaminari](https://github.com/amatsuda/kaminari), [asciicast about it](http://railscasts.com/episodes/254-pagination-with-kaminari?view=asciicast)
 * other gems in [category pagination](https://www.ruby-toolbox.com/categories/pagination) of the ruby toolbox
 
-### search
+### Filter
+
+You need to filter objects shown by the index action?
+
+* gem [brita](https://github.com/procore/brita) can be used in APIs and full rails apps
+
+### Search
 
 You need to search in more than just one attribute of your
 model?  use a search gem:

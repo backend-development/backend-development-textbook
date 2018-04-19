@@ -1,5 +1,4 @@
-APIs
-=====
+# APIs
 
 After working through this guide you will:
 
@@ -9,17 +8,17 @@ After working through this guide you will:
 
 REPO: You can study the [code](https://github.com/backend-development/api_sample_app) and try out [the demo](https://dry-cove-38472.herokuapp.com/) for the example described here.
 
----------------------------------------------------------------------------
+---
 
 ## What is an API
 
-API stands for "Application Programming Interface". It is a set of clearly defined methods 
+API stands for "Application Programming Interface". It is a set of clearly defined methods
 of communication with a software component. So the objects and methods exposed by a library
-form an API.  
+form an API.
 
 In Web development the acronym API is most
 commonly used when the software component in question runs on a different server on the
-Internet and is accessed via the network.  
+Internet and is accessed via the network.
 
 This Guide is concerned with APIs that you build and run using Ruby on Rails.
 
@@ -32,24 +31,21 @@ he desribed this architecture as "Representational State Transfer" (REST).
 This Acronym was later picked up to describe a certain style of API,
 and to distiguish such APIs from SOAP APIs.
 
-A REST API allows to access and manipulate textual representations of Web resources using HTTP Methods and stateless operations. 
+A REST API allows to access and manipulate textual representations of Web resources using HTTP Methods and stateless operations.
 
 "Web resources" were first defined on the World Wide Web as documents or files identified by their URLs, but today they have a much more generic and abstract definition encompassing every thing or entity that can be identified, named, addressed or handled, in any way whatsoever, on the Web.
 
+[Tilkov(2007)](https://www.infoq.com/articles/rest-introduction) gives a brief introduction to REST. The main points are:
 
-[Tilkov(2007)](https://www.infoq.com/articles/rest-introduction) gives a brief introduction to REST.  The main points are:
-
-1. Give every resource a  unique URL
-2. “Hypermedia as the engine of application state” (HATEOAS) - use URLs to reference other resources (not just ids)
-3. Use HTTP Methods (and Status Codes) as intended. 
-4. One resource can have multiple representations, for example HTML, JSON and XML
-5. Communicate statelessly - if possible!
-
-
+1.  Give every resource a unique URL
+2.  “Hypermedia as the engine of application state” (HATEOAS) - use URLs to reference other resources (not just ids)
+3.  Use HTTP Methods (and Status Codes) as intended.
+4.  One resource can have multiple representations, for example HTML, JSON and XML
+5.  Communicate statelessly - if possible!
 
 ### URLS
 
-Give every resource a  unique URL.
+Give every resource a unique URL.
 Please note that REST does not demand a certain form of URL.
 While URLs with no parameters are often used:
 
@@ -72,20 +68,15 @@ https://example.com/users.php?id=3
 In REST, the URLs correspond to resources, which are represented by nouns.
 This is a difference to SOAP, there there is typically just one endpoint:
 
-
 ```
 https://example.com/soap/router/
 ```
 
-Through this endpoint you can access methods like `getUserData()` or `deleteUser()`. 
-
-
-
+Through this endpoint you can access methods like `getUserData()` or `deleteUser()`.
 
 ### HATEOAS
 
-
-“Hypermedia as the engine of application state”  means that a client interacts with a network application entirely through hypermedia, and needs no prior knowledge of URLs.
+“Hypermedia as the engine of application state” means that a client interacts with a network application entirely through hypermedia, and needs no prior knowledge of URLs.
 
 If an API returns the following JSON:
 
@@ -108,17 +99,16 @@ HATEOAS demands that the full URL is used to refer to other resources:
     "id": "1",
     "name": "Example User",
     "email": "example@railstutorial.org"
-    "profile_pics": [ 
-       "https://sample.com/api/profile/pictures/2", 
+    "profile_pics": [
+       "https://sample.com/api/profile/pictures/2",
        "https://sample.com/api/profile/pictures/5"
     ]
 }
 ```
 
-
 ### HTTP Methods and Status Codes
 
-Use HTTP Methods (and Status Codes) as intended.  
+Use HTTP Methods (and Status Codes) as intended.
 
 Regarding the HTTP Methods there are two important distinctions:
 
@@ -127,12 +117,10 @@ Regarding the HTTP Methods there are two important distinctions:
 
 The definition of the [Methods](https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html) in HTTP1.0 is just a short read, and worth its while!
 
-
 References for status codes:
 
 * [Status codes](https://httpstatuses.com/422)
 * [Status cats](https://http.cat/)
-
 
 When buidling a REST API, the HTTP Protocol already defines a lot
 about that API. There is no need to come up with a way to delete
@@ -146,10 +134,9 @@ There are two common ways of requesting different formats:
 
 With the HTTP Header `Accept`:
 
-
 ```
 GET /mini/person/83 HTTP/1.1
-Host: example.com 
+Host: example.com
 Accept: application/xml
 ```
 
@@ -163,7 +150,6 @@ http://example.com/mini/person/83.json
 
 The three different versions of person number 83 might look
 like this: the HTML web page:
-
 
 ```
 <h1>Details zu einer Person</h1>
@@ -193,7 +179,6 @@ For an API the same resource might be represented as XML:
     <werk ref='http://example.com/mini/werk/303'>the neighbour.</werk>
   </werke>
 </person>
-
 ```
 
 or as JSON:
@@ -211,40 +196,32 @@ or as JSON:
      "url":"http://example.com/mini/werk/83"},
     {"titel":"the neighbour.",
      "url":"http://example.com/mini/werk/303"}]}
-
 ```
-
-
 
 ### Statelessness
 
+Tilkov wirtes: "REST mandates that state be either turned into resource state, or kept on the client. In other words, a server should not have to retain some sort of communication state for any of the clients it communicates with beyond a single request."
 
- Tilkov wirtes: "REST mandates that state be either turned into resource state, or kept on the client. In other words, a server should not have to retain some sort of communication state for any of the clients it communicates with beyond a single request."
-
- This is important for performance and scalability and performance.  
- Statelessness makes caching easy.  And in a scenario with serveral
- servers behind a load balancer, not having state on the server means
- the application will work if the requests bei one client are routest
- to different servers.
-
+This is important for performance and scalability and performance.  
+ Statelessness makes caching easy. And in a scenario with serveral
+servers behind a load balancer, not having state on the server means
+the application will work if the requests bei one client are routest
+to different servers.
 
 ## JSON API
 
-
 When an API returns JSON data this could take many forms.
 The [json:api specification](http://jsonapi.org/) is a well thought out
-convention for this.  
+convention for this.
 
 It is especially good with the HATEOS aspect of REST.
 
 The json:api specification adhers to this principle.
 
-
-Rendering JSON
----------
+## Rendering JSON
 
 Rails is equipped to not just create HTML as output, but to easily
-offer other representations as well.  
+offer other representations as well.
 
 When you look at `rails routes` you can see that the routes created by
 `resource :user` could contain an optional `format`:
@@ -259,15 +236,14 @@ When you look at `rails routes` you can see that the routes created by
 Only HTML is implemented by default. But we could use this feature
 to have other formats:
 
-* `/users` 
-* `/users.json` 
-* `/users.xml` 
-* `/users/1` 
-* `/users/1.json` 
-* `/users/1.xml` 
+* `/users`
+* `/users.json`
+* `/users.xml`
+* `/users/1`
+* `/users/1.json`
+* `/users/1.xml`
 
 When you try out accessing `/users/1.json` you get a response:
-
 
 ```
 406 Not Acceptable
@@ -278,7 +254,7 @@ Content-Type: application/json; charset=utf-8
 ```
 
 This error message is meant for a
-client expecting JSON data.  It uses both the HTTP status code
+client expecting JSON data. It uses both the HTTP status code
 and the JSON to indicate the error.
 
 ### API for the sample app
@@ -295,7 +271,6 @@ a single JSON object with three attributes:
    "email":"example@railstutorial.org"
 }
 ```
-
 
 To display the table of users, it loads from `/users.json` and
 expects a JSON array of objects like above:
@@ -317,7 +292,6 @@ expects a JSON array of objects like above:
 
 ### creating JSON with erb
 
-
 We could create views using erb in `app/views/users/show.json.erb`:
 
 ```
@@ -332,7 +306,7 @@ and `app/views/users/index.json.erb`:
 
 ```
 [
-<% 
+<%
   @users.each_with_index do |user| %>
   {
     "id": <%= user.id %>,
@@ -348,7 +322,7 @@ but there should be no comma after the last.
 
 ```
 [
-<% 
+<%
   max = @users.length - 1
   @users.each_with_index do |user,i| %>
   {
@@ -365,13 +339,13 @@ but there should be no comma after the last.
 
 Formatting JSON would get quite repetitive if we need to create views for several resources.
 We have not even touched on the problem of escaping: what happens
-if a users name contains a quote?  For example <kbd>Jack "the Ripper"</kbd>.
+if a users name contains a quote? For example <kbd>Jack "the Ripper"</kbd>.
 That would break our current view.
 
 Rails 5 comes with the gem `jbuilder` which helps you create JSON, and
 which handles all the escaping and formatting correctly.
 
-We need to name the view `app/views/users/show.json.jbuilder`, 
+We need to name the view `app/views/users/show.json.jbuilder`,
 and then can use the the following code to extract three properties
 from the user object:
 
@@ -381,13 +355,13 @@ json.name @user.name
 json.email @user.email
 ```
 
-There is also a shorthand for this: 
+There is also a shorthand for this:
 
 ```
 json.extract! @user, :id, :name, :email
 ```
 
-For the index view we want to create a JSON array. 
+For the index view we want to create a JSON array.
 In `app/views/users/index.json.jbuilder` we write:
 
 ```
@@ -395,7 +369,6 @@ json.array! @users do |user|
   json.extract! user, :id, :name, :email
 end
 ```
-
 
 ### authentication
 
@@ -412,9 +385,9 @@ For handling just HTML only this code would be needed:
   def create
     @user = User.new(user_params)
     if @user.save
-      redirect_to @user, notice: 'User was successfully created.' 
+      redirect_to @user, notice: 'User was successfully created.'
     else
-      render :new 
+      render :new
     end
     end
   end
@@ -440,13 +413,9 @@ to handle json differently from html:
   end
 ```
 
-
-
-Stand Alone API
----------
+## Stand Alone API
 
 To create a stand alone API we define new, separate routes under `/api/v1`.
-
 
 ```
 namespace :api do
@@ -470,7 +439,6 @@ require 'active_model_serializers/register_jsonapi_renderer'
 ActiveModelSerializers.config.adapter = :json_api
 ```
 
-
 ### JSONAPI for the sample app
 
 The "Frontend 2" in the example app expects the json to be formed
@@ -492,7 +460,6 @@ according to the json api specification.
 
 }
 ```
-
 
 `/api/v1/users/` returns an array, but the top level JSON structure
 is an object with on attribute `data`:
@@ -518,13 +485,12 @@ is an object with on attribute `data`:
 
 After we defined the routes, we next need to create a controller.
 As we are setting up a new hierarchy of controllers that will only
-concerned with the API, it makes sense to inhert from `ActionController::API`, 
+concerned with the API, it makes sense to inhert from `ActionController::API`,
 not from `ActionController::Base`.
 
 All the "normal" controllers first inhert from `ApplicationController`. We
 will build a similar structure for the api controllers, the will inhert from
 `Api::V1::BaseController`:
-
 
 ```
 # app/controllers/api/v1/base_controller.rb
@@ -560,18 +526,11 @@ class Api::V1::UserSerializer < ActiveModel::Serializer
 end
 ```
 
-
 ## Documenting an API
-
-
 
 See Halliday(2016): [Producing Documentation for Your Rails API](https://blog.codeship.com/producing-documentation-for-your-rails-api/) for a discussion of automatic methods of documentation generation.
 
-
-
-See Also
---------
-
+## See Also
 
 * [Fielding, Roy(2000): Architectural Styles and the Design of Network-based Software Architectures](http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm). Dissertation. University of California/Irvine, USA.
 * [Fowler (2010): Richardson Maturity Model](https://martinfowler.com/articles/richardsonMaturityModel.html)
@@ -579,5 +538,6 @@ See Also
 * [Rails Guide: Rendering JSON in Action Controller Overview](http://edgeguides.rubyonrails.org/action_controller_overview.html#rendering-xml-and-json-data)
 * [Rails Guide: Using Rails for API-only Applications](http://edgeguides.rubyonrails.org/api_app.html)
 * [Vasilakis(2017): Rails 5 API Tutorial](https://github.com/vasilakisfil/rails5_api_tutorial)
-* [Methods HTTP/1.0](https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html) 
+* [Methods HTTP/1.0](https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html)
 * [Status codes](https://httpstatuses.com/422)
+* [gem knock](https://github.com/nsarno/knock) for token based authentication for API only Rails apps
