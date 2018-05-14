@@ -227,6 +227,10 @@ sent in.  For example `<%= f.text_field :name %>` might  be displayed as
 <input type="text" value="Brigitte Jellinek" name="user[name]" id="user_name" />
 ```
 
+To turn the validation you defined in the model
+into html5 `require` attributes on the form fields
+you can install the gem `html5_validators`.
+
 ### Sending the Data
 
 When you press the submit-button, the data from the form is sent via a HTTP request.
@@ -325,6 +329,21 @@ available throught the `errors` attribute of the user object:
   <% end %>
   ...
 <% end %>
+```
+
+
+### Using View Helpers in the console
+
+You already know that
+the rails console is great for working with models.
+You can also use it to check path helpers, by preprending
+them with `app.`.
+
+```ruby
+> app.projects_path
+=> "/projects"
+> app.project_path(Project.first)
+=> "/projects/2007-portfolio-system-multimediaart-at"
 ```
 
 <!--
