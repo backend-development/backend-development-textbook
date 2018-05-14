@@ -16,7 +16,7 @@ After working through this guide you will:
 * be able to measure if a change you made improved the performance of your rails app
 
 
-REPO: You can study [the demo](https://rails-caching-demo.herokuapp.com/) for the example described here
+DEMO: You can study [the demo](https://rails-caching-demo.herokuapp.com/) for the example described here
 - if it's currently online.
 
 ---------------------------------------------------------------------------
@@ -25,89 +25,10 @@ REPO: You can study [the demo](https://rails-caching-demo.herokuapp.com/) for th
 Performance
 -----------
 
-Before you start "optimizing" the performance of your web application 
-you should consider these wise words:
+As we already discussed in [the chapter on the asset pipeline](/asset_pipeline.html)
+it is important to measure the performance of your app before you try to optimize anyhing.
 
-"We should forget about small efficiencies, say about 97% of the time: premature optimization is the root of all evil" -- Donald Knuth
-
-This is a warning against making things worst by trying to "optimize" them.
-It's not an "optimization" if you make things worst. So keep these things
-in the right order:
-
-1. Is there a performance problem? If not: stop. do not change your system. It is good enough.
-2. Find out where the bottleneck is. Do this by measuring, using appropriate tools.
-3. If you found the right place, only then you can start to "optimize"
-
-See Sudara(2016): [Rails Performance and the root of all evil](http://blog.scoutapp.com/articles/2016/05/09/rails-performance-and-the-root-of-all-evil) for a more in depth
-discussion.
-
-
-Let's look at the first step: what is a "performance problem" in Web Development?
-We are concerned with delivering a whole webpage to the end user. From the end users
-perspective there really is only one value to measure: I clicked on something, how long
-did it take for the next page to load.  We will call this the "response time".
-
-At least since 2004, when Steve Souders book "High Performance Web Sites" came out
-web performance has been discussed a lot in the web developer community. Measuring
-tools were developed, workflows were changes, frameworks were adapted to take performance
-into account. Today we can use all this knowledge and obtain results easily.  The necessary
-tools are all there, we just have to use them properly.
-
-## Measuring Performance
-
-Let's start with a very general rule of thumb for performance:
-
-We want the whole web page to load within a second.  We expect to
-need about half of that (500ms) for loading extra assets like
-javascript files, css, images.  We will set aside another 200ms for
-shipping data across the network, which leaves us with 300ms time to
-render out the first HTML document from our Rails App.
-
-
-### Web Developer Tools in your Browser
-
-Modern Browsers all come with extensive developer tools, which let you
-analyze your webpage right in the browser.
-
-An important tool is the network view:
-
-![network view firefox](images/network-view-firefox.png)
-
-You can focus in on the loading of the html document itself,
-and look at the timings:
-
-![network view firefox: timings](images/network-timings.png)
-
-Here the time "waiting" for the first byte is high.
-This is a performance problem in the Rails App itself. Here
-caching might help.
-
-### Webpagetest
-
-Web Page Test is an open source project that you can run on your own servers.
-Our you can use the online version to analyze your projects:
-
-
-![https://www.webpagetest.org/](images/webpagetest.png)
-
-
-[https://www.webpagetest.org/](https://www.webpagetest.org/)
-
-If the time to "first byte" is high, you have a problem when generating
-the first HTML document, right in the Rails app.  Here caching might help.
-
-
-### Google PageSpeed Insights
-
-Google also offers a performance analysis tool, with
-a separate analysis for mobile and desktop:
-
-
-![https://developers.google.com/speed/pagespeed/insights/](images/pagespeed.png)
-
-
-[https://developers.google.com/speed/pagespeed/insights/](https://developers.google.com/speed/pagespeed/insights/)
-
+In this chapter we will learn about new tools for measuring what happens on the server.
 
 
 ### rack-mini-profiler
