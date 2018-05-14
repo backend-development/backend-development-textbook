@@ -596,5 +596,5 @@ end
 * OmniAuth [wiki](https://github.com/intridea/omniauth/wiki)
 * Devise [github page](https://github.com/plataformatec/devise)
 * Rails Security Guide on [User Management](http://guides.rubyonrails.org/security.html#user-management)
-* [gem knock](https://github.com/nsarno/knock) for token based authentication for API only Rails apps
+* [devise_token_auth](https://github.com/lynndylanhurley/devise_token_auth) for token based authentication for API only Rails apps
 * [10 Things You Should Know about Tokens](https://auth0.com/blog/ten-things-you-should-know-about-tokens-and-cookies/)
