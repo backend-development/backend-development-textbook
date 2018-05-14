@@ -6,14 +6,15 @@ server, framework, programming language that creates
 your web page?  Not having to create and load the page at all
 because it's already there in a cache.
 
-After working through this guide you will:
+After working through this guide:
 
-* know that many different caches influence your web app:
-   * HTTP caching (you know that already from the asset pipeline)
+* you will know that many different caches influence your web app:
+   * HTTP caching
    * Fragment caching
    * ActiveRecord QueryCache
-* be able to configure rails for caching
-* be able to measure if a change you made improved the performance of your rails app
+   * Caches inside the Database
+* you will be able to configure rails for caching
+* you will be able to measure if a change you made improved the performance of your rails app
 
 
 DEMO: You can study [the demo](https://rails-caching-demo.herokuapp.com/) for the example described here
@@ -21,14 +22,35 @@ DEMO: You can study [the demo](https://rails-caching-demo.herokuapp.com/) for th
 
 ---------------------------------------------------------------------------
 
+## What is Caching
 
-Performance
------------
+In computing we are faced with vastly different access speeds for different media:
 
-As we already discussed in [the chapter on the asset pipeline](/asset_pipeline.html)
+* reading a megabyte of data from another host on the internet might take seconds 
+* loading the smae data from a local ssd takes only 200 µs 
+* reading the data from main memory takes 9 µs.
+
+Given these numbers it makes sense to keep a local copy of data that
+we  might use again soon.  Better to read it from ssd or memory the second
+time we need it!
+
+In general english usage a cache is [stuff hidden in a secret place](https://en.oxforddictionaries.com/definition/cache).  But in computing
+a cache is "auxiliary memory from which high-speed retrieval is possible".
+
+When you load a webpage into your browser there are many level
+of caches influencing this process.  We will look at some of the caches
+that we can influence as web developers.
+
+## Measuring Performance
+
+As we already discussed in [the chapter on the asset pipeline](asset_pipeline.html)
 it is important to measure the performance of your app before you try to optimize anyhing.
 
 In this chapter we will learn about new tools for measuring what happens on the server.
+
+Let's start with a very general rule of thumb for performance:
+
+We want the whole web page to load within a second. We expect to need about half of that (500ms) for loading extra assets like javascript files, css, images. We will set aside another 200ms for shipping data across the network, which leaves us with 300ms time to render out the first HTML document from our Rails App.
 
 
 ### rack-mini-profiler
@@ -46,25 +68,25 @@ The Mini Profiler only measures the server side: the time spent in the rails app
 the webpage.  So we need to compare the numbers Mini Profiler gives us to the
 300ms threshold defined above.
 
-
-## Caching in the Asset Pipeline
-
-See the chapter about the [Asset Pipeline](https://backend-development.github.io/asset_pipeline.html) 
-for HTTP caching.
-
-
-## Fragment Caching
+### Example App
 
 We will use a portfolio site as an example app.  All the screenshots
-above already show this example app.   You can study [the demo](https://shrouded-dawn-29154.herokuapp.com/) 
+above already show this example app.   You can study [the demo](https://rails-caching-demo.herokuapp.com/) 
 on heroku, there all the caching is already implemented. 
+
+## HTTP Caching
+
+The web browser will cache content if sent the right HTTP Headers.
+The Asset Pipeline handles that for images, css and javascript by default.
+See [the chapter on the asset pipeline](asset_pipeline.html).
+
+## Fragment Caching
 
 
 ### Configure Caching
 
-Caching is deactivated by default in the development environment. 
+Fragment Caching is deactivated by default in the development environment. 
 You have to activate it if you want to try this out in development:
-
 
 ```
 # config/environments/development.rb
@@ -76,7 +98,6 @@ config.action_controller.perform_caching = true
 
 You have to decide on a cache store. For production the simplest
 method when using just one web server is in-memory:
-
 
 ```
 # config/environments/production.rb
