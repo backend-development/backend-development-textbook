@@ -426,6 +426,61 @@ user.reload
 # bust the query cache, do a real SQL query
 ``` 
 
+### using indexes in the database
+
+When we query the database by `id` we will get a rapid response:
+the primary key is always accessed through an index.
+
+But in this app the main way of identifying a resource is
+through a "friendly url".  For example the project show action
+is not accessed through the conventional route
+
+```
+/projects/1679
+```
+
+but through
+
+```
+/projects/2014-anton-eine-multimediale-inszenierung
+```
+
+In the profiler we can see that this translates to the SQL query
+
+```
+SELECT * FROM projects WHERE slug='2014-anton-eine-multimediale-inszenierung' 
+```
+
+There should be an index on columns `slug`!
+
+We can check if this is the case in the database console:
+
+```
+mysql> DESCRIBE SELECT * FROM projects WHERE slug='2014-anton-eine-multimediale-inszenierung'
+    -> ;
++----+-------------+----------+------------+-------+------------------------+------------------------+---------+-------+------+----------+-------+
+| id | select_type | table    | partitions | type  | possible_keys          | key                    | key_len | ref   | rows | filtered | Extra |
++----+-------------+----------+------------+-------+------------------------+------------------------+---------+-------+------+----------+-------+
+|  1 | SIMPLE      | projects | NULL       | const | index_projects_on_slug | index_projects_on_slug | 768     | const |    1 |   100.00 | NULL  |
++----+-------------+----------+------------+-------+------------------------+------------------------+---------+-------+------+----------+-------+
+1 row in set, 1 warning (0,12 sec)
+```
+
+Yes, there is an index that is used for this query.  Contrast this with the output
+of `DESCRIBE` when there is no index:
+
+```
+
+mysql> DESCRIBE SELECT * FROM projects WHERE publicationdate='2014-07-22';
++----+-------------+----------+------------+------+---------------+------+---------+------+------+----------+-------------+
+| id | select_type | table    | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra       |
++----+-------------+----------+------------+------+---------------+------+---------+------+------+----------+-------------+
+|  1 | SIMPLE      | projects | NULL       | ALL  | NULL          | NULL | NULL    | NULL |  695 |    10.00 | Using where |
++----+-------------+----------+------------+------+---------------+------+---------+------+------+----------+-------------+
+1 row in set, 1 warning (0,12 sec)
+```
+
+
 ### n+1 queries
 
 When analysing the SQL queries a rails project generates
