@@ -651,3 +651,4 @@ Further Reading
 
 * [A Guide to Testing Rails Applications](http://guides.rubyonrails.org/testing.html) - also contains an introduction to testing routes, mailers, helpers, jobs and more in depth information on testing controllers
 * [Fixtures API documentation](http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html)
+* [Observations running 2M headless Chrome sessions](https://news.ycombinator.com/item?id=17233371)
