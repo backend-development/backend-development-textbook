@@ -188,7 +188,7 @@ if 0
   puts '0 is true!'
 end
 if "false"
-  puts '"false" (the string) is not false'       
+  puts '"false" (the string) is true'       
 end
 ```
 
@@ -204,7 +204,7 @@ like so:
 
 ``` ruby
 puts '0 is true!' if 0
-puts '"false" is not false' if "false"
+puts '"false" (the string) is true' if "false"
 ```
 
 This syntax should be familiar to you if
@@ -234,7 +234,7 @@ input_value = nil
 a = input_value || default_value
 ```
 
-## the save navigation Operator
+## The 'Save Navigation' Operator
 
 Imagine you have an Object a, that has a property b containing
 another object, and b has a property c.  You can access c through `a.b.c`
@@ -411,6 +411,8 @@ apply_the_style(font_size: 10, font_family: "Arial")
 apply_the_style font_size: 10, font_family: "Arial"
 ```
 
+
+
 Enumerables and Piping Data
 ----------------------------
 
@@ -420,7 +422,7 @@ with Enumerables:
 
 ### "Piping Data"
 
-From the UNIX shell you may now the concepts of piping data
+From the UNIX shell you may know the concept of piping data
 from one command to the next:
 
 ``` shell
@@ -551,7 +553,8 @@ my_function_with_block_arg { puts "code in the block" }
 # more code in the function
 ```
 
-Alternate syntax for defining the Block when calling the function:
+There is an alternate syntax for calling the function: instead
+of the curly braces you can use `do` and  `end`:
 
 ``` ruby
 my_function_with_block_arg do
@@ -573,10 +576,10 @@ do the
 [Learn Ruby](https://github.com/backend-development/learn_ruby) test driven ruby exercises.
 
 
-This should be a good enough basis to start with rails.  
+This should be a good enough basis to start with Rails.  
 But do take every
-oppertunity you got to learn more about ruby itself: if you are unsure about
-a line of code, look it up in the ruby documentation and use the
+oppertunity you get to learn more about Ruby itself: if you are unsure about
+a line of code, look it up in the Ruby documentation and use the
 opportunity to read a bit more than strictly necessary.
 
 Get an offline version of the documentation

@@ -10,6 +10,10 @@
       url: rails_database_and_model.html
       description: How does Rails use the database? How are models and database tables related?
     -
+      name: Associations and Validations
+      url: rails_associations_and_validations.html
+      description: How are relations between models implemented? How can we put restrictions on the data?      
+    -
       name: Routing, View and Controller
       url: rails_view_and_controller.html
       description: How Rails gets from a HTTP Request to a finishd HTML document

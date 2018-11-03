@@ -246,6 +246,10 @@ You need to filter objects shown by the index action?
 
 * gem [brita](https://github.com/procore/brita) can be used in APIs and full rails apps
 
+### Ordered Lists
+
+* gem [acts_as_list](https://github.com/swanandp/acts_as_list)
+
 ### Search
 
 You need to search in more than just one attribute of your
@@ -329,5 +333,6 @@ Ressources
 
 * [Ruby Gems](https://rubygems.org/)
 * [Bundler](http://bundler.io/)
+* [awesome-ruby](https://github.com/markets/awesome-ruby)
 * the [Ruby Toolbox](https://www.ruby-toolbox.com/) is organized in categories that help you find alternative solutions
 * [How does Bundler work, anyway?](https://www.youtube.com/watch?v=4DqzaqeeMgY) talk by Andre Arko at RubyConf 2015

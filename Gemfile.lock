@@ -1,30 +1,30 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    actionpack (5.1.4)
-      actionview (= 5.1.4)
-      activesupport (= 5.1.4)
+    actionpack (5.2.1)
+      actionview (= 5.2.1)
+      activesupport (= 5.2.1)
       rack (~> 2.0)
       rack-test (>= 0.6.3)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
-    actionview (5.1.4)
-      activesupport (= 5.1.4)
+    actionview (5.2.1)
+      activesupport (= 5.2.1)
       builder (~> 3.1)
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.3)
-    activesupport (5.1.4)
+    activesupport (5.2.1)
       concurrent-ruby (~> 1.0, >= 1.0.2)
-      i18n (~> 0.7)
+      i18n (>= 0.7, < 2)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     builder (3.2.3)
     coderay (1.1.2)
     concurrent-ruby (1.0.5)
-    crass (1.0.3)
-    erubi (1.7.0)
-    ffi (1.9.18)
+    crass (1.0.4)
+    erubi (1.7.1)
+    ffi (1.9.25)
     formatador (0.2.5)
     guard (2.14.2)
       formatador (>= 0.2.4)
@@ -38,21 +38,21 @@ GEM
     guard-rake (1.0.0)
       guard
       rake
-    i18n (0.9.1)
+    i18n (1.1.1)
       concurrent-ruby (~> 1.0)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
       ruby_dep (~> 1.2)
-    loofah (2.1.1)
+    loofah (2.2.2)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
-    lumberjack (1.0.12)
+    lumberjack (1.0.13)
     method_source (0.9.0)
     mini_portile2 (2.3.0)
-    minitest (5.11.1)
+    minitest (5.11.3)
     nenv (0.3.0)
-    nokogiri (1.8.1)
+    nokogiri (1.8.5)
       mini_portile2 (~> 2.3.0)
     notiffany (0.1.1)
       nenv (~> 0.1)
@@ -60,16 +60,16 @@ GEM
     pry (0.11.3)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
-    rack (2.0.3)
-    rack-test (0.8.2)
+    rack (2.0.5)
+    rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.0.3)
-      loofah (~> 2.0)
-    rake (12.3.0)
-    rb-fsevent (0.10.2)
+    rails-html-sanitizer (1.0.4)
+      loofah (~> 2.2, >= 2.2.2)
+    rake (12.3.1)
+    rb-fsevent (0.10.3)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
     redcarpet (3.4.0)
@@ -77,7 +77,7 @@ GEM
     shellany (0.0.1)
     thor (0.20.0)
     thread_safe (0.3.6)
-    tzinfo (1.2.4)
+    tzinfo (1.2.5)
       thread_safe (~> 0.1)
 
 PLATFORMS
@@ -86,9 +86,12 @@ PLATFORMS
 DEPENDENCIES
   actionpack
   activesupport
+  ffi (~> 1.9.24)
   guard
   guard-rake
-  nokogiri
+  loofah (~> 2.2.1)
+  nokogiri (~> 1.8.2)
+  rails-html-sanitizer (~> 1.0.4)
   rake
   redcarpet
 
@@ -96,4 +99,4 @@ RUBY VERSION
    ruby 2.3.3p222
 
 BUNDLED WITH
-   1.14.6
+   1.16.1

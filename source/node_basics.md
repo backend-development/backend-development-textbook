@@ -355,4 +355,7 @@ See Also
 * [Node Guide: HTTP](https://nodejs.org/en/docs/guides/anatomy-of-an-http-transaction/)
 * [nexttick](https://nodejs.org/en/docs/guides/event-loop-timers-and-nexttick/)
 * [Event Loop Implementation](http://stackoverflow.com/questions/19822668/what-exactly-is-a-node-js-event-loop-tick)
+* [set the event pool size process.env.UV_THREADPOOL_SIZE](http://docs.libuv.org/en/v1.x/threadpool.html)
+* [V8 needs 4 threads](https://github.com/nodejs/node/blob/278a9267ec41f37e6b7dda876c417945d7725973/src/node.cc#L3964-L3965)
+* [On problems with threads in node.js](https://www.future-processing.pl/blog/on-problems-with-threads-in-node-js/)
 * [Karpov(2017): Async Await Patterns](http://thecodebarbarian.com/common-async-await-design-patterns-in-node.js.html)
