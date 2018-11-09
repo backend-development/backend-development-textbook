@@ -162,7 +162,8 @@ module RailsGuides
           result = view.render(:layout => layout, :formats => [$1], :file => $`)
         else
           body = File.read(File.join(source_dir, guide))    
-          result = RailsGuides::Markdown.new(view, layout).render(body, guide)
+          markdown = RailsGuides::Markdown.new(view, layout)
+          result = markdown.render(body, guide)
           result = add_retina_images(result)
           warn_about_broken_links(result) if @warnings
         end
@@ -185,8 +186,9 @@ module RailsGuides
           # Passing a template handler in the template name is deprecated. So pass the file name without the extension.
           result = view.render(:layout => layout, :formats => [$1], :file => $`)
         else
-          body = File.read(File.join(source_dir, guide))    
-          result = RailsGuides::Markdown.new(view, layout).render(body, guide)
+          body = File.read(File.join(source_dir, guide))
+          markdown = RailsGuides::Markdown.new(view, layout)
+          result = markdown.render(body, guide)
           result = add_retina_images(result)
           warn_about_broken_links(result) if @warnings
         end

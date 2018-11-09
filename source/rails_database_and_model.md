@@ -38,6 +38,8 @@ This problem is called the
 [Object-relational impedance mismatch](http://en.wikipedia.org/wiki/Object-relational_impedance_mismatch)
 and has been discussed since the early 1980ies.
 
+### ORMs
+
 Today there exist several Design Patterns and Libraries for solving this.
 The solution is called an Object Relational Mapper or ORM.
 
@@ -73,6 +75,9 @@ an attibute in the table           a property of the object
 SELECT * FROM courses WHERE id=7   Course.find(7)
 ```
 
+
+### Conventions
+
 Rails has several conventions regarding ActiveRecord and the database:
 
 * The Model Class is written in first-letter-uppercase, and uses a singular noun: `Course`
@@ -87,6 +92,9 @@ Rails has several conventions regarding ActiveRecord and the database:
    * table `projects_users` contains `user_id` and `project_id` (and nothing else)
    * there is no class in rails to represent the join table 
 
+
+### Not following Conventions
+
 If you stick to these conventions building the web app will be very easy.  You 
 can deviate from these conventions, but this takes some extra configuration and programming work.
 
@@ -96,8 +104,7 @@ keep using the same database. You can start with the models
 in rails configured to fit with your old database, and then refactor and migrate towards
 the rails conventions step by step.
 
-
-Migrations
+Database
 ----------
 
 ### How to build a model
