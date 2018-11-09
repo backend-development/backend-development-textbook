@@ -362,7 +362,6 @@ h2#preheader { display: none; }
 
 #header .wrapper, #topNav .wrapper, #feature .wrapper {padding-left: 1em; max-width: 960px;}
 #feature .wrapper {
-  // padding-right: 23em; 
   position: relative; 
   z-index: 0;
 }
@@ -375,7 +374,7 @@ h2#preheader { display: none; }
 --------------------------------------- */
 
 a, a:link, a:visited {
-  // color: #ee3f3f;
+  /* color: #ee3f3f; */
   text-decoration: underline;
 }
 
@@ -581,8 +580,8 @@ h6 {
 
 #header h1 {
   float: left;
-  // background: url(../images/web_engineering_logo.png) no-repeat;
-  // text-indent: -9999em;
+  /* background: url(../images/web_engineering_logo.png) no-repeat;
+  text-indent: -9999em; */
   margin: 0;
   padding: 0;
 }
