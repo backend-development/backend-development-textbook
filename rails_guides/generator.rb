@@ -201,8 +201,9 @@ module RailsGuides
           # Passing a template handler in the template name is deprecated. So pass the file name without the extension.
           result = view.render(:layout => layout, :formats => [$1], :file => $`)
         else
-          body = File.read(File.join(source_dir, guide))
+          body = File.read(File.join(source_dir, guide))    
           result = RailsGuides::Markdown.new(view, layout).render(body, guide)
+          result = add_slides(result)
           result = add_retina_images(result)
           warn_about_broken_links(result) if @warnings
         end
@@ -210,6 +211,10 @@ module RailsGuides
         f.write(result)
       end
     end
+
+    def add_slides(html)
+      html 
+    end 
 
     def add_retina_images(html)
       # find <img src="images/chapters_icon.gif"

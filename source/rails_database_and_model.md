@@ -41,7 +41,7 @@ and has been discussed since the early 1980ies.
 Today there exist several Design Patterns and Libraries for solving this.
 The solution is called an Object Relational Mapper or ORM.
 
-Two Patterns used in Rails for this problem are ActiveRecord and ObjectMapper, both first
+Two Patterns used in Rails for this problem are ActiveRecord and ObjectMapper, both 
 described by Fowler in his 2003 book [Patterns of Enterprise Application Architecture](http://martinfowler.com/books/eaa.html).
 ActiveRecord is the default solution used in Rails, we will look into it in detail here.
 

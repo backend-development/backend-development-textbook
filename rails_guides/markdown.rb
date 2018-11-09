@@ -67,7 +67,7 @@ module RailsGuides
       end
 
       def generate_body
-        @body = engine.render(@raw_body)
+        @body = engine.render(@raw_body)      
       end
 
       def generate_header
@@ -77,6 +77,8 @@ module RailsGuides
       def generate_structure
         @headings_for_index = []
         if @body.present?
+
+
           @body = Nokogiri::HTML(@body).tap do |doc|
             hierarchy = []
 
@@ -99,7 +101,7 @@ module RailsGuides
                 node.inner_html = "#{node_index(hierarchy)} #{node.inner_html}"
               end
             end
-          end.to_html
+          end.at('body').inner_html      
         end
       end
 
@@ -116,7 +118,7 @@ module RailsGuides
 
           @index = Nokogiri::HTML(engine.render(raw_index)).tap do |doc|
             doc.at('ol')[:class] = 'chapters'
-          end.to_html
+          end.at('body').inner_html
 
           @index = <<-INDEX.html_safe
           <div id="subCol">
@@ -161,7 +163,7 @@ module RailsGuides
           @view.content_for(:header_section) { @header }
         end
         @view.content_for(:page_title) { @title }
-        @view.content_for(:index_section) { @index }
+        @view.content_for(:index_section) { @index }     
         @view.render(:layout => @layout, :html => @body.html_safe)
       end
   end
