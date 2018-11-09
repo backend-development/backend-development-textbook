@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Slides for <%= yield(:page_title) || 'Backend Development Textbook' %></title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
+
+  <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shCore.css" />
+  <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shThemeRailsGuides.css" />
+
+  <link rel="stylesheet" type="text/css" href="stylesheets/fixes.css" />
+
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+</head>
+<body class="guide">
+
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <%= yield.html_safe %>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="javascripts/jquery.min.js"></script>
+  <script src="javascripts/responsive-tables.js"></script>
+  <script src="javascripts/guides.js"></script>
+  <script src="javascripts/syntaxhighlighter/shCore.js"></script>
+  <script src="javascripts/syntaxhighlighter/shBrushRuby.js"></script>
+  <script src="javascripts/syntaxhighlighter/shBrushXml.js"></script>
+  <script src="javascripts/syntaxhighlighter/shBrushSql.js"></script>
+  <script src="javascripts/syntaxhighlighter/shBrushPlain.js"></script>
+  <script>
+    SyntaxHighlighter.all()
+    $(guidesIndex.bind);
+  </script>
+  </body>
+</html>

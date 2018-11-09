@@ -3,6 +3,12 @@ namespace :guides do
   desc 'Generate guides (for authors), use ONLY=foo to process just "foo.md"'
   task :generate => 'generate:html'
 
+  desc 'Delete html files'
+  task :clean do
+    sh 'rm -f output/*.html'
+    sh 'rm -f slides/*.html'
+  end
+
   namespace :generate do
 
     desc "Generate HTML guides"
