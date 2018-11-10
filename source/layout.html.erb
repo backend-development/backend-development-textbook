@@ -14,6 +14,12 @@
   <link rel="stylesheet" type="text/css" href="stylesheets/fixes.css" />
 
   <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <style>
+
+    .slide img[src$=svg] {
+      width: 100%;
+    }
+  </style>
 </head>
 <body class="guide">
   <div>
@@ -68,10 +74,53 @@
     </div>
   </div>
 
+<%
+
+        def scan_until(regex)
+          match = @string.match(regex)
+          return unless match
+          @string = match.post_match
+          match
+        end
+
+        def add_slide_links(html)
+          my_path = content_for(:output_path)
+          link = "slides_#{ my_path&.gsub('./output/', '') }"
+          #puts "linking to #{link}"
+
+          @string = html.dup
+
+          pending = ""
+          output = "<div class='slide'><a id='slide-1'></a>\n"
+          i = 1
+
+          until @string.empty?
+            match = scan_until /^(<h[234].*?>|<hr>+|^(<p>)*§(<.p>)*)$/m
+
+            break if !match
+
+            output << match.pre_match
+
+            output << "</div>\n<div class='slide'>\n<a class='slide_break' id='slide-#{i}' href='#{link}#slide-#{i}'>▻</a>\n"
+            i += 1
+            if match[0] =~ /§/ then
+              # discard match
+            else 
+              output << match[0]
+            end
+          end # untile @string.empty?
+
+          output << @string
+          output << "</div>"
+
+          output           
+        end
+      %>  
+
   <div id="container">
     <div class="wrapper">
       <div id="mainCol">
-        <%= yield.html_safe %>
+        <%= add_slide_links(yield).html_safe %>        
       </div>
     </div>
   </div>

@@ -97,6 +97,8 @@ module RailsGuides
           generate_guide(guide, output_file)
         end
 
+        next if guide == 'index.html.erb'
+
         # slides
         output_file = slide_output_file_for(guide)
         if generate?(guide, output_file) 
@@ -163,7 +165,7 @@ module RailsGuides
         else
           body = File.read(File.join(source_dir, guide))    
           markdown = RailsGuides::Markdown.new(view, layout)
-          result = markdown.render(body, guide)
+          result = markdown.render(body, guide, output_path)
           result = add_retina_images(result)
           warn_about_broken_links(result) if @warnings
         end
@@ -188,7 +190,7 @@ module RailsGuides
         else
           body = File.read(File.join(source_dir, guide))
           markdown = RailsGuides::Markdown.new(view, layout)
-          result = markdown.render(body, guide)
+          result = markdown.render(body, guide, output_path)
           result = add_retina_images(result)
           warn_about_broken_links(result) if @warnings
         end

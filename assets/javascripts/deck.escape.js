@@ -30,7 +30,7 @@ escape from a slide.  Built for http://web-development.github.com/
         var before = document.location, 
             after = new String(before);
             
-        after = after.replace("slide.html", "");
+        after = after.replace("slides_", "");
         console.log("escaping from " + before + " to " + after);
 
         document.location = after;

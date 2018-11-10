@@ -204,6 +204,8 @@ After the Arrow (`=>`) the rails console shows the return value of the command
 you typed in.  Here this is an object.  The console prints out the details of this
 object using the `inspect` method.
 
+§
+
 From now on we will use this slightly shortended format to show rails console
 input and output:
 

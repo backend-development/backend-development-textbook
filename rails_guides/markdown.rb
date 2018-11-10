@@ -12,8 +12,9 @@ module RailsGuides
       @node_ids = {}
     end
 
-    def render(body, source_file)
+    def render(body, source_file, output_path = 'unknown')
       @raw_body = body
+      @output_path = output_path
       extract_raw_header_and_body
       generate_header
       generate_title
@@ -155,6 +156,7 @@ module RailsGuides
 
       def render_page( source_file )
         @view.content_for(:source_file) { source_file  }
+        @view.content_for(:output_path) { @output_path  }
         if heading = Nokogiri::HTML(@header).at(:h2) then
           @view.content_for(:header_h2_section) { heading.text.html_safe }
           @view.content_for(:header_section) { @header }
