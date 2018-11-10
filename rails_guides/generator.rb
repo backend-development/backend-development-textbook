@@ -151,7 +151,7 @@ module RailsGuides
 
     def generate_slide(guide, output_file)
       output_path = output_path_for(output_file)
-      puts "Generating Slides as #{output_file} from #{guide}"
+      puts "from #{guide}: #{output_file} (slides)"
       layout = 'slides_layout'
 
       File.open(output_path, 'w') do |f|
@@ -176,7 +176,7 @@ module RailsGuides
 
     def generate_guide(guide, output_file)
       output_path = output_path_for(output_file)
-      puts "Generating Guide as #{output_file} from #{guide}"
+      puts "from #{guide}: #{output_file}"
       layout = 'layout'
 
       File.open(output_path, 'w') do |f|
