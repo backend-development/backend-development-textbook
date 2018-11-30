@@ -33,3 +33,11 @@ run `rake` to find out how to generate the html-version
 
 When you are content with your changes, push up to your own github repository,
 and send me a pull request
+
+
+## built with
+
+* code from the rails guides, found in the 'guides' folder of the rails repository
+* deck.js for the slides http://imakewebthings.com/deck.js/docs/
+* syntax highlighter http://alexgorbatchev.com/SyntaxHighlighter
+

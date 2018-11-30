@@ -151,7 +151,7 @@
     $(document).ready(function(){
       let hash = document.location.hash;
       if(! hash) return;
-      document.getElementById(hash).scrollIntoView(true);
+      document.getElementById(hash.substr(1)).scrollIntoView(true);
     })
   </script>
   </body>
