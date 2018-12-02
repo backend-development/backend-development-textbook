@@ -5,11 +5,13 @@
   -webkit-transition: -webkit-transform 500ms ease-in-out;
   transition: transform 500ms ease-in-out;
 }
+/*
 .csstransitions.csstransforms .deck-container:not(.deck-menu) > .slide {
   position: absolute;
   top: 0;
   left: 0;
 }
+*/
 .csstransitions.csstransforms .deck-container:not(.deck-menu) > .slide .slide {
   position: relative;
   left: 0;
