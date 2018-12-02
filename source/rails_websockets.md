@@ -480,7 +480,7 @@ App.adventureChannel = App.cable.subscriptions.create({
 
 Every time a user changes their status we want the server
 to send out messages.  The model where the status is stored
-is `Step`. ActiveRecord supplies hooks for [callbacks](http://guides.rubyonrails.org/active_record_callbacks.html#transaction-callbacks) we can use here:
+is `Step`. ActiveRecord supplies hooks for [callbacks](https://guides.rubyonrails.org/active_record_callbacks.html#transaction-callbacks) we can use here:
 
 ```
 class Step < ApplicationRecord

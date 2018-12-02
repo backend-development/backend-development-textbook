@@ -35,7 +35,7 @@ not the behaviour (see "Business Logic" above).
 Here we hit on an old problem in computer science: storing
 objects into a relational database does not work all that well.
 This problem is called the 
-[Object-relational impedance mismatch](http://en.wikipedia.org/wiki/Object-relational_impedance_mismatch)
+[Object-relational impedance mismatch](https://en.wikipedia.org/wiki/Object-relational_impedance_mismatch)
 and has been discussed since the early 1980ies.
 
 ### ORMs
@@ -44,7 +44,7 @@ Today there exist several Design Patterns and Libraries for solving this.
 The solution is called an Object Relational Mapper or ORM.
 
 Two Patterns used in Rails for this problem are ActiveRecord and ObjectMapper, both 
-described by Fowler in his 2003 book [Patterns of Enterprise Application Architecture](http://martinfowler.com/books/eaa.html).
+described by Fowler in his 2003 book [Patterns of Enterprise Application Architecture](https://martinfowler.com/books/eaa.html).
 ActiveRecord is the default solution used in Rails, we will look into it in detail here.
 
 
@@ -467,12 +467,12 @@ On Documentation
 ---------
 
 You could have learned all this and more from 
-the Rails Guides: [ActiveRecord Basics](https://guides.rubyonrails.org/active_record_basics.html), [Active Record Query Interface](http://guides.rubyonrails.org/active_record_querying.html) and [Active Record Migrations](http://guides.rubyonrails.org/active_record_migrations.html). 
+the Rails Guides: [ActiveRecord Basics](https://guides.rubyonrails.org/active_record_basics.html), [Active Record Query Interface](https://guides.rubyonrails.org/active_record_querying.html) and [Active Record Migrations](https://guides.rubyonrails.org/active_record_migrations.html). 
 Set a bookmark for the guides now!  Use them as a reference from now on!
 
 If you are offline now and again you should have the ruby and rails documentation available
 locally on your computer.  A handy tool for this on mac os x is
-[Dash](http://kapeli.com/dash).  This is what a Rails Guide looks like in Dash:
+[Dash](https://kapeli.com/dash).  This is what a Rails Guide looks like in Dash:
 
 ![Dash](images/dash-rails-guide.png)
 
@@ -483,7 +483,7 @@ locally on your computer.  A handy tool for this on mac os x is
 * The Rails Guides give a good introduction to a subject area:
   * Rails Guide: [Active Record Basics](https://guides.rubyonrails.org/active_record_basics.html)
   * Rails Guide: [Active Record Query Interface](https://guides.rubyonrails.org/active_record_querying.html)
-  * Rails Guide: [Active Record Associations](http://guides.rubyonrails.org/association_basics.html)
+  * Rails Guide: [Active Record Associations](https://guides.rubyonrails.org/association_basics.html)
 * Use the [Rails API](https://api.rubyonrails.org/) documentation to look up the details:
   * [find](https://api.rubyonrails.org/classes/ActiveRecord/FinderMethods.html#method-i-find)
   * [where](https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-where)

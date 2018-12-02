@@ -63,8 +63,8 @@ end
 
 ### see documentation
 
-* [Guide to Testing Rails Applications](http://guides.rubyonrails.org/testing.html)
-* [Test::Unit Cheatsheet](http://topfunky.com/clients/rails/ruby_and_rails_assertions.pdf)
+* [Guide to Testing Rails Applications](https://guides.rubyonrails.org/testing.html)
+* [Test::Unit Cheatsheet](https://topfunky.com/clients/rails/ruby_and_rails_assertions.pdf)
 * [Capybara Cheat Sheet](https://gist.github.com/3942267)
 
 

@@ -68,7 +68,7 @@ of the different HTTP connections as a "waterfall graph":
 
 ![displaying http downloads with yslow](images/network-souders-2008.png)
 
-(Image from Steve Souders [talk at Web 2.0 Expo](http://www.web2expo.com/webexsf2008/public/schedule/detail/3321) in April 2008)
+(Image from Steve Souders [talk at Web 2.0 Expo](https://conferences.oreilly.com/web2expo/webexsf2008/public/schedule/detail/3321) in April 2008)
 
 Each bar is one resource being retrieved via HTTP, the x-axis
 is a common timeline for all.  The most striking result you can read from

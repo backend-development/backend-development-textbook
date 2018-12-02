@@ -98,11 +98,11 @@ as arguments.  To use these savely you can apply  `sanitize_sql()` to user input
 you interpolate it into a SQL query.
 
 
-ActiveRecord will use prepared statements by default, but you can [configure it](http://edgeguides.rubyonrails.org/configuring.html#configuring-a-postgresql-database) not to do that.
+ActiveRecord will use prepared statements by default, but you can [configure it](https://edgeguides.rubyonrails.org/configuring.html#configuring-a-postgresql-database) not to do that.
 
 ### Links
 
-* [SQL Injection chapter](http://guides.rubyonrails.org/security.html#sql-injection) of the Rails Guide "Securing Rails Applications" 
+* [SQL Injection chapter](https://guides.rubyonrails.org/security.html#sql-injection) of the Rails Guide "Securing Rails Applications" 
 * [rails-sqli.org](https://rails-sqli.org/)
 * [brakeman will warn about possible sql injections](https://brakemanscanner.org/docs/warning_types/sql_injection/)
 
@@ -118,7 +118,7 @@ Broken Authentication
 
 Rails comes with basic built in functionality to handle authentication:
 
-* [has_secure_password](http://api.rubyonrails.org/classes/ActiveModel/SecurePassword/ClassMethods.html#method-i-has_secure_password) adds methods to set and authenticate against a BCrypt password to a model.
+* [has_secure_password](https://api.rubyonrails.org/classes/ActiveModel/SecurePassword/ClassMethods.html#method-i-has_secure_password) adds methods to set and authenticate against a BCrypt password to a model.
 
 For most real world projects you will be using a gem:
 
@@ -248,9 +248,9 @@ If you need to have a resource that is available to anyone with the URL (think g
 but do not want users to be able to enumerate all possible URLs:
 
 ```
-http://my-schedule.at/calendar/17
-http://my-schedule.at/calendar/18
-http://my-schedule.at/calendar/19 ...
+https://my-schedule.at/calendar/17
+https://my-schedule.at/calendar/18
+https://my-schedule.at/calendar/19 ...
 ````
 
 Instead of serial/autocincrement  use of UUID
@@ -284,8 +284,8 @@ now your urls will be harder to enumerate:
 
 
 ```
-http://my-schedule.at/calendar/0d60a85e-0b90-4482-a14c-108aea2557aa
-http://my-schedule.at/calendar/39240e9f-ae09-4e95-9fd0-a712035c8ad7 ...
+https://my-schedule.at/calendar/0d60a85e-0b90-4482-a14c-108aea2557aa
+https://my-schedule.at/calendar/39240e9f-ae09-4e95-9fd0-a712035c8ad7 ...
 ````
 
 
@@ -354,7 +354,7 @@ default: &default
   adapter: postgresql
   encoding: unicode
   # For details on connection pooling, see Rails configuration guide
-  # http://guides.rubyonrails.org/configuring.html#database-pooling
+  # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 development:
@@ -559,6 +559,6 @@ Note that cross-site scripting (XSS) vulnerabilities bypass all CSRF protections
 See Also
 --------
 
-* [Rails Guide: Security](http://guides.rubyonrails.org/security.html)
+* [Rails Guide: Security](https://guides.rubyonrails.org/security.html)
 * Tool: [loofah](https://github.com/flavorjones/loofah)
 * Tool: [brakeman](https://github.com/presidentbeef/brakeman)

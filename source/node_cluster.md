@@ -195,7 +195,7 @@ See Also
 
 
 * [cluster.js documentation](https://nodejs.org/api/cluster.html)
-* [pm2 - process manager for Node.js](http://pm2.keymetrics.io/)
+* [pm2 - process manager for Node.js](https://pm2.io/doc/en/runtime/overview/)
 
 
 

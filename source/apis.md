@@ -143,9 +143,9 @@ Accept: application/xml
 Or by adding an "extension" as part of the URL:
 
 ```
-http://example.com/mini/person/83.html
-http://example.com/mini/person/83.xml
-http://example.com/mini/person/83.json
+https://example.com/mini/person/83.html
+https://example.com/mini/person/83.xml
+https://example.com/mini/person/83.json
 ```
 
 The three different versions of person number 83 might look
@@ -153,14 +153,14 @@ like this: the HTML web page:
 
 ```
 <h1>Details zu einer Person</h1>
-<p><img src="http://example.com/mini/profil/edvard_1_2.jpg" />
+<p><img src="https://example.com/mini/profil/edvard_1_2.jpg" />
 Herr Edvard Paul Beisteiner hat insgesamt 4 Werke in dieser Datenbank.
 Er hat den Usernamen fhs14287.</p>
 <ul>
-  <li><a href='http://example.com/mini/werk/24'>The Thin Red Line</a></li>
-  <li><a href='http://example.com/mini/werk/50'>Der böse Wolf</a></li>
-  <li><a href='http://example.com/mini/werk/83'>nimm zwei, schatz</a></li>
-  <li><a href='http://example.com/mini/werk/303'>the neighbour.</a></li>
+  <li><a href='https://example.com/mini/werk/24'>The Thin Red Line</a></li>
+  <li><a href='https://example.com/mini/werk/50'>Der böse Wolf</a></li>
+  <li><a href='https://example.com/mini/werk/83'>nimm zwei, schatz</a></li>
+  <li><a href='https://example.com/mini/werk/303'>the neighbour.</a></li>
 </ul>
 ```
 
@@ -168,15 +168,15 @@ For an API the same resource might be represented as XML:
 
 ```
 <person>
-  <image ref='http://example.com/mini/profil/edvard_1_2.jpg' />
+  <image ref='https://example.com/mini/profil/edvard_1_2.jpg' />
   <vorname>Edvard</vorname>
   <nachname>Beisteiner</nachname>
   <username>fhs14287</username>
   <werke>
-    <werk ref='http://example.com/mini/werk/24'>The Thin Red Line</werk>
-    <werk ref='http://example.com/mini/werk/50'>Der böse Wolf</werk>
-    <werk ref='http://example.com/mini/werk/83'>nimm zwei, schatz</werk>
-    <werk ref='http://example.com/mini/werk/303'>the neighbour.</werk>
+    <werk ref='https://example.com/mini/werk/24'>The Thin Red Line</werk>
+    <werk ref='https://example.com/mini/werk/50'>Der böse Wolf</werk>
+    <werk ref='https://example.com/mini/werk/83'>nimm zwei, schatz</werk>
+    <werk ref='https://example.com/mini/werk/303'>the neighbour.</werk>
   </werke>
 </person>
 ```
@@ -184,18 +184,18 @@ For an API the same resource might be represented as XML:
 or as JSON:
 
 ```
-{"image":"http://example.com/mini/profil/edvard_1_2.jpg",
+{"image":"https://example.com/mini/profil/edvard_1_2.jpg",
  "vorname":"Eduard",
  "nachname":"Beisteiner",
  "werk":[
     {"titel":"The Thin Red Line",
-     "url":"http://example.com/mini/werk/24"},
+     "url":"https://example.com/mini/werk/24"},
     {"titel":"Der böse Wolf",
-     "url":"http://example.com/mini/werk/50"},
+     "url":"https://example.com/mini/werk/50"},
     {"titel":"nimm zwei, schatz",
-     "url":"http://example.com/mini/werk/83"},
+     "url":"https://example.com/mini/werk/83"},
     {"titel":"the neighbour.",
-     "url":"http://example.com/mini/werk/303"}]}
+     "url":"https://example.com/mini/werk/303"}]}
 ```
 
 ### Statelessness
@@ -211,7 +211,7 @@ to different servers.
 ## JSON API
 
 When an API returns JSON data this could take many forms.
-The [json:api specification](http://jsonapi.org/) is a well thought out
+The [json:api specification](https://jsonapi.org/) is a well thought out
 convention for this.
 
 It is especially good with the HATEOS aspect of REST.
@@ -532,11 +532,11 @@ See Halliday(2016): [Producing Documentation for Your Rails API](https://blog.co
 
 ## See Also
 
-* [Fielding, Roy(2000): Architectural Styles and the Design of Network-based Software Architectures](http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm). Dissertation. University of California/Irvine, USA.
+* [Fielding, Roy(2000): Architectural Styles and the Design of Network-based Software Architectures](https://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm). Dissertation. University of California/Irvine, USA.
 * [Fowler (2010): Richardson Maturity Model](https://martinfowler.com/articles/richardsonMaturityModel.html)
 * [Tilkov(2007): A Brief Introduction to REST](https://www.infoq.com/articles/rest-introduction)
-* [Rails Guide: Rendering JSON in Action Controller Overview](http://edgeguides.rubyonrails.org/action_controller_overview.html#rendering-xml-and-json-data)
-* [Rails Guide: Using Rails for API-only Applications](http://edgeguides.rubyonrails.org/api_app.html)
+* [Rails Guide: Rendering JSON in Action Controller Overview](https://edgeguides.rubyonrails.org/action_controller_overview.html#rendering-xml-and-json-data)
+* [Rails Guide: Using Rails for API-only Applications](https://edgeguides.rubyonrails.org/api_app.html)
 * [Vasilakis(2017): Rails 5 API Tutorial](https://github.com/vasilakisfil/rails5_api_tutorial)
 * [Methods HTTP/1.0](https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html)
 * [Status codes](https://httpstatuses.com/422)

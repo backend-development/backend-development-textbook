@@ -371,13 +371,12 @@ Most scripting languages offer Hashes as a basic data type,
 most compiled languages as a library.  Read more about
 Hashes in Wikipedia:
 
-* [Hashtables in Wikipedia](http://en.wikipedia.org/wiki/Hash_table)
+* [Hashtables in Wikipedia](https://en.wikipedia.org/wiki/Hash_table)
 
 (If you don't know what "in constant time" means above, you
 should learn more about the analysis of algorithms. e.g. by
 taking a algorithms and data strcture course as offered in the second
-semester of most computer science programs.  Or by working through the
-[the book by Bruno R. Preiss](http://www.brpreiss.com/books/opus8/)).
+semester of most computer science programs.
 
 ### Implicit Form
 
@@ -521,8 +520,8 @@ code considerably.
 
 Read the Reference on
 
-* [Enumerable](http://ruby-doc.org/core-2.5.0/Enumerable.html)
-* [Array](http://ruby-doc.org/core-2.1.0/Array.html)
+* [Enumerable](https://ruby-doc.org/core-2.5.3/Enumerable.html)
+* [Array](https://ruby-doc.org/core-2.5.3/Array.html)
 
 
 Blocks
@@ -585,17 +584,15 @@ opportunity to read a bit more than strictly necessary.
 Get an offline version of the documentation
 installed on your development machine so you can look up stuff instantly.
 
-* Mac Tool [Dash](http://kapeli.com/dash) for keeping offline copies of documentation
+* Mac Tool [Dash](https://kapeli.com/dash) for keeping offline copies of documentation
 
 ### Online Resources
 
-* [try ruby](http://tryruby.org) - interactive online course
-* [Ruby Bits](http://www.codeschool.com/courses/ruby-bits) - interactive online course, with 8bit game graphics
 * [learningruby.com tutorial](http://rubylearning.com/satishtalim/tutorial.html)
 
 ### Books
 
-* Flanagan, Matsumoto(2008): [The Ruby Programming Language](http://www.amazon.com/Ruby-Programming-Language-David-Flanagan/dp/0596516177). O'Reilly. ISBN 0596516177.
-* Thomas(2013): [Programming Ruby 1.9 + 2.0](http://www.amazon.com/Programming-Ruby-1-9-2-0-Programmers/dp/1937785491/). Pragmatic Porgrammers. ISBN 1937785491
-* Olsen (2011): [Eloquent Ruby](http://www.amazon.com/Eloquent-Ruby-Addison-Wesley-Professional/dp/0321584104/). Addison-Wesley. ISBN 0321584104
-* Tate(2010): [Seven Languages in Seven Weeks: A Pragmatic Guide to Learning Programming Languages](http://www.amazon.com/Seven-Languages-Weeks-Programming-Programmers/dp/193435659X/). Pragmatic Programmers.  ISBN 193435659X
+* Flanagan, Matsumoto(2008): [The Ruby Programming Language](https://www.amazon.com/Ruby-Programming-Language-David-Flanagan/dp/0596516177). O'Reilly. ISBN 0596516177.
+* Thomas(2013): [Programming Ruby 1.9 + 2.0](https://www.amazon.com/Programming-Ruby-1-9-2-0-Programmers/dp/1937785491/). Pragmatic Porgrammers. ISBN 1937785491
+* Olsen (2011): [Eloquent Ruby](https://www.amazon.com/Eloquent-Ruby-Addison-Wesley-Professional/dp/0321584104/). Addison-Wesley. ISBN 0321584104
+* Tate(2010): [Seven Languages in Seven Weeks: A Pragmatic Guide to Learning Programming Languages](https://www.amazon.com/Seven-Languages-Weeks-Programming-Programmers/dp/193435659X/). Pragmatic Programmers.  ISBN 193435659X

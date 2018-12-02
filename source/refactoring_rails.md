@@ -24,7 +24,7 @@ Refactoring is
 
 * restructuring an existing body of code
 * altering its internal structure
-* without changing its external behavior [wikipedia](http://en.wikipedia.org/wiki/Refactoring)
+* without changing its external behavior [wikipedia](https://en.wikipedia.org/wiki/Refactoring)
 
 We will use **tests** to ensure that we do not change the external behavior 
 of the code we are refactoring.
@@ -81,7 +81,7 @@ But there is a role for tools in this process: especially when
 faced with a lot of code there are tools that can help
 you find places you should look at.
 
-A [code metric](http://en.wikipedia.org/wiki/Software_metric) is 
+A [code metric](https://en.wikipedia.org/wiki/Software_metric) is 
 a quantitive measure of the quality of a piece of code.
 
 The Gem `metric_fu` combines some metrics. Install it in your

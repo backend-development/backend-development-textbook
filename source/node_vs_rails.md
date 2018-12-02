@@ -184,7 +184,7 @@ chaining asynchronous actions, and handling errors from asynchronous
 actions in JavaScript. 
 
 For many years 
-[error first callbacks](http://fredkschott.com/post/2014/03/understanding-error-first-callbacks-in-node-js/)
+[error first callbacks](https://fredkschott.com/post/2014/03/understanding-error-first-callbacks-in-node-js/)
 were the preferred style in node. Right now Promises seem to 
 be the future favorite solution. But the discussion is still open
 and there tons of apps out there written in other styles.

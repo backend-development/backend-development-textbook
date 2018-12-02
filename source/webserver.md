@@ -23,5 +23,5 @@ other ruby-based web apps.
 See Also
 --------
 
-* [Rack: a Ruby Webserver Interface](http://rack.github.io/)
-* [Rails Guide: Rails on Rack](http://guides.rubyonrails.org/rails_on_rack.html)
+* [Rack: a Ruby Webserver Interface](https://rack.github.io/)
+* [Rails Guide: Rails on Rack](https://guides.rubyonrails.org/rails_on_rack.html)

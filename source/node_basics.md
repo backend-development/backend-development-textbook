@@ -185,8 +185,8 @@ As each thread comes with a fixed overhead of memory demand, you
 can only start so many threads on a given machine.  You configure this
 in the web server configuration, e.g.
 
-* when running PHP with apache and PHP-FPM with the configuration directives `pm.max_children`, ```pm.start_servers`, `pm.min_spare_servers`, `pm.max_spare_servers`, see [php.net](http://php.net/manual/de/install.fpm.configuration.php)
-* when running Rails with Passenger with the configuration directives `PassengerMinInstances` und `PassengerMaxPoolSize`, see [phusion.nl](http://old.blog.phusion.nl/2013/03/12/tuning-phusion-passengers-concurrency-settings/)
+* when running PHP with apache and PHP-FPM with the configuration directives `pm.max_children`, ```pm.start_servers`, `pm.min_spare_servers`, `pm.max_spare_servers`, see [php.net](https://secure.php.net/manual/de/install.fpm.configuration.php)
+* when running Rails with Passenger with the configuration directives `PassengerMinInstances` und `PassengerMaxPoolSize`, see [phusionpassenger.com](https://www.phusionpassenger.com/library/config/apache/optimization/)
 
 
 Node has a completely different model:
@@ -269,7 +269,7 @@ There have been several attempts to find a more readable alternative:
 * Promises 
 * Async functions (soon)
 
-The last two optinos seem to be the winners (in 2017): [promises](http://caniuse.com/#feat=promises)
+The last two optinos seem to be the winners (in 2017): [promises](https://caniuse.com/#feat=promises)
 are a part of ES6, and are available in both browsers and node now.
 In node you can use a "promisified" version of the node standard library
 with `mz`:
@@ -288,7 +288,7 @@ console.log('2.');
 ```
 
 
-[Async functions](http://caniuse.com/#feat=async-functions) are defined in ES8 and 
+[Async functions](https://caniuse.com/#feat=async-functions) are defined in ES8 and 
 are usable in browsers, but not in node yet.  There Syntax will be something like:
 
 ``` javascript
@@ -354,8 +354,8 @@ See Also
 
 * [Node Guide: HTTP](https://nodejs.org/en/docs/guides/anatomy-of-an-http-transaction/)
 * [nexttick](https://nodejs.org/en/docs/guides/event-loop-timers-and-nexttick/)
-* [Event Loop Implementation](http://stackoverflow.com/questions/19822668/what-exactly-is-a-node-js-event-loop-tick)
+* [Event Loop Implementation](https://stackoverflow.com/questions/19822668/what-exactly-is-a-node-js-event-loop-tick)
 * [set the event pool size process.env.UV_THREADPOOL_SIZE](http://docs.libuv.org/en/v1.x/threadpool.html)
 * [V8 needs 4 threads](https://github.com/nodejs/node/blob/278a9267ec41f37e6b7dda876c417945d7725973/src/node.cc#L3964-L3965)
 * [On problems with threads in node.js](https://www.future-processing.pl/blog/on-problems-with-threads-in-node-js/)
-* [Karpov(2017): Async Await Patterns](http://thecodebarbarian.com/common-async-await-design-patterns-in-node.js.html)
+* [Karpov(2017): Async Await Patterns](https://thecodebarbarian.com/common-async-await-design-patterns-in-node.js.html)

@@ -50,7 +50,7 @@ Public Key Authentication in SSH
 
 ![public key login](images/public_key_crypto.svg)
 
-* [learn about ssh](http://dougvitale.wordpress.com/2012/02/20/ssh-the-secure-shell/)
+* [learn about ssh](https://dougvitale.wordpress.com/2012/02/20/ssh-the-secure-shell/)
 * if you have a public + private key pair
   * `id_rsa`
   * `id_rsa.pub`

@@ -404,10 +404,12 @@ Another change is needed in the form for editing or creating a card:
 Further reading
 ----------------
 
-* Rails Guide: [Layouts and Rendering in Rails](http://guides.rubyonrails.org/layouts_and_rendering.html)
-* Rails Guide: [Action Controller Overview](http://guides.rubyonrails.org/action_controller_overview.html)
-* Rails Guide: [Rails Routing from the Outside In](http://guides.rubyonrails.org/routing.html)
-* [link_to](http://apidock.com/rails/v3.2.8/ActionView/Helpers/UrlHelper/link_to)
-* [before_action](http://guides.rubyonrails.org/form_helpers.html#select-boxes-for-dealing-with-models)
-* [resources](http://apidock.com/rails/ActionDispatch/Routing/Mapper/Resources/resources)
+* The Rails Guides give a good introduction to the subject:
+  * Rails Guide: [Layouts and Rendering in Rails](https://guides.rubyonrails.org/layouts_and_rendering.html)
+  * Rails Guide: [Action Controller Overview](https://guides.rubyonrails.org/action_controller_overview.html)
+  * Rails Guide: [Rails Routing from the Outside In](https://guides.rubyonrails.org/routing.html)
+* Use the [Rails API](https://api.rubyonrails.org/) documentation to look up the details:
+  * [link_to](https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to)
+  * [before_action](https://api.rubyonrails.org/classes/AbstractController/Callbacks/ClassMethods.html#method-i-before_action)
+  * [resources](https://api.rubyonrails.org/classes/ActionDispatch/Routing/Mapper/Resources.html)
 * Alternative to ERB: [HAML](http://haml.info/tutorial.html)  similar to SASS

@@ -82,9 +82,9 @@ How is this represented in the model?
 ### Further reading
 
 * The Rails Guides give a good introduction to a subject area:
-* Rails Guide: [Active Record Validations and Callbacks](http://guides.rubyonrails.org/active_record_validations_callbacks.html)
-* Rails Guide: [Active Record Associations](http://guides.rubyonrails.org/association_basics.html)
-* Use the API Dock to look up the details:
-* Rails @ API Dock: [find()](http://apidock.com/rails/ActiveResource/Base/find/class)
-* Rails @ API Dock: [ActiveRecord Validations](http://apidock.com/rails/v2.0.3/ActiveRecord/Validations/ClassMethods/validates_presence_of)
-* Rails @ API Dock: [ActiveRecord Associations](http://apidock.com/rails/v3.2.8/ActiveRecord/Associations/ClassMethods)
+  * Rails Guide: [Active Record Validations and Callbacks](https://guides.rubyonrails.org/active_record_validations_callbacks.html)
+  * Rails Guide: [Active Record Associations](https://guides.rubyonrails.org/association_basics.html)
+* Use the [Rails API](https://api.rubyonrails.org/) documentation to look up the details:
+  * [validates_presence_of](https://api.rubyonrails.org/classes/ActiveRecord/Validations/ClassMethods.html#method-i-validates_presence_of)
+  * [has_many](https://api.rubyonrails.org/classes/ActiveRecord/Associations/ClassMethods.html#method-i-has_many)
+

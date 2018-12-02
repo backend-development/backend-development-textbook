@@ -14,4 +14,4 @@ After reading it you should be familiar with:
 See Also
 --------
 
-* [Rails Guide: Internationalization](http://guides.rubyonrails.org/i18n.html)
+* [Rails Guide: Internationalization](https://guides.rubyonrails.org/i18n.html)

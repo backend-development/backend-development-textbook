@@ -11,7 +11,7 @@ After reading this guide, you will know:
 * How to write integration tests for your application.
 
 This guide is a shorter version of the offical
-[Guide to Testing Rails Applications](http://guides.rubyonrails.org/testing.html).
+[Guide to Testing Rails Applications](https://guides.rubyonrails.org/testing.html).
 
 REPO: Fork the [example app 'testing for stars'](https://github.com/backend-development/rails-example-testing-for-stars) and try out what you learn here.
 
@@ -313,8 +313,8 @@ the first one here.  For most assertions there is a simple negation `assert` and
 
 The above are a subset of assertions that minitest supports. For an exhaustive &
 more up-to-date list, please check
-[Minitest API documentation](http://docs.seattlerb.org/minitest/), specifically
-[`Minitest::Assertions`](http://docs.seattlerb.org/minitest/Minitest/Assertions.html).
+[Minitest API documentation](https://github.com/seattlerb/minitest#user-content-description), specifically
+[`Minitest::Assertions`](https://docs.ruby-lang.org/en/2.1.0/MiniTest/Assertions.html).
 
 Because of the modular nature of the testing framework, it is possible to create your own assertions. In fact, that's exactly what Rails does. It includes some specialized assertions to make your life easier.
 
@@ -486,7 +486,7 @@ NOTE: For associations to reference one another by name,
 you cannot specify the `id:` attribute on the associated fixtures. 
 Rails will auto assign a primary key to be consistent between runs. 
 For more information on this association behavior please read 
-the [Fixtures API documentation](http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html).
+the [Fixtures API documentation](https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html).
 
 #### Fixtures with ERB
 
@@ -649,6 +649,6 @@ console output.
 Further Reading
 ---------------
 
-* [A Guide to Testing Rails Applications](http://guides.rubyonrails.org/testing.html) - also contains an introduction to testing routes, mailers, helpers, jobs and more in depth information on testing controllers
-* [Fixtures API documentation](http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html)
+* [A Guide to Testing Rails Applications](https://guides.rubyonrails.org/testing.html) - also contains an introduction to testing routes, mailers, helpers, jobs and more in depth information on testing controllers
+* [Fixtures API documentation](https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html)
 * [Observations running 2M headless Chrome sessions](https://news.ycombinator.com/item?id=17233371)

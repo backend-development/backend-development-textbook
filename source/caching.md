@@ -751,10 +751,10 @@ ORM creates make sense and are efficient.
 See Also
 --------
 
-* [Rails Guide: Caching](http://guides.rubyonrails.org/caching_with_rails.html)
-* [Rails Guide: Active Record Query Interface. N+1 problems](http://guides.rubyonrails.org/active_record_querying.html#eager-loading-associations)
+* [Rails Guide: Caching](https://guides.rubyonrails.org/caching_with_rails.html)
+* [Rails Guide: Active Record Query Interface. N+1 problems](https://guides.rubyonrails.org/active_record_querying.html#eager-loading-associations)
 * [Berkopec(2015): Speed Up Your Rails App by 66% - The Complete Guide to Rails Caching](https://www.speedshop.co/2015/07/15/the-complete-guide-to-rails-caching.html)
 * [bullet gem for finding n+1 problems](https://github.com/flyerhzm/bullet#readme)
 * [Using database views for performance wins in Rails](https://content.pivotal.io/blog/using-database-views-for-performance-wins-in-rails)
-* [materialized views in mysql](http://www.fromdual.ch/mysql-materialized-views)
+* [materialized views in mysql](https://www.fromdual.ch/mysql-materialized-views)
 * [materialized view in postgres](https://www.postgresql.org/docs/9.3/static/rules-materializedviews.html)

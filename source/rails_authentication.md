@@ -124,7 +124,7 @@ And show this number to the user
   in session <%= session.id %>
 ```
 
-See [Rails Guide: Controller](http://guides.rubyonrails.org/action_controller_overview.html#session)
+See [Rails Guide: Controller](https://guides.rubyonrails.org/action_controller_overview.html#session)
 for more details.
 
 ## Authentication
@@ -366,7 +366,7 @@ It can makes your logins ...
 * Validatable: provides validations of email and password. It's optional and can be customized, so you're able to define your own validations.
 * Lockable: locks an account after a specified number of failed sign-in attempts. Can unlock via email or after a specified time period.
 
-See the [devise documentation](http://devise.plataformatec.com.br/#getting-started) on how to set it up.
+See the [devise documentation](https://github.com/plataformatec/devise#getting-started) on how to set it up.
 
 When set up correctly devise gives you helper methods to use in your controllers and views:
 
@@ -595,6 +595,6 @@ end
 
 * OmniAuth [wiki](https://github.com/intridea/omniauth/wiki)
 * Devise [github page](https://github.com/plataformatec/devise)
-* Rails Security Guide on [User Management](http://guides.rubyonrails.org/security.html#user-management)
+* Rails Security Guide on [User Management](https://guides.rubyonrails.org/security.html#user-management)
 * [devise_token_auth](https://github.com/lynndylanhurley/devise_token_auth) for token based authentication for API only Rails apps
 * [10 Things You Should Know about Tokens](https://auth0.com/blog/ten-things-you-should-know-about-tokens-and-cookies/)

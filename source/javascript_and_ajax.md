@@ -15,7 +15,7 @@ After reading this guide, you will know:
 * the Turbolinks gem.
 
 This guide is based on the original
-[Rails Guide Working with JavaScript](http://guides.rubyonrails.org/working_with_javascript_in_rails.html).
+[Rails Guide Working with JavaScript](https://guides.rubyonrails.org/working_with_javascript_in_rails.html).
 The original guide uses coffeescript, this guide uses ES6 and
 refers to an [example app](https://github.com/backend-development/rails-example-recipes-js)
 
@@ -312,8 +312,8 @@ attributes, and attaches appropriate handlers.
 
 #### form_for and form_tag
 
-[`form_for`](http://api.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i-form_for)
-and [`form_tag`](http://api.rubyonrails.org/classes/ActionView/Helpers/FormTagHelper.html#method-i-form_tag)
+[`form_for`](https://api.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i-form_for)
+and [`form_tag`](https://api.rubyonrails.org/classes/ActionView/Helpers/FormTagHelper.html#method-i-form_tag)
 are helpers that assists with writing forms. Both take a `:remote` option. It works like this:
 
 ```erb
@@ -357,7 +357,7 @@ events [in the jquery-ujs wiki](https://github.com/rails/jquery-ujs/wiki/ajax).
 
 #### link_to
 
-[`link_to`](http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to)
+[`link_to`](https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to)
 and its cousin `link_to_unless_current` 
 are helper that generate links. Again they have a `:remote` option:
 
@@ -376,7 +376,7 @@ hander that deactivates the normal link and sends an Ajax request instead.
 
 #### button_to
 
-[`button_to`](http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-button_to) 
+[`button_to`](https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-button_to) 
 is a shorthand for creating a form that consists of just one button. This
 help in using consistent REST requests.
 
@@ -409,7 +409,7 @@ withoug making changes in the backend.
 Turbolinks attaches a click handler to all `<a>` Tags on the page. When
 the link is clicked, Turbolinks will make an Ajax request for the page, 
 parse the response, and replace the entire `<body>` of the page with the 
-`<body>` of the response. It will then use the [HTML History API](http://caniuse.com/#search=pushState)
+`<body>` of the response. It will then use the [HTML History API](https://caniuse.com/#search=pushState)
 to change the URL to the correct one. In unsupported browsers
 , Turbolinks gracefully degrades to standard navigation.
 
@@ -463,9 +463,8 @@ Other Resources
 
 Here are some helpful links to help you learn even more:
 
-* [Original Rails Guide Working with JavaScript](http://guides.rubyonrails.org/working_with_javascript_in_rails.html).
+* [Original Rails Guide Working with JavaScript](https://guides.rubyonrails.org/working_with_javascript_in_rails.html).
 * [jquery-ujs wiki](https://github.com/rails/jquery-ujs/wiki)
 * [Events created by Rails AJAX](https://github.com/rails/jquery-ujs/wiki/ajax)
-* [Using ES6 in Rails article](http://www.kwanso.com/blog/using-ecmascript-6-with-rails-4-2-projects/)
 * [Railscasts: Unobtrusive JavaScript](http://railscasts.com/episodes/205-unobtrusive-javascript)
 * [RailsConf 2016 - Turbolinks 5](https://www.youtube.com/watch?v=SWEts0rlezA) video of the talk on using turbolinks on ios and android

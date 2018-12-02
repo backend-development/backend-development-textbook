@@ -78,8 +78,8 @@ you can be sure that it can also be reinstalled by bundler.
 
 See also:
 
-* [what is a gem](http://docs.rubygems.org/read/chapter/24)
-* find 100.000 gems at [rubygems.org](http://rubygems.org/)
+* [what is a gem](https://guides.rubygems.org/what-is-a-gem/)
+* find [150.000 gems](https://rubygems.org/stats) at [rubygems.org](https://rubygems.org/)
 
 ### dependency hell
 
@@ -137,7 +137,7 @@ gem 'puma', '~> 3.0'
 The arrow `~>` will only allow an increase in the 
 last (right most) number, so `~> 5.0.0` does allow `5.0.0.7` but not `5.0.1` or `5.1`.
 This is called a pessimistic version constraint, read more about 
-it in [the rubygem documentation](http://guides.rubygems.org/patterns/#pessimistic-version-constraint).
+it in [the rubygem documentation](https://guides.rubygems.org/patterns/#pessimistic-version-constraint).
 
 
 ### gems and rails
@@ -154,7 +154,7 @@ A gem may install rake tasks, run `rails -T` to see a list.
 Some Gems
 ----------
 
-This list is based on [Dwellables statistics on the Rails Rumble 2013](http://www.dwellable.com/blog/Rails-Rumble-Gem-Teardown) and
+This list was inspired by the [Rails Rumble gem teardown](https://blog.railsrumble.com/2016/01/15/gem-teardown/) and
 [coodbeerstartups "Must Have Gems for Development Machine in Ruby on Rails "](http://www.codebeerstartups.com/2013/04/must-have-gems-for-development-machine-in-ruby-on-rails).
 
 ### Frontend Stuff for rails
@@ -196,14 +196,14 @@ and more.
 
 After file upload you might want to resize or crop your images
 automatically. This is traditionally done with
-the library [ImageMagick](http://www.imagemagick.org/):
+the library [ImageMagick](https://www.imagemagick.org/):
 
 * gem [rmagick](https://github.com/rmagick/rmagick) image processing with image magick
 
 You might also want to know how to use ImageMagick on the UNIX commandline: 
 
-* command line tool [convert](http://www.imagemagick.org/script/convert.php) to convert to different formats and
-* command line tool [mogrify](http://www.imagemagick.org/script/mogrify.php) to  resize, blur, crop, draw on, flip, join, ... an image and overwrite it.
+* command line tool [convert](https://www.imagemagick.org/script/convert.php) to convert to different formats and
+* command line tool [mogrify](https://www.imagemagick.org/script/mogrify.php) to  resize, blur, crop, draw on, flip, join, ... an image and overwrite it.
 
 ### Authentication
 
@@ -219,7 +219,7 @@ You don't want the database keys to be visible in your URLs?  Use Friendly IDs i
 
 ### Parsing xml and html
 
-* gem [nokogiri](http://nokogiri.org/)
+* gem [nokogiri](https://www.nokogiri.org/)
 
 (this is also used by capybara)
 
@@ -227,7 +227,7 @@ You don't want the database keys to be visible in your URLs?  Use Friendly IDs i
 
 Letting users enter HTML is a dangerous idea - it's really hard to
 avoid the security problems.  An alternative is to let them enter
-a simpler markup language, like [Markdown](http://en.wikipedia.org/wiki/Markdown).
+a simpler markup language, like [Markdown](https://en.wikipedia.org/wiki/Markdown).
 You store the markdown in your database, and convert it to HTML when displayed using a gem:
 
 * gem [redcarpet](https://github.com/vmg/redcarpet) - see [Railscast #272](http://railscasts.com/episodes/272-markdown-with-redcarpet?view=asciicast)
@@ -275,12 +275,12 @@ Create a Backend for manipulating data with a few lines of code:
 
 ![ActiveAdmin Screenshot](images/gem-active-admin.png)
 
-* gem [activeadmin](http://activeadmin.info/)
+* gem [activeadmin](https://activeadmin.info/)
 
 
 ### Sending Mail
 
-To send mail from Rails use [ActionMailer](http://guides.rubyonrails.org/action_mailer_basics.html).
+To send mail from Rails use [ActionMailer](https://guides.rubyonrails.org/action_mailer_basics.html).
 
 To see the generated mails in your web browser *instead* of sending them, use the gem [letter_opener](https://github.com/ryanb/letter_opener)
 
@@ -319,7 +319,7 @@ to street addresses, or the reverse
 * gem [better_errors](https://github.com/charliesome/better_errors)
 * gem [meta_request](https://github.com/dejan/rails_panel/tree/master/meta_request) - supporting gem for [Rails Panel, a Google Chrome extension for Rails development](https://github.com/dejan/rails_panel)
 * gem [annotate](https://github.com/ctran/annotate_models) - inserts the db schema as comments in your model.rb file
-* gem [railroady](http://railroady.prestonlee.com/) - UML diagram generation for Rails projects, capable of analyzing existing models and controllers
+* gem [railroady](https://github.com/preston/railroady) - UML diagram generation for Rails projects, capable of analyzing existing models and controllers
 * gem [bullet](https://github.com/flyerhzm/bullet) - helps you improve your usage of activerecord queries
 * gem [metric_fu]() - many code metrics for your rails project
 * gem [rails_best_practices](https://github.com/railsbp/rails_best_practices)
@@ -332,7 +332,7 @@ Ressources
 ----------
 
 * [Ruby Gems](https://rubygems.org/)
-* [Bundler](http://bundler.io/)
+* [Bundler](https://bundler.io/)
 * [awesome-ruby](https://github.com/markets/awesome-ruby)
 * the [Ruby Toolbox](https://www.ruby-toolbox.com/) is organized in categories that help you find alternative solutions
 * [How does Bundler work, anyway?](https://www.youtube.com/watch?v=4DqzaqeeMgY) talk by Andre Arko at RubyConf 2015
