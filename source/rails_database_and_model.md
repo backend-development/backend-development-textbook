@@ -9,9 +9,9 @@ After working through this guide you should
 * Understand how ActiveRecord works
 * Understand what Database Migrations are
 
-REPO: Fork the [basic zombies](https://github.com/backend-development/basic_zombies) repository.
+REPO: Fork the [basic zombies](https://github.com/backend-development/basic-zombies) repository.
 
-The examples are taken from "Rails for Zombies", which used to be a free rails online course. 
+The examples were inspired by "Rails for Zombies", which used to be a free rails online course. 
 Sadly it is no longer available.
 
 -------------------------------------------------------------
@@ -21,9 +21,9 @@ Models and Databases
 --------------------
 
 In a modern programming language like rails we represent 
-things in the real world with objects. For example if you are
-building a web application for project management, you will
-have objects of classes Project, and WorkPackage, and User.
+things in the real world with objects in our program. For example if you are
+building an application for project management, you might
+have objects of classes `Project` and `WorkPackage` and `User`.
 These classes also implement the "Business Logic": all the methods
 needed for handling projects are actually implemented in the Project class.
  
@@ -189,6 +189,8 @@ class CreateEvents < ActiveRecord::Migration
   end
 end
 ```
+
+§
 
 Use `rails` to apply this migration to the existing database:
 
@@ -384,19 +386,15 @@ railsconsole> t.destroy
 
 ### Chaining ActiveRecord methods
 
-Let's look at the two examples of using `where` again: the return value was of class `ActiveRecord::Relation`:
+Let's look at the example of using `where` again: the return value was of class `ActiveRecord::Relation`:
 
 ```ruby
- => #<Tweet id: 3, status: "I just ate some delicious brains.", zombie: "Jim", created_at: "2018-11-24 09:26:48", updated_at: "2018-11-24 09:26:48">
-railsconsole> t2 = Tweet.where("created_at > '2018-10-01'")
-  Tweet Load (0.5ms)  SELECT  "tweets".* FROM "tweets" WHERE (created_at > '2018-10-01') LIMIT ?  [["LIMIT", 11]]
- => #<ActiveRecord::Relation [#<Tweet id: 1, status: "I <3 brains.", zombie: nil, created_at: "2018-11-24 09:20:15", updated_at: "2018-11-24 09:20:15">, #<Tweet id: 2, status: "Where can I get a good bite to eat?", zombie: "Ash", created_at: "2018-11-24 09:26:26", updated_at: "2018-11-24 09:26:26">, #<Tweet id: 3, status: "I just ate some delicious brains.", zombie: "Jim", created_at: "2018-11-24 09:26:48", updated_at: "2018-11-24 09:26:48">]>
 railsconsole> t3 = Tweet.where(zombie: 'Ash')
   Tweet Load (0.3ms)  SELECT  "tweets".* FROM "tweets" WHERE "tweets"."zombie" = ? LIMIT ?  [["zombie", "Ash"], ["LIMIT", 11]]
  => #<ActiveRecord::Relation [#<Tweet id: 2, status: "Where can I get a good bite to eat?", zombie: "Ash", created_at: "2018-11-24 09:26:26", updated_at: "2018-11-24 09:26:26">]>
 ```
 
-This class supports all the ActiveRecord methods again. This means
+This class also supports all the ActiveRecord methods. This means
 we can chain several `where`s together:
 
 ```ruby
@@ -411,24 +409,58 @@ In fact there are many more methods we might want to use for chaining:
 Tweet.limit(3)
 Tweet.order(:zombie)
 Tweet.select(:created_at, :zombie, :status)
-Tweet.where("created_at > '2018-10-01'").where(zombie: 'Ash').order(:zombie).limit(3)
+Tweet.where("created_at > '2018-10-01'").   
+  where(zombie: 'Ash').
+  order(:zombie).limit(3)
 ```
+
+(normally the dot is placed in front of the method when chaining. here
+it is placed at the end, to enable copy-and-paste to the rails console)
+
+§
 
 You can use the method `to_sql` to see the SQL Statement produced by the chained methods:
 
 ```ruby
-railsconsole> Tweet.select(:created_at, :zombie, :status).where("created_at > '2018-10-01'").where(zombie: 'Ash').order(:zombie).limit(3).to_sql
- => SELECT  "created_at", "zombie", "status" FROM "tweets" WHERE (created_at > '2018-10-01') AND "zombie" = 'Ash' ORDER BY "zombie" ASC LIMIT 3
+railsconsole> Tweet.select(:created_at, :zombie, :status).
+  where("created_at > '2018-10-01'").
+  where(zombie: 'Ash').
+  order(:zombie).
+  limit(3).to_sql
+ => SELECT  "created_at", "zombie", "status" 
+       FROM "tweets" 
+       WHERE (created_at > '2018-10-01') 
+       AND "zombie" = 'Ash' 
+       ORDER BY "zombie" ASC 
+       LIMIT 3
 ```
+
+§
 
 The order of the methods is not relevant. You can also save an intermediate step to 
-a variable and the chain more methods to that variable later on:
+a variable, and then chain more methods to that variable later on:
 
 ```ruby
-railsconsole> query = Tweet.where("created_at > '2018-10-01'").order(:zombie).limit(3)
-railsconsole> query.select(:created_at, :zombie, :status).where(zombie: 'Ash').to_sql
- => SELECT  "created_at", "zombie", "status" FROM "tweets" WHERE (created_at > '2018-10-01') AND "zombie" = 'Ash' ORDER BY "zombie" ASC LIMIT 3
+railsconsole> query = Tweet.where("created_at > '2018-10-01'").
+  order(:zombie).limit(3)
+railsconsole> query.select(:created_at, :zombie, :status).
+  where(zombie: 'Ash').to_sql
+ => SELECT  "created_at", "zombie", "status" 
+      FROM "tweets" 
+      WHERE (created_at > '2018-10-01') 
+      AND "zombie" = 'Ash' 
+      ORDER BY "zombie" ASC 
+      LIMIT 3
 ```
+
+
+Exercise
+---------
+
+Now would be a good time to try out the exercises in the
+
+REPO: [basic zombies](https://github.com/backend-development/basic-zombies) repository.
+
 
 
 On Documentation
@@ -449,9 +481,10 @@ locally on your computer.  A handy tool for this on mac os x is
 ### Further reading
 
 * The Rails Guides give a good introduction to a subject area:
-* Rails Guide: [Active Record Basics](http://guides.rubyonrails.org/active_record_basics.html)
-* Rails Guide: [Active Record Query Interface](http://guides.rubyonrails.org/active_record_querying.html)
-* Rails Guide: [Active Record Associations](http://guides.rubyonrails.org/association_basics.html)
-* Use the API Dock to look up the details:
-* Rails @ API Dock: [find()](http://apidock.com/rails/ActiveResource/Base/find/class)
+  * Rails Guide: [Active Record Basics](https://guides.rubyonrails.org/active_record_basics.html)
+  * Rails Guide: [Active Record Query Interface](https://guides.rubyonrails.org/active_record_querying.html)
+  * Rails Guide: [Active Record Associations](http://guides.rubyonrails.org/association_basics.html)
+* Use the [Rails API](https://api.rubyonrails.org/) documentation to look up the details:
+  * [find](https://api.rubyonrails.org/classes/ActiveRecord/FinderMethods.html#method-i-find)
+  * [where](https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-where)
 
