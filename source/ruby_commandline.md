@@ -588,6 +588,7 @@ installed on your development machine so you can look up stuff instantly.
 
 ### Online Resources
 
+* [try ruby](https://ruby.github.io/TryRuby/)
 * [learningruby.com tutorial](http://rubylearning.com/satishtalim/tutorial.html)
 
 ### Books
