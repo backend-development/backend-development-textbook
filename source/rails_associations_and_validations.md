@@ -86,7 +86,7 @@ this will be the `email` property and the `email_confirmation` property. Both
 need to be equal.
 
 
-### Combining Validators
+### Combining Validations
 
 You can combine several properties that should be checked:
 
@@ -127,16 +127,14 @@ that the save / validate / errors lifecycle fits perfectly with
 the way that forms a handled in Rails. See [Rails: View and Controller](/rails_view_and_controller.html)
 
 
-Associations
-------------
+
+1:n Associations
+-----
+
 
 If you have used relational databases before you are probably familiar
 with the different types of associations between database tables.  But even
 if you have not, the first association is easy to understand:
-
-
-### 1:n Associations
-
 
 
 ```
@@ -149,17 +147,13 @@ Zombie Ash  ----------------------- Tweet 'arg'
 Zombie Sue ------------------------ Tweet 'gagaga'
 ```
 
-§
-
-How is this 1:n association represented in the **database**?
+### Database
 
 In the table `tweets` there is a column `zombie_id` which references `zombies.id`.
 This column in `tweets` is called a "foreign key".
 
 
-§
-
-How do we create the database?
+### Create the Database
 
 You can either add this column when you first create Tweets:
 
@@ -194,9 +188,7 @@ this will generate a migration with the following command
   add_reference :tweets, :zombie, foreign_key: true
 ```
 
-§
-
-How is this represented in the **model**?
+### Model
 
 You have to declare association in both models, by
 editing the two files in `app/models/*.rb`.
@@ -217,9 +209,7 @@ end
 
 notice the plural used with `has_many` and the singular used with `belongs_to`.
 
-§
-
-How can you use the association in the **code**?
+### Methods
 
 There are now methods available to walk from one model to the other:
 
@@ -253,8 +243,8 @@ association in the Rails Guide under [Methods Added by belongs_to](https://guide
 
 
 
-
-### Further reading
+Further reading
+----
 
 * The Rails Guides give a good introduction to a subject area:
   * Rails Guide: [Active Record Validations and Callbacks](https://guides.rubyonrails.org/active_record_validations_callbacks.html)
