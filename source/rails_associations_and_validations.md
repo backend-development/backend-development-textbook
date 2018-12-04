@@ -105,7 +105,7 @@ or you can combine several validations on one property:
 ### Validations vs Database Constraints
 
 Validations are checked by ruby code **before** data is inserted
-in the database.  If you want to ensure that the e-mails of you users
+in the database.  If you want to ensure that the e-mails of your users
 are unique, you can do so in Rails, by adding
 
 ``` ruby
@@ -156,6 +156,11 @@ How is this 1:n association represented in the **database**?
 In the table `tweets` there is a column `zombie_id` which references `zombies.id`.
 This column in `tweets` is called a "foreign key".
 
+
+§
+
+How do we create the database?
+
 You can either add this column when you first create Tweets:
 
 ```
@@ -164,21 +169,47 @@ rails generate tweets status:string zombie:references
 
 You can add the column later, to an existing `tweets` table, using just a migration 
 
+
+```
+$ rails generate migration AddZombieToTweets zombie_id:integer
+```
+
+this will generate a migration with the following command
+
+
 ``` ruby
   add_column    :tweets, :zombie_id, :integer
+```
+
+or, alternatively you can use
+
+```
+$ rails generate migration AddZombieToTweets zombie:references
+```
+
+this will generate a migration with the following command
+
+
+``` ruby
+  add_reference :tweets, :zombie, foreign_key: true
 ```
 
 §
 
 How is this represented in the **model**?
 
-* 1:n associations are declared in the models with `belongs_to` and `has_many`
+You have to declare association in both models, by
+editing the two files in `app/models/*.rb`.
+
+1:n associations are declared with `belongs_to` and `has_many`:
 
 ``` ruby
+# in file app/models/zombie.rb
 class Zombie
   has_many :tweets
 end
 
+# in file app/models/tweet.rb
 class Tweet
   belongs_to :zombie
 end
@@ -205,8 +236,20 @@ end
 
 again: notice the plural `tweets` and singular `zombie`.
 
+$
 
+You can also use a model to create associated models:
 
+``` ruby
+z = Zombie.find(1)
+z.tweets.create(status: "I'm alive!")
+z.tweets.create(status: "Correction: I'm dead. But still moving.")
+z.tweets.create(status: "Why did my arm just fall off?")
+```
+
+You can find a list of all the new methods added by the
+association in the Rails Guide under [Methods Added by belongs_to](https://guides.rubyonrails.org/association_basics.html#belongs-to-association-reference) and
+[Methods Added by has_many](https://guides.rubyonrails.org/association_basics.html#has-many-association-reference).
 
 
 
