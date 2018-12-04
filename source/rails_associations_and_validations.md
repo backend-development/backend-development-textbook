@@ -40,8 +40,9 @@ but it can't be saved because a validation is in place:
 => "can't be blank"
 ```
 
-
-[validates_presence_of](https://api.rubyonrails.org/classes/ActiveRecord/Validations/ClassMethods.html#method-i-validates_presence_of)
+Notice that the `save` method does not raise an exception,
+but rather just returns a `false`.  It is up to the calling
+code to handle the error!
 
 
 ### Defining a Validation
