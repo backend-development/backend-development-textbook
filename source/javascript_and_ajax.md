@@ -1,16 +1,15 @@
-JavaScript and AJAX in Rails
+JavaScript and Rails
 ================================
 
-This guide covers the built-in Ajax/JavaScript functionality of Rails; 
-it will enable you to create rich and dynamic Ajax applications with
+This guide covers the built-in JavaScript functionality of Rails; 
+it will enable you to create rich and dynamic web applications with
 ease!
 
 After reading this guide, you will know:
 
 * unobtrusive JavaScript,
 * how to use ES6 in your Rails app,
-* the basics of Ajax,
-* how Rails handles Ajax,
+* how Rails avoids loading full HTML pages,
 * how built-in helpers assist you,
 * the Turbolinks gem.
 
@@ -90,31 +89,31 @@ transpiled to JavaScript first, and later be minified and combined by the asset 
 You do not need to write modules or import them, because all the JavaScript
 code will be combined into one file.
 
-Ajax and Rails
+Javascript and Rails
 --------------------
 
-### What is Ajax
+### What changes?
 
-In order to understand Ajax, you must first understand what a web browser does
-normally.
+In order to understand how Javascript is used here, you must first understand what a web browser does normally.
 
 When you type `http://localhost:3000` into your browser's address bar and hit
 'Go,' the browser (your 'client') makes a request to the server. It parses the
 response, then fetches all associated assets, like JavaScript files,
-stylesheets and images. It then assembles the page. If you click a link, it
-does the same process: fetch the page, fetch the assets, put it all together,
+stylesheets and images. It then assembles the page. 
+
+If you click a link, the same process starts again: fetch the page, fetch the assets, put it all together,
 show you the results. This is called the 'request response cycle.'
 
 JavaScript can also make requests to the server, and parse the response. It
 also has the ability to update information on the page. Combining these two
 powers, you can write JavaScript that updates just parts of a webpage,
 without needing to get the full page from the server. This is a
-powerful technique called [Ajax](https://en.wikipedia.org/wiki/Ajax_(programming)).
+powerful technique. It used to be called [Ajax](https://en.wikipedia.org/wiki/Ajax_(programming)), but nowadays it's just the normal way Javascript is used.
 
 Rails provides quite a bit of built-in support for building web pages with this
 technique. 
 
-### Ajax Example
+### Javascript Example
 
 You can clone the source code for the example from
 [github](https://github.com/backend-development/rails-example-recipes-js)
@@ -125,10 +124,10 @@ There are four HTTP requests and three full page loads in this process:
 
 ![](images/rails-js-1.jpg)
 
-We want to replace this with a version that uses Rails typical AJAX. When
+We want to replace this with a version that uses Rails typical Javascript. When
 the 'edit' link is clicked the server returns JavaScript that places
 the form into the existing page.
-When the form is submitted - also via AJAX - the server returns
+When the form is submitted - also by Javascript - the server returns
 JavaScript that enters the name of the new ingredient into 
 the existing list.
 
@@ -151,8 +150,8 @@ is returned (just like before):
 
 ![](images/rails-js-network-html.png) 
 
-But our Ajax request does not handle the HTML.
-In fact, our Ajax requests expects the response to
+But our HTTP request does not handle the HTML.
+In fact, our HTTP requests expects the response to
 contain JavaScript code!  If you look in the Rails log
 you can see that:
 
@@ -217,7 +216,7 @@ The form has a unique id we can use to identify it:
 $("#edit_ingredient_<%= @ingredient.id %>").data('remote', true);
 ```
 
-The form sends a PATCH request via Ajax, which will be handled
+The form sends a PATCH request (via Javascript), which will be handled
 by the `update` action.  This action already specifies
 two formats it can handle: html and json:
 
@@ -283,7 +282,7 @@ In case of success we want to remove the form and replace it with
 the new name of the ingredient.  This is left as an exercise for the reader.
 
 
-### The Rails Ajax Style
+### The Rails Javascript Style
 
 Sending JavaScript from the Server to the client is a very
 strange concept at first.  But as you have seen you can achive
@@ -294,15 +293,13 @@ You may have noticed that the HTML code for the example
 app included some additional tags and ids that turned
 out to be very helpful in the example.
 
-This style of using Ajax is very specific to Rails.  Other
-frameworks use XML or Json or HTML as responses to Ajax requests.
-(Actually Ajax is an acronym for 'Asynchronous Javascript and XML'.
-So only the XML people are doing it correctly.)
+This style of using Javascript is very specific to Rails.  Other
+frameworks use other approaches.
 
 
 ### Helper Methods
 
-Because of Unobtrusive JavaScript, the Rails "Ajax helpers" are actually in two
+The "Unobtrusive JavaScript" Helpers, actually consist of two
 parts: the JavaScript half and the Ruby half.
 
 [rails.js](https://github.com/rails/jquery-ujs/blob/master/src/rails.js)
@@ -337,7 +334,7 @@ This will generate the following HTML:
 ```
 
 rails.js will remove the `data-remote="true"` attribute and
-add a handler that turns the form into an Ajax form.
+add a handler that turns the form into an form submitted by Javascript.
 
 
 #### error handling
@@ -372,7 +369,8 @@ which generates
 ```
 
 Again rails.js removes the data-attribute and attaches a
-hander that deactivates the normal link and sends an Ajax request instead.
+hander that deactivates the normal link and uses Javascript
+to send the HTTP request instead.
 
 #### button_to
 
@@ -402,12 +400,12 @@ Turbolinks
 
 Rails ships with the [Turbolinks](https://github.com/turbolinks/turbolinks) gem.
 Turbolinks are a method of speeding up user interaction with the webpage
-withoug making changes in the backend.
+without making changes in the backend.
 
 ### How Turbolinks Works
 
 Turbolinks attaches a click handler to all `<a>` Tags on the page. When
-the link is clicked, Turbolinks will make an Ajax request for the page, 
+the link is clicked, Turbolinks will make a HTTP request for the page, 
 parse the response, and replace the entire `<body>` of the page with the 
 `<body>` of the response. It will then use the [HTML History API](https://caniuse.com/#search=pushState)
 to change the URL to the correct one. In unsupported browsers

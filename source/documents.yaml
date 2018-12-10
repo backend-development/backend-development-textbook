@@ -26,7 +26,7 @@
       url: asset_pipeline.html
       description: How CSS, Javascript, Images are prepared for publishing
     -
-      name: Javascript and AJAX
+      name: Javascript and Rails
       url: javascript_and_ajax.html
       description: Rails style remote forms and links
     -
