@@ -20,6 +20,27 @@ REPO: Fork the [example app 'kanban-board'](https://github.com/backend-developme
 
 -------------------------------------------------------
 
+MVC in Rails
+------------
+
+The Pattern "Model-View-Controller" has a long history.  It has been used in building Graphical User Interfaces (GUIs) since the 1990ies. The general idea is simple:
+
+* The model represents the state of the application
+* The view is concerned with showing the Interface
+* The controller binds the two together
+
+§
+
+In Ruby on Rails we already encounterd the model, or, to be more specific: the models.  Several classes that together represent the state of our application.
+
+Typically we will have one controller per model, and many views per model.
+
+The controller is concerned with handling HTTP requests for certain URLs. It will set cookies, return HTTP Status Codes for redirection, or call a View to render HTML, XML, JSON, and return that in the HTTP response.  
+
+![MVC in Rails](images/rails-mvc.svg)
+
+
+
 The View
 --------
 
@@ -32,6 +53,8 @@ XML or JSON that will be loaded by another program.
 We will focus on HTML for now. Views that generate XML or JSON
 are covered in the chapter on [APIs](apis.html).
 
+§
+
 In Ruby on Rails **Embedded Ruby** (ERB) is normally used
 as the templating language for HTML.  This will
 be familiar to you if you have
@@ -43,14 +66,15 @@ using git to resolve merge conflicts comes in handy!).
 
 ### Layouts and Views
 
-The view file (e.g. `app/views/thing/show.html.erb`) will only
-contain the HTML that is specific for this view.  There is
+The view file itself (e.g. `app/views/controller/action.html.erb`) will only
+contain the HTML that is specific to this view.  There is
 another file `app/views/layouts/application.html.erb` that contains
-the surrounding stuff that stays the same for every page in the app: head, main
-navigation, footer.
+the surrounding code, that stays the same for every page in the app: 
+head, main navigation, footer.
 
 ![Layouts and Views](images/layout_view.svg)
 
+§
 
 If you find other parts of your code that you want to reuse
 in several views you can extract it into a "partial".  An example
@@ -62,10 +86,10 @@ used both by the `new.html.erb` and the `edit.html.erb` view.
 ### Views with ERB
 
 When it comes to templating systems there are two competing
-schools of thought: on the one side there are minimal "logic-less"
+schools of thought: on the one side there are minimal **logic-less**
 templating systems that only offer the inclusion of variable values
-and maybe iteration.  On the other hand are full programming
-languages embedded in HTML.
+and maybe iteration.  On the other hand are **full programming
+languages** embedded in HTML.
 
 ERB is an example of the latter: the full power of Ruby is
 available inside the template:
@@ -74,7 +98,9 @@ available inside the template:
 * `<% ruby code here %>` just evaluates the code
 * `<%= ruby code here %>` evaluates the code and includes the result
 
-You can use all the usual ruby contructs for iteration, conditions, blocks.
+§
+
+You can use all the usual ruby constructs for iteration, conditions, blocks.
 Here's an example of a loop:
 
 ``` ruby
@@ -89,7 +115,7 @@ Here's an example of a loop:
 ### Links
 
 Never write links to your own app "by hand"! Use helper methods to get the right URLs.
-Use `rails routes` on the command line do find out which URLs exist:
+Use `rails routes` on the command line do find out which URLs exist and helper methods exist:
 
 ``` shell
 $ rails routes
@@ -109,13 +135,9 @@ $ rails routes
 Use the "prefix" from `rails routes` and `_path` or `_url` to get the path or full URL of the
 action.
 
-* `link_to "Add a User", add_user_group_path` links to the groups#add_user action
+* `link_to "Add a User", add_user_group_path` links to the `groups#add_user` action
 * `link_to "Show the Object", object` links to the show action of the object
 
-
-Now do 'Rails for Zombies' Episode no3
-
-![Rails for Zombies Episode 3](images/rails-for-zombies-3.jpg)
 
 The Controller
 --------------
@@ -149,6 +171,8 @@ PATCH  /zombies/:id      zombies_controller  def update
 DELETE /zombies/:id      zombies_controller  def destroy
 ```
 
+§
+
 You have already used the scaffold generator which also
 adds the necessary views.  This way we end up with full CRUD (create, read, update, delete)
 capability for zombies:
@@ -158,9 +182,6 @@ capability for zombies:
 Do adapt the views to better fit your users needs, but 
 try to keep the underlying routes the same!
 
-### Now do 'Rails for Zombies' Episode no 4
-
-![Rails for Zombies Episode 4](images/rails-for-zombies-4.jpg)
 
 Form Helpers
 -------
@@ -274,17 +295,19 @@ def update
 end
 ```
 
+§
+
 For mass-assignments (update, create) rails offers an easy
 way to filter out only the parameters you really want to be changed / created,
 and ignore all others. The following code will look for a key `user` in the
-params Hash and only pick out its sub-entries `uid`, `name`, `email` and `homepage`:
+params Hash and only pick out its sub-entries `uid`, `name` and `email`:
 
 ```
 # PATCH /users/1
 # PATCH /users/1.json
 def update
   @user = User.find(params[:id])
-  good_params = params.require(:user).permit(:uid, :name, :email, :homepage)
+  good_params = params.require(:user).permit(:uid, :name, :email)
   @user.update(good_params)
   redirect_to @user, notice: 'User updated.'
 end
@@ -299,7 +322,7 @@ the edit-view from before:
 # PATCH /users/1.json
 def update
   @user = User.find(params[:id])
-  good_params = params.require(:user).permit(:uid, :name, :email, :homepage)
+  good_params = params.require(:user).permit(:uid, :name, :email)
   if @user.update(good_params)
     redirect_to @user, notice: 'User was successfully updated.'
   else
@@ -336,8 +359,8 @@ available throught the `errors` attribute of the user object:
 
 You already know that
 the rails console is great for working with models.
-You can also use it to check path helpers, by preprending
-them with `app.`.
+You can also use it to check path helpers, by calling them
+through the object `app.`.
 
 ```ruby
 > app.projects_path

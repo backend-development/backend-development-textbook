@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 22.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_2_1_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 640 316.8" style="enable-background:new 0 0 640 316.8;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#3040D8;}
+	.st1{fill:#FDFDFF;stroke:#000000;stroke-miterlimit:10;}
+	.st2{fill:none;stroke:#000000;stroke-miterlimit:10;}
+	.st3{font-family:'ArialMT';}
+	.st4{font-size:12px;}
+	.st5{fill:#731AC1;}
+	.st6{fill:#1AB725;stroke:#000000;stroke-miterlimit:10;}
+	.st7{fill:#C7E22B;stroke:#000000;stroke-miterlimit:10;}
+	.st8{fill:#FDFDFF;}
+	.st9{fill:none;stroke:#000000;stroke-miterlimit:10;stroke-dasharray:11.9301,11.9301;}
+	.st10{fill:none;stroke:#000000;stroke-miterlimit:10;stroke-dasharray:12.0312,12.0312;}
+	.st11{fill:#EA32E5;stroke:#000000;stroke-miterlimit:10;}
+	.st12{fill:#0890FF;stroke:#000000;stroke-miterlimit:10;}
+	.st13{fill:#FFA70B;stroke:#000000;stroke-miterlimit:10;}
+	.st14{fill:#53FF0B;stroke:#000000;stroke-miterlimit:10;}
+</style>
+<g id="Browser_and_HTTP">
+	<g id="Browser">
+		<rect x="50.6" y="91.9" class="st0" width="75" height="130.9"/>
+		<rect x="57.5" y="104.7" class="st1" width="61.5" height="112.4"/>
+	</g>
+	<g id="HTTP">
+		<g>
+			<g>
+				<line class="st2" x1="130" y1="108.8" x2="228.8" y2="108.8"/>
+				<g>
+					<polygon points="235.9,108.8 225.9,112.9 228.3,108.8 225.9,104.7 					"/>
+				</g>
+			</g>
+		</g>
+		<text transform="matrix(1 0 0 1 142.4999 105.1176)" class="st3 st4">HTTP Request</text>
+		<g>
+			<g>
+				<line class="st2" x1="235.6" y1="124" x2="135.5" y2="123.8"/>
+				<g>
+					<polygon points="128.5,123.8 138.4,119.8 136,123.8 138.4,127.9 					"/>
+				</g>
+			</g>
+		</g>
+		<text transform="matrix(1 0 0 1 145.147 137.4117)" class="st3 st4">HTTP Response</text>
+	</g>
+	<g id="User">
+		<circle class="st5" cx="22.6" cy="116.5" r="10"/>
+		<polygon class="st5" points="23,110.7 8.6,148.7 37.4,148.7 		"/>
+	</g>
+</g>
+<g id="Server">
+	<rect x="245" y="42.6" class="st2" width="386.7" height="264.7"/>
+	<circle class="st6" cx="290.7" cy="123.9" r="33.5"/>
+	<text transform="matrix(1 0 0 1 277.769 118.5588)" class="st3 st4">Web</text>
+	<text transform="matrix(1 0 0 1 273.469 132.9588)" class="st3 st4">Server</text>
+	<g>
+		<g>
+			<line class="st2" x1="290.2" y1="159.5" x2="289.9" y2="223.8"/>
+			<g>
+				<polygon points="289.9,233 285.9,220 289.9,223.1 294,220 				"/>
+			</g>
+		</g>
+	</g>
+	<path class="st7" d="M311.5,282.3h-42.9c-6.6,0-12-5.4-12-12v-23.1c0-6.6,5.4-12,12-12h42.9c6.6,0,12,5.4,12,12v23.1
+		C323.5,276.9,318.1,282.3,311.5,282.3z"/>
+	<text transform="matrix(1 0 0 1 276.38 255.8529)" class="st3 st4">Static</text>
+	<text transform="matrix(1 0 0 1 279.18 270.2529)" class="st3 st4">Files</text>
+	<text transform="matrix(1 0 0 1 248.3823 36)" class="st3 st4">Server</text>
+	<text transform="matrix(1 0 0 1 9.9117 161.6176)" class="st3 st4">User</text>
+	<text transform="matrix(1 0 0 1 65.7941 120.4411)" class="st3 st4">Browser</text>
+</g>
+<g id="Ruby_on_Rails">
+	<g>
+		<g>
+			<line class="st2" x1="326.3" y1="113.3" x2="379.7" y2="113.3"/>
+			<g>
+				<polygon points="386.7,113.3 376.8,117.4 379.1,113.3 376.8,109.3 				"/>
+			</g>
+		</g>
+	</g>
+	<text transform="matrix(1.0016 5.347177e-03 -5.355940e-03 1 330.4605 109.5384)" class="st3 st4">Request</text>
+	<g>
+		<g>
+			<line class="st2" x1="386.6" y1="128.6" x2="332.5" y2="128.4"/>
+			<g>
+				<polygon points="325.4,128.3 335.4,124.3 333,128.4 335.4,132.4 				"/>
+			</g>
+		</g>
+	</g>
+	<text transform="matrix(1.0016 0 0 1 331.127 141.9409)" class="st3 st4">Response</text>
+	<g>
+		<rect x="391.9" y="76.1" class="st8" width="230.1" height="219.8"/>
+		<g>
+			<polyline class="st2" points="622,289.9 622,296 616.2,296 			"/>
+			<line class="st9" x1="604.6" y1="296" x2="403.4" y2="296"/>
+			<polyline class="st2" points="397.7,296 391.9,296 391.9,289.9 			"/>
+			<line class="st10" x1="391.9" y1="277.6" x2="391.9" y2="88.4"/>
+			<polyline class="st2" points="391.9,82.2 391.9,76.1 397.7,76.1 			"/>
+			<line class="st9" x1="409.2" y1="76.1" x2="610.4" y2="76.1"/>
+			<polyline class="st2" points="616.2,76.1 622,76.1 622,82.2 			"/>
+			<line class="st10" x1="622" y1="94.5" x2="622" y2="283.8"/>
+		</g>
+	</g>
+	<rect x="401.4" y="105.1" class="st11" width="59.7" height="44.9"/>
+	<text transform="matrix(1.0016 0 0 1 413.4355 131.4263)" class="st3 st4">Router</text>
+	<text transform="matrix(1.0016 0 0 1 392.0791 71.3823)" class="st3 st4">Ruby on Rails</text>
+	<g id="Controllers">
+		<rect x="508.2" y="87.8" class="st12" width="64.8" height="68.4"/>
+		<rect x="513.4" y="95.9" class="st12" width="64.8" height="68.4"/>
+		<rect x="519.3" y="104.8" class="st12" width="64.8" height="68.4"/>
+		<rect x="525.9" y="112.8" class="st12" width="64.8" height="68.4"/>
+		<text transform="matrix(1.0016 0 0 1 530.4033 128.6909)" class="st3 st4">Controller: </text>
+		<text transform="matrix(1.0016 0 0 1 539.2178 143.0913)" class="st3 st4">Action, </text>
+		<text transform="matrix(1.0016 0 0 1 539.2178 157.4912)" class="st3 st4">Action, </text>
+		<text transform="matrix(1.0016 0 0 1 540.4199 171.8906)" class="st3 st4">Action</text>
+	</g>
+	<g id="Views">
+		<rect x="529.6" y="194.5" class="st13" width="64.8" height="68.4"/>
+		<rect x="534.7" y="202.5" class="st13" width="64.8" height="68.4"/>
+		<rect x="540.7" y="211.4" class="st13" width="64.8" height="68.4"/>
+		<rect x="547.3" y="219.5" class="st13" width="64.8" height="68.4"/>
+		<text transform="matrix(1.0016 0 0 1 565.999 235.3086)" class="st3 st4">View</text>
+	</g>
+	<g id="Models">
+		<rect x="406.6" y="196.7" class="st14" width="64.8" height="68.4"/>
+		<rect x="411.7" y="204.8" class="st14" width="64.8" height="68.4"/>
+		<rect x="417.7" y="213.6" class="st14" width="64.8" height="68.4"/>
+		<rect x="424.3" y="221.7" class="st14" width="64.8" height="68.4"/>
+		<text id="Model" transform="matrix(1.0016 0 0 1 439.2471 237.5146)" class="st3 st4">Model</text>
+	</g>
+	<g>
+		<g>
+			<line class="st2" x1="578.3" y1="180.1" x2="577.6" y2="210.9"/>
+			<g>
+				<polygon points="577.4,218 573.6,207.9 577.6,210.4 581.7,208.1 				"/>
+			</g>
+		</g>
+	</g>
+	<g>
+		<g>
+			<line class="st2" x1="466.9" y1="114.4" x2="509.5" y2="134.5"/>
+			<g>
+				<polygon points="515.9,137.5 505.2,136.9 509,134.2 508.6,129.6 				"/>
+			</g>
+		</g>
+	</g>
+	<g>
+		<g>
+			<line class="st2" x1="516.4" y1="149" x2="474.2" y2="128.1"/>
+			<g>
+				<polygon points="467.8,125 478.7,125.7 474.6,128.3 475,133 				"/>
+			</g>
+		</g>
+	</g>
+	<g>
+		<g>
+			<line class="st2" x1="569.6" y1="217.8" x2="569.6" y2="186.9"/>
+			<g>
+				<polygon points="569.6,179.9 573.6,189.8 569.6,187.5 565.5,189.8 				"/>
+			</g>
+		</g>
+	</g>
+	<g>
+		<g>
+			<line class="st2" x1="519.1" y1="182.7" x2="489.7" y2="214.3"/>
+			<g>
+				<polygon points="484.9,219.5 488.7,209.4 490.1,213.9 494.6,215 				"/>
+			</g>
+		</g>
+	</g>
+	<g>
+		<g>
+			<line class="st2" x1="473.9" y1="218.1" x2="507.9" y2="181.9"/>
+			<g>
+				<polygon points="512.7,176.7 508.9,186.7 507.6,182.2 503,181.2 				"/>
+			</g>
+		</g>
+	</g>
+</g>
+</svg>
