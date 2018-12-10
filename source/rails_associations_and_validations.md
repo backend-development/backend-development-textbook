@@ -64,12 +64,18 @@ There are many more helpers to create validations:
 ``` ruby
   validates :terms_of_service,   
     acceptance: true
-  validates :subdomain,          
-    exclusion: { in: %w(www wiki), message: "%{value} is reserved." }
-  validates :coursecode, 
-    format: { with: /\A[a-zA-Z]+\z/, message: "only allows letters" }
-  validates :size, 
-    inclusion: { in: %w(small medium large), message: "%{value} is not a valid size" }
+  validates :subdomain, exclusion: { 
+    in: %w(www wiki), 
+    message: "%{value} is reserved." 
+  }
+  validates :coursecode, format: { 
+    with: /\A[a-zA-Z]+\z/, 
+    message: "only allows letters"
+  }
+  validates :size, inclusion: { 
+    in: %w(small medium large), 
+    message: "%{value} is not a valid size" 
+  }
   validates :name,                length: { minimum: 2 }
   validates :bio,                 length: { maximum: 500 }
   validates :password,            length: { in: 6..20 }
@@ -165,19 +171,6 @@ You can add the column later, to an existing `tweets` table, using just a migrat
 
 
 ```
-$ rails generate migration AddZombieToTweets zombie_id:integer
-```
-
-this will generate a migration with the following command
-
-
-``` ruby
-  add_column    :tweets, :zombie_id, :integer
-```
-
-or, alternatively you can use
-
-```
 $ rails generate migration AddZombieToTweets zombie:references
 ```
 
@@ -214,10 +207,11 @@ notice the plural used with `has_many` and the singular used with `belongs_to`.
 There are now methods available to walk from one model to the other:
 
 ``` ruby
+# from zweet to zombie
 t = Tweet.find(7)
 z = t.zombie
 
-
+# from zombie to tweets
 z = Zombie.find(1)
 z.tweets.each do |t|  
   puts t.status 
