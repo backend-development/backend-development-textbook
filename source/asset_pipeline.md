@@ -91,8 +91,7 @@ of several browsers, and into the online tool [webpagetest](https://webpagetest.
 ### Rules...
 
 Yahoo first published 14 rules for web performance in 2007, based
-on the measurements back then.  Even with changing browsers and
-protocols these are still valid today:
+on the measurements back then:  
 
 *   Make Less HTTP Requests
 *   Use a Content Delivery Network
@@ -108,20 +107,26 @@ protocols these are still valid today:
 *   Avoid Redirects
 *   Remove Duplicate Scripts
 
-As a web developer you should always keep an eye on the changing
+Even with changing browsers and
+protocols some of these are still very valid today.
+But as a web developer you should always keep an eye on the changing
 landscape of web performance! These rules and their priority will change!
 
 How Rails helps with Performance
 ----------------
 
 To comply with rule 1 "make fewer HTTP requests" there now exist
-a lot of tools.  The Rails asset pipeline lets you use all theses
-tools automatically:
+a lot of tools.  The Rails asset pipeline was introduced in Rails 3.1 in the year
+2011.
 
-* compile to JavaScript  (e.g. coffeescript, typescript)
+I lets you use all theses tools automatically:
+
+* compile to JavaScript  (e.g. coffeescript, typescript, babel)
 * compile to CSS (e.g. LESS, SASS)
-* Minify and combine JavaScript and CSS
-* Optimize Images
+* Minify and combine several JavaScript files into one
+* Minify and combine several CSS files into one
+* Optimize images
+* Create several versions of pixel images
 * Create CSS Sprites
 * Set Expires Header for static assets
 
@@ -130,11 +135,11 @@ tools automatically:
 
 There are two main folders:
 
-* you put source files to `app/assets/*`
-* files for publishing land  in `public/assets/*`
+* you put source files in `app/assets/*`
+* files for publishing are created  in `public/assets/*`
 
 
-The second folder will be served by web server, without going through the rails stack
+The second folder will be served by web server directly, without going through the rails stack
 
 ### Rails Environments
 
@@ -142,13 +147,13 @@ The Asset Pipeline works differently in different Rails Environments.
 There are three environments that exist by default:
 
 * `development` 
-  * this is the environment you have been working in until now. 
-  * It is optimized for debugging, shows error messages and the error console.
+  * this is the environment you have been working in until now, 
+  * it is optimized for debugging, shows error messages and the error console.
 * `testing` 
-  * this is used for running the [automatic tests](testing.html)
+  * this is used for running the [automatic tests](testing.html).
 * `production` 
-  * this is how the finished app will run after it is published. 
-  * It is optimized for speed and stability.
+  * this is how the finished app will run after it is published,
+  * it is optimized for speed and stability.
 
 How each envirnoments behaves is configured in files in `config/environments/*.rb`.
 
@@ -167,7 +172,7 @@ in your Layout:
 <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
 ```
 
-Will each result in a number of links, here an example from a real project:
+Will each result in a number of links. Here an example from a real project:
 
 ```
 <link rel="stylesheet" href="/asset-files/search-a01b0css?body=1" />
@@ -207,11 +212,11 @@ all JavaScript files have bin concatenated int one `application*.js`:
 You can also try out the production environment on your own machine:
 
 * start the web server: `rails server -e production`
-* Rake tasks: add `RAILS_ENV=production` at the beginning or the end of the command.
-* Rails console: `rails console production`
+* rails console: `rails console production`
+* other rails commands: add `RAILS_ENV=production` at the beginning or the end of the command.
 
 
-### Fingerprinting for better Expiery
+### Fingerprinting for better Expiry
 
 The filenames mentioned in the last chapter all contain a part that seems random:
 
@@ -224,7 +229,7 @@ These extra characters are the "fingerprint".  It is computed from the full
 content of the file.  If only one byte changes in the file, the fingerprint will
 be different. 
 
-This enables a neat trick with the expiery of the file: You can set the expiery time
+This enables a neat trick with the expiry of the file: You can set the expiry time
 to infinite, every browser can save the file forever and never try to reload it.
 If the contents of the file change, a new file with a new fingerprint in the name will 
 be generated, and the HTML-page will link to that file.
@@ -238,7 +243,7 @@ When you are working on the frontend of your app, fiddling
 around in views and stylsheets, it may be helpful to immediatly
 see the changes you make reflected in the browser.
 
-To achive this in Rails you can use `guard`.  Add three gems to your Gemfile:
+To achive this in Rails you can use `guard`.  Add three gems to the development-section of your Gemfile:
 
 ```
 group :development do
@@ -263,8 +268,8 @@ This will create a `Guardfile` in your main directory.
 
 Now you can start `bundle exec guard` in a separate terminal window.
 
-To configure `rack-livereload` add the following to `config/environments/development.rb`:
 
+To configure `rack-livereload` add the following to `config/environments/development.rb` inside the `Rails.application.configure` block:
 ```
 config.middleware.insert_after Rack::Head, Rack::LiveReload
 ```
@@ -282,3 +287,4 @@ Further Reading
 
 * Souders(2007): High Performance Web Sites. O'Reilly. ISBN-13: 978-0596529307.
 * Souders(2009): Even Faster Web Sites. O'Reilly. ISBN-13: 978-0596522308.
+* [The Web Performance (Advent) Calendar](https://calendar.perfplanet.com/2018/) new every year

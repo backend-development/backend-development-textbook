@@ -11,9 +11,10 @@ After reading this guide you will
 
 REPO: You can study the [code](https://github.com/backend-development/rails-example-kanban-board-login) and try out [the demos](https://kanban-1.herokuapp.com/) for the authentication examples described here.
 
----
+-------------------------------------------------------------
 
-## HTTP and Sessions
+HTTP and Sessions
+------------------
 
 HTTP is a **stateless** protocol. This means that the protocol
 does not require the web server to remember anything from one
@@ -27,15 +28,17 @@ a complex action through several small steps, that carry over state.
 
 ![cookie set by rails,  as displayed by firebug](images/session-cart.jpg)
 
-In an old style GUI application running on windows or mac it
+§
+
+In an old style **GUI application** running on windows or mac it
 is clear that that only one user is using the app at a time. We
 can use variables in main memory to store information pertaining
 to that user, and they will carry over through many interactions
 (opening a new window of our app, clicking a button, selecting
 something from a menu).
 
-In a web app this is true for the front end of the app, but only in a very
-restricted sense: If you set a variable in javascript it will only
+In a **web app** this is true for the front end of the app, but only in a very
+limited sense: If you set a variable in javascript it will only
 be available for this one user in this one webbrowser.
 But if the user leaves your app by typing in a new URL,
 or following a link or just reloading the page this information will be lost.
@@ -44,16 +47,16 @@ In the backend we need some way to identify that a certain
 request comes from a certain user, and to carry over the state
 from one HTTP request to the next.
 
-### How to add state to the backend
+### How to add state to HTTP
 
 There are several ways to do this:
 
-1.  **HTTP Basic Authentication** according to [rfc 1945, section 11](https://tools.ietf.org/html/rfc1945#section-11): The browser sends (hashed) username and password to the server with each request. The HTTP Headers `Authorization: Basic ...` and `WWW-Authenticate: Basic ...` are used. The client sends the info automatically for every subsequent request to the server.
-2.  **HTTP Cookies** according to [rfc 6265](https://tools.ietf.org/html/rfc6265). The HTTP Header `Cookie` is used. The server sets the cookie, the client returns the cookie automatically for every subsequent request to the server.
+1.  **HTTP Basic Authentication** according to [rfc 1945, section 11](https://tools.ietf.org/html/rfc1945#section-11): The server sends a `WWW-Authenticate: Basic ...` header in the first response. The browser asks the user for username and password, and then sends the (hashed) username and password to the server with subsequent request using the HTTP Headers `Authorization: Basic ...`.
+2.  **HTTP Cookies** according to [rfc 6265](https://tools.ietf.org/html/rfc6265). The server sets the cookie (using the Header 'Set-Cookie'), the client returns the cookie automatically for every subsequent request to the server (using the HTTP Header `Cookie`).
 3.  **JSON-Token** according to [jwt.io](https://jwt.io/) / [rfc 7519](https://tools.ietf.org/html/rfc7519) use a can be used in three ways:
-
-* directly in HTTP with `Authorization: Bearer ...` and `WWW-Authenticate: Bearer ...` \* as a parameter in an URL
-* as POST data
+  * directly in HTTP with `Authorization: Bearer ...` and `WWW-Authenticate: Bearer ...`
+  * as a parameter in an URL
+  * as POST data
 
 ### Security
 
@@ -79,10 +82,15 @@ tab **storage**.
 
 ![cookie set by rails, as displayed by firefox develoepr tools ](images/cookie-in-ff-inspector.png)
 
+§
+
+**A Note on Security**
+
 The cookie is set with the `HttpOnly` option, which means it cannot be
-changed by JavaScript in the browser. But it is still vunerable to a
-replay attack: by using `curl` on the command line we can send a stolen
-cookie with the HTTP request and will be 'logged in' for that request:
+changed by JavaScript in the browser. But it is still vulnerable to a
+replay attack: we can read out the cookie in the developer tools. 
+Using `curl` on the command line we can send the stolen
+cookie with a HTTP request and will be 'logged in' for that request:
 
 ```
 curl -v --cookie "_kanban_session=bWdwc...d4c; path=/; HttpOnly" https://kanban-2.herokuapp.com/
@@ -91,14 +99,23 @@ curl -v --cookie "_kanban_session=bWdwc...d4c; path=/; HttpOnly" https://kanban-
 ```
 
 This makes it all the more important that the cookie not be stolen!
-Remember to always use https if your app authenticates users at
+Remember to **always use https** if your app authenticates users at
 any point.
+
+§
 
 The Rails framework automatically sets and reads this cookie,
 and offers a Hash `session` that is accessible from
 both controllers and views. By default the keys and values you store
 in the session hash are serialized, encrypted with a secret key and
 sent as the value of the session cookie.
+
+The cookie is not saved on the server.
+
+This way of handling state works well with load balancers and
+multiple web servers.
+
+§
 
 Even without a Login, you can use the session to track a user
 as they browse through the web app. For example you could count
@@ -129,8 +146,8 @@ for more details.
 
 ## Authentication
 
-While the session let's you recognize the same user from one HTTP
-request to the next it does not - in itself - help to authenticate users.
+The session lets you recognize the same user from one HTTP
+request to the next. But it does not - in itself - help to authenticate users.
 
 The most common way to achieve Authentication is through passwords.
 
@@ -142,9 +159,9 @@ can do wrong: store the password as plain text, for example.
 Rails comes with built in functions for handling passwords,
 which go a long way to following the [OWASP recommendations](https://www.owasp.org/index.php/Password_Storage_Cheat_Sheet).
 
-It assumes that you have an attribute "password_digest"
-in your model (and no attribute "password"), and that you
-have added 'bcrypt' to the Gemfile.
+Rails assumes that you have added `bcrypt` to the Gemfile
+and have an attribute `password_digest`
+in your model (and no attribute `password`).
 
 ### has secure password
 
@@ -162,16 +179,16 @@ User.create({username: "mariam", password: 'badpassword123' })
 ```
 
 The password will be encrypted, and only the encrypted version
-will be stored in the database.
+will be stored in the database, in attribut `password_digest`.
 
 It will add the `authenticate` method to your User model:
 
 ```ruby
-user = User.find_by(username: "USERNAME").authenticate("THE PASSWORD")
+user = User.find_by(username: "miriam").authenticate("wrong password")
 ```
 
 The authenticate method will encrypt the password again, and compare
-it to the password_digest in the database. It will return nil if
+it to the `password_digest` in the database. It will return nil if
 the password does not match.
 
 ### validates confirmation of password
@@ -199,6 +216,8 @@ User.create({username: "mariam",
 This use of create will not actually succeed, because the password_confirmation does
 not match the password.
 
+§
+
 This is the minimal user model we need:
 
 ```ruby
@@ -213,6 +232,8 @@ class CreateUsers < ActiveRecord::Migration[5.1]
   end
 end
 ```
+
+§
 
 You can create the first user in the rails console
 or in db/seed like so:
@@ -231,9 +252,9 @@ We now have all the bits and pieces to build a Login with username (or e-mail ad
 
 There are some Rails convention around this:
 
-* the current user should be accessible via a helper method `current_user`,
+* the current user should be accessible in controllers and views via a helper method `current_user`,
 * login in and login out is seen as "creating a session" and "deleting a session" and handled by restful routes,
-* there is a session controller and some views, but no model!
+* there is a session controller and some views, but no session model!
 
 ### Routes
 
@@ -241,9 +262,9 @@ Let's start by creating the routes:
 
 ```ruby
 # config/routes.rb:
-  get  '/login',  to: 'sessions#new'
-  post '/login',  to: 'sessions#create'
-  get  '/logout', to: 'sessions#destroy'
+  get  '/login',  to: 'sessions#new'     # show login form
+  post '/login',  to: 'sessions#create'  # process login
+  get  '/logout', to: 'sessions#destroy' # process logout
 ```
 
 ### Controller
@@ -256,7 +277,7 @@ rails g controller sessions new create destroy
 
 Now you can direct your browser to http://localhost:3000/login
 
-### Views
+### Login View
 
 Next you need to set up the view for the login form there:
 
@@ -265,7 +286,7 @@ Next you need to set up the view for the login form there:
 
 <h1>Log in</h1>
 
-<%= form_tag login_path do |f| %>
+<%= form_with login_path do |f| %>
     Username: <%= text_field_tag     :username %> <br>
     Password: <%= password_field_tag :password %> <br>
     Password Confirmation: <%= password_field_tag :password_confirmation %> <br>
@@ -274,11 +295,14 @@ Next you need to set up the view for the login form there:
 <% end %>
 ```
 
-This form sends just two pieces of data: `email` and `password`.
+### Session Controller
+
+This form sends just two pieces of data: `username` and `password`.
 So in the controller you have to extract these using `params.permit`.
 
-If authentication goes through we store the user.id in the session.
-Only the id is needed, we can load everything else from the database later.
+If authentication goes through we store the `user.id` in the session.
+Only the `id` is needed, we can load the rest of the user data
+from the database.
 
 app/app/controllers/sessions_controller.rb:
 
@@ -322,9 +346,9 @@ end
 ### Helpers
 
 The helper_method `current_user` we define in
-the application controller. If the user_id is not
-set in the session or if the user with this id does not
-exist (any more) we just return nil as the current_user.
+the application controller. If the `user_id` is not
+set in the session or if the user with this `user_id` does not
+exist (any more) we just return `nil` as the current_user.
 
 ```ruby
 <!-- app/app/controllers/application_controller.rb -->
@@ -336,7 +360,9 @@ end
 helper_method :current_user
 ```
 
-With the current_user helper method returning nil if
+§
+
+With the  `current_user` helper method returning `nil` if
 nobody is logged in we can also use it in the view
 to display different things for logged in users and non logged in visitors:
 
@@ -357,16 +383,18 @@ If your app deals with more then just one or two users
 that you set up "by hand", the gem `devise` can help you a lot.
 It can makes your logins ...
 
-* Confirmable: sends emails with confirmation instructions and verifies whether an account is already confirmed during sign in.
-* Recoverable: resets the user password and sends reset instructions.
-* Registerable: handles signing up users through a registration process, also allowing them to edit and destroy their account.
-* Rememberable: manages generating and clearing a token for remembering the user from a saved cookie.
-* Trackable: tracks sign in count, timestamps and IP address.
-* Timeoutable: expires sessions that have not been active in a specified period of time.
-* Validatable: provides validations of email and password. It's optional and can be customized, so you're able to define your own validations.
-* Lockable: locks an account after a specified number of failed sign-in attempts. Can unlock via email or after a specified time period.
+* **Confirmable**: sends emails with confirmation instructions and verifies whether an account is already confirmed during sign in.
+* **Recoverable**: resets the user password and sends reset instructions.
+* **Registerable**: handles signing up users through a registration process, also allowing them to edit and destroy their account.
+* **Rememberable**: manages generating and clearing a token for remembering the user from a saved cookie.
+* **Trackable**: tracks sign in count, timestamps and IP address.
+* **Timeoutable**: expires sessions that have not been active in a specified period of time.
+* **Validatable**: provides validations of email and password. It's optional and can be customized, so you're able to define your own validations.
+* **Lockable**: locks an account after a specified number of failed sign-in attempts. Can unlock via email or after a specified time period.
 
 See the [devise documentation](https://github.com/plataformatec/devise#getting-started) on how to set it up.
+
+§
 
 When set up correctly devise gives you helper methods to use in your controllers and views:
 
@@ -387,7 +415,8 @@ is quite impressive. Think carefully about what services your users
 are using, and which services might be useful to your app: could
 you use Dropbox to authenticate, and also to deliver data directly
 to your users dropbox? Would it make sense to use facebook or twitter and also
-send out messages that way?
+send out messages that way?  Or are your users very privacy conscious and
+want to avoid facebook and google?
 
 ### Providers
 
@@ -402,19 +431,23 @@ gem 'omniauth-github'
 gem 'omniauth-stackoverflow'
 ```
 
-You will have to register your app with the authentication
+§
+
+You need to register your app with the authentication
 provider, eg. at [https://developers.facebook.com/apps/](https://developers.facebook.com/apps/)
 or [https://apps.twitter.com/](https://apps.twitter.com/).
 You have to specify the URL of your web app, and a callback URL:
 
 ![oauth app configuration](images/oauth-app-config.png)
 
+§
+
 You get back two pieces of information: a key and a secret.
 In Twitter this looks like this:
 
 ![facebook app configuration](images/oauth-app-secret.png)
 
-(A word of warning: if you change the configuration in developers.facebook.com the
+(A word of warning: if you change the configuration in `developers.facebook.com` the
 you will get a new key and secret!)
 
 You need add the key and the secret to the configuration of omniauth:
@@ -427,7 +460,9 @@ Rails.application.config.middleware.use OmniAuth::Builder do
 end
 ```
 
-If you plan on publishing your source code (e.g. because you use github for free ;-)
+§
+
+If you plan on publishing your source code 
 you might want to set these values in a way that is NOT saved to the repository.
 You could use environment variables for that:
 
@@ -446,12 +481,15 @@ TWITTER_KEY=abc
 TWITTER_SECRET=123
 ```
 
-If you deploy to heroku, use the heroku command line interface to set
+If you deploy to heroku or dokku, use the command line interface to set
 the variables there:
 
 ```sh
 heroku config:set TWITTER_KEY=abc
 heroku config:set TWITTER_SECRET=123
+
+dokku config:set TWITTER_KEY=abc
+dokku config:set TWITTER_SECRET=123 
 ```
 
 ### Models
@@ -491,7 +529,7 @@ end
 
 ### Login and Logout
 
-Omniauth is a "Rack Middleware". That means it is somewhat independant
+Omniauth is a "Rack Middleware". That means it is somewhat independent
 of the rails app you are building. It has access to the HTTP request, will
 analyze that, and pass on data to your rails app through the
 environment variable `omniauth.auth`.
@@ -508,6 +546,8 @@ To log in you send the user to `/auth/:provider` (e.g. `/auth/facebook`).
   <% end %>
 ```
 
+§
+
 This URL is handled by omniauth, not by your rails app. omniauth will send
 the users browser on to a URL at the provider. There the user can log in. After
 that the browser is redirected to your app again, to `/auth/:provider/callback`
@@ -521,7 +561,12 @@ match '/auth/failure',            to: 'sessions#failure', via: [:get, :post]
 ```
 
 In the session controller you can now read the data that omniauth provides
-from the environment variable. As a first step you could just print it out,
+from the environment variable. 
+
+
+§
+
+As a first step you could just print it out,
 to see what data is provided:
 
 ```ruby
@@ -532,6 +577,10 @@ end
 
 The data always contains values for `provider` and `uid` at the
 top level. There may be a lot more data.
+
+§
+
+
 Here some example data from a twitter login:
 
 ```
@@ -543,7 +592,9 @@ info:
   ...
 ```
 
-Now let's look at session#create:
+§
+
+Now let's look at `session#create`:
 There are two basic cases to consider: either the user has logged in using
 this authorisation method before (then we should find them in our database),
 or they are logging in for the first time.
@@ -563,6 +614,8 @@ def create
 end
 ```
 
+§
+
 In the model we pick apart the information from omniauth:
 
 ```ruby
@@ -580,6 +633,8 @@ end
 
 The ActiveRecord method `find_or_create_by` handles both cases in one: either it
 finds an existing user or it creates a new one.
+
+§
 
 We don't really have a name for each user, but
 we can fake that in the model:

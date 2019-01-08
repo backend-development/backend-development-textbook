@@ -487,4 +487,5 @@ locally on your computer.  A handy tool for this on mac os x is
 * Use the [Rails API](https://api.rubyonrails.org/) documentation to look up the details:
   * [find](https://api.rubyonrails.org/classes/ActiveRecord/FinderMethods.html#method-i-find)
   * [where](https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-where)
+  * [add_column](https://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/SchemaStatements.html#method-i-add_column) lists all the possible data types for columns
 

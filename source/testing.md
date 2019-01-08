@@ -8,7 +8,7 @@ After reading this guide, you will know:
 
 * Rails testing terminology.
 * How to write unit tests for your applications models and controllers
-* How to write integration tests for your application.
+* How to write system tests for your application.
 
 This guide is a shorter version of the offical
 [Guide to Testing Rails Applications](https://guides.rubyonrails.org/testing.html).
@@ -36,14 +36,14 @@ Rails creates a `test` directory for you. If you list the contents of this direc
 ```bash
 $ ls -F test
 controllers/    helpers/        mailers/        test_helper.rb
-fixtures/       integration/    models/
+fixtures/       system/         models/
 ```
 
 The `models`, `controllers`, `mailers` and `helpers` directory 
 hold tests for (surprise) models, controllers, mailers and view helpers respectively. 
 These tests that are focussed on one single class are also called *unit tests*. 
 
-The `integration` directory is meant to hold tests that test the 
+The `system` directory is meant to hold tests that test the 
 whole system by accessing the app as a browser would.
 
 Fixtures are a way of organizing test data; they reside in the `fixtures` directory.
@@ -526,34 +526,40 @@ To get multiple fixtures at once, you can pass in a list of fixture names. For e
 users(:david, :steve)
 ```
 
-Integration Testing with Capybara and Webkit
+System Tests with Selenium and a headless Browser
 -------------------
 
-Integration test are used to test that the various parts of your application interact correctly
-to implement features. You can use a software "browser" to test your app. Rails 5 comes
-with built in integration tests, that simulate a browser without javascript. These
-are stored in the folder `test/integration/`
+System test are used to test that the various parts of your application interact correctly
+to implement features. You can use a real browser to test your app. Rails 5 comes
+with built in system tests. These
+are stored in the folder `test/system/`
 
-We will use the gem `capybara` and additionally the headless browser `webkit`
-to write our integration tests.  This way we can test with javascript enabled
-or disabled in our simulated browser.
+These tests take a lot more time to run than the unit test
+discussed earlier. They are not included if you run `rails test`, you have 
+to start them separately with `rails test:system`.
+
+We will use the gem `selenium-webdriver` and the headless browser firefox
+to write our system tests. 
 
 ```
 # Gemfile
 group :development, :test do
-  gem 'minitest-rails-capybara'
-  gem 'capybara-webkit'
-  gem 'transactional_capybara'
+...
 end
 
 # test_helper.rb
-require "minitest/rails/capybara"
-Capybara.javascript_driver = :webkit
+...
 ```
 
-The integration tests written with capybara are also called feature
-tests (and stored in the 'test/features' directory).
-Minitest and Capybara provide a generator to create a test skeleton for you.
+You need to install the browser separately. On Mac you can do this 
+by using brew:
+
+```
+brew install geckodriver # for firefox
+brew install chromedriver # for chrome
+```
+
+There is a generator to create a test skeleton for you.
 
 ```bash
 $ rails generate minitest:feature add_a_star_to_a_user
@@ -579,7 +585,7 @@ end
 
 #### Testing a form 
 
-Integration tests are black box tests: we only interact with the
+Syste tests are black box tests: we only interact with the
 app through the web browser, and have no "inside knowledge" about the app.  
 
 Some helper methods:
