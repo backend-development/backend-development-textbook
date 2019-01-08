@@ -286,7 +286,7 @@ Next you need to set up the view for the login form there:
 
 <h1>Log in</h1>
 
-<%= form_with login_url do |f| %>
+<%= form_with url: login_path do |f| %>
     Username: <%= text_field_tag     :username %> <br>
     Password: <%= password_field_tag :password %> <br>
     Password Confirmation: <%= password_field_tag :password_confirmation %> <br>
