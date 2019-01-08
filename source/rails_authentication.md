@@ -122,7 +122,7 @@ as they browse through the web app. For example you could count
 now many requests they have already made:
 
 ```ruby
-# in app/controllers/application_controllers.rb
+# in app/controllers/application_controller.rb
 
   before_action :count_requests
 
@@ -201,7 +201,7 @@ to the user model:
 ```ruby
 class User < ActiveRecord::Base
     has_secure_password
-    validates_confirmation_of :password
+    validates :password, confirmation: true
 ```
 
 Now the create-method is changed again: you need to supply the
@@ -286,7 +286,7 @@ Next you need to set up the view for the login form there:
 
 <h1>Log in</h1>
 
-<%= form_with login_path do |f| %>
+<%= form_with login_url do |f| %>
     Username: <%= text_field_tag     :username %> <br>
     Password: <%= password_field_tag :password %> <br>
     Password Confirmation: <%= password_field_tag :password_confirmation %> <br>
