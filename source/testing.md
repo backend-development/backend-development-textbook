@@ -1,4 +1,4 @@
-Getting Started with Testing
+Getting Started with Testing in Rails
 ============================
 
 This guide gives an introduction
@@ -35,16 +35,23 @@ Rails creates a `test` directory for you. If you list the contents of this direc
 
 ```bash
 $ ls -F test
-controllers/    helpers/        mailers/        test_helper.rb
-fixtures/       system/         models/
+integration/    system/
+controllers/    helpers/        mailers/        models/
+fixtures/       test_helper.rb        
 ```
 
 The `models`, `controllers`, `mailers` and `helpers` directory 
 hold tests for (surprise) models, controllers, mailers and view helpers respectively. 
 These tests that are focussed on one single class are also called *unit tests*. 
 
+The `integration` directory hold tests that exercise the whole Rails stack,
+from HTTP Request through routes, controllers, down to models and back
+up to the view.  The only thing left out is the client side of your app: Javascript
+cannot be tested here.
+
 The `system` directory is meant to hold tests that test the 
-whole system by accessing the app as a browser would.
+whole system by accessing the app with a browser, including running
+the javascript.
 
 Fixtures are a way of organizing test data; they reside in the `fixtures` directory.
 
@@ -55,13 +62,17 @@ The `test_helper.rb` file holds the default configuration for your tests.
 
 By default, every Rails application has three environments: development, test, and production.
 
-Each environment's configuration can be modified similarly. In this case, we can modify our test environment by changing the options found in `config/environments/test.rb` and we can add gems that are only used in testing by putting them in a test-section in the `Gemfile` like so:
+Each environment has a configuration file in `config/environments/`. 
+For the test environment the file is `config/environments/test.rb`.
+
+In the Gemfile you can add gems that are only used in one environment 
+by putting them in a section like so:
 
 ```
 # Gemfile
 # use gem capybara only in test environment:
 group :test do
-  gem 'capybara'
+  gem 'capybara', '~> 2.13'
 end
 ```
 
