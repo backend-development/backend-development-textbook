@@ -537,15 +537,92 @@ To get multiple fixtures at once, you can pass in a list of fixture names. For e
 users(:david, :steve)
 ```
 
+
+Integration Tests 
+-----------------
+
+Integration tests are used to test that the various parts of your application interact correctly to implement features.  Integration tests do not include the client side. 
+
+
+Here is a first example of an integration test:
+
+```ruby
+class PublicTest < ActionDispatch::IntegrationTest
+  setup do
+    @course = courses(:one)
+  end
+
+  test 'Course page' do
+    get course_path(@course, locale: 'en')
+
+    assert_response :success
+    assert_select 'h1 span.title', text: "Course #{@course.title}"
+    assert_select '.calendar_section .button_to input'
+    assert_match 'collect', css_select('div.calendar_section').text
+    assert_match '2 entries found', css_select('div.calendar_section p').text
+  end  
+
+  test 'Edit a Course is not available' do
+    get edit_course_path(@course, locale: 'en')
+
+    assert_response :found
+  end 
+end
+```
+
+The first test ensures that a course can be displayed.
+A get request is used to load the show action of the course controller.
+
+The following five assertions concern the HTTP response and the DOM of the retuned
+html document.  
+
+The second test ensures that a certain path (here: the edit action of the course
+controller) is not available to a user who is not logged in.  When getting
+the URL we expect a redirection to happen.  The response contains the "found" http status code.
+
+Here are some tests for logged in users with admin powers:
+
+
+```ruby
+class AdminTest <  ActionDispatch::IntegrationTest
+  setup do
+    @course = courses(:one)
+    @admin = users(:one)
+
+    get root_url
+  
+    post "/login", params: { username: @admin.name,
+      password: 'notneeded' }
+    follow_redirect!
+    follow_redirect!
+
+    assert_equal 200, status    
+  end
+
+  test 'Edit a Course is available' do
+    get edit_course_path(@course, locale: 'en')
+
+    assert_response :success
+  end   
+end
+```
+
+In the setup method the we log in as user one, who has admin powers.
+After that the edit action of the course
+controller is available.
+
 System Tests with Selenium and a headless Browser
 -------------------
 
 System test are used to test that the various parts of your application interact correctly
-to implement features. You can use a real browser to test your app. Rails 5 comes
+to implement features. You can use a real browser to test your app, including the client side javascript. 
+
+Rails 5 comes
 with built in system tests. These
 are stored in the folder `test/system/`
 
 These tests take a lot more time to run than the unit test
+and even the integration tests
 discussed earlier. They are not included if you run `rails test`, you have 
 to start them separately with `rails test:system`.
 
