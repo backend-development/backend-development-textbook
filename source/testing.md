@@ -611,6 +611,11 @@ In the setup method the we log in as user one, who has admin powers.
 After that the edit action of the course
 controller is available.
 
+Learn more about integration test:
+
+* [Rails Guide on Testing](https://guides.rubyonrails.org/testing.html#integration-testing)
+* [Rails API Documentation ActionDispatch::IntegrationTest](https://api.rubyonrails.org/v5.2.1/classes/ActionDispatch/IntegrationTest.html)
+
 System Tests with Selenium and a headless Browser
 -------------------
 
