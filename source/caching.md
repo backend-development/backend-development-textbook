@@ -758,3 +758,4 @@ See Also
 * [Using database views for performance wins in Rails](https://content.pivotal.io/blog/using-database-views-for-performance-wins-in-rails)
 * [materialized views in mysql](https://www.fromdual.ch/mysql-materialized-views)
 * [materialized view in postgres](https://www.postgresql.org/docs/9.3/static/rules-materializedviews.html)
+* [DHH(2012): How key-based cache expiration works](https://signalvnoise.com/posts/3113-how-key-based-cache-expiration-works)

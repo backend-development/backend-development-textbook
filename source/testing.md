@@ -611,6 +611,9 @@ In the setup method the we log in as user one, who has admin powers.
 After that the edit action of the course
 controller is available.
 
+Both `assert_select` and `css_select` access the HTML document.
+You can also access it directly as `document_root_element`.
+
 Learn more about integration test:
 
 * [Rails Guide on Testing](https://guides.rubyonrails.org/testing.html#integration-testing)
