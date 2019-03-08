@@ -338,7 +338,12 @@ to handle json differently from html:
     end
   end
 ```
-### creating JSON with erb
+
+so in the controller we might not need to change anything to add the
+API, only in the view.
+
+
+### creating JSON with erb - not a good idea
 
 We could create views using erb in `app/views/users/show.json.erb`:
 
@@ -383,12 +388,12 @@ but there should be no comma after the last.
 ]
 ```
 
-### creating JSON with jbuilder
-
-Formatting JSON would get quite repetitive if we need to create views for several resources.
-We have not even touched on the problem of escaping: what happens
+And wait, there's another problem: What happens
 if a users name contains a quote? For example <kbd>Jack "the Ripper"</kbd>.
-That would break our current view.
+That would break our current view, because we don't do proper escaping.
+
+
+### creating JSON with jbuilder - a better idea
 
 Rails 5 comes with the gem `jbuilder` which helps you create JSON, and
 which handles all the escaping and formatting correctly.
@@ -418,12 +423,16 @@ json.array! @users do |user|
 end
 ```
 
-### authentication
+### Authentication and the API
 
 All the authentication and access control we built into the
-rails app before is still applicable to the JSON views.
+rails app before is still applicable to the API and JSON views.
+If the "Frontend" that is using our API is displayed in a browser,
+the handling of cookies and the session is exactly the same as before.
 
-
+If the "Frontend" is not in a browser, but is a native mobile app or
+just another server side job, we have to use an alternative to cookies.
+[JSON Web Tokens](https://backend-development.github.io/rails_authentication.html#how-to-add-state-to-http) are a solution.
 
 
 ## Stand Alone API
