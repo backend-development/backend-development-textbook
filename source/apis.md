@@ -290,6 +290,54 @@ expects a JSON array of objects like above:
 ]
 ```
 
+### creating an API with existing controllers
+
+The scaffold generator always adds handling JSON responses
+to the actions of a controller.
+
+For handling just HTML only this code would be needed in the
+create action:
+
+```
+  # POST /users
+  def create
+    @user = User.new(user_params)
+    if @user.save
+      redirect_to @user, notice: 'User was successfully created.'
+    else
+      render :new
+    end
+    end
+  end
+```
+
+But the scaffold generator also adds `resond_to` and `format` commands,
+to handle json differently from html:
+
+```
+  # POST /users
+  # POST /users.json
+  def create
+    @user = User.new(user_params)
+    respond_to do |format|
+      if @user.save
+        format.html { 
+          redirect_to @user, notice: 'User was successfully created.' 
+        }
+        format.json { 
+          render :show, status: :created, location: @user 
+        }
+      else
+        format.html { 
+          render :new 
+        }
+        format.json { 
+          render json: @user.errors, status: :unprocessable_entity 
+        }
+      end
+    end
+  end
+```
 ### creating JSON with erb
 
 We could create views using erb in `app/views/users/show.json.erb`:
@@ -375,43 +423,8 @@ end
 All the authentication and access control we built into the
 rails app before is still applicable to the JSON views.
 
-In fact the scaffold generator always adds handling JSON responses
-to the create, update and destroy actions of a controller.
 
-For handling just HTML only this code would be needed:
 
-```
-  # POST /users
-  def create
-    @user = User.new(user_params)
-    if @user.save
-      redirect_to @user, notice: 'User was successfully created.'
-    else
-      render :new
-    end
-    end
-  end
-```
-
-But the scaffold generator also adds `resond_to` and `format` commands,
-to handle json differently from html:
-
-```
-  # POST /users
-  # POST /users.json
-  def create
-    @user = User.new(user_params)
-    respond_to do |format|
-      if @user.save
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
-        format.json { render :show, status: :created, location: @user }
-      else
-        format.html { render :new }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-```
 
 ## Stand Alone API
 
