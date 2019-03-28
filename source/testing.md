@@ -1,24 +1,22 @@
-Getting Started with Testing in Rails
-============================
+# Getting Started with Testing in Rails
 
 This guide gives an introduction
 to built-in mechanisms in Rails for testing your application.
 
 After reading this guide, you will know:
 
-* Rails testing terminology.
-* How to write unit tests for your applications models and controllers
-* How to write system tests for your application.
+- Rails testing terminology.
+- How to write unit tests for your applications models and controllers
+- How to write system tests for your application.
 
 This guide is a shorter version of the offical
 [Guide to Testing Rails Applications](https://guides.rubyonrails.org/testing.html).
 
 REPO: Fork the [example app 'testing for stars'](https://github.com/backend-development/rails-example-testing-for-stars) and try out what you learn here.
 
---------------------------------------------------------------------------------
+---
 
-Why Write Tests?
-----------------
+## Why Write Tests?
 
 Rails makes it super easy to write your tests. It starts by producing skeleton test code while you are creating your models and controllers.
 
@@ -26,10 +24,9 @@ By running your Rails tests after every change in the code you can ensure that y
 
 Rails tests can also simulate browser requests without or with javascript and thus you can test your application's response without having to test it through your browser.
 
-Introduction to Testing
------------------------
+## Introduction to Testing
 
-### Setup for Testing 
+### Setup for Testing
 
 Rails creates a `test` directory for you. If you list the contents of this directory you see:
 
@@ -37,19 +34,19 @@ Rails creates a `test` directory for you. If you list the contents of this direc
 $ ls -F test
 integration/    system/
 controllers/    helpers/        mailers/        models/
-fixtures/       test_helper.rb        
+fixtures/       test_helper.rb
 ```
 
-The `models`, `controllers`, `mailers` and `helpers` directory 
-hold tests for (surprise) models, controllers, mailers and view helpers respectively. 
-These tests that are focussed on one single class are also called *unit tests*. 
+The `models`, `controllers`, `mailers` and `helpers` directory
+hold tests for (surprise) models, controllers, mailers and view helpers respectively.
+These tests that are focussed on one single class are also called _unit tests_.
 
 The `integration` directory hold tests that exercise the whole Rails stack,
 from HTTP Request through routes, controllers, down to models and back
-up to the view.  The only thing left out is the client side of your app: Javascript
+up to the view. The only thing left out is the client side of your app: Javascript
 cannot be tested here.
 
-The `system` directory is meant to hold tests that test the 
+The `system` directory is meant to hold tests that test the
 whole system by accessing the app with a browser, including running
 the javascript.
 
@@ -57,15 +54,14 @@ Fixtures are a way of organizing test data; they reside in the `fixtures` direct
 
 The `test_helper.rb` file holds the default configuration for your tests.
 
-
 ### The Test Environment
 
 By default, every Rails application has three environments: development, test, and production.
 
-Each environment has a configuration file in `config/environments/`. 
+Each environment has a configuration file in `config/environments/`.
 For the test environment the file is `config/environments/test.rb`.
 
-In the Gemfile you can add gems that are only used in one environment 
+In the Gemfile you can add gems that are only used in one environment
 by putting them in a section like so:
 
 ```
@@ -108,14 +104,14 @@ A line by line examination of this file will help get you oriented to Rails test
 require 'test_helper'
 ```
 
-By requiring this file, `test_helper.rb` the default configuration to run our tests is loaded. You will include this with all the tests you write.
+By requiring the file `test_helper.rb` the default configuration to run our tests is loaded. You will include this with all the tests you write.
 
 ```ruby
 class ArticleTest < ActiveSupport::TestCase
 ```
 
 The `ArticleTest` class defines a _test case_ because it inherits from `ActiveSupport::TestCase`, which
-in turn inherits from `Minitest::Test`. 
+in turn inherits from `Minitest::Test`.
 Inside this class you will define the tests, either by
 giving them a method name beginning with `test_` (case sensitive) or
 by using this syntax:
@@ -140,12 +136,15 @@ Next, let's look at our first assertion:
 assert true
 ```
 
-An assertion is a line of code that evaluates an object (or expression) for expected results. For example, an assertion can check:
+An assertion is a line of code that evaluates an expression for expected results.
+`assert true` is always satisfied, so this test always passes.
 
-* does this value equal that value?
-* is this object nil?
-* does this line of code throw an exception?
-* is the user's password longer than 5 characters?
+In a real test an assertion can check many things:
+
+- does this value equal that value?
+- is this value nil?
+- does this line of code throw an exception?
+- is the user's password longer than 5 characters?
 
 Every test must contain at least one assertion, with no restriction as to how many assertions are allowed. Only when all the assertions are successful will the test pass.
 
@@ -158,7 +157,6 @@ test "new article has default title" do
   assert a.title.length > 3
 end
 ```
-
 
 ### Running Tests
 
@@ -178,7 +176,6 @@ Finished in 0.498780s, 16.0391 runs/s, 28.0685 assertions/s.
 ```
 
 Every dot stands for one test that ran through sucessfully.
-
 
 To see how a test failure is reported, you can add a failing test:
 
@@ -233,16 +230,18 @@ class Article < ActiveRecord::Base
 end
 ```
 
-Now the test should pass. Verify this by actually running the test!  
+Now the test should pass. Verify this by actually running the test!
 
-Now, if you noticed, we first wrote a test which fails for a desired
+We first wrote a test which fails for a desired
 functionality, then we wrote some code which adds the functionality and finally
 we ensured that our test passes. This approach to software development is
 referred to as
 [_Test-Driven Development_ (TDD)](http://c2.com/cgi/wiki?TestDrivenDevelopment).
 
-#### What an error looks like
+#### What an error in you test looks like
 
+An error is different from a failing test. An error
+is a problem in your test code, not your application code.
 To see how an error gets reported, here's a test containing an error:
 
 ```ruby
@@ -273,21 +272,22 @@ Notice the 'E' in the output. It denotes a test with error.
 
 NOTE: The execution of each test method stops as soon as any error or an
 assertion failure is encountered. But the test suite continues with the next
-test. All test methods are executed in random order. 
+test. All test methods are executed in random order.
 
 When a test fails you are presented with the corresponding backtrace. By default
 Rails filters that backtrace and will only print lines relevant to your
 application. Read the backtrace!
 
+#### How to catch exceptions from your application code
 
-If you want to ensure that an exception is raised 
+If you want to ensure that an exception is raised
+by your application code
 you can use `assert_raises` like so:
 
 ```ruby
-test "should report error" do
+test "MyClass no longer implements @@counter, raises error" do
   assert_raises(NameError) do
-    # some_undefined_variable is not defined elsewhere 
-    some_undefined_variable
+    MyClass.counter
   end
 end
 ```
@@ -301,26 +301,26 @@ You have seen some assertions above.
 Here's an extract of the assertions you can use with
 [`Minitest`](https://github.com/seattlerb/minitest), the default testing library
 used by Rails. The `[msg]` parameter is an optional string message that is only
-displayed if the test fails.  It is available in all assertions, but only shown in
-the first one here.  For most assertions there is a simple negation `assert` and `assert_not`, `assert_equal` and
-`assert_no_equal`, and so on. 
+displayed if the test fails. It is available in all assertions, but only shown in
+the first one here. For most assertions there is a simple negation `assert` and `assert_not`, `assert_equal` and
+`assert_no_equal`, and so on.
 
-| Assertion                                                        | Purpose |
-| ---------------------------------------------------------------- | ------- |
-| `assert( test, [msg] )`                                          | Ensures that `test` is true.|
-| `assert_not( test )`                                      | Ensures that `test` is false.|
-| `assert_equal( expected, actual )`                        | Ensures that `expected == actual` is true.|
-| `assert_same( expected, actual )`                         | Ensures that expected and actual are the exact same object.|
-| `assert_nil( obj )`                                       | Ensures that `obj.nil?` is true.|
-| `assert_empty( obj )`                                     | Ensures that `obj` is `empty?`.|
-| `assert_match( regexp, string )`                          | Ensures that a string matches the regular expression.|
-| `assert_no_match( regexp, string )`                       | Ensures that a string doesn't match the regular expression.|
-| `assert_includes( collection, obj )`                      | Ensures that `obj` is in `collection`.|
-| `assert_in_delta(expectated,actual,delta)`            | Ensures that the numbers `expectated` and `actual` are within `+/-delta` of each other.|
-| `assert_raises( exception ){ block }`         | Ensures that the given block raises the given exception.|
-| `assert_instance_of( class, obj )`                        | Ensures that `obj` is an instance of `class`.|
-| `assert_kind_of( class, obj )`                            | Ensures that `obj` is an instance of `class` or is descended from it.|
-| `assert_respond_to( obj, symbol )`                        | Ensures that `obj` responds to `symbol`, for example because it implements a method by that name or inherits one. |
+| Assertion                                  | Purpose                                                                                                           |
+| ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------- |
+| `assert( test, [msg] )`                    | Ensures that `test` is true.                                                                                      |
+| `assert_not( test )`                       | Ensures that `test` is false.                                                                                     |
+| `assert_equal( expected, actual )`         | Ensures that `expected == actual` is true.                                                                        |
+| `assert_same( expected, actual )`          | Ensures that expected and actual are the exact same object.                                                       |
+| `assert_nil( obj )`                        | Ensures that `obj.nil?` is true.                                                                                  |
+| `assert_empty( obj )`                      | Ensures that `obj` is `empty?`.                                                                                   |
+| `assert_match( regexp, string )`           | Ensures that a string matches the regular expression.                                                             |
+| `assert_no_match( regexp, string )`        | Ensures that a string doesn't match the regular expression.                                                       |
+| `assert_includes( collection, obj )`       | Ensures that `obj` is in `collection`.                                                                            |
+| `assert_in_delta(expectated,actual,delta)` | Ensures that the numbers `expectated` and `actual` are within `+/-delta` of each other.                           |
+| `assert_raises( exception ){ block }`      | Ensures that the given block raises the given exception.                                                          |
+| `assert_instance_of( class, obj )`         | Ensures that `obj` is an instance of `class`.                                                                     |
+| `assert_kind_of( class, obj )`             | Ensures that `obj` is an instance of `class` or is descended from it.                                             |
+| `assert_respond_to( obj, symbol )`         | Ensures that `obj` responds to `symbol`, for example because it implements a method by that name or inherits one. |
 
 The above are a subset of assertions that minitest supports. For an exhaustive &
 more up-to-date list, please check
@@ -329,7 +329,54 @@ more up-to-date list, please check
 
 Because of the modular nature of the testing framework, it is possible to create your own assertions. In fact, that's exactly what Rails does. It includes some specialized assertions to make your life easier.
 
+### Testing a Model
+
+Models are easy to test separately because they do not depend on
+other code (most of the time). In Rails the tests for a model X
+are found in `test/models/x_test.rb`.
+
+All the examples shown so far are from model tests.
+Below you can see what the a complete model test could look like.
+There is a `setup` section that will be executed before
+each test.
+
+```ruby
+# file test/models/course_test.rb
+require 'test_helper'
+
+class CourseTest < ActiveSupport::TestCase
+  setup do
+    @course = courses(:one)
+  end
+
+  test "should not save new course without title" do
+    course = Course.new
+    assert_not course.save, "Saved new course without a title"
+  end
+  test "cannot save existing course after removing title" do
+    @course.title = ''
+    assert_not @course.save, "Saved existing course without a title"
+  end
+  test "Course no longer implements .counter, raises error" do
+    assert_raises(NameError) do
+      @course.counter
+    end
+  end
+end
+```
+
+So ist the model test a unit test? It only tests one unit
+of source code that you have written. It also exercises ActiveRecord
+and the test database. So you could argue that it is more
+than just a unit test. But for now it is a near a unit test as
+we can get. We will look at more [advanced testing](advanced_testing.html)
+later one. There you will learn how to build tests that only
+test one unit of code.
+
 ### Testing a Controller
+
+Controller tests exercise several parts of the rails stack: routing, the controller, models, the test database. But they do try to keep
+views out of the mix.
 
 To activate controller test add to your Gemfile:
 
@@ -339,42 +386,44 @@ group :development, :test do
 end
 ```
 
-Testing the controller _without_ testing the view or the
-models at the same time is quite tricky.  You should test for things such as:
+Testing the controller _without_ testing the view
+at the same time is quite tricky. You should test for things such as:
 
-* was the web request successful?
-* was the user redirected to the right page?
-* was the user successfully authenticated?
-* was the correct object stored in the response template?
-* was the appropriate message displayed to the user in the view?
+- was the web request successful?
+- was the user redirected to the right page?
+- was the user successfully authenticated?
+- was the correct object sent to the view?
 
-In a controller test you can use the methods `get`, `post`, and so on
-to call action in the controller with certain http methods and parameters.
+In a controller test you can use the methods `get`, `post`, and so on.
+These will be handled by rails routing as usual, and end up
+calling an action in the controller with certain parameters.
 
 In this example the `create` action of the article controller is called by
-sending a post request to articles_url. 
+sending a post request to articles_url.
 The params hash is set up with key `article[title]` and value `some title`:
 
 ```
 post articles_url, params: { article: { title: 'some title' } }
 ```
+
 This example just shows `params`, you can also set:
 
-* `headers` a hash of HTTP Request headers 
-* `env` a hash of environment variables
-* `xhr` true or false to make this an AJAX request or not
-* `as` to request a content type, for example `as: :json`
+- `headers` a hash of HTTP Request headers
+- `env` a hash of environment variables
+- `xhr` true or false to make this an AJAX request or not
+- `as` to request a content type, for example `as: :json`
+- `cookies` to set cookies included in the request
 
-After the request you get the result in three hashes:
+After the request you get the response and three hashes:
 
-* `session` 
-* `flash`
-* `cookies`
+- `session`
+- `flash`
+- `cookies`
 
 Rails adds some custom assertions for controllers.
 You can see them at work in the tests created by scaffold:
 
-`assert_response`  checks the status code of the HTTP response generated
+`assert_response` checks the status code of the HTTP response generated
 by the controller:
 
 ```
@@ -387,7 +436,7 @@ end
 
 `assert_difference` checks a value before and after
 a block of code is run, to make sure that the value changed
-by one:
+by one. This is often used when creating models:
 
 ```
 test "should create article" do
@@ -410,20 +459,18 @@ test "should destroy article" do
 end
 ```
 
-The Test Database
------------------
+## The Test Database
 
-Just about every Rails application interacts heavily with a database and, 
-as a result, your tests will need a database to interact with as well. 
-To write efficient tests, you'll need to understand how to set up 
+Just about every Rails application interacts heavily with a database and,
+as a result, your tests will need a database to interact with as well.
+To write efficient tests, you'll need to understand how to set up
 this database and populate it with sample data.
 
 The database for each environment is configured in `config/database.yml`.
 
-A dedicated test database allows you to set up and interact with test data in 
-isolation. This way your tests can mangle test data with confidence, 
+A dedicated test database allows you to set up and interact with test data in
+isolation. This way your tests can mangle test data with confidence,
 without worrying about the data in the development or production databases.
-
 
 ### Maintaining the test database schema
 
@@ -441,26 +488,26 @@ be rebuilt. This can be done by executing `rails db:test:prepare`.
 ### Test Data with Fixtures
 
 For good tests, you'll need to give some thought to setting up test data.
-In Rails, the most simple way of doing this is by defining and customizing fixtures. 
+In Rails, the most simple way of doing this is by defining and customizing fixtures.
 Fixtures are database independent and written in YAML. There is one file per model.
 
-You'll find fixtures under your `test/fixtures` directory. When you run 
-`rails generate model` to create a new model, 
+You'll find fixtures under your `test/fixtures` directory. When you run
+`rails generate model` to create a new model,
 Rails automatically creates fixture stubs in this directory.
 
 #### YAML
 
-YAML-formatted fixtures are a human-friendly way to describe 
+YAML-formatted fixtures are a human-friendly way to describe
 your sample data. These types of fixtures have the **.yml** file extension (as in `users.yml`).
 
 Here's a sample YAML fixture file:
 
 ```yaml
-# lo & behold! I am a YAML comment!
+# I am a YAML comment
 david:
   name: David Heinemeier Hansson
   birthday: 1979-10-15
-  profession: Systems development
+  profession: systems development
 
 steve:
   name: Steve Ross Kellock
@@ -468,12 +515,12 @@ steve:
   profession: guy with keyboard
 ```
 
-Each fixture is given a name followed by an indented list of colon-separated 
-key/value pairs. Records are typically separated by a blank line. 
+Each fixture is given a name followed by an indented list of colon-separated
+key/value pairs. Records are typically separated by a blank line.
 You can place comments in a fixture file by using the # character in the first column.
 
-If there are [associations](/rails_database_and_model.html#1-n-associations) 
-between models, you can 
+If there are [associations](/rails_database_and_model.html#1-n-associations)
+between models, you can
 simply refer to the fixture in a related model using its name.
 Here's an example with a `belongs_to`/`has_many` association:
 
@@ -489,20 +536,19 @@ one:
   category: about
 ```
 
-Notice the `category` key of the `one` article found in `fixtures/articles.yml` 
-has a value of `about`. This tells Rails to load the 
+The `category` key of the `one` article found in `fixtures/articles.yml`
+has a value of `about`. This tells Rails to load the
 category `about` found in `fixtures/categories.yml`.
 
-NOTE: For associations to reference one another by name, 
-you cannot specify the `id:` attribute on the associated fixtures. 
-Rails will auto assign a primary key to be consistent between runs. 
-For more information on this association behavior please read 
+NOTE: Do not specify the `id:` attribute in fixtures.
+Rails will auto assign a primary key to be consistent between runs.
+For more information on this association behavior please read
 the [Fixtures API documentation](https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html).
 
 #### Fixtures with ERB
 
-ERB allows you to embed Ruby code. The YAML fixture format is pre-processed with 
-ERB when Rails loads fixtures. This allows you to use Ruby to help you generate 
+ERB allows you to embed Ruby code. The YAML fixture format is pre-processed with
+ERB when Rails loads fixtures. This allows you to use Ruby to help you generate
 some sample data. For example, the following code generates a thousand users:
 
 ```erb
@@ -515,7 +561,7 @@ user_<%= n %>:
 
 #### Using fixtures in Tests
 
-The data defined by the fixture files will be available 
+The data defined by the fixture files will be available
 in your tests as Active Record objects. For example:
 
 ```ruby
@@ -537,12 +583,9 @@ To get multiple fixtures at once, you can pass in a list of fixture names. For e
 users(:david, :steve)
 ```
 
+## Integration Tests
 
-Integration Tests 
------------------
-
-Integration tests are used to test that the various parts of your application interact correctly to implement features.  Integration tests do not include the client side. 
-
+Integration tests are used to test that the various parts of your application interact correctly to implement features. Integration tests do not include the client side.
 
 Here is a first example of an integration test:
 
@@ -560,13 +603,13 @@ class PublicTest < ActionDispatch::IntegrationTest
     assert_select '.calendar_section .button_to input'
     assert_match 'collect', css_select('div.calendar_section').text
     assert_match '2 entries found', css_select('div.calendar_section p').text
-  end  
+  end
 
   test 'Edit a Course is not available' do
     get edit_course_path(@course, locale: 'en')
 
     assert_response :found
-  end 
+  end
 end
 ```
 
@@ -574,14 +617,13 @@ The first test ensures that a course can be displayed.
 A get request is used to load the show action of the course controller.
 
 The following five assertions concern the HTTP response and the DOM of the retuned
-html document.  
+html document.
 
 The second test ensures that a certain path (here: the edit action of the course
-controller) is not available to a user who is not logged in.  When getting
-the URL we expect a redirection to happen.  The response contains the "found" http status code.
+controller) is not available to a user who is not logged in. When getting
+the URL we expect a redirection to happen. The response contains the "found" http status code.
 
 Here are some tests for logged in users with admin powers:
-
 
 ```ruby
 class AdminTest <  ActionDispatch::IntegrationTest
@@ -590,20 +632,20 @@ class AdminTest <  ActionDispatch::IntegrationTest
     @admin = users(:one)
 
     get root_url
-  
+
     post "/login", params: { username: @admin.name,
       password: 'notneeded' }
     follow_redirect!
     follow_redirect!
 
-    assert_equal 200, status    
+    assert_equal 200, status
   end
 
   test 'Edit a Course is available' do
     get edit_course_path(@course, locale: 'en')
 
     assert_response :success
-  end   
+  end
 end
 ```
 
@@ -616,14 +658,13 @@ You can also access it directly as `document_root_element`.
 
 Learn more about integration test:
 
-* [Rails Guide on Testing](https://guides.rubyonrails.org/testing.html#integration-testing)
-* [Rails API Documentation ActionDispatch::IntegrationTest](https://api.rubyonrails.org/v5.2.1/classes/ActionDispatch/IntegrationTest.html)
+- [Rails Guide on Testing](https://guides.rubyonrails.org/testing.html#integration-testing)
+- [Rails API Documentation ActionDispatch::IntegrationTest](https://api.rubyonrails.org/v5.2.1/classes/ActionDispatch/IntegrationTest.html)
 
-System Tests with Selenium and a headless Browser
--------------------
+## System Tests with Selenium and a headless Browser
 
 System test are used to test that the various parts of your application interact correctly
-to implement features. You can use a real browser to test your app, including the client side javascript. 
+to implement features. You can use a real browser to test your app, including the client side javascript.
 
 Rails 5 comes
 with built in system tests. These
@@ -631,11 +672,11 @@ are stored in the folder `test/system/`
 
 These tests take a lot more time to run than the unit test
 and even the integration tests
-discussed earlier. They are not included if you run `rails test`, you have 
+discussed earlier. They are not included if you run `rails test`, you have
 to start them separately with `rails test:system`.
 
 We will use the gem `selenium-webdriver` and the headless browser firefox
-to write our system tests. 
+to write our system tests.
 
 ```
 # Gemfile
@@ -647,7 +688,7 @@ end
 ...
 ```
 
-You need to install the browser separately. On Mac you can do this 
+You need to install the browser separately. On Mac you can do this
 by using brew:
 
 ```
@@ -678,11 +719,10 @@ end
 
 `visit` is capybaras method for making a HTTP request just as the browser would.
 
-
-#### Testing a form 
+#### Testing a form
 
 Syste tests are black box tests: we only interact with the
-app through the web browser, and have no "inside knowledge" about the app.  
+app through the web browser, and have no "inside knowledge" about the app.
 
 Some helper methods:
 
@@ -720,7 +760,6 @@ assert_checked_field('newsletter')
 assert_link('more')
 ```
 
-
 #### Testing Javascript
 
 Testing with an embedded browser like webkit makes
@@ -735,7 +774,7 @@ end
 ```
 
 While developing your test it might be helpful
-to *see* what the invisible browser is doing.
+to _see_ what the invisible browser is doing.
 You can save a screenshot to a file automatically:
 
 ```
@@ -748,9 +787,8 @@ The console is available through `page.driver.console_messages`.
 But it is probably best not to write tests that expect certain
 console output.
 
-Further Reading
----------------
+## Further Reading
 
-* [A Guide to Testing Rails Applications](https://guides.rubyonrails.org/testing.html) - also contains an introduction to testing routes, mailers, helpers, jobs and more in depth information on testing controllers
-* [Fixtures API documentation](https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html)
-* [Observations running 2M headless Chrome sessions](https://news.ycombinator.com/item?id=17233371)
+- [A Guide to Testing Rails Applications](https://guides.rubyonrails.org/testing.html) - also contains an introduction to testing routes, mailers, helpers, jobs and more in depth information on testing controllers
+- [Fixtures API documentation](https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html)
+- [Observations running 2M headless Chrome sessions](https://news.ycombinator.com/item?id=17233371)

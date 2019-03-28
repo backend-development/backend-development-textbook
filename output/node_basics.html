@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Node.js Basics in the Backend Development Textbook</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+  <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shCore.css" />
+  <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shThemeRailsGuides.css" />
+
+  <link rel="stylesheet" type="text/css" href="stylesheets/fixes.css" />
+
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <style>
+
+    .slide img[src$=svg] {
+      width: 100%;
+    }
+  </style>
+</head>
+<body class="guide">
+  <div>
+    <a href="https://github.com/backend-development/backend-development-textbook/"><img style="position: fixed; top: 0; right: 0; border: 0; z-index: 10;" src="images/forkme.png" alt="Fork me on GitHub"></a>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">More Rails: </strong>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">Rails Guides</a></li>
+        <li class="more-info"><a href="https://curriculum.railsbridge.org/docs/">Railsbridge</a></li>
+        <li class="more-info"><a href="https://railscasts.com/">Railscasts</a></li>
+      </ul>
+      <strong class="more-info-label">Beyond Backend: </strong>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://web-engineering.github.io/">Web Engineering</a></li>
+      </ul>      
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="Return to home page">Backend<span> Development</span></a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">Home</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" onclick="guideMenu(); return false;" id="guidesMenu" class="guides-index-item nav-item">Index  &#x25BC;</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+              <dl class="L">
+                <dt>Ruby on Rails</dt>
+                <dd><a href="ruby_commandline.html">Ruby Commandline</a></dd>
+                <dd><a href="rails_database_and_model.html">Database and Models</a></dd>
+                <dd><a href="rails_associations_and_validations.html">Associations and Validations</a></dd>
+                <dd><a href="rails_view_and_controller.html">Routing, View and Controller</a></dd>
+                <dd><a href="rails_authentication.html">Authentication</a></dd>
+                <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                <dd><a href="javascript_and_ajax.html">Javascript and AJAX</a></dd>
+                <dd><a href="testing.html">Getting started with Testing</a></dd>
+                <dd><a href="rails_gems.html">Ruby Gems for your Rails Project</a></dd>
+                <dd><a href="apis.html">APIs</a></dd>
+                <dd><a href="rails_websockets.html">Websocket in Rails</a></dd>
+                <dd><a href="refactoring_rails.html">Refactoring Rails</a></dd>
+                <dt>Overarching Concerns</dt>
+                <dd><a href="security.html">Security</a></dd>
+                <dd><a href="caching.html">Caching</a></dd>
+                <dd><a href="advanced_testing.html">Advanced Testing</a></dd>
+                <dd><a href="internationalization.html">Internationalization (I18n)</a></dd>
+              </dl>
+              <dl class="R">
+                <dt>Nodes.js</dt>
+                <dd><a href="node_vs_rails.html">Node vs. Rails</a></dd>
+                <dd><a href="node_basics.html">Node Basics</a></dd>
+                <dd><a href="node_websockets.html">Node Websockets</a></dd>
+                <dd><a href="node_express.html">Node Web App</a></dd>
+                <dd><a href="node_cluster.html">Scaling Node</a></dd>
+              </dl>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <h2 id="preheader">Node.js Basics</h2>
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li><a href="#what-is-node-js-questionmark">What is node.js?</a></li>
+<li><a href="#hello-world">Hello World</a></li>
+<li><a href="#node-version-manager">Node Version Manager</a></li>
+<li><a href="#hello-web">Hello Web</a></li>
+<li><a href="#packages">Packages </a></li>
+<li><a href="#the-javascript-event-loop">The javascript Event Loop</a></li>
+<li><a href="#processing-model">Processing Model</a></li>
+<li><a href="#example-code">Example Code</a></li>
+<li><a href="#io-bound-vs-cpu-bound">IO-bound vs. CPU-bound</a></li>
+<li><a href="#writing-asyncronous-code">Writing asyncronous code</a></li>
+<li><a href="#streams">Streams</a></li>
+<li><a href="#see-also">See Also</a></li>
+</ol>
+
+          </div>
+
+      <div class="rest_header">
+        <h2>Node.js Basics</h2><p>Node.js is just a javascript interpreter
+with a very small library added.  With node
+you build your web server from scratch.</p><p>After working through this guide you should</p>
+<ul>
+<li>know how to install libraries for node.js with npm</li>
+<li>be able to write a simple web server</li>
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <div class='slide'><a id='slide-1'></a>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-1' href='slides_node_basics.html#slide-1'>▻</a>
+<h3 id="what-is-node-js-questionmark">1 What is node.js?</h3>
+<p>Node.js was originally written by Ryan Dahl in 2009
+as a combination of two pieces of software that
+already existed: </p>
+<ul>
+<li>the google javascript interpreter v8</li>
+<li>a library for asyncronous programming</li>
+</ul>
+<p>To this he added a library written in Javascript.
+In 2010 npm was added as a package manager for
+Javascript Libraries.</p>
+<p>In 2017, according to <a href="https://www.openhub.net/p/node/analyses/latest/languages_summary">openhub</a> the node projects consist of:</p>
+<ul>
+<li>v8: 2 millions lines of code written in c++</li>
+<li>libuv: 50.000 lines of C code</li>
+<li>node bindings: 450.000 lines of C code</li>
+<li>the node library: 1 million lines of Javascript code </li>
+</ul>
+<p>So v8 is the biggest part of node:</p>
+<p><img src="images/what-is-node.svg" alt=""></p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-2' href='slides_node_basics.html#slide-2'>▻</a>
+<h3 id="hello-world">2 Hello World</h3>
+<p>You write your program in Javascript:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+console.log("Hello World");
+
+</pre>
+</div>
+<p>and run it with the <code>node</code> command:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ node hello.js
+Hello World
+
+</pre>
+</div>
+<p>You can also use node interactively:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ node
+&gt; console.log("Hello World");
+Hello World
+undefined
+&gt; 1+2
+3
+&gt; [CTRL]-[D]
+
+</pre>
+</div>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-3' href='slides_node_basics.html#slide-3'>▻</a>
+<h3 id="node-version-manager">3 Node Version Manager</h3>
+<p>Node Versions change fast. The node version manager (nvm) makes
+it easy to switch between versions:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ nvm use 6.10
+Now using node v6.10.3 (npm v3.10.10)
+$ nvm use default
+Now using node v7.9.0 (npm v4.2.0)
+
+</pre>
+</div>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-4' href='slides_node_basics.html#slide-4'>▻</a>
+<h3 id="hello-web">4 Hello Web</h3>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+const http = require('http');
+const hostname = '127.0.0.1';
+const port = 3000;
+
+const server = http.createServer((req, res) =&gt; {
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/plain');
+  res.end('Hello World\n');
+});
+
+server.listen(port, hostname, () =&gt; {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});
+
+</pre>
+</div>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ node app.js 
+Server running at http://127.0.0.1:3000/
+
+</pre>
+</div>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-5' href='slides_node_basics.html#slide-5'>▻</a>
+<h3 id="packages">5 Packages </h3>
+<p>Node does not use ES6 modules! node packages are
+installed by npm into a folder node_modules.  You can
+also write your own:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+// File foo.js:
+const http = require('http');
+const app = { hello: 'World' };
+exports = module.exports = app;
+
+</pre>
+</div>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+Other file:
+const app = require('./foo');
+console.log(app);
+
+</pre>
+</div>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ node bar.js
+{ hello: 'World' }
+
+</pre>
+</div>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-6' href='slides_node_basics.html#slide-6'>▻</a>
+<h3 id="the-javascript-event-loop">6 The javascript Event Loop</h3>
+<p>You have worked with Javascript and asyncronous programming before.</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+function f() {
+  console.log("foo");
+  setTimeout(g, 0);
+  console.log("baz");
+  h();
+}
+function g() {
+  console.log("bar");
+}
+function h() {
+  console.log("blix");
+}
+el.addEventListener('click',f); 
+
+</pre>
+</div>
+<p>If this code runs in the browser, the output on the console will be:</p>
+<ol>
+<li>foo</li>
+<li>baz</li>
+<li>blix</li>
+<li>bar</li>
+</ol>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-7' href='slides_node_basics.html#slide-7'>▻</a>
+<h3 id="processing-model">7 Processing Model</h3>
+<p>PHP and Ruby on Rails have the same basic processing model. It is either
+implemented with threads or with processes.</p>
+<ul>
+<li>when the webserver first starts, a number of threads are started</li>
+<li>when a http comes in, it is handled by one thread from beginning to end
+
+<ul>
+<li>the thread will probably spend some time waiting for slow I/O, like a database response</li>
+</ul>
+</li>
+</ul>
+<p>Using syncronous I/O the program code will look something like this:</p>
+<div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+file = File.open(file_name, "r")    # takes a long time, thread has to wait
+data = file.read                    # takes a very long time, thread has to wait
+file.close
+
+</pre>
+</div>
+<p>As each thread comes with a fixed overhead of memory demand, you
+can only start so many threads on a given machine.  You configure this
+in the web server configuration, e.g.</p>
+<ul>
+<li>when running PHP with apache and PHP-FPM with the configuration directives <code>pm.max_children</code>, ``<code>pm.start_servers</code>, <code>pm.min_spare_servers</code>, <code>pm.max_spare_servers</code>, see <a href="https://secure.php.net/manual/de/install.fpm.configuration.php">php.net</a>
+</li>
+<li>when running Rails with Passenger with the configuration directives <code>PassengerMinInstances</code> und <code>PassengerMaxPoolSize</code>, see <a href="https://www.phusionpassenger.com/library/config/apache/optimization/">phusionpassenger.com</a>
+</li>
+</ul>
+<p>Node has a completely different model:</p>
+<ul>
+<li>there is one thread running the javascript event loop</li>
+<li>if the thread is free, it picks up the next event from the event queue. this might be a new http request</li>
+<li>all I/O is done asynchronosly:  the main thread hands off the request to the database to a new, separate thread from a thread pool.  When the request is done, and the data is available, this is added as a new event to the event queue</li>
+<li>after starting an   asynchronos thread, the main thread immediately contious working</li>
+</ul>
+<p>Doing asyncronous I/O is implemented using callbacks in Javascript, and will look
+something like this:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+console.log('first');
+fs.readFile(file_name, (err, data) =&gt; { 
+  if (err) throw err; 
+  console.log('... much later, third')
+  console.log(data); 
+});
+console.log('second');
+
+</pre>
+</div>
+<p>If this is the whole program, the main thread will become free after
+printing out <code>second</code>.  It will pick up something else to do from
+the event queue.  Much later, when the data from the file has been
+loaded, it will find the callback funktion on the event queue, and
+finally reach <code>third</code>.</p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-8' href='slides_node_basics.html#slide-8'>▻</a>
+<h3 id="example-code">8 Example Code</h3>
+<p><img src="images/node-example-code.png" alt=""></p>
+<p><img src="images/node-example-diagram.png" alt=""></p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-9' href='slides_node_basics.html#slide-9'>▻</a>
+<h3 id="io-bound-vs-cpu-bound">9 IO-bound vs. CPU-bound</h3>
+<p>Describes two kinds of performance bottlenecks</p>
+<ul>
+<li>An I/O-bound application waits most of the time for network, filesystem and database. 
+Running on a faster CPU would not help.</li>
+<li>A CPU-bound application spends most of the time using the CPU, running on a faster CPU would help.</li>
+</ul>
+<p>The node process model helps with I/O-bound applications: If your app is I/O-bound, the event loop will be able to serve many requests, while other threads handling the acutal I/O will run on other kernels</p>
+<p>If one aspect of your app is CPU-bound it will monopolize that kernel, 
+(other) requests cannot be served. Therefore node and is not well suited for CPU
+bound applications.</p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-10' href='slides_node_basics.html#slide-10'>▻</a>
+<h3 id="writing-asyncronous-code">10 Writing asyncronous code</h3>
+<p>A Node app by necessety contains a lot of asyncronous code.
+The traditional way of writing it, is the "callback" style:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+fs = require('fs');
+console.log('first');
+fs.readFile(file_name,  "utf8", (err, data) =&gt; { 
+  if (err) throw err; 
+  console.log('... much later, third')
+  console.log(data); 
+});
+console.log('second');
+
+</pre>
+</div>
+<p>This leads to "callback hell", when callbacks have to be
+nested deepply, and the order of the code lines is in no way
+connected with the order they are executed in.</p>
+<p>There have been several attempts to find a more readable alternative:</p>
+<ul>
+<li>Fibers</li>
+<li>Generators</li>
+<li>Reactive Programming (Bacon)</li>
+<li>Promises </li>
+<li>Async functions (soon)</li>
+</ul>
+<p>The last two optinos seem to be the winners (in 2017): <a href="https://caniuse.com/#feat=promises">promises</a>
+are a part of ES6, and are available in both browsers and node now.
+In node you can use a "promisified" version of the node standard library
+with <code>mz</code>:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+fs = require('mz/fs');
+console.log('1.');
+fs.readFile('this.txt',  "utf8").then( (data) =&gt; {
+  console.log('... much later: 3.')
+  console.log(data);
+}).catch( (err) =&gt; {
+  console.log('in case of an error: 3.');
+  throw err;
+}) ;
+console.log('2.');
+
+</pre>
+</div>
+<p><a href="https://caniuse.com/#feat=async-functions">Async functions</a> are defined in ES8 and 
+are usable in browsers, but not in node yet.  There Syntax will be something like:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+const fs = require('mz/fs');
+console.log('1.');
+
+async function read_text(file_name) {
+  data = await fs.readFile('this.txt',  "utf8");
+  return data;
+}
+
+
+console.log( read_text('this.txt') );
+
+</pre>
+</div>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-11' href='slides_node_basics.html#slide-11'>▻</a>
+<h3 id="streams">11 Streams</h3>
+<p>Read the file. After the whole file has been read, send it:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+var http = require('http');
+var fs = require('fs');
+ 
+var server = http.createServer(function (req, res) {
+    fs.readFile(__dirname + '/data.txt', function (err, data) {
+        res.end(data);
+    });
+});
+server.listen(8000);
+
+</pre>
+</div>
+<p>Better: connect a stream reading the file to the stream
+that is the HTTP response:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+var http = require('http');
+var fs = require('fs');
+ 
+var server = http.createServer(function (req, res) {
+  let stream = fs.createReadStream(__dirname + '/data.txt');
+  stream.pipe(res);
+});
+server.listen(8000);
+
+
+</pre>
+</div>
+<p>.pipe() takes care of listening for 'data' and 'end' events from the fs.createReadStream(). This code is not only cleaner, but now the data.txt file will be written to clients one chunk at a time immediately as they are received from the disk.</p>
+<p>Using .pipe() has other benefits too, like handling backpressure automatically so that node won't buffer chunks into memory needlessly when the remote client is on a really slow or high-latency connection.</p>
+<p>From <a href="https://github.com/substack/stream-handbook#why-you-should-use-streams">the stream handbook</a></p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-12' href='slides_node_basics.html#slide-12'>▻</a>
+<h3 id="see-also">12 See Also</h3>
+<ul>
+<li><a href="https://nodejs.org/en/docs/guides/anatomy-of-an-http-transaction/">Node Guide: HTTP</a></li>
+<li><a href="https://nodejs.org/en/docs/guides/event-loop-timers-and-nexttick/">nexttick</a></li>
+<li><a href="https://stackoverflow.com/questions/19822668/what-exactly-is-a-node-js-event-loop-tick">Event Loop Implementation</a></li>
+<li><a href="http://docs.libuv.org/en/v1.x/threadpool.html">set the event pool size process.env.UV_THREADPOOL_SIZE</a></li>
+<li><a href="https://github.com/nodejs/node/blob/278a9267ec41f37e6b7dda876c417945d7725973/src/node.cc#L3964-L3965">V8 needs 4 threads</a></li>
+<li><a href="https://www.future-processing.pl/blog/on-problems-with-threads-in-node-js/">On problems with threads in node.js</a></li>
+<li><a href="https://thecodebarbarian.com/common-async-await-design-patterns-in-node.js.html">Karpov(2017): Async Await Patterns</a></li>
+</ul>
+</div>        
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p class="copyright">published under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/at/deed.de">creative commons by-nc-sa</a> in 2012-2016 by <a href="https://brigitte-jellinek.at">Brigitte Jellinek</a>.
+      </p><p>If you want to contribute: <a href="https://github.com/backend-development/backend-development-textbook/fork">fork the source on github</a>
+        and edit <a href="https://github.com/backend-development/backend-development-textbook/blob/master/source/node_basics.md">node_basics.md</a>
+      </p>
+    </div>
+  </div>
+
+  <script src="javascripts/jquery.min.js"></script>
+  <script src="javascripts/responsive-tables.js"></script>
+  <script src="javascripts/guides.js"></script>
+  <script src="javascripts/syntaxhighlighter/shCore.js"></script>
+  <script src="javascripts/syntaxhighlighter/shBrushRuby.js"></script>
+  <script src="javascripts/syntaxhighlighter/shBrushXml.js"></script>
+  <script src="javascripts/syntaxhighlighter/shBrushSql.js"></script>
+  <script src="javascripts/syntaxhighlighter/shBrushPlain.js"></script>
+  <script>
+    SyntaxHighlighter.all()
+    $(guidesIndex.bind);
+    $(document).ready(function(){
+      let hash = document.location.hash;
+      if(! hash) return;
+      document.getElementById(hash.substr(1)).scrollIntoView(true);
+    })
+  </script>
+  </body>
+</html>

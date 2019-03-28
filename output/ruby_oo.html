@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Ruby Object Orientation in the Backend Development Textbook</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+  <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shCore.css" />
+  <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shThemeRailsGuides.css" />
+
+  <link rel="stylesheet" type="text/css" href="stylesheets/fixes.css" />
+
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <style>
+
+    .slide img[src$=svg] {
+      width: 100%;
+    }
+  </style>
+</head>
+<body class="guide">
+  <div>
+    <a href="https://github.com/backend-development/backend-development-textbook/"><img style="position: fixed; top: 0; right: 0; border: 0; z-index: 10;" src="images/forkme.png" alt="Fork me on GitHub"></a>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">More Rails: </strong>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">Rails Guides</a></li>
+        <li class="more-info"><a href="https://curriculum.railsbridge.org/docs/">Railsbridge</a></li>
+        <li class="more-info"><a href="https://railscasts.com/">Railscasts</a></li>
+      </ul>
+      <strong class="more-info-label">Beyond Backend: </strong>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://web-engineering.github.io/">Web Engineering</a></li>
+      </ul>      
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="Return to home page">Backend<span> Development</span></a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">Home</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" onclick="guideMenu(); return false;" id="guidesMenu" class="guides-index-item nav-item">Index  &#x25BC;</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+              <dl class="L">
+                <dt>Ruby on Rails</dt>
+                <dd><a href="ruby_commandline.html">Ruby Commandline</a></dd>
+                <dd><a href="rails_database_and_model.html">Database and Models</a></dd>
+                <dd><a href="rails_associations_and_validations.html">Associations and Validations</a></dd>
+                <dd><a href="rails_view_and_controller.html">Routing, View and Controller</a></dd>
+                <dd><a href="rails_authentication.html">Authentication</a></dd>
+                <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                <dd><a href="javascript_and_ajax.html">Javascript and AJAX</a></dd>
+                <dd><a href="testing.html">Getting started with Testing</a></dd>
+                <dd><a href="rails_gems.html">Ruby Gems for your Rails Project</a></dd>
+                <dd><a href="apis.html">APIs</a></dd>
+                <dd><a href="rails_websockets.html">Websocket in Rails</a></dd>
+                <dd><a href="refactoring_rails.html">Refactoring Rails</a></dd>
+                <dt>Overarching Concerns</dt>
+                <dd><a href="security.html">Security</a></dd>
+                <dd><a href="caching.html">Caching</a></dd>
+                <dd><a href="advanced_testing.html">Advanced Testing</a></dd>
+                <dd><a href="internationalization.html">Internationalization (I18n)</a></dd>
+              </dl>
+              <dl class="R">
+                <dt>Nodes.js</dt>
+                <dd><a href="node_vs_rails.html">Node vs. Rails</a></dd>
+                <dd><a href="node_basics.html">Node Basics</a></dd>
+                <dd><a href="node_websockets.html">Node Websockets</a></dd>
+                <dd><a href="node_express.html">Node Web App</a></dd>
+                <dd><a href="node_cluster.html">Scaling Node</a></dd>
+              </dl>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <h2 id="preheader">Ruby Object Orientation</h2>
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li><a href="#to-be-written">To Be Written</a></li>
+<li>
+<a href="#an-investigation-into-declarations">An investigation into Declarations:</a>
+
+<ul>
+<li><a href="#online-resources">Online Resources</a></li>
+<li><a href="#books">Books</a></li>
+</ul>
+</li>
+</ol>
+
+          </div>
+
+      <div class="rest_header">
+        <h2>Ruby Object Orientation</h2><p>This guide will take a closer look at objects, classes and modules in Ruby.</p><p>After finishing this guide you will</p>
+<ul>
+<li>know how to write object methods and use object variables (properties)</li>
+<li>know how to write class methods and use class variables (properties)</li>
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <div class='slide'><a id='slide-1'></a>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-1' href='slides_ruby_oo.html#slide-1'>▻</a>
+<h3 id="to-be-written">1 To Be Written</h3>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-2' href='slides_ruby_oo.html#slide-2'>▻</a>
+<h3 id="an-investigation-into-declarations">2 An investigation into Declarations:</h3>
+<p>In <a href="rails_associations_and_validations.html">Rails: Associations and Validations</a> we learned that Validation are declared in the model:</p>
+<div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+class Tweet &lt; ActiveRecord::Base
+  validates_presence_of :status
+end
+
+</pre>
+</div>
+<p>But what is really happening here?</p>
+<p><code>validates_presence_of</code> is called when the class is defined.  it is called only once.</p>
+<div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+class Ruby
+  def validates_presence_of x
+    puts "I should really check for property #{x}"
+  end
+
+  validates_presence_of :color
+end
+
+# in `&lt;class:Ruby&gt;': undefined method `validates_presence_of' for Ruby:Class (NoMethodError)
+
+</pre>
+</div>
+<p><code>validates_presence_of</code>  cannot be a normal method, because such a method is not defined yet
+when the class is defined.  so it needs to be a class method.</p>
+<div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+class Ruby
+  def self.validates_presence_of x
+    puts "I should really check for property #{x}"
+  end
+
+  validates_presence_of :color
+end
+
+</pre>
+</div>
+<p>....</p>
+<div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+class ValidatableStuff
+  attr_accessor :data
+  attr_accessor :errors
+  def self.validates_presence_of x
+    puts "the class #{self} should really check for #{x} - but how?"
+    @@validator_for = x
+  end
+
+  def initialize(**data) 
+    @data = data
+  end
+
+  def save
+    puts "I am trying to save the data of a #{self.class} Object. the data is #{self.data}"
+    if self.data.keys.include?( @@validator_for ) 
+      puts "this is ok, #{@@validator_for} is set"
+      return true
+    else
+      puts "this is not ok, #{@@validator_for} needs to be set"
+      self.errors = "#{@@validator_for} needs to be set"
+      return false
+    end
+
+  end
+end
+
+
+class Ruby &lt; ValidatableStuff
+  def x
+  end
+
+  x
+  validates_presence_of :color
+end
+
+
+class Diamond &lt; ValidatableStuff
+  validates_presence_of :carat
+end
+
+r1 = Ruby.new
+if r1.save 
+  puts "saved"
+else 
+  puts "errors: #{r1.errors}"
+end
+
+r2 = Ruby.new(color: 'yellow')
+r2.save
+
+d1 = Diamond.new
+d1.save
+
+d2 = Diamond.new(carat: 10)
+d2.save
+
+</pre>
+</div>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-3' href='slides_ruby_oo.html#slide-3'>▻</a>
+<h4 id="online-resources">2.1 Online Resources</h4>
+<ul>
+<li><a href="http://rubylearning.com/satishtalim/tutorial.html">learningruby.com tutorial</a></li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-4' href='slides_ruby_oo.html#slide-4'>▻</a>
+<h4 id="books">2.2 Books</h4>
+<ul>
+<li><a href="https://www.poodr.com/">Metz, Sandy(2017): Practical Object-Oriented Design in Ruby</a></li>
+</ul>
+</div>        
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p class="copyright">published under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/at/deed.de">creative commons by-nc-sa</a> in 2012-2016 by <a href="https://brigitte-jellinek.at">Brigitte Jellinek</a>.
+      </p><p>If you want to contribute: <a href="https://github.com/backend-development/backend-development-textbook/fork">fork the source on github</a>
+        and edit <a href="https://github.com/backend-development/backend-development-textbook/blob/master/source/ruby_oo.md">ruby_oo.md</a>
+      </p>
+    </div>
+  </div>
+
+  <script src="javascripts/jquery.min.js"></script>
+  <script src="javascripts/responsive-tables.js"></script>
+  <script src="javascripts/guides.js"></script>
+  <script src="javascripts/syntaxhighlighter/shCore.js"></script>
+  <script src="javascripts/syntaxhighlighter/shBrushRuby.js"></script>
+  <script src="javascripts/syntaxhighlighter/shBrushXml.js"></script>
+  <script src="javascripts/syntaxhighlighter/shBrushSql.js"></script>
+  <script src="javascripts/syntaxhighlighter/shBrushPlain.js"></script>
+  <script>
+    SyntaxHighlighter.all()
+    $(guidesIndex.bind);
+    $(document).ready(function(){
+      let hash = document.location.hash;
+      if(! hash) return;
+      document.getElementById(hash.substr(1)).scrollIntoView(true);
+    })
+  </script>
+  </body>
+</html>

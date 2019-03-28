@@ -157,38 +157,11 @@ Some Gems
 This list was inspired by the [Rails Rumble gem teardown](https://blog.railsrumble.com/2016/01/15/gem-teardown/) and
 [coodbeerstartups "Must Have Gems for Development Machine in Ruby on Rails "](http://www.codebeerstartups.com/2013/04/must-have-gems-for-development-machine-in-ruby-on-rails).
 
-### Frontend Stuff for rails
-
-Use rails-assets.org to get javascript libraries.
-It is a proxy to Bower, so any library that is available
-through Bower is available to rails.
-
-In your gemfile:
-
-```
-source 'https://rails-assets.org' do
-  gem 'rails-assets-bootstrap-sass'
-  gem 'rails-assets-angular'
-  gem 'rails-assets-leaflet'
-end
-```
-
-* gem [autoprefixer-rails]() - Parse CSS and add vendor prefixes to CSS rules using values from the Can I Use website.
-Search for libraries at [https://rails-assets.org](https://rails-assets.org)
-
-### Graphing, Graphics, WebGL
-
-* gem [chartkick](https://github.com/ankane/chartkick) chartcick javascript library, creates svg graphs
-* gem [raphael](https://github.com/DmitryBaranovskiy/raphael) for the raphael javascript library, creates svg graphs and images
-* gem [novus-nvd3-rails](https://github.com/dbackowski/novus-nvd3-rails) A reusable chart library for d3.js
-* gem [gruff](https://github.com/topfunky/gruff) create PNG graphs (e.g. for reuse in non-html documents)
-* gem [rmagick](https://github.com/rmagick/rmagick) Ruby bindings for [ImageMagick](https://rmagick.github.io/) image manipulation library
-* gem [rqrcode](https://github.com/whomwah/rqrcode) create QR codes
 
 ### File Upload
 
 File Upload has been integrated into Rails 5 with
-[](), there is no need to use 
+[ActiveStorage](https://edgeguides.rubyonrails.org/active_storage_overview.html), there is no need to use 
 [carrierwave](https://github.com/carrierwaveuploader/carrierwave) or
 or
 [paperclip](https://github.com/thoughtbot/paperclip)
@@ -223,14 +196,18 @@ You don't want the database keys to be visible in your URLs?  Use Friendly IDs i
 
 (this is also used by capybara)
 
-### Parsing Markdown
+### Let Users format their Texts
 
 Letting users enter HTML is a dangerous idea - it's really hard to
 avoid the security problems.  An alternative is to let them enter
 a simpler markup language, like [Markdown](https://en.wikipedia.org/wiki/Markdown).
 You store the markdown in your database, and convert it to HTML when displayed using a gem:
 
-* gem [redcarpet](https://github.com/vmg/redcarpet) - see [Railscast #272](http://railscasts.com/episodes/272-markdown-with-redcarpet?view=asciicast)
+* gem [github-markup](https://github.com/github/markup)
+
+Or use the builtin editor (since rails 6):
+
+* [ActionText](https://edgeguides.rubyonrails.org/action_text_overview.html)
 
 ### Pagination
 
@@ -244,7 +221,7 @@ to go through them page by page:
 
 You need to filter objects shown by the index action?
 
-* gem [brita](https://github.com/procore/brita) can be used in APIs and full rails apps
+* gem [brita](https://github.com/procore/sift) can be used in APIs and full rails apps
 
 ### Ordered Lists
 
@@ -276,13 +253,15 @@ Create a Backend for manipulating data with a few lines of code:
 ![ActiveAdmin Screenshot](images/gem-active-admin.png)
 
 * gem [activeadmin](https://activeadmin.info/)
-
+* gem [rails_admin](https://github.com/sferik/rails_admin)
 
 ### Sending Mail
 
 To send mail from Rails use [ActionMailer](https://guides.rubyonrails.org/action_mailer_basics.html).
 
 To see the generated mails in your web browser *instead* of sending them, use the gem [letter_opener](https://github.com/ryanb/letter_opener)
+
+To receive Mail use [ActionMailbox](https://edgeguides.rubyonrails.org/action_mailbox_basics.html)
 
 ### HTTP Requests
 
@@ -294,20 +273,31 @@ This might be handy for downloading from Webpages or APIs
 
 * gem [octokit](https://github.com/octokit/octokit.rb) - for github
 * gem [twitter](https://github.com/sferik/twitter)
-* gem [gravatar](https://github.com/sinisterchipmunk/gravatar)
 * gem [koala](https://github.com/arsduo/koala) - for facebook
+* gem [gravatar](https://github.com/sinisterchipmunk/gravatar)
 * gem [barometer](https://github.com/attack/barometer) - A multi API consuming weather forecasting superstar
 * gem [gmaps4rails](https://github.com/apneadiving/Google-Maps-for-Rails)
 
-### Geocoding 
+### Geo Information, Geocoding 
+
 sometimes you want to convert longitude/latitude coordinates
 to street addresses, or the reverse
 
 * gem [geocoder](https://github.com/alexreisner/geocoder)
 
+Use postgres's inbuilt geographical features:
+
+* gem [activerecord-postgis-adapter](http://www.rubygeocoder.com/)
+
+### PDF, Excel, csv, ...
+
+* gem [pdf-reader](github.com/yob/pdf-reader) 
+* gem [spreadsheet](https://github.com/zdavatz/spreadsheet)
+* gem [smarter_csv](https://github.com/tilo/smarter_csv)
+
 ### Testing
 
-* gem [factory_girl](https://github.com/thoughtbot/factory_girl) for creating test data.
+* gem [factory_bot_rails](https://github.com/thoughtbot/factory_bot_rails) for creating test data.
 * gem [capybara](https://github.com/jnicklas/capybara) as the "browser" for acceptance tests, with
 * gem [capybara-webkit](https://github.com/thoughtbot/capybara-webkit) for testing client side javascript.
 
@@ -321,11 +311,11 @@ to street addresses, or the reverse
 * gem [annotate](https://github.com/ctran/annotate_models) - inserts the db schema as comments in your model.rb file
 * gem [railroady](https://github.com/preston/railroady) - UML diagram generation for Rails projects, capable of analyzing existing models and controllers
 * gem [bullet](https://github.com/flyerhzm/bullet) - helps you improve your usage of activerecord queries
-* gem [metric_fu]() - many code metrics for your rails project
+* gem [brakeman](https://github.com/presidentbeef/brakeman) - checks for security vulnerabilities
 * gem [rails_best_practices](https://github.com/railsbp/rails_best_practices)
 * gem [rubocop](https://github.com/bbatsov/rubocop) - static code analyzer
 * gem [derailed_benchmarks](https://github.com/schneems/derailed_benchmarks)
-* gem [brakeman](https://github.com/presidentbeef/brakeman) - checks for security vulnerabilities
+* gem [metric_fu]() - many code metrics for your rails project
 
 
 Ressources

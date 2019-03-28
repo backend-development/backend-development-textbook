@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Deploying Rails in the Backend Development Textbook</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+  <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shCore.css" />
+  <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shThemeRailsGuides.css" />
+
+  <link rel="stylesheet" type="text/css" href="stylesheets/fixes.css" />
+
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <style>
+
+    .slide img[src$=svg] {
+      width: 100%;
+    }
+  </style>
+</head>
+<body class="guide">
+  <div>
+    <a href="https://github.com/backend-development/backend-development-textbook/"><img style="position: fixed; top: 0; right: 0; border: 0; z-index: 10;" src="images/forkme.png" alt="Fork me on GitHub"></a>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">More Rails: </strong>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">Rails Guides</a></li>
+        <li class="more-info"><a href="https://curriculum.railsbridge.org/docs/">Railsbridge</a></li>
+        <li class="more-info"><a href="https://railscasts.com/">Railscasts</a></li>
+      </ul>
+      <strong class="more-info-label">Beyond Backend: </strong>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://web-engineering.github.io/">Web Engineering</a></li>
+      </ul>      
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="Return to home page">Backend<span> Development</span></a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">Home</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" onclick="guideMenu(); return false;" id="guidesMenu" class="guides-index-item nav-item">Index  &#x25BC;</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+              <dl class="L">
+                <dt>Ruby on Rails</dt>
+                <dd><a href="ruby_commandline.html">Ruby Commandline</a></dd>
+                <dd><a href="rails_database_and_model.html">Database and Models</a></dd>
+                <dd><a href="rails_associations_and_validations.html">Associations and Validations</a></dd>
+                <dd><a href="rails_view_and_controller.html">Routing, View and Controller</a></dd>
+                <dd><a href="rails_authentication.html">Authentication</a></dd>
+                <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                <dd><a href="javascript_and_ajax.html">Javascript and AJAX</a></dd>
+                <dd><a href="testing.html">Getting started with Testing</a></dd>
+                <dd><a href="rails_gems.html">Ruby Gems for your Rails Project</a></dd>
+                <dd><a href="apis.html">APIs</a></dd>
+                <dd><a href="rails_websockets.html">Websocket in Rails</a></dd>
+                <dd><a href="refactoring_rails.html">Refactoring Rails</a></dd>
+                <dt>Overarching Concerns</dt>
+                <dd><a href="security.html">Security</a></dd>
+                <dd><a href="caching.html">Caching</a></dd>
+                <dd><a href="advanced_testing.html">Advanced Testing</a></dd>
+                <dd><a href="internationalization.html">Internationalization (I18n)</a></dd>
+              </dl>
+              <dl class="R">
+                <dt>Nodes.js</dt>
+                <dd><a href="node_vs_rails.html">Node vs. Rails</a></dd>
+                <dd><a href="node_basics.html">Node Basics</a></dd>
+                <dd><a href="node_websockets.html">Node Websockets</a></dd>
+                <dd><a href="node_express.html">Node Web App</a></dd>
+                <dd><a href="node_cluster.html">Scaling Node</a></dd>
+              </dl>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <h2 id="preheader">Deploying Rails</h2>
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li><a href="#deploying-with-git">Deploying with git</a></li>
+<li>
+<a href="#public-key-authentication-in-ssh">Public Key Authentication in SSH</a>
+
+<ul>
+<li><a href="#deploying-with-a-deploy-user">deploying with a deploy-user</a></li>
+<li><a href="#authorized-keys2">authorized_keys2</a></li>
+</ul>
+</li>
+<li>
+<a href="#how-to-run-rails">How to run Rails</a>
+
+<ul>
+<li><a href="#webrick">WEBrick</a></li>
+<li><a href="#mod-passenger">mod_passenger</a></li>
+</ul>
+</li>
+<li>
+<a href="#deploying-with-capistrano">Deploying with Capistrano</a>
+
+<ul>
+<li><a href="#warning">WARNING</a></li>
+<li><a href="#capistrano-assumptions">capistrano assumptions</a></li>
+<li><a href="#how-to-install">how to install</a></li>
+<li><a href="#configuration-in-config-deploy-rb">configuration in <code>config/deploy.rb</code></a></li>
+<li><a href="#example-task-in-capfile">example task in Capfile</a></li>
+<li><a href="#prepare-capistranoe">prepare capistranoe</a></li>
+<li><a href="#run-a-capistrano-task">run a capistrano task</a></li>
+<li><a href="#capistrano-folders">capistrano folders</a></li>
+<li><a href="#my-first-deploy">my first deploy</a></li>
+</ul>
+</li>
+</ol>
+
+          </div>
+
+      <div class="rest_header">
+        <h2>Deploying Rails</h2><p>Your &quot;Minimal Viable Product&quot; is finished, now you
+want to publish it on the web.</p><p>After working through this guide you should be able to</p>
+<ul>
+<li>deploy a rails app to heroku using git</li>
+<li>deploy a rails app to any unix server using capistrano</li>
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <div class='slide'><a id='slide-1'></a>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-1' href='slides_deploying_rails.html#slide-1'>▻</a>
+<h3 id="deploying-with-git">1 Deploying with git</h3>
+<p>heroku is one "Platform as a Service" provider that offers
+to host your rails app.  Heroku uses git to push the code to
+the production server.</p>
+<p>(See also 
+<a href="http://installfest.railsbridge.org/installfest/create_a_heroku_account">Railsbridge Installfest: Create A Heroku Account</a>
+and
+<a href="http://installfest.railsbridge.org/installfest/create_a_heroku_account#step7">Railsbridge Installfest: Create And Deploy A Rails App</a>
+)</p>
+<ul>
+<li>create an account on <a href="https://heroku.com">https://heroku.com</a>
+</li>
+<li>add your public key to your heroku account</li>
+<li>install the heroku toolbelt on your local development machine</li>
+</ul>
+<p>in your rails app, which is already using git:</p>
+<ul>
+<li>heroku create</li>
+<li>make some changes in the Gemfile (rubyracer, pg instead of sqlite)</li>
+<li>don't forget to commit all changes!<br>
+</li>
+<li>git push heroku master</li>
+<li>heroku run rake db:migrate</li>
+<li>heroku open<br>
+</li>
+<li>heroku logs</li>
+</ul>
+<p>That's it.   You should now have an app with a very strange URL, like
+<a href="http://mighty-shore-1497.herokuapp.com/">http://mighty-shore-1497.herokuapp.com/</a></p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-2' href='slides_deploying_rails.html#slide-2'>▻</a>
+<h3 id="public-key-authentication-in-ssh">2 Public Key Authentication in SSH</h3>
+<p>(See also <a href="http://installfest.railsbridge.org/installfest/create_an_ssh_key">Railsbridge Installfest</a>)</p>
+<p><img src="images/public_key_crypto.svg" alt="public key login"></p>
+<ul>
+<li><a href="https://dougvitale.wordpress.com/2012/02/20/ssh-the-secure-shell/">learn about ssh</a></li>
+<li>if you have a public + private key pair
+
+<ul>
+<li><code>id_rsa</code></li>
+<li><code>id_rsa.pub</code></li>
+</ul>
+</li>
+<li>and your private key is on your local computer
+
+<ul>
+<li>stored in <code>~/.ssh/id_rsa</code>
+</li>
+</ul>
+</li>
+<li>and your public key is on the server
+
+<ul>
+<li>stored in <code>~/.ssh/authorized_keys2</code>
+</li>
+</ul>
+</li>
+<li>then ssh will let you log in without giving a password</li>
+</ul>
+<p><img src="images/ssh_login_with_public_key.svg" alt="public key login"></p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-3' href='slides_deploying_rails.html#slide-3'>▻</a>
+<h4 id="deploying-with-a-deploy-user">2.1 deploying with a deploy-user</h4>
+<ul>
+<li>alice and bob both want to deploy project x</li>
+<li>
+<code>deploy_x</code> is set up as an account on the server</li>
+<li>alice adds her public key to <code>~deploy_x/.ssh/authorized_keys2</code>
+</li>
+<li>bob adds his public key to <code>~deploy_x/.ssh/authorized_keys2</code>
+</li>
+<li>both can deploy (from different machines) using the same capistrano setup</li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-4' href='slides_deploying_rails.html#slide-4'>▻</a>
+<h4 id="authorized-keys2">2.2 authorized_keys2</h4>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+ssh-rsa AAAAB3NzaC...2EAAAABI== alice@fh-salzburg.ac.at
+ssh-rsa AAAAB8NzaC...DVj3R4Ww== bob@fh-salzburg.ac.at
+
+</pre>
+</div>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-5' href='slides_deploying_rails.html#slide-5'>▻</a>
+<h3 id="how-to-run-rails">3 How to run Rails</h3>
+<ul>
+<li>WEBrick (built in web server)</li>
+<li>apache/nginx + mod_passenger</li>
+<li>apache/nginx + mod_passenger + capistrano</li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-6' href='slides_deploying_rails.html#slide-6'>▻</a>
+<h4 id="webrick">3.1 WEBrick</h4>
+<ul>
+<li>rails s</li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-7' href='slides_deploying_rails.html#slide-7'>▻</a>
+<h4 id="mod-passenger">3.2 mod_passenger</h4>
+<ul>
+<li>install <a href="https://www.phusionpassenger.com/">mod_passenger</a>
+</li>
+<li>upload your code</li>
+<li>create files not in git (e.g. database.yml)</li>
+<li>apache config:
+
+<ul>
+<li>set <code>DocumentRoot</code> to <code>public/</code>
+</li>
+<li>set <code>RailsEnv production</code>
+</li>
+</ul>
+</li>
+<li>restart apache</li>
+<li>if you change the code:
+
+<ul>
+<li>touch <code>tmp/restart.txt</code> to force reload of code</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-8' href='slides_deploying_rails.html#slide-8'>▻</a>
+<h3 id="deploying-with-capistrano">4 Deploying with Capistrano</h3>
+<p><img src="images/capistrano-deploy.svg" alt="Deploying with Javascript"></p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-9' href='slides_deploying_rails.html#slide-9'>▻</a>
+<h4 id="warning">4.1 WARNING</h4>
+<ul>
+<li>capistrano is a command line tool</li>
+<li>you need to read the output!</li>
+<li>you need to read every line of the output!</li>
+<li>you seriously need to read every line of the output!</li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-10' href='slides_deploying_rails.html#slide-10'>▻</a>
+<h4 id="capistrano-assumptions">4.2 capistrano assumptions</h4>
+<ul>
+<li>You are using SSH to access your remote machines</li>
+<li>your remote servers have a shell called sh</li>
+<li>authentication through password or public key</li>
+<li>Capistrano reads its instructions from a <code>capfile</code>
+</li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-11' href='slides_deploying_rails.html#slide-11'>▻</a>
+<h4 id="how-to-install">4.3 how to install</h4>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ sudo gem install capistrano
+Fetching: capistrano-2.13.5.gem (100%)
+Successfully installed capistrano-2.13.5
+1 gem installed
+$ $ cap install
+mkdir -p config/deploy
+create config/deploy.rb
+create config/deploy/staging.rb
+create config/deploy/production.rb
+mkdir -p lib/capistrano/tasks
+create Capfile
+Capified
+
+</pre>
+</div>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-12' href='slides_deploying_rails.html#slide-12'>▻</a>
+<h4 id="configuration-in-config-deploy-rb">4.4 configuration in <code>config/deploy.rb</code>
+</h4>
+<p>local information, see our wiki</p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-13' href='slides_deploying_rails.html#slide-13'>▻</a>
+<h4 id="example-task-in-capfile">4.5 example task in Capfile</h4>
+<div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+task :display_free_disk_space do
+  run "df -h"
+end
+
+</pre>
+</div>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-14' href='slides_deploying_rails.html#slide-14'>▻</a>
+<h4 id="prepare-capistranoe">4.6 prepare capistranoe</h4>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ cap production git:check
+$ scp config/database.yml deployuser@server:/var/www/.../shared/config
+$ scp config/secrets.yml deployuser@server:/var/www/.../shared/config
+$ cap production deploy
+
+</pre>
+</div>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-15' href='slides_deploying_rails.html#slide-15'>▻</a>
+<h4 id="run-a-capistrano-task">4.7 run a capistrano task</h4>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ cap production deploy
+$ cap display_free_disk_space
+* 2012-11-29 05:34:45 executing 'display_free_disk_space'
+* executing "df -h"
+  servers: ["multimediaart.at"]
+  Password: ****
+  [multimediaart.at] executing command
+** [out :: multimediaart.at] Size  Used Avail Use% Mounted on
+** [out :: multimediaart.at] 98G   70G   24G  75% /var/www
+  command finished in 165ms
+
+</pre>
+</div>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-16' href='slides_deploying_rails.html#slide-16'>▻</a>
+<h4 id="capistrano-folders">4.8 capistrano folders</h4>
+<p>read the logfile, try to find out how capistrano lays out
+the folders</p>
+<ul>
+<li>current --&gt; links to a release</li>
+<li>release
+
+<ul>
+<li>20121201113038</li>
+<li>20121201150544</li>
+</ul>
+</li>
+<li>shared
+
+<ul>
+<li>assets<br>
+</li>
+<li>bundle<br>
+</li>
+<li>log<br>
+</li>
+<li>pids<br>
+</li>
+<li>system</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-17' href='slides_deploying_rails.html#slide-17'>▻</a>
+<h4 id="my-first-deploy">4.9 my first deploy</h4>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ cap deploy:setup
+$ cap deploy:check
+$ cap deploy:cold
+$ cap deploy:upload FILES='config/database.yml'
+
+</pre>
+</div>
+</div>        
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p class="copyright">published under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/at/deed.de">creative commons by-nc-sa</a> in 2012-2016 by <a href="https://brigitte-jellinek.at">Brigitte Jellinek</a>.
+      </p><p>If you want to contribute: <a href="https://github.com/backend-development/backend-development-textbook/fork">fork the source on github</a>
+        and edit <a href="https://github.com/backend-development/backend-development-textbook/blob/master/source/deploying_rails.md">deploying_rails.md</a>
+      </p>
+    </div>
+  </div>
+
+  <script src="javascripts/jquery.min.js"></script>
+  <script src="javascripts/responsive-tables.js"></script>
+  <script src="javascripts/guides.js"></script>
+  <script src="javascripts/syntaxhighlighter/shCore.js"></script>
+  <script src="javascripts/syntaxhighlighter/shBrushRuby.js"></script>
+  <script src="javascripts/syntaxhighlighter/shBrushXml.js"></script>
+  <script src="javascripts/syntaxhighlighter/shBrushSql.js"></script>
+  <script src="javascripts/syntaxhighlighter/shBrushPlain.js"></script>
+  <script>
+    SyntaxHighlighter.all()
+    $(guidesIndex.bind);
+    $(document).ready(function(){
+      let hash = document.location.hash;
+      if(! hash) return;
+      document.getElementById(hash.substr(1)).scrollIntoView(true);
+    })
+  </script>
+  </body>
+</html>

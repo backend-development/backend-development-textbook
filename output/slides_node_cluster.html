@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=1024, user-scalable=no">
+    <title>Slides for
+        Scaling Node  in the Backend Development Textbook
+    </title>
+    <!-- Required stylesheet -->
+    <link rel="stylesheet" media="screen" href="stylesheets/deck.core.css">
+    <!-- Extension CSS files go here. Remove or add as needed. -->
+    <link rel="stylesheet" media="screen" href="stylesheets/deck.goto.css">
+    <link rel="stylesheet" media="screen" href="stylesheets/deck.menu.css">
+    <link rel="stylesheet" media="screen" href="stylesheets/deck.navigation.css">
+    <link rel="stylesheet" media="screen" href="stylesheets/deck.status.css">
+    <!-- Style theme. More available in /themes/style/ or create your own. -->
+    <link rel="stylesheet" media="screen" href="stylesheets/web-2.0.css">
+    <!-- Transition theme. More available in /themes/transition/ or create your own. -->
+    <link rel="stylesheet" media="screen" href="stylesheets/horizontal-slide.css">
+    <!-- syntax highlighter -->
+    <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shCore.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shThemeRailsGuides.css" />    
+
+
+    <!-- Basic black and white print styles -->
+    <link rel="stylesheet" media="print" href="stylesheets/print.css">
+    <!-- Required Modernizr file -->
+    <script src="javascripts/modernizr.custom.js"></script>
+</head>
+
+<body>
+    <div class="deck-container">
+        <div class='slide'><h2>Scaling Node </h2><p>After working through this guide you should be able to</p>
+<ul>
+<li>set up cluster.js to run several node instances</li>
+</ul>
+
+</div>
+<div class='slide'>
+<a class='slide_break' href='node_cluster.html#slide-1'>▻</a>
+<h3 id="node-and-the-command-line">1 Node and the Command Line</h3>
+</div>
+<div class='slide'>
+<a class='slide_break' href='node_cluster.html#slide-2'>▻</a>
+<h3 id="arguments">2 Arguments</h3>
+<p>The array <code>process.argv</code> contains information about how the program
+was started:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+node fs.js file.txt
+
+</pre>
+</div>
+<p>The contents of the array might be:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+['/Users/b/.nvm/versions/node/v5.9.0/bin/node',  '/Users/b/code/fs.js', 'file.txt' ]
+
+</pre>
+</div>
+</div>
+<div class='slide'>
+<a class='slide_break' href='node_cluster.html#slide-3'>▻</a>
+<h3 id="standard-input-and-standard-output-channels">3 Standard Input and Standard Output channels</h3>
+<p>are streams in node:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+process.stdout.write("Hello World\n"); 
+process.stderr.write("you're doing it wrong");
+console.log("this", true, 42, that);
+
+</pre>
+</div>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+node app.js &gt; out.txt 2&gt; err.txt
+
+</pre>
+</div>
+</div>
+<div class='slide'>
+<a class='slide_break' href='node_cluster.html#slide-4'>▻</a>
+<h3 id="environment-variables">4 environment variables</h3>
+</div>
+<div class='slide'>
+<a class='slide_break' href='node_cluster.html#slide-5'>▻</a>
+<h3 id="process-id">5 process id</h3>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+console.log(`process ${process.pid}`)
+
+</pre>
+</div>
+<p>Or find it on the commandline:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ ps
+  PID TTY           TIME CMD
+71422 ttys000    0:00.05 bash
+20877 ttys002    0:00.11 node app.js
+
+</pre>
+</div>
+</div>
+<div class='slide'>
+<a class='slide_break' href='node_cluster.html#slide-6'>▻</a>
+<h3 id="sending-and-reacting-to-signals">6 Sending and reacting to signals</h3>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+process.on( "SIGINT", function() {
+  console.log(`stopping`);
+  process.exit();
+});
+
+</pre>
+</div>
+<p>Send SIGINT by pressing CTRL-C
+Send SIGINT with <code>kill 20877</code></p>
+<p>SIGTERM is used by docker, always handle it!</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+process.on( "SIGTERM", function() {
+  console.log(`stopping`);
+  process.exit();
+});
+
+</pre>
+</div>
+<p>SIGHUB can be used for less serious signals, for example
+to get the app to dump some statistics, or reload a configuration file:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+let count = 1;
+process.on( "SIGHUP", function() {
+  console.log(`count = ${count}`);
+});
+
+</pre>
+</div>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+kill –HUP 20877
+
+</pre>
+</div>
+</div>
+<div class='slide'>
+<a class='slide_break' href='node_cluster.html#slide-7'>▻</a>
+<h3 id="scaling-node-with-cluster-js">7 Scaling Node with cluster.js</h3>
+<p>V8 has a default memory limit of ~1.5GB
+If your server has more memory
+this might be unsatisfactory! 
+You can increase this by starting node with the option
+<code>--max-old-space-size</code>.</p>
+<p>The Eventloop uses 1 core
+If your server has 64 cores 
+this might be unsatisfactory!
+To get around this limitation use cluster.js</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+const cluster = require('cluster');
+const http = require('http');
+const numCPUs = require('os').cpus().length;
+if (cluster.isMaster) {
+  for (var i = 0; i &lt; numCPUs; i++) {
+    cluster.fork();
+  }
+} else {
+  console.log('working!');
+}
+
+</pre>
+</div>
+<p>sockets are shared between slave processes:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+if (cluster.isMaster) {
+  // ...
+} else {
+  // Workers can share any 
+  // TCP connections
+  http.createServer((req, res) =&gt; {
+    res.writeHead(200);
+    res.end('hello world\n');
+  }).listen(8000);             
+}
+
+</pre>
+</div>
+<p>the master process is in charge:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+if (cluster.isMaster) {
+  for (var i = 0; i &lt; numCPUs; i++) {
+    cluster.fork();
+  }
+  cluster.on('exit', (worker, code, signal) =&gt; {
+    console.log(`${worker.process.pid} died`);
+  });
+}
+
+</pre>
+</div>
+<p>they do not share the same memory space
+= objects are local to each instance of the app.
+You cannot maintain state in the application code!
+You can send messages:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+const cluster = require('cluster');
+const http = require('http');
+const numCPUs = require('os').cpus().length;
+if (cluster.isMaster) {
+  for (var i = 0; i &lt; numCPUs; i++) {
+    let worker = cluster.fork();
+    worker.send('do something!'); 
+  }
+} else {
+ process.on('message', (msg) =&gt; { 
+   process.send('nope.'); 
+ }); 
+}
+
+
+</pre>
+</div>
+<p>Where do we keep the state of the app? The answers
+are the same as for PHP, Rails, etc:</p>
+<ul>
+<li>in a Database (full featured)</li>
+<li>in a key value store like Memcached, Redis (faster, minimal features)</li>
+<li>by sending messages</li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' href='node_cluster.html#slide-8'>▻</a>
+<h3 id="see-also">8 See Also</h3>
+<ul>
+<li><a href="https://nodejs.org/api/cluster.html">cluster.js documentation</a></li>
+<li><a href="https://pm2.io/doc/en/runtime/overview/">pm2 - process manager for Node.js</a></li>
+</ul>
+</div>
+    </div>
+    <!-- End slides. -->
+    <!-- Begin extension snippets. Add or remove as needed. -->
+    <!-- deck.navigation snippet -->
+    <div aria-role="navigation">
+        <a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
+        <a href="#" class="deck-next-link" title="Next">&#8594;</a>
+    </div>
+    <!-- deck.status snippet -->
+    <p class="deck-status" aria-role="status">
+        <span class="deck-status-current"></span>
+        /
+        <span class="deck-status-total"></span>
+    </p>
+    <!-- deck.goto snippet -->
+    <form action="." method="get" class="goto-form">
+        <label for="goto-slide">Go to slide:</label>
+        <input type="text" name="slidenum" id="goto-slide" list="goto-datalist">
+        <datalist id="goto-datalist"></datalist>
+        <input type="submit" value="Go">
+    </form>
+    <!-- End extension snippets. -->
+    </div>
+    <!-- Required JS files. -->
+    <script src="javascripts/jquery.min.js"></script>
+    <script src="javascripts/deck.core.js"></script>
+    <!-- Extension JS files. Add or remove as needed. -->
+    <script src="javascripts/deck.menu.js"></script>
+    <script src="javascripts/deck.goto.js"></script>
+    <script src="javascripts/deck.status.js"></script>
+    <script src="javascripts/deck.navigation.js"></script>
+    <script src="javascripts/deck.escape.js"></script>
+    <!--  Syntax highlighter -->
+    <script src="javascripts/syntaxhighlighter/shCore.js"></script>
+    <script src="javascripts/syntaxhighlighter/shBrushRuby.js"></script>
+    <script src="javascripts/syntaxhighlighter/shBrushXml.js"></script>
+    <script src="javascripts/syntaxhighlighter/shBrushSql.js"></script>
+    <script src="javascripts/syntaxhighlighter/shBrushPlain.js"></script>    
+    <!-- Initialize the deck. You can put this in an external file if desired. -->
+    <script>
+    SyntaxHighlighter.all()      
+    $(function() {
+      $.deck('.slide');
+    });
+
+    var $d = $(document);    
+
+    $d.bind('deck.change', function(event, from, to) {
+      // console.log('Moving from slide ' + from + ' to ' + to);
+    });   
+    $d.bind('deck.beforeInit', function() {
+      // console.log('Deck.beforeInit. hash is ' + document.location.hash);
+    });     
+    $d.bind('deck.init', function() {
+      // console.log('Deck.init is done. hash was ' + document.location.hash);
+    }); 
+    </script>
+</body>
+
+</html>

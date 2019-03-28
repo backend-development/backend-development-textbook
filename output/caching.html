@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Caching in the Backend Development Textbook</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+  <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shCore.css" />
+  <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shThemeRailsGuides.css" />
+
+  <link rel="stylesheet" type="text/css" href="stylesheets/fixes.css" />
+
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <style>
+
+    .slide img[src$=svg] {
+      width: 100%;
+    }
+  </style>
+</head>
+<body class="guide">
+  <div>
+    <a href="https://github.com/backend-development/backend-development-textbook/"><img style="position: fixed; top: 0; right: 0; border: 0; z-index: 10;" src="images/forkme.png" alt="Fork me on GitHub"></a>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">More Rails: </strong>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">Rails Guides</a></li>
+        <li class="more-info"><a href="https://curriculum.railsbridge.org/docs/">Railsbridge</a></li>
+        <li class="more-info"><a href="https://railscasts.com/">Railscasts</a></li>
+      </ul>
+      <strong class="more-info-label">Beyond Backend: </strong>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://web-engineering.github.io/">Web Engineering</a></li>
+      </ul>      
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="Return to home page">Backend<span> Development</span></a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">Home</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" onclick="guideMenu(); return false;" id="guidesMenu" class="guides-index-item nav-item">Index  &#x25BC;</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+              <dl class="L">
+                <dt>Ruby on Rails</dt>
+                <dd><a href="ruby_commandline.html">Ruby Commandline</a></dd>
+                <dd><a href="rails_database_and_model.html">Database and Models</a></dd>
+                <dd><a href="rails_associations_and_validations.html">Associations and Validations</a></dd>
+                <dd><a href="rails_view_and_controller.html">Routing, View and Controller</a></dd>
+                <dd><a href="rails_authentication.html">Authentication</a></dd>
+                <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                <dd><a href="javascript_and_ajax.html">Javascript and AJAX</a></dd>
+                <dd><a href="testing.html">Getting started with Testing</a></dd>
+                <dd><a href="rails_gems.html">Ruby Gems for your Rails Project</a></dd>
+                <dd><a href="apis.html">APIs</a></dd>
+                <dd><a href="rails_websockets.html">Websocket in Rails</a></dd>
+                <dd><a href="refactoring_rails.html">Refactoring Rails</a></dd>
+                <dt>Overarching Concerns</dt>
+                <dd><a href="security.html">Security</a></dd>
+                <dd><a href="caching.html">Caching</a></dd>
+                <dd><a href="advanced_testing.html">Advanced Testing</a></dd>
+                <dd><a href="internationalization.html">Internationalization (I18n)</a></dd>
+              </dl>
+              <dl class="R">
+                <dt>Nodes.js</dt>
+                <dd><a href="node_vs_rails.html">Node vs. Rails</a></dd>
+                <dd><a href="node_basics.html">Node Basics</a></dd>
+                <dd><a href="node_websockets.html">Node Websockets</a></dd>
+                <dd><a href="node_express.html">Node Web App</a></dd>
+                <dd><a href="node_cluster.html">Scaling Node</a></dd>
+              </dl>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <h2 id="preheader">Caching</h2>
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li><a href="#what-is-caching">What is Caching</a></li>
+<li>
+<a href="#measuring-performance">Measuring Performance</a>
+
+<ul>
+<li><a href="#rack-mini-profiler">rack-mini-profiler</a></li>
+<li><a href="#example-app">Example App</a></li>
+</ul>
+</li>
+<li><a href="#http-caching">HTTP Caching</a></li>
+<li>
+<a href="#fragment-caching">Fragment Caching</a>
+
+<ul>
+<li><a href="#configure-caching">Configure Caching</a></li>
+<li><a href="#caching-a-view">Caching a View</a></li>
+<li><a href="#caching-a-partial">Caching a Partial</a></li>
+<li><a href="#russian-doll-caching">Russian Doll Caching</a></li>
+<li><a href="#the-limits-of-fragment-caching">The limits of fragment caching</a></li>
+</ul>
+</li>
+<li>
+<a href="#activerecord-and-db">ActiveRecord and DB</a>
+
+<ul>
+<li><a href="#ignore-this">Ignore this</a></li>
+<li><a href="#querycache">QueryCache</a></li>
+<li><a href="#using-indexes-in-the-database">using indexes in the database</a></li>
+<li><a href="#n-1-queries">n+1 queries</a></li>
+<li><a href="#view">view</a></li>
+<li><a href="#final-thoughts">final thoughts</a></li>
+</ul>
+</li>
+<li><a href="#see-also">See Also</a></li>
+</ol>
+
+          </div>
+
+      <div class="rest_header">
+        <h2>Caching</h2><p>What is even better than having a really fast web
+server, framework, programming language that creates
+your web page?  Not having to create and load the page at all
+because it&#39;s already there in a cache.</p><p>After working through this guide:</p>
+<ul>
+<li>you will know that many different caches influence your web app:
+
+<ul>
+<li>HTTP caching</li>
+<li>Fragment caching</li>
+<li>ActiveRecord QueryCache</li>
+<li>Caches inside the Database</li>
+</ul></li>
+<li>you will be able to configure rails for caching</li>
+<li>you will be able to measure if a change you made improved the performance of your rails app</li>
+</ul>
+<p>DEMO: You can study <a href="https://rails-caching-demo.herokuapp.com/">the demo</a> for the example described here
+- if it&#39;s currently online.</p>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <div class='slide'><a id='slide-1'></a>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-1' href='slides_caching.html#slide-1'>▻</a>
+<h3 id="what-is-caching">1 What is Caching</h3>
+<p>In computing we are faced with vastly different access speeds for different media:</p>
+<ul>
+<li>reading a megabyte of data from another host on the internet might take seconds </li>
+<li>loading the smae data from a local ssd takes only 200 µs </li>
+<li>reading the data from main memory takes 9 µs.</li>
+</ul>
+<p>Given these numbers it makes sense to keep a local copy of data that
+we  might use again soon.  Better to read it from ssd or memory the second
+time we need it!</p>
+<p>In general english usage a cache is <a href="https://en.oxforddictionaries.com/definition/cache">stuff hidden in a secret place</a>.  But in computing
+a cache is "auxiliary memory from which high-speed retrieval is possible".</p>
+<p>When you load a webpage into your browser there are many level
+of caches influencing this process.  We will look at some of the caches
+that we can influence as web developers.</p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-2' href='slides_caching.html#slide-2'>▻</a>
+<h3 id="measuring-performance">2 Measuring Performance</h3>
+<p>As we already discussed in <a href="asset_pipeline.html">the chapter on the asset pipeline</a>
+it is important to measure the performance of your app before you try to optimize anyhing.</p>
+<p>In this chapter we will learn about new tools for measuring what happens on the server.</p>
+<p>Let's start with a very general rule of thumb for performance:</p>
+<p>We want the whole web page to load within a second. We expect to need about half of that (500ms) for loading extra assets like javascript files, css, images. We will set aside another 200ms for shipping data across the network, which leaves us with 300ms time to render out the first HTML document from our Rails App.</p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-3' href='slides_caching.html#slide-3'>▻</a>
+<h4 id="rack-mini-profiler">2.1 rack-mini-profiler</h4>
+<p>This gem helps you analyze where your Rails App spends time.</p>
+<p><img src="images/rack-mini-profiler.png" srcset='images/rack-mini-profiler.png 1x, images/rack-mini-profiler@2x.png 2x' alt="https://github.com/MiniProfiler/rack-mini-profiler"></p>
+<p><a href="https://github.com/MiniProfiler/rack-mini-profiler">https://github.com/MiniProfiler/rack-mini-profiler</a></p>
+<p>See <a href="http://railscasts.com/episodes/368-miniprofiler?view=asciicast">RailsCast #368</a> for a good introduction.</p>
+<p>The Mini Profiler only measures the server side: the time spent in the rails app to generate
+the webpage.  So we need to compare the numbers Mini Profiler gives us to the
+300ms threshold defined above.</p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-4' href='slides_caching.html#slide-4'>▻</a>
+<h4 id="example-app">2.2 Example App</h4>
+<p>We will use a portfolio site as an example app.  All the screenshots
+above already show this example app.   You can study <a href="https://rails-caching-demo.herokuapp.com/">the demo</a> 
+on heroku, there all the caching is already implemented. </p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-5' href='slides_caching.html#slide-5'>▻</a>
+<h3 id="http-caching">3 HTTP Caching</h3>
+<p>The web browser will cache content if sent the right HTTP Headers.
+The Asset Pipeline handles that for images, css and javascript by default.
+See <a href="asset_pipeline.html">the chapter on the asset pipeline</a>.</p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-6' href='slides_caching.html#slide-6'>▻</a>
+<h3 id="fragment-caching">4 Fragment Caching</h3>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-7' href='slides_caching.html#slide-7'>▻</a>
+<h4 id="configure-caching">4.1 Configure Caching</h4>
+<p>Fragment Caching is deactivated by default in the development environment. 
+You have to activate it if you want to try this out in development:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+# config/environments/development.rb
+
+[...]
+config.action_controller.perform_caching = true
+[...]
+
+</pre>
+</div>
+<p>You have to decide on a cache store. For production the simplest
+method when using just one web server is in-memory:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+# config/environments/production.rb
+
+   require 'active_support/core_ext/numeric/bytes'
+   config.cache_store = :memory_store, { size: 64.megabytes }
+
+</pre>
+</div>
+<p>To get a quick impression of what is saved to the cache
+it is helpful to use the file_store in development:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+# config/environments/development.rb
+
+  config.cache_store = :file_store, "#{Rails.root}/tmp/file_store"  
+
+</pre>
+</div>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-8' href='slides_caching.html#slide-8'>▻</a>
+<h4 id="caching-a-view">4.2 Caching a View</h4>
+<p>If you look at the miniprofiler above, a first glance rendering
+the project show view takes too long: 450ms.  We could dig
+into the details, but let's try a simple approach first: cache
+the whole view.</p>
+<p>add this around the  whole project view:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+&lt;% cache @project do %&gt;
+...
+&lt;% end %&gt;
+
+</pre>
+</div>
+<p>The result is stunning: from 450ms down to 45ms:</p>
+<p><img src="images/rack-mini-profiler-faster.png" srcset='images/rack-mini-profiler-faster.png 1x, images/rack-mini-profiler-faster@2x.png 2x' alt="https://github.com/MiniProfiler/rack-mini-profiler"></p>
+<h5 id="how-caching-works">4.2.1 How caching works</h5>
+<p>So what happens here?  When the view is rendered for the first time
+for a project, it will be rendered normally (and still take around 450ms).
+In the log file you will see a message like this:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+Write fragment views/projects/1679-20140722193808000000000/0db0955317bafa37cc34ffcb7567a874 (19.1ms)
+
+</pre>
+</div>
+<p>This shows the key that is used for the fragment.  This key depends
+on both the object we specified (here @project), and on the view fragment.
+In this example '1679' is the id of @project, and '20140722193808000000000' is
+the current value of its <code>updated_at</code> attribute. The last part
+of the key is a hash of the view fragment inside the <code>cache</code> block.</p>
+<p>So if either the object or the view changes, a new key will be generated
+and thus the cache is expired.</p>
+<p>When the view is rendered for the second time, you find the following message in the
+log file:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+Read fragment views/projects/1679-20140722193808000000000/0db0955317bafa37cc34ffcb7567a874 (1.9ms)
+
+</pre>
+</div>
+<p>Here the cache is read out.  </p>
+<h5 id="peeking-into-the-cache">4.2.2 Peeking into the cache</h5>
+<p>You can also read from the cache in the rails console:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+irb(main):002:0&gt; Rails.cache.read('views/projects/1679-20140722193808000000000/0db0955317bafa37cc34ffcb7567a874')
+
+</pre>
+</div>
+<p>The result is a string with 14716 bytes of html (too long to show here).</p>
+<p>When using file_store you can also find the cache in the directory you specified. 
+A two level directory structure will be generated for the cache files, 
+for example:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ ls  tmp/file_store/*/*/*
+tmp/file_store/5CD/A81/views%2Fprojects%2F2205-20170312162506000000000%2F0db0955317bafa37cc34ffcb7567a874
+tmp/file_store/5D0/6A1/views%2Fprojects%2F2182-20170313205317000000000%2F0db0955317bafa37cc34ffcb7567a874
+tmp/file_store/5D7/A81/views%2Fprojects%2F2208-20170321190926000000000%2F0db0955317bafa37cc34ffcb7567a874
+tmp/file_store/5E6/091/views%2Fprojects%2F1679-20140722193808000000000%2F0db0955317bafa37cc34ffcb7567a874
+
+</pre>
+</div>
+<h5 id="changing-the-model">4.2.3 Changing the model</h5>
+<p>Now let's check if the cache is really invalidated when the underlying model
+changes.  Load the project "Origin" in your web browser: <a href="http://localhost:3000/projects/2015-origin">http://localhost:3000/projects/2015-origin</a></p>
+<p>In the rails console you can find the corresponding model, and change an attribute:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+project = Project.find_by_title('Origin')
+project.description = project.description + " and some new information"
+project.save
+
+</pre>
+</div>
+<p>Now reload the browser to make sure that a new version of the page is rendered.
+Reload again to check if the new version is cached.</p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-9' href='slides_caching.html#slide-9'>▻</a>
+<h4 id="caching-a-partial">4.3 Caching a Partial</h4>
+<p>If you look at the homepage of <a href="https://shrouded-dawn-29154.herokuapp.com/">the demo</a>
+you can see that the list of project under "Bachelorprojekte" is different every time
+you reload the page. There are 9 projects in all, but only 5 will be picked randomly
+and will be displayed.</p>
+<p>If we want to keep this feature caching the whole homepage will not work: once
+the homepage is cached, a reload of the page will show the exact same page.
+The same five projects will appear on the homepage indefinetly.</p>
+<p>We could change our expectations for the random display: 
+We could decide that the same 5 projects should be shown for a whole day, 
+and only on the next day new projects should be picked.</p>
+<p>This would work for our example app. a second approeach would be
+to not cache the whole homepage, but only the display of an individual project. 
+This means going down to the <code>projects/_project</code> partial, and caching that.</p>
+<p>This second approach is useful not just for our "random projects". Think
+of the "activity stream" on the facebook hompage: it will look differently
+for each user, and each time the page is loaded.  But it consists of
+smaller fragments which can be cached: the individual status message, or event,
+or photo can be reused.</p>
+<h5 id="implementation">4.3.1 Implementation</h5>
+<p>When you add the code for caching to the <code>projects/_project</code> view
+make sure that you specify the correct object.  If not, you might up
+loading the same partial again and again:</p>
+<p><img src="images/caching-error.png" srcset='images/caching-error.png 1x, images/caching-error@2x.png 2x' alt="problem with fragement caching"></p>
+<p>If you implement it correctly each rendering of the partial should 
+be faster now:</p>
+<p><img src="images/compare-caching.png" srcset='images/compare-caching.png 1x, images/compare-caching@2x.png 2x' alt="successful fragement caching"></p>
+<p>In Rails 5 you can speed up the rendering even more. 
+If you look at the <code>fronts/show</code> view you can see that the project partial
+is rendered through a collection:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+&lt;%= render :partial =&gt; "projects/project", :collection =&gt; @samples[i] %&gt;
+
+</pre>
+</div>
+<p>In Rails 5 you can add caching here:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+&lt;%= render :partial =&gt; "projects/project", :collection =&gt; @samples[i], :cached =&gt; true %&gt;
+
+</pre>
+</div>
+<p>Now instead of fetching each partial from the cache one by one
+rails will do a multi-fetch, which is faster.  But our example app is written
+in Rails 4, so this does not work yet.</p>
+<p>See <a href="http://blog.bigbinary.com/2016/03/09/rails-5-makes-partial-redering-from-cache-substantially-faster.html">Deshmane(2016)</a></p>
+<h5 id="side-effects">4.3.2 Side Effects</h5>
+<p>An unexpected side effect of caching the partial can be seen in the
+<a href="https://shrouded-dawn-29154.herokuapp.com/editions/bachelorprojekte-web-2015">edition view</a>:
+this view also uses the <code>projects/_project</code> partial, so it too will 
+profit from the caching.</p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-10' href='slides_caching.html#slide-10'>▻</a>
+<h4 id="russian-doll-caching">4.4 Russian Doll Caching</h4>
+<p>In the previous step we implemented caching for the <code>projects/_project</code> partial,
+which is also used in the <code>editions/show</code> view.  Now let's add caching to this
+view also:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+&lt;% cache @edition do %&gt;
+...
+&lt;% end %&gt;
+
+</pre>
+</div>
+<p>This change will again speed up the display of the page:</p>
+<p><img src="images/russian.png" srcset='images/russian.png 1x, images/russian@2x.png 2x' alt="russian doll caching"></p>
+<p>But now we have  problem:  if we change one of the projects
+inside this edition, the cache for the partial would be recreated.
+But this never gets triggered, because the cache for the
+whole edition is still valid:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+project = Project.find_by_title('Origin')
+project.title = 'Orange'
+project.save
+
+</pre>
+</div>
+<p>If you reload the page now, you can still see the project named "Origin", not
+"Orange".</p>
+<p>The problem here is a missing dependency: our cache entry only depends
+on the edition, not on the projects contained in the edition.</p>
+<p>We can declare the full dependency by supplying an array of objects to
+the cache helper method:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+&lt;% cache [@edition,@edition.projects] do %&gt;
+...
+&lt;% end %&gt;
+
+</pre>
+</div>
+<p>If you reload the page now, you can see that a much longer cache key is
+generated:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+Write fragment views/editions/16-20160202125058000000000/projects/1622-20141216101932000000000 /projects/1658-20150601055523000000000/projects/1773-20170420014824000000000/projects/1835-20150604061050000000000/projects/1864-20150611174811000000000/projects/1872-20150603140238000000000/projects/1873-20150603084648000000000/projects/1879-20150606174629000000000/projects/2044-20161010124545000000000/e212725e51fc97160af625b6651e38b8
+
+</pre>
+</div>
+<p>This key works for all changes in an edition:  </p>
+<ul>
+<li>changing an attribute of the <strong>edition</strong> will change the <code>updated_at</code> attribute also, and will change the key</li>
+<li>changing an attribute of one of the <strong>projects</strong> will change the corresponding <code>updated_at</code> attribute also, and will change the key</li>
+<li>adding a <strong>new project</strong> to the edition will make the key longer</li>
+<li>
+<strong>removing a project</strong> from the edition will make the key shorter </li>
+</ul>
+<p>In this example the title of one of the projects was changed:
+You can see in rack-mini-profiler that only one of the
+partials was recreated, all the other partials were loaded from cache.
+The next time the same page was rendered the edition cache was reused.</p>
+<p><img src="images/russian-change.png" srcset='images/russian-change.png 1x, images/russian-change@2x.png 2x' alt="russian doll caching at work: changes when a project changes"></p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-11' href='slides_caching.html#slide-11'>▻</a>
+<h4 id="the-limits-of-fragment-caching">4.5 The limits of fragment caching</h4>
+<p>Caching is really helpful for pages that are accessed a lot.
+In our example app this might be true for the homepage and
+maybe the editions.   But there are hundreds of projects in the portfolio.
+Each individual project page will only get very few hits.
+Which means that chances are high that the page will not
+already be in the cache when it is requested.</p>
+<p>So caching cannot be the solution to all performance problems.
+We need to take a closer look at the first render of a page
+to find where we are wasting time.
+To do this it makes sense to switch off caching in development:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+# config/environments/development.rb
+
+[...]
+config.action_controller.perform_caching = false
+[...]
+
+</pre>
+</div>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-12' href='slides_caching.html#slide-12'>▻</a>
+<h3 id="activerecord-and-db">5 ActiveRecord and DB</h3>
+<p>Accessing the database takes a long time - compared to all
+the computation that is done in ruby code itself.  So looking
+at the Database, and the ORM we use to access the database, might
+make sense for performance optimisation.</p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-13' href='slides_caching.html#slide-13'>▻</a>
+<h4 id="ignore-this">5.1 Ignore this</h4>
+<p>If you  find <code>SHOW FULL FIELDS</code> queries in your log file or in rack-mini-profiler,
+you can ignore them.  These
+queries are used by activerecord to find out which attributes an
+object has.  In production these will only occur when the first
+object of a type is loaded, so you can savely ignore them.</p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-14' href='slides_caching.html#slide-14'>▻</a>
+<h4 id="querycache">5.2 QueryCache</h4>
+<p>If you look into the log file <code>logs/development.log</code> you will
+see all the SQL queries made to the database, and also some that
+are not really sent to the database.</p>
+<p>Here are some lines from a log file:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+Started GET "/projects/2014-yokaisho" for ::1 at 2017-04-20 04:40:10 +0200
+Processing by ProjectsController#show as HTML
+  Parameters: {"id"=&gt;"2014-yokaisho"}
+...
+  User Load (6.9ms)  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 953 LIMIT 1
+...
+  CACHE (0.1ms)  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 953 LIMIT 1  [["id", 953]]
+...
+  CACHE (0.0ms)  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 953 LIMIT 1  [["id", 953]]
+...
+  CACHE (0.1ms)  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 953 LIMIT 1  [["id", 953]]
+
+</pre>
+</div>
+<p>What we can see here is that the Data for user 953 was loaded four times.
+Somewhere in our rails app we call <code>User.find(953)</code> or similar ActiveRecord
+methods four times.</p>
+<p>But only the first time a SQL requests is really sent to the database. Loading
+the data from the database took 6.9 ms here.</p>
+<p>The next three times the same user was loaded, it was loaded from the
+ActiveRecord QueryCache, which only took 0.1ms or less.</p>
+<p>The default behaviour is that rails loads each model only once for each
+HTTP request. For the next HTTP request the QueryCache is cleard.</p>
+<p>If you ever run into problems with the QueryCache, you can always
+reload a model explicitly:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+user = User.find(953)
+# will do SQL request
+user = User.find(953)
+# will use the query cache
+user.reload
+# bust the query cache, do a real SQL query
+
+</pre>
+</div>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-15' href='slides_caching.html#slide-15'>▻</a>
+<h4 id="using-indexes-in-the-database">5.3 using indexes in the database</h4>
+<p>When we query the database by <code>id</code> we will get a rapid response:
+the primary key is always accessed through an index.</p>
+<p>But in this app the main way of identifying a resource is
+through a "friendly url".  For example the project show action
+is not accessed through the conventional route</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+/projects/1679
+
+</pre>
+</div>
+<p>but through</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+/projects/2014-anton-eine-multimediale-inszenierung
+
+</pre>
+</div>
+<p>In the profiler we can see that this translates to the SQL query</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+SELECT * FROM projects WHERE slug='2014-anton-eine-multimediale-inszenierung' 
+
+</pre>
+</div>
+<p>There should be an index on columns <code>slug</code>!</p>
+<p>We can check if this is the case in the database console:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+mysql&gt; DESCRIBE SELECT * FROM projects WHERE slug='2014-anton-eine-multimediale-inszenierung'
+    -&gt; ;
++----+-------------+----------+------------+-------+------------------------+------------------------+---------+-------+------+----------+-------+
+| id | select_type | table    | partitions | type  | possible_keys          | key                    | key_len | ref   | rows | filtered | Extra |
++----+-------------+----------+------------+-------+------------------------+------------------------+---------+-------+------+----------+-------+
+|  1 | SIMPLE      | projects | NULL       | const | index_projects_on_slug | index_projects_on_slug | 768     | const |    1 |   100.00 | NULL  |
++----+-------------+----------+------------+-------+------------------------+------------------------+---------+-------+------+----------+-------+
+1 row in set, 1 warning (0,12 sec)
+
+</pre>
+</div>
+<p>Yes, there is an index that is used for this query.  Contrast this with the output
+of <code>DESCRIBE</code> when there is no index:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+
+mysql&gt; DESCRIBE SELECT * FROM projects WHERE publicationdate='2014-07-22';
++----+-------------+----------+------------+------+---------------+------+---------+------+------+----------+-------------+
+| id | select_type | table    | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra       |
++----+-------------+----------+------------+------+---------------+------+---------+------+------+----------+-------------+
+|  1 | SIMPLE      | projects | NULL       | ALL  | NULL          | NULL | NULL    | NULL |  695 |    10.00 | Using where |
++----+-------------+----------+------------+------+---------------+------+---------+------+------+----------+-------------+
+1 row in set, 1 warning (0,12 sec)
+
+</pre>
+</div>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-16' href='slides_caching.html#slide-16'>▻</a>
+<h4 id="n-1-queries">5.4 n+1 queries</h4>
+<p>When analysing the SQL queries a rails project generates
+you will often find this situation: you have a 1:n relationship,
+for example: a project has many users.  When displaying
+the project with all of its users you see n+1 queries.
+In our example app this happens:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+SELECT * FROM `projects` WHERE `slug` = '2014-yokaisho' ORDER BY `projects`.`id` ASC LIMIT 1
+SELECT * FROM `projects_roles_users` WHERE `project_id` IN (1622)
+SELECT * FROM `users` WHERE `id` = 1033 LIMIT 1
+SELECT * FROM `users` WHERE `id` = 1018 LIMIT 1
+SELECT * FROM `users` WHERE `id` = 901 LIMIT 1
+SELECT * FROM `users` WHERE `id` = 938 LIMIT 1
+SELECT * FROM `users` WHERE `id` = 945 LIMIT 1
+SELECT * FROM `users` WHERE `id` = 977 LIMIT 1
+SELECT * FROM `users` WHERE `id` = 953 LIMIT 1
+SELECT * FROM `users` WHERE `id` = 652 LIMIT 1
+SELECT * FROM `users` WHERE `id` = 940 LIMIT 1
+
+</pre>
+</div>
+<p>Here 9 users belong to the project. They are loaded using 9 requests.
+This is inefficient!  If we were coding SQL by hand, 
+we could get the same data using one query with a join.</p>
+<p>We can use rack-mini-profiler to find the code line that generated
+the request:</p>
+<p><img src="images/sql-project.png" srcset='images/sql-project.png 1x, images/sql-project@2x.png 2x' alt="finding the source code for a sql request"></p>
+<p>In this example, the ActiveRecord method that generate
+the first request is in project_controller.rb, line 26</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+@project = Project.friendly.find(params[:id])
+
+</pre>
+</div>
+<p>Later, in the view and partials, the relationships from
+@project to users is accessed.</p>
+<p>To get ActiveRecord to automatically load <strong>all the users</strong> at once
+we can change this one line to use the 'includes' method:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+@project = Project.includes(:users).friendly.find(params[:id])
+
+</pre>
+</div>
+<p>After this change we find a lot less SQL requests:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+SELECT * FROM `projects` WHERE `slug` = '2014-yokaisho' ORDER BY `projects`.`id` ASC LIMIT 1
+SELECT * FROM `projects_roles_users` WHERE `project_id` IN (1622)
+SELECT * FROM `users` WHERE `id` IN (1033, 1018, 901, 938, 945, 977, 953, 652, 940)
+
+</pre>
+</div>
+<p>This makes a measurable difference:</p>
+<p><img src="images/sql-include.png" srcset='images/sql-include.png 1x, images/sql-include@2x.png 2x' alt="compare render times with and withoud include"></p>
+<p>In this example there are many more models that belong to a project.
+If we include them all, we end up with a sizable reduction in SQL queries:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+@project = Project.includes(:users, :roles, :assets, :urls, :tags).friendly.find(params[:id])
+
+</pre>
+</div>
+<p><img src="images/sql-include-more.png" srcset='images/sql-include-more.png 1x, images/sql-include-more@2x.png 2x' alt="compare render times with many includes"></p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-17' href='slides_caching.html#slide-17'>▻</a>
+<h4 id="view">5.5 view</h4>
+<p>We still have many more SQL queries that are created
+for the <code>collaborators/_show</code> partial. </p>
+<p>The collaborator partial shows information
+about one team member: the thumbnail, the name, their degree program(s)
+and the role(s) they had in the project.</p>
+<p><img src="images/collaborator.png" srcset='images/collaborator.png 1x, images/collaborator@2x.png 2x' alt="collaborator partial"></p>
+<p>The information about the degree programs is found in 2 different tables:</p>
+<ul>
+<li>studycourses</li>
+<li>agegroups_studycourses_departments_users</li>
+</ul>
+<p>To display "MMT Bachelor 2010, MMT Master 2014"
+for Mr. Huber the helper method <code>print_studycourses</code> is used. We can try out this
+helper method in the rails console:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+&gt; user = User.find(901)
+  User Load (0.5ms)  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 901 LIMIT 1
+&gt; ApplicationController.helpers.print_studycourses(user)
+  Enrollment Load (0.5ms)  SELECT `agegroups_studycourses_departments_users`.* FROM `agegroups_studycourses_departments_users` WHERE `agegroups_studycourses_departments_users`.`user_id` = 901
+  Studycourse Load (0.3ms)  SELECT  `studycourses`.* FROM `studycourses` WHERE `studycourses`.`id` = 3 LIMIT 1
+  Agegroup Load (0.4ms)  SELECT  `agegroups`.* FROM `agegroups` WHERE `agegroups`.`id` = 3 LIMIT 1
+  Studycourse Load (0.4ms)  SELECT  `studycourses`.* FROM `studycourses` WHERE `studycourses`.`id` = 5 LIMIT 1
+  Agegroup Load (0.4ms)  SELECT  `agegroups`.* FROM `agegroups` WHERE `agegroups`.`id` = 19 LIMIT 1
+
+</pre>
+</div>
+<p>Here information from three database tables is combined.</p>
+<h5 id="createing-a-database-view">5.5.1 createing a database view</h5>
+<p>In the database console we can build a simple select statement with two
+joins to get the same information:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+mysql&gt; SELECT user_id, concat(studycourses.name, ' ', year) AS name 
+FROM agegroups_studycourses_departments_users x 
+LEFT JOIN studycourses ON (x.studycourse_id=studycourses.id) 
+LEFT JOIN agegroups ON (x.agegroup_id=agegroups.id) 
+WHERE user_id=901;
++---------+-------------------+
+| user_id | name              |
++---------+-------------------+
+|     901 | MMT Bachelor 2010 |
+|     901 | MMT Master 2014   |
++---------+-------------------+
+2 rows in set (0,01 sec)
+
+</pre>
+</div>
+<p>We can create a view in the database that contains this information:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+mysql&gt; CREATE VIEW degree_programs AS 
+SELECT user_id, concat(studycourses.name, ' ', year) AS name 
+FROM agegroups_studycourses_departments_users x 
+LEFT JOIN studycourses ON (x.studycourse_id=studycourses.id) 
+LEFT JOIN agegroups ON (x.agegroup_id=agegroups.id);
+Query OK, 0 rows affected (0,06 sec)
+
+</pre>
+</div>
+<p>This view can now be used like any other table in the database:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+mysql&gt; SELECT * from degree_programs WHERE user_id=901 ;
++---------+-------------------+
+| user_id | name              |
++---------+-------------------+
+|     901 | MMT Bachelor 2010 |
+|     901 | MMT Master 2014   |
++---------+-------------------+
+2 rows in set (0,00 sec)
+
+</pre>
+</div>
+<h5 id="model-and-relationships-for-the-view">5.5.2 model and relationships for the view</h5>
+<p>In Rails we can define a model for this view:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+app/models/degree_program.rb
+class DegreeProgram &lt; ActiveRecord::Base
+  belongs_to :user
+
+  def to_s
+    name
+  end
+end
+
+</pre>
+</div>
+<p>And add a relationship from user:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+class User &lt; ActiveRecord::Base
+...
+  has_many :degree_programs  
+
+</pre>
+</div>
+<p>back in the rails console we can now use this new model:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+&gt; user = User.find(901)
+  User Load (0.5ms)  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 901 LIMIT 1
+&gt; user.degree_programs.join(', ')
+  DegreeProgram Load (0.6ms)  SELECT `degree_programs`.* FROM `degree_programs` WHERE `degree_programs`.`user_id` = 901
+=&gt; "MMT Bachelor 2010, MMT Master 2014"
+
+</pre>
+</div>
+<p>And finally we can refactor the helper method print_studycourses</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+  def print_studycourses(student)
+    student.degree_programs.join(', ')
+  end
+
+</pre>
+</div>
+<p>This reduces the number of SQL statements to one per collaborator partial:</p>
+<p><img src="images/view.png" srcset='images/view.png 1x, images/view@2x.png 2x' alt="view"></p>
+<h5 id="create-view-in-production">5.5.3 create view in production</h5>
+<p>To deploy the view to production, you need to create it with a migration:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+class CreateViewDegreeProgram &lt; ActiveRecord::Migration
+  def up
+    execute &lt;&lt;-SQL
+      CREATE VIEW degree_programs AS
+      SELECT user_id, concat(studycourses.name, ' ', year) AS name
+      FROM agegroups_studycourses_departments_users x
+      LEFT JOIN studycourses ON (x.studycourse_id=studycourses.id)
+      LEFT JOIN agegroups ON (x.agegroup_id=agegroups.id)
+    SQL
+  end
+  def down
+    execute 'DROP VIEW degree_programs'
+  end  
+end
+
+</pre>
+</div>
+<h5 id="uses-and-limitations-of-view">5.5.4 uses and limitations of view</h5>
+<p>In this case the view might be a first step towards refactoring
+the database.  We just have too many tables in the database that
+are not really needed.</p>
+<p>We can rewrite the rails app step by step to use only the new view,
+and not the database tables it is supposed to replace. after we
+have changed all the rails code, we can drop the view, and create
+a table with the same data instead.  Then we can drop the original tables
+and are finished with the database refactoring.</p>
+<p>In other cases you might use a view permanently: If you need both
+the underlying, more complex data, and the simplified data in the view.
+Reports with aggregated data, top 10 lists, queries that use
+complex database expressions, or tables with a reduced set
+of attributes would be good examples for using a view.</p>
+<p>For data that is accessed a lot, but changes very seldom, you can
+us a <strong>materialized view</strong>.  In a normal view each access to the view
+triggers the underlying sql requests.  In a materialized view the
+data is copied over to the view once. This needs more memory, but gives
+faster access.</p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-18' href='slides_caching.html#slide-18'>▻</a>
+<h4 id="final-thoughts">5.6 final thoughts</h4>
+<p>If we add a relationship from projects to degree_program (actually: three <code>has_many through:</code> steps to get from projects to collaborators,
+and from collaborators to users, and from users to degree_programs), we can also include degree_programs in our
+includes statement when loading the project:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+@project = Project.includes(:users, :roles, :assets, :urls, :tags, :degree_programs).friendly.find(params[:id])
+
+</pre>
+</div>
+<p>This way we end up with only very few sql queries, and a big performance improvement:</p>
+<p><img src="images/before-after.png" srcset='images/before-after.png 1x, images/before-after@2x.png 2x' alt="final state of the app"></p>
+<p>ActiveRecord was a big help when writing this app. But it cannot find
+the best solution for every situation. As a developer you have to keep
+an eye on your ORM, and check now and again if the SQL queries that the
+ORM creates make sense and are efficient.</p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-19' href='slides_caching.html#slide-19'>▻</a>
+<h3 id="see-also">6 See Also</h3>
+<ul>
+<li><a href="https://guides.rubyonrails.org/caching_with_rails.html">Rails Guide: Caching</a></li>
+<li><a href="https://guides.rubyonrails.org/active_record_querying.html#eager-loading-associations">Rails Guide: Active Record Query Interface. N+1 problems</a></li>
+<li><a href="https://www.speedshop.co/2015/07/15/the-complete-guide-to-rails-caching.html">Berkopec(2015): Speed Up Your Rails App by 66% - The Complete Guide to Rails Caching</a></li>
+<li><a href="https://github.com/flyerhzm/bullet#readme">bullet gem for finding n+1 problems</a></li>
+<li><a href="https://content.pivotal.io/blog/using-database-views-for-performance-wins-in-rails">Using database views for performance wins in Rails</a></li>
+<li><a href="https://www.fromdual.ch/mysql-materialized-views">materialized views in mysql</a></li>
+<li><a href="https://www.postgresql.org/docs/9.3/static/rules-materializedviews.html">materialized view in postgres</a></li>
+</ul>
+</div>        
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p class="copyright">published under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/at/deed.de">creative commons by-nc-sa</a> in 2012-2016 by <a href="https://brigitte-jellinek.at">Brigitte Jellinek</a>.
+      </p><p>If you want to contribute: <a href="https://github.com/backend-development/backend-development-textbook/fork">fork the source on github</a>
+        and edit <a href="https://github.com/backend-development/backend-development-textbook/blob/master/source/caching.md">caching.md</a>
+      </p>
+    </div>
+  </div>
+
+  <script src="javascripts/jquery.min.js"></script>
+  <script src="javascripts/responsive-tables.js"></script>
+  <script src="javascripts/guides.js"></script>
+  <script src="javascripts/syntaxhighlighter/shCore.js"></script>
+  <script src="javascripts/syntaxhighlighter/shBrushRuby.js"></script>
+  <script src="javascripts/syntaxhighlighter/shBrushXml.js"></script>
+  <script src="javascripts/syntaxhighlighter/shBrushSql.js"></script>
+  <script src="javascripts/syntaxhighlighter/shBrushPlain.js"></script>
+  <script>
+    SyntaxHighlighter.all()
+    $(guidesIndex.bind);
+    $(document).ready(function(){
+      let hash = document.location.hash;
+      if(! hash) return;
+      document.getElementById(hash.substr(1)).scrollIntoView(true);
+    })
+  </script>
+  </body>
+</html>

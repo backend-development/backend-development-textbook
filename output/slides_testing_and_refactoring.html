@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=1024, user-scalable=no">
+    <title>Slides for
+        Testing and Refactoring in the Backend Development Textbook
+    </title>
+    <!-- Required stylesheet -->
+    <link rel="stylesheet" media="screen" href="stylesheets/deck.core.css">
+    <!-- Extension CSS files go here. Remove or add as needed. -->
+    <link rel="stylesheet" media="screen" href="stylesheets/deck.goto.css">
+    <link rel="stylesheet" media="screen" href="stylesheets/deck.menu.css">
+    <link rel="stylesheet" media="screen" href="stylesheets/deck.navigation.css">
+    <link rel="stylesheet" media="screen" href="stylesheets/deck.status.css">
+    <!-- Style theme. More available in /themes/style/ or create your own. -->
+    <link rel="stylesheet" media="screen" href="stylesheets/web-2.0.css">
+    <!-- Transition theme. More available in /themes/transition/ or create your own. -->
+    <link rel="stylesheet" media="screen" href="stylesheets/horizontal-slide.css">
+    <!-- syntax highlighter -->
+    <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shCore.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shThemeRailsGuides.css" />    
+
+
+    <!-- Basic black and white print styles -->
+    <link rel="stylesheet" media="print" href="stylesheets/print.css">
+    <!-- Required Modernizr file -->
+    <script src="javascripts/modernizr.custom.js"></script>
+</head>
+
+<body>
+    <div class="deck-container">
+        <div class='slide'><h2>Testing and Refactoring</h2><p>This guide will explain why you should write tests
+for your web application. It covers built-in mechanisms offered by Rails.
+By referring to this guide, you will be able to:</p>
+<ul>
+<li>Understand Rails testing terminology</li>
+<li>Write unit and integration tests for your application</li>
+</ul>
+
+<dd class="work-in-progress"><p>This chapter is still a work in progress. </p>
+<p>You can help by reviewing the documents and posting your comments and corrections.</p></dd>
+
+</div>
+<div class='slide'>
+<a class='slide_break' href='testing_and_refactoring.html#slide-1'>▻</a>
+<h3 id="why-test-questionmark">1 Why Test?</h3>
+<ul>
+<li>to know if the program works (as specified)</li>
+<li>to know if it still works after refactoring</li>
+<li>to know if it still works after adding a new feature</li>
+<li>to know if it still works ...</li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' href='testing_and_refactoring.html#slide-2'>▻</a>
+<h4 id="for-beginners-two-testing-levels">1.1 for beginners: two testing levels</h4>
+<ul>
+<li>unit testing - models</li>
+<li>integration testing - like a browser</li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' href='testing_and_refactoring.html#slide-3'>▻</a>
+<h4 id="rails-and-testing">1.2 rails and testing</h4>
+<ul>
+<li>testing built in</li>
+<li>scaffold creates (empty) tests</li>
+<li>testing environment</li>
+<li>run all tests with <code>rake:test</code>
+</li>
+<li>run all tests with <code>rake test TESTOPTS="-v"</code>
+</li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' href='testing_and_refactoring.html#slide-4'>▻</a>
+<h4 id="my-first-test">1.3 my first test</h4>
+<div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# in file test/unit/user_test.rb
+test "no_stars is zero in new user" do
+  u = User.create!(:first_name=&gt;"John", :last_name=&gt;"Doe")
+  assert u.no_stars == 0
+end
+
+</pre>
+</div>
+</div>
+<div class='slide'>
+<a class='slide_break' href='testing_and_refactoring.html#slide-5'>▻</a>
+<h4 id="my-first-integration-test">1.4 my first integration test</h4>
+<div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+test "users are displayed" do
+  u = User.create!(:first_name=&gt;"Jane", :last_name=&gt;"Doe")
+  visit "/users"
+  assert page.has_content?('Gib ein Sternchen!')
+  assert page.has_content?('Jane Doe')
+end
+
+</pre>
+</div>
+</div>
+<div class='slide'>
+<a class='slide_break' href='testing_and_refactoring.html#slide-6'>▻</a>
+<h4 id="see-documentation">1.5 see documentation</h4>
+<ul>
+<li><a href="https://guides.rubyonrails.org/testing.html">Guide to Testing Rails Applications</a></li>
+<li><a href="https://topfunky.com/clients/rails/ruby_and_rails_assertions.pdf">Test::Unit Cheatsheet</a></li>
+<li><a href="https://gist.github.com/3942267">Capybara Cheat Sheet</a></li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' href='testing_and_refactoring.html#slide-7'>▻</a>
+<h3 id="test-driven-development-tdd">2 Test Driven Development (TDD)</h3>
+</div>
+<div class='slide'>
+<a class='slide_break' href='testing_and_refactoring.html#slide-8'>▻</a>
+<h4 id="what-is-test-first-questionmark">2.1 what is "test first" ?</h4>
+<ol>
+<li>write a test (it fails)</li>
+<li>write the implementation (test still fails)</li>
+<li>fix the implementation </li>
+<li>test passes: you're done!</li>
+</ol>
+</div>
+<div class='slide'>
+<a class='slide_break' href='testing_and_refactoring.html#slide-9'>▻</a>
+<h4 id="what-is-tdd-questionmark">2.2 what is "TDD" ?</h4>
+<ol>
+<li>Q: what should the program do? </li>
+<li>A: integration test. (write it. it fails)</li>
+<li>Q: how should the program do it?</li>
+<li>A: unit test. (write it. it fails)</li>
+<li>implement the unit </li>
+<li>does the unit test pass? if not, got back to 5</li>
+<li>does the integration test pass? if not, go back to 3</li>
+</ol>
+</div>
+<div class='slide'>
+<a class='slide_break' href='testing_and_refactoring.html#slide-10'>▻</a>
+<h3 id="code-refactoring">3 Code Refactoring</h3>
+</div>
+<div class='slide'>
+<a class='slide_break' href='testing_and_refactoring.html#slide-11'>▻</a>
+<h4 id="what-is-code-refactoring-questionmark">3.1 what is "code refactoring" ?</h4>
+<ul>
+<li>"restructuring an existing body of code</li>
+<li>altering its internal structure</li>
+<li>without changing its external behavior"</li>
+<li>or for short:</li>
+<li>change your code:</li>
+<li>but only how you do it,</li>
+<li>not what you do.</li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' href='testing_and_refactoring.html#slide-12'>▻</a>
+<h4 id="refactoring-and-testing">3.2 refactoring and testing</h4>
+<ul>
+<li>run the unit test (it should be green)</li>
+<li>refactor</li>
+<li>run the unit test (it should still be green)</li>
+<li>done</li>
+</ul>
+</div>
+    </div>
+    <!-- End slides. -->
+    <!-- Begin extension snippets. Add or remove as needed. -->
+    <!-- deck.navigation snippet -->
+    <div aria-role="navigation">
+        <a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
+        <a href="#" class="deck-next-link" title="Next">&#8594;</a>
+    </div>
+    <!-- deck.status snippet -->
+    <p class="deck-status" aria-role="status">
+        <span class="deck-status-current"></span>
+        /
+        <span class="deck-status-total"></span>
+    </p>
+    <!-- deck.goto snippet -->
+    <form action="." method="get" class="goto-form">
+        <label for="goto-slide">Go to slide:</label>
+        <input type="text" name="slidenum" id="goto-slide" list="goto-datalist">
+        <datalist id="goto-datalist"></datalist>
+        <input type="submit" value="Go">
+    </form>
+    <!-- End extension snippets. -->
+    </div>
+    <!-- Required JS files. -->
+    <script src="javascripts/jquery.min.js"></script>
+    <script src="javascripts/deck.core.js"></script>
+    <!-- Extension JS files. Add or remove as needed. -->
+    <script src="javascripts/deck.menu.js"></script>
+    <script src="javascripts/deck.goto.js"></script>
+    <script src="javascripts/deck.status.js"></script>
+    <script src="javascripts/deck.navigation.js"></script>
+    <script src="javascripts/deck.escape.js"></script>
+    <!--  Syntax highlighter -->
+    <script src="javascripts/syntaxhighlighter/shCore.js"></script>
+    <script src="javascripts/syntaxhighlighter/shBrushRuby.js"></script>
+    <script src="javascripts/syntaxhighlighter/shBrushXml.js"></script>
+    <script src="javascripts/syntaxhighlighter/shBrushSql.js"></script>
+    <script src="javascripts/syntaxhighlighter/shBrushPlain.js"></script>    
+    <!-- Initialize the deck. You can put this in an external file if desired. -->
+    <script>
+    SyntaxHighlighter.all()      
+    $(function() {
+      $.deck('.slide');
+    });
+
+    var $d = $(document);    
+
+    $d.bind('deck.change', function(event, from, to) {
+      // console.log('Moving from slide ' + from + ' to ' + to);
+    });   
+    $d.bind('deck.beforeInit', function() {
+      // console.log('Deck.beforeInit. hash is ' + document.location.hash);
+    });     
+    $d.bind('deck.init', function() {
+      // console.log('Deck.init is done. hash was ' + document.location.hash);
+    }); 
+    </script>
+</body>
+
+</html>

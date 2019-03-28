@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Testing and Refactoring in the Backend Development Textbook</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+  <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shCore.css" />
+  <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shThemeRailsGuides.css" />
+
+  <link rel="stylesheet" type="text/css" href="stylesheets/fixes.css" />
+
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <style>
+
+    .slide img[src$=svg] {
+      width: 100%;
+    }
+  </style>
+</head>
+<body class="guide">
+  <div>
+    <a href="https://github.com/backend-development/backend-development-textbook/"><img style="position: fixed; top: 0; right: 0; border: 0; z-index: 10;" src="images/forkme.png" alt="Fork me on GitHub"></a>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">More Rails: </strong>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">Rails Guides</a></li>
+        <li class="more-info"><a href="https://curriculum.railsbridge.org/docs/">Railsbridge</a></li>
+        <li class="more-info"><a href="https://railscasts.com/">Railscasts</a></li>
+      </ul>
+      <strong class="more-info-label">Beyond Backend: </strong>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://web-engineering.github.io/">Web Engineering</a></li>
+      </ul>      
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="Return to home page">Backend<span> Development</span></a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">Home</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" onclick="guideMenu(); return false;" id="guidesMenu" class="guides-index-item nav-item">Index  &#x25BC;</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+              <dl class="L">
+                <dt>Ruby on Rails</dt>
+                <dd><a href="ruby_commandline.html">Ruby Commandline</a></dd>
+                <dd><a href="rails_database_and_model.html">Database and Models</a></dd>
+                <dd><a href="rails_associations_and_validations.html">Associations and Validations</a></dd>
+                <dd><a href="rails_view_and_controller.html">Routing, View and Controller</a></dd>
+                <dd><a href="rails_authentication.html">Authentication</a></dd>
+                <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                <dd><a href="javascript_and_ajax.html">Javascript and AJAX</a></dd>
+                <dd><a href="testing.html">Getting started with Testing</a></dd>
+                <dd><a href="rails_gems.html">Ruby Gems for your Rails Project</a></dd>
+                <dd><a href="apis.html">APIs</a></dd>
+                <dd><a href="rails_websockets.html">Websocket in Rails</a></dd>
+                <dd><a href="refactoring_rails.html">Refactoring Rails</a></dd>
+                <dt>Overarching Concerns</dt>
+                <dd><a href="security.html">Security</a></dd>
+                <dd><a href="caching.html">Caching</a></dd>
+                <dd><a href="advanced_testing.html">Advanced Testing</a></dd>
+                <dd><a href="internationalization.html">Internationalization (I18n)</a></dd>
+              </dl>
+              <dl class="R">
+                <dt>Nodes.js</dt>
+                <dd><a href="node_vs_rails.html">Node vs. Rails</a></dd>
+                <dd><a href="node_basics.html">Node Basics</a></dd>
+                <dd><a href="node_websockets.html">Node Websockets</a></dd>
+                <dd><a href="node_express.html">Node Web App</a></dd>
+                <dd><a href="node_cluster.html">Scaling Node</a></dd>
+              </dl>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <h2 id="preheader">Testing and Refactoring</h2>
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li>
+<a href="#why-test-questionmark">Why Test?</a>
+
+<ul>
+<li><a href="#for-beginners-two-testing-levels">for beginners: two testing levels</a></li>
+<li><a href="#rails-and-testing">rails and testing</a></li>
+<li><a href="#my-first-test">my first test</a></li>
+<li><a href="#my-first-integration-test">my first integration test</a></li>
+<li><a href="#see-documentation">see documentation</a></li>
+</ul>
+</li>
+<li>
+<a href="#test-driven-development-tdd">Test Driven Development (TDD)</a>
+
+<ul>
+<li><a href="#what-is-test-first-questionmark">what is "test first" ?</a></li>
+<li><a href="#what-is-tdd-questionmark">what is "TDD" ?</a></li>
+</ul>
+</li>
+<li>
+<a href="#code-refactoring">Code Refactoring</a>
+
+<ul>
+<li><a href="#what-is-code-refactoring-questionmark">what is "code refactoring" ?</a></li>
+<li><a href="#refactoring-and-testing">refactoring and testing</a></li>
+</ul>
+</li>
+</ol>
+
+          </div>
+
+      <div class="rest_header">
+        <h2>Testing and Refactoring</h2><p>This guide will explain why you should write tests
+for your web application. It covers built-in mechanisms offered by Rails.
+By referring to this guide, you will be able to:</p>
+<ul>
+<li>Understand Rails testing terminology</li>
+<li>Write unit and integration tests for your application</li>
+</ul>
+
+<dd class="work-in-progress"><p>This chapter is still a work in progress. </p>
+<p>You can help by reviewing the documents and posting your comments and corrections.</p></dd>
+
+      </div>
+    </div>
+  </div>
+
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <div class='slide'><a id='slide-1'></a>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-1' href='slides_testing_and_refactoring.html#slide-1'>▻</a>
+<h3 id="why-test-questionmark">1 Why Test?</h3>
+<ul>
+<li>to know if the program works (as specified)</li>
+<li>to know if it still works after refactoring</li>
+<li>to know if it still works after adding a new feature</li>
+<li>to know if it still works ...</li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-2' href='slides_testing_and_refactoring.html#slide-2'>▻</a>
+<h4 id="for-beginners-two-testing-levels">1.1 for beginners: two testing levels</h4>
+<ul>
+<li>unit testing - models</li>
+<li>integration testing - like a browser</li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-3' href='slides_testing_and_refactoring.html#slide-3'>▻</a>
+<h4 id="rails-and-testing">1.2 rails and testing</h4>
+<ul>
+<li>testing built in</li>
+<li>scaffold creates (empty) tests</li>
+<li>testing environment</li>
+<li>run all tests with <code>rake:test</code>
+</li>
+<li>run all tests with <code>rake test TESTOPTS="-v"</code>
+</li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-4' href='slides_testing_and_refactoring.html#slide-4'>▻</a>
+<h4 id="my-first-test">1.3 my first test</h4>
+<div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# in file test/unit/user_test.rb
+test "no_stars is zero in new user" do
+  u = User.create!(:first_name=&gt;"John", :last_name=&gt;"Doe")
+  assert u.no_stars == 0
+end
+
+</pre>
+</div>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-5' href='slides_testing_and_refactoring.html#slide-5'>▻</a>
+<h4 id="my-first-integration-test">1.4 my first integration test</h4>
+<div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+test "users are displayed" do
+  u = User.create!(:first_name=&gt;"Jane", :last_name=&gt;"Doe")
+  visit "/users"
+  assert page.has_content?('Gib ein Sternchen!')
+  assert page.has_content?('Jane Doe')
+end
+
+</pre>
+</div>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-6' href='slides_testing_and_refactoring.html#slide-6'>▻</a>
+<h4 id="see-documentation">1.5 see documentation</h4>
+<ul>
+<li><a href="https://guides.rubyonrails.org/testing.html">Guide to Testing Rails Applications</a></li>
+<li><a href="https://topfunky.com/clients/rails/ruby_and_rails_assertions.pdf">Test::Unit Cheatsheet</a></li>
+<li><a href="https://gist.github.com/3942267">Capybara Cheat Sheet</a></li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-7' href='slides_testing_and_refactoring.html#slide-7'>▻</a>
+<h3 id="test-driven-development-tdd">2 Test Driven Development (TDD)</h3>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-8' href='slides_testing_and_refactoring.html#slide-8'>▻</a>
+<h4 id="what-is-test-first-questionmark">2.1 what is "test first" ?</h4>
+<ol>
+<li>write a test (it fails)</li>
+<li>write the implementation (test still fails)</li>
+<li>fix the implementation </li>
+<li>test passes: you're done!</li>
+</ol>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-9' href='slides_testing_and_refactoring.html#slide-9'>▻</a>
+<h4 id="what-is-tdd-questionmark">2.2 what is "TDD" ?</h4>
+<ol>
+<li>Q: what should the program do? </li>
+<li>A: integration test. (write it. it fails)</li>
+<li>Q: how should the program do it?</li>
+<li>A: unit test. (write it. it fails)</li>
+<li>implement the unit </li>
+<li>does the unit test pass? if not, got back to 5</li>
+<li>does the integration test pass? if not, go back to 3</li>
+</ol>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-10' href='slides_testing_and_refactoring.html#slide-10'>▻</a>
+<h3 id="code-refactoring">3 Code Refactoring</h3>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-11' href='slides_testing_and_refactoring.html#slide-11'>▻</a>
+<h4 id="what-is-code-refactoring-questionmark">3.1 what is "code refactoring" ?</h4>
+<ul>
+<li>"restructuring an existing body of code</li>
+<li>altering its internal structure</li>
+<li>without changing its external behavior"</li>
+<li>or for short:</li>
+<li>change your code:</li>
+<li>but only how you do it,</li>
+<li>not what you do.</li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-12' href='slides_testing_and_refactoring.html#slide-12'>▻</a>
+<h4 id="refactoring-and-testing">3.2 refactoring and testing</h4>
+<ul>
+<li>run the unit test (it should be green)</li>
+<li>refactor</li>
+<li>run the unit test (it should still be green)</li>
+<li>done</li>
+</ul>
+</div>        
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p class="copyright">published under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/at/deed.de">creative commons by-nc-sa</a> in 2012-2016 by <a href="https://brigitte-jellinek.at">Brigitte Jellinek</a>.
+      </p><p>If you want to contribute: <a href="https://github.com/backend-development/backend-development-textbook/fork">fork the source on github</a>
+        and edit <a href="https://github.com/backend-development/backend-development-textbook/blob/master/source/testing_and_refactoring.md">testing_and_refactoring.md</a>
+      </p>
+    </div>
+  </div>
+
+  <script src="javascripts/jquery.min.js"></script>
+  <script src="javascripts/responsive-tables.js"></script>
+  <script src="javascripts/guides.js"></script>
+  <script src="javascripts/syntaxhighlighter/shCore.js"></script>
+  <script src="javascripts/syntaxhighlighter/shBrushRuby.js"></script>
+  <script src="javascripts/syntaxhighlighter/shBrushXml.js"></script>
+  <script src="javascripts/syntaxhighlighter/shBrushSql.js"></script>
+  <script src="javascripts/syntaxhighlighter/shBrushPlain.js"></script>
+  <script>
+    SyntaxHighlighter.all()
+    $(guidesIndex.bind);
+    $(document).ready(function(){
+      let hash = document.location.hash;
+      if(! hash) return;
+      document.getElementById(hash.substr(1)).scrollIntoView(true);
+    })
+  </script>
+  </body>
+</html>

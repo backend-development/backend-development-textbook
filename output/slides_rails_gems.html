@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=1024, user-scalable=no">
+    <title>Slides for
+        Some Gems for Rails  in the Backend Development Textbook
+    </title>
+    <!-- Required stylesheet -->
+    <link rel="stylesheet" media="screen" href="stylesheets/deck.core.css">
+    <!-- Extension CSS files go here. Remove or add as needed. -->
+    <link rel="stylesheet" media="screen" href="stylesheets/deck.goto.css">
+    <link rel="stylesheet" media="screen" href="stylesheets/deck.menu.css">
+    <link rel="stylesheet" media="screen" href="stylesheets/deck.navigation.css">
+    <link rel="stylesheet" media="screen" href="stylesheets/deck.status.css">
+    <!-- Style theme. More available in /themes/style/ or create your own. -->
+    <link rel="stylesheet" media="screen" href="stylesheets/web-2.0.css">
+    <!-- Transition theme. More available in /themes/transition/ or create your own. -->
+    <link rel="stylesheet" media="screen" href="stylesheets/horizontal-slide.css">
+    <!-- syntax highlighter -->
+    <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shCore.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shThemeRailsGuides.css" />    
+
+
+    <!-- Basic black and white print styles -->
+    <link rel="stylesheet" media="print" href="stylesheets/print.css">
+    <!-- Required Modernizr file -->
+    <script src="javascripts/modernizr.custom.js"></script>
+</head>
+
+<body>
+    <div class="deck-container">
+        <div class='slide'><h2>Some Gems for Rails </h2><p>This guide lists a few valuable gems for
+your first Rails Project.</p><p>After reading this guide you will</p>
+<ul>
+<li>understand how gems are installed</li>
+<li>understand how bundler handles dependencies</li>
+<li>be able to configure the gems you use</li>
+<li>be able to deliberately chose version numbers for your gems</li>
+<li>know a few intresting gems for your next rails project</li>
+</ul>
+
+</div>
+<div class='slide'>
+<a class='slide_break' href='rails_gems.html#slide-1'>▻</a>
+<h3 id="gems-and-bundler">1 Gems and Bundler</h3>
+</div>
+<div class='slide'>
+<a class='slide_break' href='rails_gems.html#slide-2'>▻</a>
+<h4 id="gems">1.1 gems</h4>
+<p>Code reuse is a deciding factor for programmer productivity. In Ruby
+the unit of reuse is called a <code>gem</code>. <code>rubygems</code> is the package manager for ruby,
+it let's you install gems on your system.</p>
+<p>A gem has a name  (e.g. <code>rake</code>) and a version number (e.g. <code>10.4.2</code>).
+It can be written in plain ruby or sometimes in ruby and c.  Many gems
+depend on system libraries that need to be installed before the gem can
+be installed.  For example the <a href="https://rubygems.org/gems/rmagick/versions/2.15.4">rmagick</a>
+gem for image manipulation needs the library <code>ImageMagick</code>.</p>
+<p>So most of the time installing a gem is as simple as</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+&gt; gem install rails_best_practices
+Successfully installed rails_best_practices-1.15.7
+Parsing documentation for rails_best_practices-1.15.7
+Installing ri documentation for rails_best_practices-1.15.7
+Done installing documentation for rails_best_practices after 2 seconds
+1 gem installed
+
+</pre>
+</div>
+<p>But sometimes you have to do other installations first. 
+On your development machine this might look like this:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+# install node on a mac
+&gt; brew install nodejs
+&gt; gem install uglifier
+
+</pre>
+</div>
+<p>Sometimes you need to set include paths when compiling the c-part of the gem, e.g.:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+&gt; gem install eventmachine 
+... error messages ...
+In file included from binder.cpp:20:
+./project.h:116:10: fatal error: 'openssl/ssl.h' file not found
+#include &lt;openssl/ssl.h&gt;
+         ^
+&gt; brew install openssl
+&gt; gem install eventmachine -- --with-cppflags=-I/usr/local/opt/openssl/include
+
+</pre>
+</div>
+<p>In production you probably have to deal with Linux, and you
+may not have the right permissions to install system libraries.
+A typical example would be:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$dev&gt; ssh my.production.machine
+$production&gt; sudo apt-get install libmagick++-dev
+$production&gt; gem install rmagick
+$production&gt; gem install paperclip
+
+</pre>
+</div>
+<p>Now that you have installed the gem once by hand
+you can be sure that it can also be reinstalled by bundler.</p>
+<p>See also:</p>
+<ul>
+<li><a href="https://guides.rubygems.org/what-is-a-gem/">what is a gem</a></li>
+<li>find <a href="https://rubygems.org/stats">150.000 gems</a> at <a href="https://rubygems.org/">rubygems.org</a>
+</li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' href='rails_gems.html#slide-3'>▻</a>
+<h4 id="dependency-hell">1.2 dependency hell</h4>
+<p>For a rails project you will be using a lot of gems. This will lead
+to two problems:</p>
+<ol>
+<li>dependency resolution: gem A depends on version 1.1 of gem C, while gem B wants at least version 1.5.  You need to find the right version of every gem in your project that actually fits together</li>
+<li>different installation: when deploying to a production server, or even just when shareing code with other developers you need to make sure that the same constellation of gems and versions is used on every machine</li>
+</ol>
+</div>
+<div class='slide'>
+<a class='slide_break' href='rails_gems.html#slide-4'>▻</a>
+<h4 id="bundler-saves-us">1.3 bundler saves us</h4>
+<p><img src="images/bundler-small.png" alt="bundler"></p>
+<p>Bundler is the name of the tool that saves us from dependency hell.
+Bundler is itself a gem, so you install it with <code>gem install bundler</code>.
+Beware: the command you will be using called <code>bundle</code>, not bundler.</p>
+<p>There is how it works: In every ruby project you write
+a <code>Gemfile</code> in which you define which gems and (to a certain degree) which versions you want.
+When you run <code>bundle install</code> bundler will:</p>
+<ul>
+<li>read the Gemfile, </li>
+<li>pick out compatible versions of all the gems (if possible), </li>
+<li>install all these gems</li>
+<li>write <code>Gemfile.lock</code>
+</li>
+</ul>
+<p>The lock-file contains a complete list of all the gems necessary for
+your project, and their version numbers.  These are now locked down,
+and will not change!</p>
+<p>When deploying to a new development machine or the production server, 
+you run <code>bundle install</code> and the exact same versions are now installed.</p>
+</div>
+<div class='slide'>
+<a class='slide_break' href='rails_gems.html#slide-5'>▻</a>
+<h4 id="defining-versions">1.4 defining versions</h4>
+<p>In the Gemfile you can specify which versions should be used.
+But don't overdo it!  Bundler does a good job picking versions,
+if you specify every version number by hand you are doing too much work.</p>
+<p>Some examples of the different ways of specifying version number and source:</p>
+<div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# Gemfile
+source 'https://rubygems.org'
+
+ruby '2.3.1'
+
+gem 'rails', '~&gt; 5.0.0', '&gt;= 5.0.0.1'
+gem 'sqlite3'
+gem 'puma', '~&gt; 3.0'
+
+</pre>
+</div>
+<p>The arrow <code>~&gt;</code> will only allow an increase in the 
+last (right most) number, so <code>~&gt; 5.0.0</code> does allow <code>5.0.0.7</code> but not <code>5.0.1</code> or <code>5.1</code>.
+This is called a pessimistic version constraint, read more about 
+it in <a href="https://guides.rubygems.org/patterns/#pessimistic-version-constraint">the rubygem documentation</a>.</p>
+</div>
+<div class='slide'>
+<a class='slide_break' href='rails_gems.html#slide-6'>▻</a>
+<h4 id="gems-and-rails">1.5 gems and rails</h4>
+<p>The configuration for a gem is found in the initializer directory,
+for example for <code>devise</code> the configuration file would be <code>config/initializers/devise.rb</code>.</p>
+<p>A gem may install new generators for rails, run <code>rails generate</code> to see a list
+of available generators.</p>
+<p>A gem may install rake tasks, run <code>rails -T</code> to see a list.</p>
+</div>
+<div class='slide'>
+<a class='slide_break' href='rails_gems.html#slide-7'>▻</a>
+<h3 id="some-gems">2 Some Gems</h3>
+<p>This list was inspired by the <a href="https://blog.railsrumble.com/2016/01/15/gem-teardown/">Rails Rumble gem teardown</a> and
+<a href="http://www.codebeerstartups.com/2013/04/must-have-gems-for-development-machine-in-ruby-on-rails">coodbeerstartups "Must Have Gems for Development Machine in Ruby on Rails "</a>.</p>
+</div>
+<div class='slide'>
+<a class='slide_break' href='rails_gems.html#slide-8'>▻</a>
+<h4 id="frontend-stuff-for-rails">2.1 Frontend Stuff for rails</h4>
+<p>Use rails-assets.org to get javascript libraries.
+It is a proxy to Bower, so any library that is available
+through Bower is available to rails.</p>
+<p>In your gemfile:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+source 'https://rails-assets.org' do
+  gem 'rails-assets-bootstrap-sass'
+  gem 'rails-assets-angular'
+  gem 'rails-assets-leaflet'
+end
+
+</pre>
+</div>
+
+<ul>
+<li>gem <a href="">autoprefixer-rails</a> - Parse CSS and add vendor prefixes to CSS rules using values from the Can I Use website.
+Search for libraries at <a href="https://rails-assets.org">https://rails-assets.org</a>
+</li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' href='rails_gems.html#slide-9'>▻</a>
+<h4 id="graphing-graphics-webgl">2.2 Graphing, Graphics, WebGL</h4>
+<ul>
+<li>gem <a href="https://github.com/ankane/chartkick">chartkick</a> chartcick javascript library, creates svg graphs</li>
+<li>gem <a href="https://github.com/DmitryBaranovskiy/raphael">raphael</a> for the raphael javascript library, creates svg graphs and images</li>
+<li>gem <a href="https://github.com/dbackowski/novus-nvd3-rails">novus-nvd3-rails</a> A reusable chart library for d3.js</li>
+<li>gem <a href="https://github.com/topfunky/gruff">gruff</a> create PNG graphs (e.g. for reuse in non-html documents)</li>
+<li>gem <a href="https://github.com/rmagick/rmagick">rmagick</a> Ruby bindings for <a href="https://rmagick.github.io/">ImageMagick</a> image manipulation library</li>
+<li>gem <a href="https://github.com/whomwah/rqrcode">rqrcode</a> create QR codes</li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' href='rails_gems.html#slide-10'>▻</a>
+<h4 id="file-upload">2.3 File Upload</h4>
+<p>File Upload has been integrated into Rails 5 with
+<a href=""></a>, there is no need to use 
+<a href="https://github.com/carrierwaveuploader/carrierwave">carrierwave</a> or
+or
+<a href="https://github.com/thoughtbot/paperclip">paperclip</a>
+and more.</p>
+<p>After file upload you might want to resize or crop your images
+automatically. This is traditionally done with
+the library <a href="https://www.imagemagick.org/">ImageMagick</a>:</p>
+<ul>
+<li>gem <a href="https://github.com/rmagick/rmagick">rmagick</a> image processing with image magick</li>
+</ul>
+<p>You might also want to know how to use ImageMagick on the UNIX commandline: </p>
+<ul>
+<li>command line tool <a href="https://www.imagemagick.org/script/convert.php">convert</a> to convert to different formats and</li>
+<li>command line tool <a href="https://www.imagemagick.org/script/mogrify.php">mogrify</a> to  resize, blur, crop, draw on, flip, join, ... an image and overwrite it.</li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' href='rails_gems.html#slide-11'>▻</a>
+<h4 id="authentication">2.4 Authentication</h4>
+<ul>
+<li>gem <a href="https://github.com/plataformatec/devise">devise</a> for login,</li>
+<li>gem <a href="https://github.com/intridea/omniauth">omniauth</a> to integrate authentication methods.</li>
+<li>gem <a href="https://github.com/CanCanCommunity/cancancan">cancancan</a> if you need roles and permissions </li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' href='rails_gems.html#slide-12'>▻</a>
+<h4 id="permalinks">2.5 Permalinks</h4>
+<p>You don't want the database keys to be visible in your URLs?  Use Friendly IDs instead:</p>
+<ul>
+<li>gem <a href="https://github.com/norman/friendly_id">friendlyid</a>
+</li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' href='rails_gems.html#slide-13'>▻</a>
+<h4 id="parsing-xml-and-html">2.6 Parsing xml and html</h4>
+<ul>
+<li>gem <a href="https://www.nokogiri.org/">nokogiri</a>
+</li>
+</ul>
+<p>(this is also used by capybara)</p>
+</div>
+<div class='slide'>
+<a class='slide_break' href='rails_gems.html#slide-14'>▻</a>
+<h4 id="parsing-markdown">2.7 Parsing Markdown</h4>
+<p>Letting users enter HTML is a dangerous idea - it's really hard to
+avoid the security problems.  An alternative is to let them enter
+a simpler markup language, like <a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a>.
+You store the markdown in your database, and convert it to HTML when displayed using a gem:</p>
+<ul>
+<li>gem <a href="https://github.com/vmg/redcarpet">redcarpet</a> - see <a href="http://railscasts.com/episodes/272-markdown-with-redcarpet?view=asciicast">Railscast #272</a>
+</li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' href='rails_gems.html#slide-15'>▻</a>
+<h4 id="pagination">2.8 Pagination</h4>
+<p>Do you need to displaying a lot of items?  Use a pagination gem
+to go through them page by page:</p>
+<ul>
+<li>gem <a href="https://github.com/amatsuda/kaminari">kaminari</a>, <a href="http://railscasts.com/episodes/254-pagination-with-kaminari?view=asciicast">asciicast about it</a>
+</li>
+<li>other gems in <a href="https://www.ruby-toolbox.com/categories/pagination">category pagination</a> of the ruby toolbox</li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' href='rails_gems.html#slide-16'>▻</a>
+<h4 id="filter">2.9 Filter</h4>
+<p>You need to filter objects shown by the index action?</p>
+<ul>
+<li>gem <a href="https://github.com/procore/brita">brita</a> can be used in APIs and full rails apps</li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' href='rails_gems.html#slide-17'>▻</a>
+<h4 id="ordered-lists">2.10 Ordered Lists</h4>
+<ul>
+<li>gem <a href="https://github.com/swanandp/acts_as_list">acts_as_list</a>
+</li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' href='rails_gems.html#slide-18'>▻</a>
+<h4 id="search">2.11 Search</h4>
+<p>You need to search in more than just one attribute of your
+model?  use a search gem:</p>
+<ul>
+<li>gem <a href="https://github.com/activerecord-hackery/ransack">ransack</a> for building search fields</li>
+<li>gem <a href="https://github.com/Casecommons/pg_search">pg_search</a> uses postgresql's fulltext search</li>
+<li>gem <a href="https://github.com/ankane/searchkick">searchkick</a> uses elasticsearch with many more options for fulltext search, e.g. for misspellings </li>
+<li>other gems in <a href="https://www.ruby-toolbox.com/categories/rails_search">category rails_search</a> of the ruby toolbox </li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' href='rails_gems.html#slide-19'>▻</a>
+<h4 id="activity-stream">2.12 Activity Stream</h4>
+<p>If you want to give users an overview of what happened recently
+you can use an activity stream, similar to what you see in facebook.</p>
+<p><img src="images/gem-activity.png" alt="activity stream example"></p>
+<ul>
+<li>gem <a href="https://github.com/pokonski/public_activity">public_activity</a>
+</li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' href='rails_gems.html#slide-20'>▻</a>
+<h4 id="admin-backend">2.13 Admin Backend</h4>
+<p>Create a Backend for manipulating data with a few lines of code:</p>
+<p><img src="images/gem-active-admin.png" alt="ActiveAdmin Screenshot"></p>
+<ul>
+<li>gem <a href="https://activeadmin.info/">activeadmin</a>
+</li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' href='rails_gems.html#slide-21'>▻</a>
+<h4 id="sending-mail">2.14 Sending Mail</h4>
+<p>To send mail from Rails use <a href="https://guides.rubyonrails.org/action_mailer_basics.html">ActionMailer</a>.</p>
+<p>To see the generated mails in your web browser <em>instead</em> of sending them, use the gem <a href="https://github.com/ryanb/letter_opener">letter_opener</a></p>
+</div>
+<div class='slide'>
+<a class='slide_break' href='rails_gems.html#slide-22'>▻</a>
+<h4 id="http-requests">2.15 HTTP Requests</h4>
+<p>This might be handy for downloading from Webpages or APIs</p>
+<ul>
+<li>gem <a href="https://github.com/taf2/curb">curb</a>  - the http library curl for ruby</li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' href='rails_gems.html#slide-23'>▻</a>
+<h4 id="using-apis">2.16 Using APIs</h4>
+<ul>
+<li>gem <a href="https://github.com/octokit/octokit.rb">octokit</a> - for github</li>
+<li>gem <a href="https://github.com/sferik/twitter">twitter</a>
+</li>
+<li>gem <a href="https://github.com/sinisterchipmunk/gravatar">gravatar</a>
+</li>
+<li>gem <a href="https://github.com/arsduo/koala">koala</a> - for facebook</li>
+<li>gem <a href="https://github.com/attack/barometer">barometer</a> - A multi API consuming weather forecasting superstar</li>
+<li>gem <a href="https://github.com/apneadiving/Google-Maps-for-Rails">gmaps4rails</a>
+</li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' href='rails_gems.html#slide-24'>▻</a>
+<h4 id="geocoding">2.17 Geocoding</h4>
+<p>sometimes you want to convert longitude/latitude coordinates
+to street addresses, or the reverse</p>
+<ul>
+<li>gem <a href="https://github.com/alexreisner/geocoder">geocoder</a>
+</li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' href='rails_gems.html#slide-25'>▻</a>
+<h4 id="testing">2.18 Testing</h4>
+<ul>
+<li>gem <a href="https://github.com/thoughtbot/factory_girl">factory_girl</a> for creating test data.</li>
+<li>gem <a href="https://github.com/jnicklas/capybara">capybara</a> as the "browser" for acceptance tests, with</li>
+<li>gem <a href="https://github.com/thoughtbot/capybara-webkit">capybara-webkit</a> for testing client side javascript.</li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' href='rails_gems.html#slide-26'>▻</a>
+<h4 id="understanding-your-code-better">2.19 Understanding your Code better</h4>
+<p><img src="images/gem-better_errors.png" alt="better_errors screenshot"></p>
+<ul>
+<li>gem <a href="https://github.com/charliesome/better_errors">better_errors</a>
+</li>
+<li>gem <a href="https://github.com/dejan/rails_panel/tree/master/meta_request">meta_request</a> - supporting gem for <a href="https://github.com/dejan/rails_panel">Rails Panel, a Google Chrome extension for Rails development</a>
+</li>
+<li>gem <a href="https://github.com/ctran/annotate_models">annotate</a> - inserts the db schema as comments in your model.rb file</li>
+<li>gem <a href="https://github.com/preston/railroady">railroady</a> - UML diagram generation for Rails projects, capable of analyzing existing models and controllers</li>
+<li>gem <a href="https://github.com/flyerhzm/bullet">bullet</a> - helps you improve your usage of activerecord queries</li>
+<li>gem <a href="">metric_fu</a> - many code metrics for your rails project</li>
+<li>gem <a href="https://github.com/railsbp/rails_best_practices">rails_best_practices</a>
+</li>
+<li>gem <a href="https://github.com/bbatsov/rubocop">rubocop</a> - static code analyzer</li>
+<li>gem <a href="https://github.com/schneems/derailed_benchmarks">derailed_benchmarks</a>
+</li>
+<li>gem <a href="https://github.com/presidentbeef/brakeman">brakeman</a> - checks for security vulnerabilities</li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' href='rails_gems.html#slide-27'>▻</a>
+<h3 id="ressources">3 Ressources</h3>
+<ul>
+<li><a href="https://rubygems.org/">Ruby Gems</a></li>
+<li><a href="https://bundler.io/">Bundler</a></li>
+<li><a href="https://github.com/markets/awesome-ruby">awesome-ruby</a></li>
+<li>the <a href="https://www.ruby-toolbox.com/">Ruby Toolbox</a> is organized in categories that help you find alternative solutions</li>
+<li>
+<a href="https://www.youtube.com/watch?v=4DqzaqeeMgY">How does Bundler work, anyway?</a> talk by Andre Arko at RubyConf 2015</li>
+</ul>
+</div>
+    </div>
+    <!-- End slides. -->
+    <!-- Begin extension snippets. Add or remove as needed. -->
+    <!-- deck.navigation snippet -->
+    <div aria-role="navigation">
+        <a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
+        <a href="#" class="deck-next-link" title="Next">&#8594;</a>
+    </div>
+    <!-- deck.status snippet -->
+    <p class="deck-status" aria-role="status">
+        <span class="deck-status-current"></span>
+        /
+        <span class="deck-status-total"></span>
+    </p>
+    <!-- deck.goto snippet -->
+    <form action="." method="get" class="goto-form">
+        <label for="goto-slide">Go to slide:</label>
+        <input type="text" name="slidenum" id="goto-slide" list="goto-datalist">
+        <datalist id="goto-datalist"></datalist>
+        <input type="submit" value="Go">
+    </form>
+    <!-- End extension snippets. -->
+    </div>
+    <!-- Required JS files. -->
+    <script src="javascripts/jquery.min.js"></script>
+    <script src="javascripts/deck.core.js"></script>
+    <!-- Extension JS files. Add or remove as needed. -->
+    <script src="javascripts/deck.menu.js"></script>
+    <script src="javascripts/deck.goto.js"></script>
+    <script src="javascripts/deck.status.js"></script>
+    <script src="javascripts/deck.navigation.js"></script>
+    <script src="javascripts/deck.escape.js"></script>
+    <!--  Syntax highlighter -->
+    <script src="javascripts/syntaxhighlighter/shCore.js"></script>
+    <script src="javascripts/syntaxhighlighter/shBrushRuby.js"></script>
+    <script src="javascripts/syntaxhighlighter/shBrushXml.js"></script>
+    <script src="javascripts/syntaxhighlighter/shBrushSql.js"></script>
+    <script src="javascripts/syntaxhighlighter/shBrushPlain.js"></script>    
+    <!-- Initialize the deck. You can put this in an external file if desired. -->
+    <script>
+    SyntaxHighlighter.all()      
+    $(function() {
+      $.deck('.slide');
+    });
+
+    var $d = $(document);    
+
+    $d.bind('deck.change', function(event, from, to) {
+      // console.log('Moving from slide ' + from + ' to ' + to);
+    });   
+    $d.bind('deck.beforeInit', function() {
+      // console.log('Deck.beforeInit. hash is ' + document.location.hash);
+    });     
+    $d.bind('deck.init', function() {
+      // console.log('Deck.init is done. hash was ' + document.location.hash);
+    }); 
+    </script>
+</body>
+
+</html>

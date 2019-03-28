@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>The Asset Pipeline in the Backend Development Textbook</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+  <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shCore.css" />
+  <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shThemeRailsGuides.css" />
+
+  <link rel="stylesheet" type="text/css" href="stylesheets/fixes.css" />
+
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <style>
+
+    .slide img[src$=svg] {
+      width: 100%;
+    }
+  </style>
+</head>
+<body class="guide">
+  <div>
+    <a href="https://github.com/backend-development/backend-development-textbook/"><img style="position: fixed; top: 0; right: 0; border: 0; z-index: 10;" src="images/forkme.png" alt="Fork me on GitHub"></a>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">More Rails: </strong>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">Rails Guides</a></li>
+        <li class="more-info"><a href="https://curriculum.railsbridge.org/docs/">Railsbridge</a></li>
+        <li class="more-info"><a href="https://railscasts.com/">Railscasts</a></li>
+      </ul>
+      <strong class="more-info-label">Beyond Backend: </strong>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://web-engineering.github.io/">Web Engineering</a></li>
+      </ul>      
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="Return to home page">Backend<span> Development</span></a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">Home</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" onclick="guideMenu(); return false;" id="guidesMenu" class="guides-index-item nav-item">Index  &#x25BC;</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+              <dl class="L">
+                <dt>Ruby on Rails</dt>
+                <dd><a href="ruby_commandline.html">Ruby Commandline</a></dd>
+                <dd><a href="rails_database_and_model.html">Database and Models</a></dd>
+                <dd><a href="rails_associations_and_validations.html">Associations and Validations</a></dd>
+                <dd><a href="rails_view_and_controller.html">Routing, View and Controller</a></dd>
+                <dd><a href="rails_authentication.html">Authentication</a></dd>
+                <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                <dd><a href="javascript_and_ajax.html">Javascript and Rails</a></dd>
+                <dd><a href="testing.html">Getting started with Testing</a></dd>
+                <dd><a href="rails_gems.html">Ruby Gems for your Rails Project</a></dd>
+                <dd><a href="apis.html">APIs</a></dd>
+                <dd><a href="rails_websockets.html">Websocket in Rails</a></dd>
+                <dd><a href="refactoring_rails.html">Refactoring Rails</a></dd>
+                <dt>Overarching Concerns</dt>
+                <dd><a href="security.html">Security</a></dd>
+                <dd><a href="caching.html">Caching</a></dd>
+                <dd><a href="advanced_testing.html">Advanced Testing</a></dd>
+                <dd><a href="internationalization.html">Internationalization (I18n)</a></dd>
+              </dl>
+              <dl class="R">
+                <dt>Nodes.js</dt>
+                <dd><a href="node_vs_rails.html">Node vs. Rails</a></dd>
+                <dd><a href="node_basics.html">Node Basics</a></dd>
+                <dd><a href="node_websockets.html">Node Websockets</a></dd>
+                <dd><a href="node_express.html">Node Web App</a></dd>
+                <dd><a href="node_cluster.html">Scaling Node</a></dd>
+              </dl>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <h2 id="preheader">The Asset Pipeline</h2>
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li>
+<a href="#web-performance">Web Performance</a>
+
+<ul>
+<li><a href="#myths-about-performance">Myths About Performance</a></li>
+<li><a href="#measuring-web-performance">Measuring Web Performance</a></li>
+<li><a href="#rules">Rules...</a></li>
+</ul>
+</li>
+<li>
+<a href="#how-rails-helps-with-performance">How Rails helps with Performance</a>
+
+<ul>
+<li><a href="#rails-environments">Rails Environments</a></li>
+<li><a href="#rails-environments-and-the-asset-pipeline">Rails Environments and the Asset Pipeline</a></li>
+<li><a href="#fingerprinting-for-better-expiry">Fingerprinting for better Expiry</a></li>
+</ul>
+</li>
+<li><a href="#live-reloading">Live Reloading</a></li>
+<li><a href="#further-reading">Further Reading</a></li>
+</ol>
+
+          </div>
+
+      <div class="rest_header">
+        <h2>The Asset Pipeline</h2><p>A web site consist of many more files than just the
+HTML documents we have been generating up to now:
+css files, javascript files, image files, font files, ...</p><p>The asset pipeline is rails&#39; way of preparing 
+theses files for publication using the current state
+of knowledge regarding web performance.</p><p>By referring to this guide, you will be able to:</p>
+<ul>
+<li>keep your assets in the right place</li>
+<li>have all your assets compiled and minified for production</li>
+</ul>
+<div class="repo"><p>Fork the <a href="https://github.com/backend-development/rails-example-recipes">example app &#39;recipes&#39;</a> and try out what you learn here.</p></div>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <div class='slide'><a id='slide-1'></a>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-1' href='slides_asset_pipeline.html#slide-1'>▻</a>
+<h3 id="web-performance">1 Web Performance</h3>
+<p>What do we mean by 'web performance'?  From the viewpoint of one user,
+the crucial value is the time it takes from requesting a page (by clicking a link
+or button, or typing in an URL) to having the page displayed and interactive in your browser.
+We will call this the 'response time'.</p>
+<p>From the publishers point of view it might also encompass the question of
+how many uses you can serve (with acceptable response time) on a given
+server.  If you look at the question of how to server more users in case
+of more demand you enter the realm of 'scalability'.  This is a more advanced
+question that goes beyond the scope of this guide.</p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-2' href='slides_asset_pipeline.html#slide-2'>▻</a>
+<h4 id="myths-about-performance">1.1 Myths About Performance</h4>
+<p>If you have never studied this subject you might still have
+an intuition about where performance problems come from.
+Many beginners are fascinated by details of their programming
+language like: <code>will using more variables make my program slower?</code>
+or <code>is string concatenation faster than string interpolation?</code>.</p>
+<p>These 'micro optimizations' are hardly ever necssary with modern
+programming languages and computers.  Using rails, postgres and a modern
+hosting service you will have no trouble serving hundreds 
+of users a day and achieving adequate performance for all of them.</p>
+<p>Trying to 'optimize' you code if there is no problem, or
+if you don't know where the problem is, 
+will make your code worse, not better.</p>
+<p>Donald Knuth stated this quite forcefully:</p>
+<p>"The real problem is that programmers have spent far too much time worrying about efficiency in the wrong places and at the wrong times; <strong>premature optimization is the root of all evil</strong>" -- <a href="https://en.wikiquote.org/wiki/Donald_Knuth#Computer_Programming_as_an_Art_.281974.29">Donald Knuth</a></p>
+<p>Only after you have measured the performance factors that are
+relevant to your project, and only after you have found out
+which part of the system is causing theses factors to go over
+the threshold of acceptable values, only then can you truly
+start to 'optimize'.  </p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-3' href='slides_asset_pipeline.html#slide-3'>▻</a>
+<h4 id="measuring-web-performance">1.2 Measuring Web Performance</h4>
+<p>The "exceptional performance" group at yahoo published the browser addon
+<code>yslow</code> in 2007. It measures performance and displays the timing
+of the different HTTP connections as a "waterfall graph":</p>
+<p><img src="images/network-souders-2008.png" alt="displaying http downloads with yslow"></p>
+<p>(Image from Steve Souders <a href="https://conferences.oreilly.com/web2expo/webexsf2008/public/schedule/detail/3321">talk at Web 2.0 Expo</a> in April 2008)</p>
+<p>Each bar is one resource being retrieved via HTTP, the x-axis
+is a common timeline for all.  The most striking result you can read from
+this graph: the backend is only responsible for 5% of the time in this
+example!  95% of time are spent loading and parsing javascript and css files
+and loading and displaying images!</p>
+<p>This graph was later integrated into the built in developer tools
+of several browsers, and into the online tool <a href="https://webpagetest.org/">webpagetest</a>.</p>
+<p><strong>Firefox</strong></p>
+<p><img src="images/network-view-firefox.png" alt="network view in firefox"></p>
+<p><strong>Chrome</strong></p>
+<p><img src="images/network-view-chrome.png" alt="network view in chrom"></p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-4' href='slides_asset_pipeline.html#slide-4'>▻</a>
+<h4 id="rules">1.3 Rules...</h4>
+<p>Yahoo first published 14 rules for web performance in 2007, based
+on the measurements back then:  </p>
+<ul>
+<li>  Make Less HTTP Requests</li>
+<li>  Use a Content Delivery Network</li>
+<li>  Avoid empty src or href</li>
+<li>  Add an Expires or a Cache-Control Header</li>
+<li>  Gzip Components</li>
+<li>  Put StyleSheets at the Top</li>
+<li>  Put Scripts at the Bottom</li>
+<li>  Avoid CSS Expressions...</li>
+<li>  Make JavaScript and CSS External</li>
+<li>  Reduce DNS Lookups</li>
+<li>  Minify JavaScript and CSS</li>
+<li>  Avoid Redirects</li>
+<li>  Remove Duplicate Scripts</li>
+</ul>
+<p>Even with changing browsers and
+protocols some of these are still very valid today.
+But as a web developer you should always keep an eye on the changing
+landscape of web performance! These rules and their priority will change!</p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-5' href='slides_asset_pipeline.html#slide-5'>▻</a>
+<h3 id="how-rails-helps-with-performance">2 How Rails helps with Performance</h3>
+<p>To comply with rule 1 "make fewer HTTP requests" there now exist
+a lot of tools.  The Rails asset pipeline was introduced in Rails 3.1 in the year
+2011.</p>
+<p>I lets you use all theses tools automatically:</p>
+<ul>
+<li>compile to JavaScript  (e.g. coffeescript, typescript, babel)</li>
+<li>compile to CSS (e.g. LESS, SASS)</li>
+<li>Minify and combine several JavaScript files into one</li>
+<li>Minify and combine several CSS files into one</li>
+<li>Optimize images</li>
+<li>Create several versions of pixel images</li>
+<li>Create CSS Sprites</li>
+<li>Set Expires Header for static assets</li>
+</ul>
+<p><img src="images/asset-pipeline.svg" alt="Asset Pipeline"></p>
+<p>There are two main folders:</p>
+<ul>
+<li>you put source files in <code>app/assets/*</code>
+</li>
+<li>files for publishing are created  in <code>public/assets/*</code>
+</li>
+</ul>
+<p>The second folder will be served by web server directly, without going through the rails stack</p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-6' href='slides_asset_pipeline.html#slide-6'>▻</a>
+<h4 id="rails-environments">2.1 Rails Environments</h4>
+<p>The Asset Pipeline works differently in different Rails Environments.
+There are three environments that exist by default:</p>
+<ul>
+<li>
+<code>development</code> 
+
+<ul>
+<li>this is the environment you have been working in until now, </li>
+<li>it is optimized for debugging, shows error messages and the error console.</li>
+</ul>
+</li>
+<li>
+<code>testing</code> 
+
+<ul>
+<li>this is used for running the <a href="testing.html">automatic tests</a>.</li>
+</ul>
+</li>
+<li>
+<code>production</code> 
+
+<ul>
+<li>this is how the finished app will run after it is published,</li>
+<li>it is optimized for speed and stability.</li>
+</ul>
+</li>
+</ul>
+<p>How each envirnoments behaves is configured in files in <code>config/environments/*.rb</code>.</p>
+<p>The development environment is used by default on your machine. If you deploy
+to heroku or to another hosting server, production will be used there.</p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-7' href='slides_asset_pipeline.html#slide-7'>▻</a>
+<h4 id="rails-environments-and-the-asset-pipeline">2.2 Rails Environments and the Asset Pipeline</h4>
+<p>In <code>development</code> the asset pipeline will not write files to <code>public/assets</code>.  Instead
+these files will be created on the fly, and not be conactenated.  The two lines
+in your Layout:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+# app/views/layouts/application.html.erb
+&lt;%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" =&gt; true %&gt;
+&lt;%= javascript_include_tag "application", "data-turbolinks-track" =&gt; true %&gt;
+
+</pre>
+</div>
+<p>Will each result in a number of links. Here an example from a real project:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+&lt;link rel="stylesheet" href="/asset-files/search-a01b0css?body=1" /&gt;
+&lt;link rel="stylesheet" href="/asset-files/slider-974d5css?body=1" /&gt;
+&lt;link rel="stylesheet" href="/asset-files/static-7fe63css?body=1" /&gt;
+&lt;link rel="stylesheet" href="/asset-files/token-input-f5febcss?body=1" /&gt;
+&lt;link rel="stylesheet" href="/asset-files/wizzard-9a065css?body=1" /&gt;
+&lt;script src="/asset-files/jquery-4075ejs?body=1"&gt;&lt;/script&gt;
+&lt;script src="/asset-files/jquery_ujs-f9f4ajs?body=1"&gt;&lt;/script&gt;
+&lt;script src="/asset-files/portfolio/portfolio-78775js?body=1"&gt;&lt;/script&gt;
+&lt;script src="/asset-files/swfobject-40913js?body=1"&gt;&lt;/script&gt;
+&lt;script src="/asset-files/jquery-uploadify-702eajs?body=1"&gt;&lt;/script&gt;
+&lt;script src="/asset-files/application-d7727js?body=1"&gt;&lt;/script&gt;
+&lt;script src="/asset-files/can-custom-c11b4js?body=1"&gt;&lt;/script&gt;
+&lt;script src="/asset-files/easySlider-6386djs?body=1"&gt;&lt;/script&gt;
+
+</pre>
+</div>
+<p>When you deploy to production, you deployment process will run <code>rake assets:precompile</code>,
+which generates the files in <code>public/assets</code>, including <code>public/assets/manifest-md5hash.json</code>.</p>
+<p>If you look at the generated HTML code on the production server,
+you will only find two links (plus some code to handle IE 8): in production
+the many css files have been concatenated into one <code>application*.css</code>, and
+all JavaScript files have bin concatenated int one <code>application*.js</code>:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+&lt;link href="/assets/application-dee0187.css" media="screen" rel="stylesheet" /&gt;
+&lt;!--[if lte IE 8]&gt;
+  &lt;link href="/assets/application-ie-d369224.css" rel="stylesheet" /&gt;
+&lt;![endif]--&gt;
+&lt;script src="/assets/application-c51a73.js" type="text/javascript"&gt;&lt;/script&gt;
+
+</pre>
+</div>
+<p>You can also try out the production environment on your own machine:</p>
+<ul>
+<li>start the web server: <code>rails server -e production</code>
+</li>
+<li>rails console: <code>rails console production</code>
+</li>
+<li>other rails commands: add <code>RAILS_ENV=production</code> at the beginning or the end of the command.</li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-8' href='slides_asset_pipeline.html#slide-8'>▻</a>
+<h4 id="fingerprinting-for-better-expiry">2.3 Fingerprinting for better Expiry</h4>
+<p>The filenames mentioned in the last chapter all contain a part that seems random:</p>
+<ul>
+<li>you named the file <code>slider.css</code>
+</li>
+<li>but it shows up as <code>slider-974d585dcb6f5aec673164664a4e49d5.css</code>
+</li>
+</ul>
+<p>Where do the extra characters come from and what do they mean?</p>
+<p>These extra characters are the "fingerprint".  It is computed from the full
+content of the file.  If only one byte changes in the file, the fingerprint will
+be different. </p>
+<p>This enables a neat trick with the expiry of the file: You can set the expiry time
+to infinite, every browser can save the file forever and never try to reload it.
+If the contents of the file change, a new file with a new fingerprint in the name will 
+be generated, and the HTML-page will link to that file.</p>
+<p>This way we avoid one the the <a href="https://twitter.com/codinghorror/status/506010907021828096">two hard problems in computer science</a>: cache invalidation. </p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-9' href='slides_asset_pipeline.html#slide-9'>▻</a>
+<h3 id="live-reloading">3 Live Reloading</h3>
+<p>When you are working on the frontend of your app, fiddling
+around in views and stylsheets, it may be helpful to immediatly
+see the changes you make reflected in the browser.</p>
+<p>To achive this in Rails you can use <code>guard</code>.  Add three gems to the development-section of your Gemfile:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+group :development do
+  gem 'guard'
+  gem 'guard-livereload', '~&gt; 2.5', require: false
+  gem 'rack-livereload'
+end
+
+</pre>
+</div>
+<p>We are using two separate components here:</p>
+<ul>
+<li>
+<code>guard-livereload</code> does the actual file-watching, and runs a separate webserver on port 35729 that sends out messages when a file changes,</li>
+<li>
+<code>rack-livereload</code> adds some javascript to every webpage in your app. This javascript will connect to port 35729, listen for messages and reload the page when a message arrives.</li>
+</ul>
+<p>To configure guard run:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+bundle exec guard init livereload
+
+</pre>
+</div>
+<p>This will create a <code>Guardfile</code> in your main directory.</p>
+<p>Now you can start <code>bundle exec guard</code> in a separate terminal window.</p>
+<p>To configure <code>rack-livereload</code> add the following to <code>config/environments/development.rb</code> inside the <code>Rails.application.configure</code> block:
+<code>
+config.middleware.insert_after Rack::Head, Rack::LiveReload
+</code></p>
+<p>Now stop and start your webserver, reload your app in the browser, and change
+a stylesheet or view to see it in action.</p>
+<p>The window with <code>guard</code> running needs to stay open, it will look like this:</p>
+<p><img src="images/guard.png" srcset='images/guard.png 1x, images/guard@2x.png 2x' alt="guard"></p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-10' href='slides_asset_pipeline.html#slide-10'>▻</a>
+<h3 id="further-reading">4 Further Reading</h3>
+<ul>
+<li>Souders(2007): High Performance Web Sites. O'Reilly. ISBN-13: 978-0596529307.</li>
+<li>Souders(2009): Even Faster Web Sites. O'Reilly. ISBN-13: 978-0596522308.</li>
+<li>
+<a href="https://calendar.perfplanet.com/2018/">The Web Performance (Advent) Calendar</a> new every year</li>
+</ul>
+</div>        
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p class="copyright">published under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/at/deed.de">creative commons by-nc-sa</a> in 2012-2016 by <a href="https://brigitte-jellinek.at">Brigitte Jellinek</a>.
+      </p><p>If you want to contribute: <a href="https://github.com/backend-development/backend-development-textbook/fork">fork the source on github</a>
+        and edit <a href="https://github.com/backend-development/backend-development-textbook/blob/master/source/asset_pipeline.md">asset_pipeline.md</a>
+      </p>
+    </div>
+  </div>
+
+  <script src="javascripts/jquery.min.js"></script>
+  <script src="javascripts/responsive-tables.js"></script>
+  <script src="javascripts/guides.js"></script>
+  <script src="javascripts/syntaxhighlighter/shCore.js"></script>
+  <script src="javascripts/syntaxhighlighter/shBrushRuby.js"></script>
+  <script src="javascripts/syntaxhighlighter/shBrushXml.js"></script>
+  <script src="javascripts/syntaxhighlighter/shBrushSql.js"></script>
+  <script src="javascripts/syntaxhighlighter/shBrushPlain.js"></script>
+  <script>
+    SyntaxHighlighter.all()
+    $(guidesIndex.bind);
+    $(document).ready(function(){
+      let hash = document.location.hash;
+      if(! hash) return;
+      document.getElementById(hash.substr(1)).scrollIntoView(true);
+    })
+  </script>
+  </body>
+</html>

@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Rails Authentication in the Backend Development Textbook</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+  <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shCore.css" />
+  <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shThemeRailsGuides.css" />
+
+  <link rel="stylesheet" type="text/css" href="stylesheets/fixes.css" />
+
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <style>
+
+    .slide img[src$=svg] {
+      width: 100%;
+    }
+  </style>
+</head>
+<body class="guide">
+  <div>
+    <a href="https://github.com/backend-development/backend-development-textbook/"><img style="position: fixed; top: 0; right: 0; border: 0; z-index: 10;" src="images/forkme.png" alt="Fork me on GitHub"></a>
+  </div>
+  <div id="topNav">
+    <div class="wrapper">
+      <strong class="more-info-label">More Rails: </strong>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://guides.rubyonrails.org/">Rails Guides</a></li>
+        <li class="more-info"><a href="https://curriculum.railsbridge.org/docs/">Railsbridge</a></li>
+        <li class="more-info"><a href="https://railscasts.com/">Railscasts</a></li>
+      </ul>
+      <strong class="more-info-label">Beyond Backend: </strong>
+      <ul class="more-info-links s-hidden">
+        <li class="more-info"><a href="https://web-engineering.github.io/">Web Engineering</a></li>
+      </ul>      
+    </div>
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="index.html" title="Return to home page">Backend<span> Development</span></a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="index.html">Home</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" onclick="guideMenu(); return false;" id="guidesMenu" class="guides-index-item nav-item">Index  &#x25BC;</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+              <dl class="L">
+                <dt>Ruby on Rails</dt>
+                <dd><a href="ruby_commandline.html">Ruby Commandline</a></dd>
+                <dd><a href="rails_database_and_model.html">Database and Models</a></dd>
+                <dd><a href="rails_associations_and_validations.html">Associations and Validations</a></dd>
+                <dd><a href="rails_view_and_controller.html">Routing, View and Controller</a></dd>
+                <dd><a href="rails_authentication.html">Authentication</a></dd>
+                <dd><a href="asset_pipeline.html">Asset Pipeline</a></dd>
+                <dd><a href="javascript_and_ajax.html">Javascript and Rails</a></dd>
+                <dd><a href="testing.html">Getting started with Testing</a></dd>
+                <dd><a href="rails_gems.html">Ruby Gems for your Rails Project</a></dd>
+                <dd><a href="apis.html">APIs</a></dd>
+                <dd><a href="rails_websockets.html">Websocket in Rails</a></dd>
+                <dd><a href="refactoring_rails.html">Refactoring Rails</a></dd>
+                <dt>Overarching Concerns</dt>
+                <dd><a href="security.html">Security</a></dd>
+                <dd><a href="caching.html">Caching</a></dd>
+                <dd><a href="advanced_testing.html">Advanced Testing</a></dd>
+                <dd><a href="internationalization.html">Internationalization (I18n)</a></dd>
+              </dl>
+              <dl class="R">
+                <dt>Nodes.js</dt>
+                <dd><a href="node_vs_rails.html">Node vs. Rails</a></dd>
+                <dd><a href="node_basics.html">Node Basics</a></dd>
+                <dd><a href="node_websockets.html">Node Websockets</a></dd>
+                <dd><a href="node_express.html">Node Web App</a></dd>
+                <dd><a href="node_cluster.html">Scaling Node</a></dd>
+              </dl>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <hr class="hide" />
+
+  <div id="feature">
+    <div class="wrapper">
+      <h2 id="preheader">Rails Authentication</h2>
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
+            <ol class="chapters">
+<li>
+<a href="#http-and-sessions">HTTP and Sessions</a>
+
+<ul>
+<li><a href="#how-to-add-state-to-http">How to add state to HTTP</a></li>
+<li><a href="#security">Security</a></li>
+<li><a href="#session-in-backend-development">Session in Backend Development</a></li>
+</ul>
+</li>
+<li>
+<a href="#authentication">Authentication</a>
+
+<ul>
+<li><a href="#password-storage">Password Storage</a></li>
+<li><a href="#has-secure-password">has secure password</a></li>
+<li><a href="#validates-confirmation-of-password">validates confirmation of password</a></li>
+</ul>
+</li>
+<li>
+<a href="#basic-login">Basic Login</a>
+
+<ul>
+<li><a href="#routes">Routes</a></li>
+<li><a href="#controller">Controller</a></li>
+<li><a href="#login-view">Login View</a></li>
+<li><a href="#session-controller">Session Controller</a></li>
+<li><a href="#helpers">Helpers</a></li>
+</ul>
+</li>
+<li><a href="#better-login-ux">Better Login UX</a></li>
+<li>
+<a href="#other-auth-providers">Other Auth-Providers</a>
+
+<ul>
+<li><a href="#providers">Providers</a></li>
+<li><a href="#models">Models</a></li>
+<li><a href="#login-and-logout">Login and Logout</a></li>
+</ul>
+</li>
+<li><a href="#further-reading">Further Reading</a></li>
+</ol>
+
+          </div>
+
+      <div class="rest_header">
+        <h2>Rails Authentication</h2><p>This guide is about Logins and Logouts for your Rails app.</p><p>After reading this guide you will</p>
+<ul>
+<li>understand how cookies, sessions, logins are connected</li>
+<li>be able to build a rails app with simple login and logout</li>
+<li>be able to offer password reminders to your users</li>
+<li>be able to use other authentication providers</li>
+</ul>
+<div class="repo"><p>You can study the <a href="https://github.com/backend-development/rails-example-kanban-board-login">code</a> and try out <a href="https://kanban-1.herokuapp.com/">the demos</a> for the authentication examples described here.</p></div>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <div class='slide'><a id='slide-1'></a>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-1' href='slides_rails_authentication.html#slide-1'>▻</a>
+<h3 id="http-and-sessions">1 HTTP and Sessions</h3>
+<p>HTTP is a <strong>stateless</strong> protocol. This means that the protocol
+does not require the web server to remember anything from one
+request to the next. So calling the same URL from different
+clients will basically return the same result.</p>
+<p>But this is not enough for many web apps we want to build: we
+want certain pages to only be available to some users. We want
+to offer shopping carts or wizards that let a user complete
+a complex action through several small steps, that carry over state.</p>
+<p><img src="images/session-cart.jpg" srcset='images/session-cart.jpg 1x, images/session-cart@2x.jpg 2x' alt="cookie set by rails,  as displayed by firebug"></p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-2' href='slides_rails_authentication.html#slide-2'>▻</a>
+
+<p>In an old style <strong>GUI application</strong> running on windows or mac it
+is clear that that only one user is using the app at a time. We
+can use variables in main memory to store information pertaining
+to that user, and they will carry over through many interactions
+(opening a new window of our app, clicking a button, selecting
+something from a menu).</p>
+<p>In a <strong>web app</strong> this is true for the front end of the app, but only in a very
+limited sense: If you set a variable in javascript it will only
+be available for this one user in this one webbrowser.
+But if the user leaves your app by typing in a new URL,
+or following a link or just reloading the page this information will be lost.</p>
+<p>In the backend we need some way to identify that a certain
+request comes from a certain user, and to carry over the state
+from one HTTP request to the next.</p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-3' href='slides_rails_authentication.html#slide-3'>▻</a>
+<h4 id="how-to-add-state-to-http">1.1 How to add state to HTTP</h4>
+<p>There are several ways to do this:</p>
+<ol>
+<li> <strong>HTTP Basic Authentication</strong> according to <a href="https://tools.ietf.org/html/rfc1945#section-11">rfc 1945, section 11</a>: The server sends a <code>WWW-Authenticate: Basic ...</code> header in the first response. The browser asks the user for username and password, and then sends the (hashed) username and password to the server with subsequent request using the HTTP Headers <code>Authorization: Basic ...</code>.</li>
+<li> <strong>HTTP Cookies</strong> according to <a href="https://tools.ietf.org/html/rfc6265">rfc 6265</a>. The server sets the cookie (using the Header 'Set-Cookie'), the client returns the cookie automatically for every subsequent request to the server (using the HTTP Header <code>Cookie</code>).</li>
+<li> <strong>JSON-Token</strong> according to <a href="https://jwt.io/">jwt.io</a> / <a href="https://tools.ietf.org/html/rfc7519">rfc 7519</a> use a can be used in three ways:
+
+<ul>
+<li>directly in HTTP with <code>Authorization: Bearer ...</code> and <code>WWW-Authenticate: Bearer ...</code>
+</li>
+<li>as a parameter in an URL</li>
+<li>as POST data</li>
+</ul>
+</li>
+</ol>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-4' href='slides_rails_authentication.html#slide-4'>▻</a>
+<h4 id="security">1.2 Security</h4>
+<p>If you use any of these methods over HTTP, unencrypted,
+then an attacker might be able to steal the authentication information.
+So always use HTTPS!</p>
+<p>Both Authenticate-Headers and Cookies are sent automatically
+by the browser each time you access the web app. This can be used
+exploited by <a href="https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)">Cross Site Request Forgery attacks</a>.</p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-5' href='slides_rails_authentication.html#slide-5'>▻</a>
+<h4 id="session-in-backend-development">1.3 Session in Backend Development</h4>
+<p>Web frameworks use any of the methods described above
+to offer so called <strong>sessions</strong> to the
+developer: a session is a key-value store that is associated with
+the requests of one specific user.</p>
+<p>Ruby on Rails by default sets a cookie named after the application.
+In the screenshot below you can see the cookie set by the <code>kanban</code>
+application as displayed by firefox developer tools in the
+tab <strong>storage</strong>.</p>
+<p><img src="images/cookie-in-ff-inspector.png" srcset='images/cookie-in-ff-inspector.png 1x, images/cookie-in-ff-inspector@2x.png 2x' alt="cookie set by rails, as displayed by firefox develoepr tools "></p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-6' href='slides_rails_authentication.html#slide-6'>▻</a>
+
+<p><strong>A Note on Security</strong></p>
+<p>The cookie is set with the <code>HttpOnly</code> option, which means it cannot be
+changed by JavaScript in the browser. But it is still vulnerable to a
+replay attack: we can read out the cookie in the developer tools. 
+Using <code>curl</code> on the command line we can send the stolen
+cookie with a HTTP request and will be 'logged in' for that request:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+curl -v --cookie "_kanban_session=bWdwc...d4c; path=/; HttpOnly" https://kanban-2.herokuapp.com/
+...
+&lt;span&gt;Logged in as mariam &lt;a href="/logout"&gt;logout&lt;/a&gt;
+
+</pre>
+</div>
+<p>This makes it all the more important that the cookie not be stolen!
+Remember to <strong>always use https</strong> if your app authenticates users at
+any point.</p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-7' href='slides_rails_authentication.html#slide-7'>▻</a>
+
+<p>The Rails framework automatically sets and reads this cookie,
+and offers a Hash <code>session</code> that is accessible from
+both controllers and views. By default the keys and values you store
+in the session hash are serialized, encrypted with a secret key and
+sent as the value of the session cookie.</p>
+<p>The cookie is not saved on the server.</p>
+<p>This way of handling state works well with load balancers and
+multiple web servers.</p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-8' href='slides_rails_authentication.html#slide-8'>▻</a>
+
+<p>Even without a Login, you can use the session to track a user
+as they browse through the web app. For example you could count
+now many requests they have already made:</p>
+<div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# in app/controllers/application_controller.rb
+
+  before_action :count_requests
+
+  def count_requests
+    session[:counter] = 0 if session[:counter].nil?
+    session[:counter] += 1
+  end
+
+</pre>
+</div>
+<p>And show this number to the user</p>
+<div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# in app/views/layouts/application.html.erb
+
+  you have made &lt;%= session[:counter] %&gt; requests
+  in session &lt;%= session.id %&gt;
+
+</pre>
+</div>
+<p>See <a href="https://guides.rubyonrails.org/action_controller_overview.html#session">Rails Guide: Controller</a>
+for more details.</p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-9' href='slides_rails_authentication.html#slide-9'>▻</a>
+<h3 id="authentication">2 Authentication</h3>
+<p>The session lets you recognize the same user from one HTTP
+request to the next. But it does not - in itself - help to authenticate users.</p>
+<p>The most common way to achieve Authentication is through passwords.</p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-10' href='slides_rails_authentication.html#slide-10'>▻</a>
+<h4 id="password-storage">2.1 Password Storage</h4>
+<p>When storing passwords in a web app there are a lot of things you
+can do wrong: store the password as plain text, for example.</p>
+<p>Rails comes with built in functions for handling passwords,
+which go a long way to following the <a href="https://www.owasp.org/index.php/Password_Storage_Cheat_Sheet">OWASP recommendations</a>.</p>
+<p>Rails assumes that you have added <code>bcrypt</code> to the Gemfile
+and have an attribute <code>password_digest</code>
+in your model (and no attribute <code>password</code>).</p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-11' href='slides_rails_authentication.html#slide-11'>▻</a>
+<h4 id="has-secure-password">2.2 has secure password</h4>
+<p>Add <code>has_secure_password</code> to your user model:</p>
+<div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+class User &lt; ActiveRecord::Base
+  has_secure_password
+
+</pre>
+</div>
+<p>Now if you call</p>
+<div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+User.create({username: "mariam", password: 'badpassword123' })
+
+</pre>
+</div>
+<p>The password will be encrypted, and only the encrypted version
+will be stored in the database, in attribut <code>password_digest</code>.</p>
+<p>It will add the <code>authenticate</code> method to your User model:</p>
+<div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+user = User.find_by(username: "miriam").authenticate("wrong password")
+
+</pre>
+</div>
+<p>The authenticate method will encrypt the password again, and compare
+it to the <code>password_digest</code> in the database. It will return nil if
+the password does not match.</p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-12' href='slides_rails_authentication.html#slide-12'>▻</a>
+<h4 id="validates-confirmation-of-password">2.3 validates confirmation of password</h4>
+<p>It is good UX practice to have users supply their
+password twice, to make it less likely that typos go through.
+Rails also helps you with this: You can add <code>validates_confirmation_of :password</code>
+to the user model:</p>
+<div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+class User &lt; ActiveRecord::Base
+    has_secure_password
+    validates :password, confirmation: true
+
+</pre>
+</div>
+<p>Now the create-method is changed again: you need to supply the
+passwort twice to the create method:</p>
+<div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+User.create({username: "mariam",
+    password: 'badpassword123',
+    password_confirmation: 'badpassword1234'})
+
+</pre>
+</div>
+<p>This use of create will not actually succeed, because the password_confirmation does
+not match the password.</p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-13' href='slides_rails_authentication.html#slide-13'>▻</a>
+
+<p>This is the minimal user model we need:</p>
+<div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+class CreateUsers &lt; ActiveRecord::Migration[5.1]
+  def change
+    create_table :users do |t|
+      t.string :username
+      t.string :password_digest
+
+      t.timestamps
+    end
+  end
+end
+
+</pre>
+</div>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-14' href='slides_rails_authentication.html#slide-14'>▻</a>
+
+<p>You can create the first user in the rails console
+or in db/seed like so:</p>
+<div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+User.create!(
+  username:'admin',
+  password:'secret',
+  password_confirmation: 'secret'
+)
+
+</pre>
+</div>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-15' href='slides_rails_authentication.html#slide-15'>▻</a>
+<h3 id="basic-login">3 Basic Login</h3>
+<p>We now have all the bits and pieces to build a Login with username (or e-mail adress) and password.</p>
+<p>There are some Rails convention around this:</p>
+<ul>
+<li>the current user should be accessible in controllers and views via a helper method <code>current_user</code>,</li>
+<li>login in and login out is seen as "creating a session" and "deleting a session" and handled by restful routes,</li>
+<li>there is a session controller and some views, but no session model!</li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-16' href='slides_rails_authentication.html#slide-16'>▻</a>
+<h4 id="routes">3.1 Routes</h4>
+<p>Let's start by creating the routes:</p>
+<div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# config/routes.rb:
+  get  '/login',  to: 'sessions#new'     # show login form
+  post '/login',  to: 'sessions#create'  # process login
+  get  '/logout', to: 'sessions#destroy' # process logout
+
+</pre>
+</div>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-17' href='slides_rails_authentication.html#slide-17'>▻</a>
+<h4 id="controller">3.2 Controller</h4>
+<p>and the session controller to handle this routes:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+rails g controller sessions new create destroy
+
+</pre>
+</div>
+<p>Now you can direct your browser to <a href="http://localhost:3000/login">http://localhost:3000/login</a></p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-18' href='slides_rails_authentication.html#slide-18'>▻</a>
+<h4 id="login-view">3.3 Login View</h4>
+<p>Next you need to set up the view for the login form there:</p>
+<div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+&lt;!-- app/views/sessions/new.html.erb: --&gt;
+
+&lt;h1&gt;Log in&lt;/h1&gt;
+
+&lt;%= form_with url: login_path do |f| %&gt;
+    Username: &lt;%= text_field_tag     :username %&gt; &lt;br&gt;
+    Password: &lt;%= password_field_tag :password %&gt; &lt;br&gt;
+    Password Confirmation: &lt;%= password_field_tag :password_confirmation %&gt; &lt;br&gt;
+
+    &lt;%= submit_tag 'Log In' %&gt;
+&lt;% end %&gt;
+
+</pre>
+</div>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-19' href='slides_rails_authentication.html#slide-19'>▻</a>
+<h4 id="session-controller">3.4 Session Controller</h4>
+<p>This form sends just two pieces of data: <code>username</code> and <code>password</code>.
+So in the controller you have to extract these using <code>params.permit</code>.</p>
+<p>If authentication goes through we store the <code>user.id</code> in the session.
+Only the <code>id</code> is needed, we can load the rest of the user data
+from the database.</p>
+<p>app/app/controllers/sessions_controller.rb:</p>
+<div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+class SessionsController &lt; ApplicationController
+
+  # displays login form
+  def new
+  end
+
+  # checks login data and starts session
+  def create
+    reset_session # prevent session fixation
+    par = login_params
+    user = User.find_by(username: par[:username])
+    if user &amp;&amp; user.authenticate(par[:password])
+      # Save the user id in the session
+      # rails will take care of setting + reading cookies
+      # when the user navigates around our website.
+      session[:user_id] = user.id
+      redirect_to root_path, notice: 'Logged in'
+    else
+      redirect_to login_path, alert: 'Log in failed'
+    end
+  end
+
+  # deletes sesssion
+  def destroy
+    reset_session
+    redirect_to root_path, notice: 'Logged out'
+  end
+
+private
+
+  def login_params
+    params.permit(:username, :password)
+  end
+end
+
+</pre>
+</div>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-20' href='slides_rails_authentication.html#slide-20'>▻</a>
+<h4 id="helpers">3.5 Helpers</h4>
+<p>The helper_method <code>current_user</code> we define in
+the application controller. If the <code>user_id</code> is not
+set in the session or if the user with this <code>user_id</code> does not
+exist (any more) we just return <code>nil</code> as the current_user.</p>
+<div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+&lt;!-- app/app/controllers/application_controller.rb --&gt;
+def current_user
+  if session[:user_id]
+    @current_user ||= User.where(id: session[:user_id]).first
+  end
+end
+helper_method :current_user
+
+</pre>
+</div>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-21' href='slides_rails_authentication.html#slide-21'>▻</a>
+
+<p>With the  <code>current_user</code> helper method returning <code>nil</code> if
+nobody is logged in we can also use it in the view
+to display different things for logged in users and non logged in visitors:</p>
+<div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+&lt;!-- app/views/layouts/application.html.erb --&gt;
+&lt;% if current_user %&gt;
+  Logged in as &lt;%= current_user.name %&gt;
+  &lt;%= link_to "log out", logout_path %&gt;
+&lt;% else %&gt;
+  &lt;%= link_to "log in", login_path %&gt;
+  | &lt;%= link_to "register", new_user_path %&gt;
+&lt;% end %&gt;
+
+</pre>
+</div>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-22' href='slides_rails_authentication.html#slide-22'>▻</a>
+<h3 id="better-login-ux">4 Better Login UX</h3>
+<p>If your app deals with more then just one or two users
+that you set up "by hand", the gem <code>devise</code> can help you a lot.
+It can makes your logins ...</p>
+<ul>
+<li>
+<strong>Confirmable</strong>: sends emails with confirmation instructions and verifies whether an account is already confirmed during sign in.</li>
+<li>
+<strong>Recoverable</strong>: resets the user password and sends reset instructions.</li>
+<li>
+<strong>Registerable</strong>: handles signing up users through a registration process, also allowing them to edit and destroy their account.</li>
+<li>
+<strong>Rememberable</strong>: manages generating and clearing a token for remembering the user from a saved cookie.</li>
+<li>
+<strong>Trackable</strong>: tracks sign in count, timestamps and IP address.</li>
+<li>
+<strong>Timeoutable</strong>: expires sessions that have not been active in a specified period of time.</li>
+<li>
+<strong>Validatable</strong>: provides validations of email and password. It's optional and can be customized, so you're able to define your own validations.</li>
+<li>
+<strong>Lockable</strong>: locks an account after a specified number of failed sign-in attempts. Can unlock via email or after a specified time period.</li>
+</ul>
+<p>See the <a href="https://github.com/plataformatec/devise#getting-started">devise documentation</a> on how to set it up.</p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-23' href='slides_rails_authentication.html#slide-23'>▻</a>
+
+<p>When set up correctly devise gives you helper methods to use in your controllers and views:</p>
+<ul>
+<li><code>current_user</code></li>
+<li>
+<code>user_signed_in?</code> # to check if a user is signed in (in views and controllers)</li>
+<li>
+<code>before_action :authenticate_user!</code> # to make a controller only accessible to authenticated users</li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-24' href='slides_rails_authentication.html#slide-24'>▻</a>
+<h3 id="other-auth-providers">5 Other Auth-Providers</h3>
+<p>In many scenarios it might be more convenient for your users
+to not have to register on your site, but to use another service
+to authenticate. That way they don't have to remember another password.
+And you might not have to handle passwords at all.</p>
+<p>The gem <code>omniauth</code> helps you deal with OAuth2, OpenID, LDAP, and many
+other authentication providers. The <a href="https://github.com/intridea/omniauth/wiki/List-of-Strategies">list of strategies</a>
+is quite impressive. Think carefully about what services your users
+are using, and which services might be useful to your app: could
+you use Dropbox to authenticate, and also to deliver data directly
+to your users dropbox? Would it make sense to use facebook or twitter and also
+send out messages that way?  Or are your users very privacy conscious and
+want to avoid facebook and google?</p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-25' href='slides_rails_authentication.html#slide-25'>▻</a>
+<h4 id="providers">5.1 Providers</h4>
+<p>You will need the Gem <code>omniauth</code> and
+additional gems for each provider. For example if you
+want to use both github and stackoverflow for your web app geared
+towards developers, you would need three gems:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+gem 'omniauth'
+gem 'omniauth-github'
+gem 'omniauth-stackoverflow'
+
+</pre>
+</div>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-26' href='slides_rails_authentication.html#slide-26'>▻</a>
+
+<p>You need to register your app with the authentication
+provider, eg. at <a href="https://developers.facebook.com/apps/">https://developers.facebook.com/apps/</a>
+or <a href="https://apps.twitter.com/">https://apps.twitter.com/</a>.
+You have to specify the URL of your web app, and a callback URL:</p>
+<p><img src="images/oauth-app-config.png" srcset='images/oauth-app-config.png 1x, images/oauth-app-config@2x.png 2x' alt="oauth app configuration"></p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-27' href='slides_rails_authentication.html#slide-27'>▻</a>
+
+<p>You get back two pieces of information: a key and a secret.
+In Twitter this looks like this:</p>
+<p><img src="images/oauth-app-secret.png" srcset='images/oauth-app-secret.png 1x, images/oauth-app-secret@2x.png 2x' alt="facebook app configuration"></p>
+<p>(A word of warning: if you change the configuration in <code>developers.facebook.com</code> the
+you will get a new key and secret!)</p>
+<p>You need add the key and the secret to the configuration of omniauth:</p>
+<div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# config/initializers/omniauth.rb:
+
+Rails.application.config.middleware.use OmniAuth::Builder do
+  provider :twitter, 'TWITTER_KEY', 'TWITTER_SECRET'
+end
+
+</pre>
+</div>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-28' href='slides_rails_authentication.html#slide-28'>▻</a>
+
+<p>If you plan on publishing your source code 
+you might want to set these values in a way that is NOT saved to the repository.
+You could use environment variables for that:</p>
+<div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# config/initializers/omniauth.rb:
+
+Rails.application.config.middleware.use OmniAuth::Builder do
+  provider :twitter, ENV['TWITTER_KEY'], ENV['TWITTER_SECRET']
+end
+
+</pre>
+</div>
+<p>Then you can set the environment variables locally on the command line:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+TWITTER_KEY=abc
+TWITTER_SECRET=123
+
+</pre>
+</div>
+<p>If you deploy to heroku or dokku, use the command line interface to set
+the variables there:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+heroku config:set TWITTER_KEY=abc
+heroku config:set TWITTER_SECRET=123
+
+dokku config:set TWITTER_KEY=abc
+dokku config:set TWITTER_SECRET=123 
+
+</pre>
+</div>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-29' href='slides_rails_authentication.html#slide-29'>▻</a>
+<h4 id="models">5.2 Models</h4>
+<p>For authentication you need to save at least the provider name and the uid in your database
+somewhere. In the simplest case you just save them in a user model:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+rails g model user provider uid
+
+</pre>
+</div>
+<p>To use additional services and get additional info from the provider
+you also need to save a per-user token and secret:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+rails g model user provider uid token secret
+
+</pre>
+</div>
+<p>If you want to enable that one user can log in via different
+providers and still be recognised as the same user you need to
+create a user model with a has_many relationship to an authentiation model
+that stores provider uid.</p>
+<p>But we will stick to the simple version:</p>
+<div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+class CreateUsers &lt; ActiveRecord::Migration[5.0]
+  def change
+    create_table :users do |t|
+      t.string :provider
+      t.string :uid
+      t.timestamps
+    end
+  end
+end
+
+</pre>
+</div>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-30' href='slides_rails_authentication.html#slide-30'>▻</a>
+<h4 id="login-and-logout">5.3 Login and Logout</h4>
+<p>Omniauth is a "Rack Middleware". That means it is somewhat independent
+of the rails app you are building. It has access to the HTTP request, will
+analyze that, and pass on data to your rails app through the
+environment variable <code>omniauth.auth</code>.</p>
+<p>To log in you send the user to <code>/auth/:provider</code> (e.g. <code>/auth/facebook</code>).</p>
+<div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+&lt;!-- app/views/layouts/application.html.erb --&gt;
+  &lt;% if current_user %&gt;
+    Logged in as &lt;%= current_user.name %&gt;
+    &lt;%= link_to "log out", logout_path %&gt;
+  &lt;% else %&gt;
+    log in with &lt;%= link_to "twitter", "/auth/twitter" %&gt;
+  &lt;% end %&gt;
+
+</pre>
+</div>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-31' href='slides_rails_authentication.html#slide-31'>▻</a>
+
+<p>This URL is handled by omniauth, not by your rails app. omniauth will send
+the users browser on to a URL at the provider. There the user can log in. After
+that the browser is redirected to your app again, to <code>/auth/:provider/callback</code></p>
+<p>This URL you need to map to a session controller:</p>
+<div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# config/routes.rb:
+match '/auth/:provider/callback', to: 'sessions#create',  via: [:get, :post]
+match '/auth/failure',            to: 'sessions#failure', via: [:get, :post]
+
+</pre>
+</div>
+<p>In the session controller you can now read the data that omniauth provides
+from the environment variable. </p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-32' href='slides_rails_authentication.html#slide-32'>▻</a>
+
+<p>As a first step you could just print it out,
+to see what data is provided:</p>
+<div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+def create
+  render text: "&lt;pre&gt;" + env["omniauth.auth"].to_yaml and return
+end
+
+</pre>
+</div>
+<p>The data always contains values for <code>provider</code> and <code>uid</code> at the
+top level. There may be a lot more data.</p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-33' href='slides_rails_authentication.html#slide-33'>▻</a>
+
+<p>Here some example data from a twitter login:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+provider: twitter
+uid: '8506142'
+info:
+  nickname: bjelline
+  name: Brigitte Jellinek
+  ...
+
+</pre>
+</div>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-34' href='slides_rails_authentication.html#slide-34'>▻</a>
+
+<p>Now let's look at <code>session#create</code>:
+There are two basic cases to consider: either the user has logged in using
+this authorisation method before (then we should find them in our database),
+or they are logging in for the first time.</p>
+<p>This can get quite involved, so we hide it away inside the user model:</p>
+<div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+def create
+  user = User.find_or_create_with_omniauth(request.env['omniauth.auth'])
+
+  if user
+    session[:user_id] = user.id
+    redirect_to root_path, notice: 'Logged in'
+  else
+    redirect_to login_path, alert: 'Log in failed'
+  end
+end
+
+</pre>
+</div>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-35' href='slides_rails_authentication.html#slide-35'>▻</a>
+
+<p>In the model we pick apart the information from omniauth:</p>
+<div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# app/model/user.rb
+
+def self.find_or_create_with_omniauth(auth)
+  # look for an existing authorisation
+  # provider + uid uniquely identify a user
+  User.find_or_create_by!(
+    provider: auth['provider'],
+    uid:      auth['uid']
+  )
+end
+
+</pre>
+</div>
+<p>The ActiveRecord method <code>find_or_create_by</code> handles both cases in one: either it
+finds an existing user or it creates a new one.</p>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-36' href='slides_rails_authentication.html#slide-36'>▻</a>
+
+<p>We don't really have a name for each user, but
+we can fake that in the model:</p>
+<div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# app/model/user.rb
+def name
+  "#{uid}@#{provider}"
+end
+
+</pre>
+</div>
+</div>
+<div class='slide'>
+<a class='slide_break' id='slide-37' href='slides_rails_authentication.html#slide-37'>▻</a>
+<h3 id="further-reading">6 Further Reading</h3>
+<ul>
+<li>OmniAuth <a href="https://github.com/intridea/omniauth/wiki">wiki</a>
+</li>
+<li>Devise <a href="https://github.com/plataformatec/devise">github page</a>
+</li>
+<li>Rails Security Guide on <a href="https://guides.rubyonrails.org/security.html#user-management">User Management</a>
+</li>
+<li>
+<a href="https://github.com/lynndylanhurley/devise_token_auth">devise_token_auth</a> for token based authentication for API only Rails apps</li>
+<li><a href="https://auth0.com/blog/ten-things-you-should-know-about-tokens-and-cookies/">10 Things You Should Know about Tokens</a></li>
+</ul>
+</div>        
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <p class="copyright">published under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/at/deed.de">creative commons by-nc-sa</a> in 2012-2016 by <a href="https://brigitte-jellinek.at">Brigitte Jellinek</a>.
+      </p><p>If you want to contribute: <a href="https://github.com/backend-development/backend-development-textbook/fork">fork the source on github</a>
+        and edit <a href="https://github.com/backend-development/backend-development-textbook/blob/master/source/rails_authentication.md">rails_authentication.md</a>
+      </p>
+    </div>
+  </div>
+
+  <script src="javascripts/jquery.min.js"></script>
+  <script src="javascripts/responsive-tables.js"></script>
+  <script src="javascripts/guides.js"></script>
+  <script src="javascripts/syntaxhighlighter/shCore.js"></script>
+  <script src="javascripts/syntaxhighlighter/shBrushRuby.js"></script>
+  <script src="javascripts/syntaxhighlighter/shBrushXml.js"></script>
+  <script src="javascripts/syntaxhighlighter/shBrushSql.js"></script>
+  <script src="javascripts/syntaxhighlighter/shBrushPlain.js"></script>
+  <script>
+    SyntaxHighlighter.all()
+    $(guidesIndex.bind);
+    $(document).ready(function(){
+      let hash = document.location.hash;
+      if(! hash) return;
+      document.getElementById(hash.substr(1)).scrollIntoView(true);
+    })
+  </script>
+  </body>
+</html>

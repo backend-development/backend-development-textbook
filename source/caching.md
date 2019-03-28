@@ -89,11 +89,7 @@ Fragment Caching is deactivated by default in the development environment.
 You have to activate it if you want to try this out in development:
 
 ```
-# config/environments/development.rb
-
-[...]
-config.action_controller.perform_caching = true
-[...]
+rails dev:cache
 ```
 
 You have to decide on a cache store. For production the simplest
@@ -111,8 +107,11 @@ it is helpful to use the file_store in development:
 
 ```
 # config/environments/development.rb
-
-  config.cache_store = :file_store, "#{Rails.root}/tmp/file_store"  
+    # config.cache_store = :memory_store
+    config.cache_store = :file_store, "#{Rails.root}/tmp/file_store"  
+    config.public_file_server.headers = {
+      'Cache-Control' => 'public, max-age=172800'
+    }
 ```
 
 
