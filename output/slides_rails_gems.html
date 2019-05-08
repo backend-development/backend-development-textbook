@@ -190,45 +190,9 @@ of available generators.</p>
 </div>
 <div class='slide'>
 <a class='slide_break' href='rails_gems.html#slide-8'>▻</a>
-<h4 id="frontend-stuff-for-rails">2.1 Frontend Stuff for rails</h4>
-<p>Use rails-assets.org to get javascript libraries.
-It is a proxy to Bower, so any library that is available
-through Bower is available to rails.</p>
-<p>In your gemfile:</p>
-<div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
-source 'https://rails-assets.org' do
-  gem 'rails-assets-bootstrap-sass'
-  gem 'rails-assets-angular'
-  gem 'rails-assets-leaflet'
-end
-
-</pre>
-</div>
-
-<ul>
-<li>gem <a href="">autoprefixer-rails</a> - Parse CSS and add vendor prefixes to CSS rules using values from the Can I Use website.
-Search for libraries at <a href="https://rails-assets.org">https://rails-assets.org</a>
-</li>
-</ul>
-</div>
-<div class='slide'>
-<a class='slide_break' href='rails_gems.html#slide-9'>▻</a>
-<h4 id="graphing-graphics-webgl">2.2 Graphing, Graphics, WebGL</h4>
-<ul>
-<li>gem <a href="https://github.com/ankane/chartkick">chartkick</a> chartcick javascript library, creates svg graphs</li>
-<li>gem <a href="https://github.com/DmitryBaranovskiy/raphael">raphael</a> for the raphael javascript library, creates svg graphs and images</li>
-<li>gem <a href="https://github.com/dbackowski/novus-nvd3-rails">novus-nvd3-rails</a> A reusable chart library for d3.js</li>
-<li>gem <a href="https://github.com/topfunky/gruff">gruff</a> create PNG graphs (e.g. for reuse in non-html documents)</li>
-<li>gem <a href="https://github.com/rmagick/rmagick">rmagick</a> Ruby bindings for <a href="https://rmagick.github.io/">ImageMagick</a> image manipulation library</li>
-<li>gem <a href="https://github.com/whomwah/rqrcode">rqrcode</a> create QR codes</li>
-</ul>
-</div>
-<div class='slide'>
-<a class='slide_break' href='rails_gems.html#slide-10'>▻</a>
-<h4 id="file-upload">2.3 File Upload</h4>
+<h4 id="file-upload">2.1 File Upload</h4>
 <p>File Upload has been integrated into Rails 5 with
-<a href=""></a>, there is no need to use 
+<a href="https://edgeguides.rubyonrails.org/active_storage_overview.html">ActiveStorage</a>, there is no need to use 
 <a href="https://github.com/carrierwaveuploader/carrierwave">carrierwave</a> or
 or
 <a href="https://github.com/thoughtbot/paperclip">paperclip</a>
@@ -246,8 +210,8 @@ the library <a href="https://www.imagemagick.org/">ImageMagick</a>:</p>
 </ul>
 </div>
 <div class='slide'>
-<a class='slide_break' href='rails_gems.html#slide-11'>▻</a>
-<h4 id="authentication">2.4 Authentication</h4>
+<a class='slide_break' href='rails_gems.html#slide-9'>▻</a>
+<h4 id="authentication">2.2 Authentication</h4>
 <ul>
 <li>gem <a href="https://github.com/plataformatec/devise">devise</a> for login,</li>
 <li>gem <a href="https://github.com/intridea/omniauth">omniauth</a> to integrate authentication methods.</li>
@@ -255,8 +219,8 @@ the library <a href="https://www.imagemagick.org/">ImageMagick</a>:</p>
 </ul>
 </div>
 <div class='slide'>
-<a class='slide_break' href='rails_gems.html#slide-12'>▻</a>
-<h4 id="permalinks">2.5 Permalinks</h4>
+<a class='slide_break' href='rails_gems.html#slide-10'>▻</a>
+<h4 id="permalinks">2.3 Permalinks</h4>
 <p>You don't want the database keys to be visible in your URLs?  Use Friendly IDs instead:</p>
 <ul>
 <li>gem <a href="https://github.com/norman/friendly_id">friendlyid</a>
@@ -264,8 +228,8 @@ the library <a href="https://www.imagemagick.org/">ImageMagick</a>:</p>
 </ul>
 </div>
 <div class='slide'>
-<a class='slide_break' href='rails_gems.html#slide-13'>▻</a>
-<h4 id="parsing-xml-and-html">2.6 Parsing xml and html</h4>
+<a class='slide_break' href='rails_gems.html#slide-11'>▻</a>
+<h4 id="parsing-xml-and-html">2.4 Parsing xml and html</h4>
 <ul>
 <li>gem <a href="https://www.nokogiri.org/">nokogiri</a>
 </li>
@@ -273,20 +237,24 @@ the library <a href="https://www.imagemagick.org/">ImageMagick</a>:</p>
 <p>(this is also used by capybara)</p>
 </div>
 <div class='slide'>
-<a class='slide_break' href='rails_gems.html#slide-14'>▻</a>
-<h4 id="parsing-markdown">2.7 Parsing Markdown</h4>
+<a class='slide_break' href='rails_gems.html#slide-12'>▻</a>
+<h4 id="let-users-format-their-texts">2.5 Let Users format their Texts</h4>
 <p>Letting users enter HTML is a dangerous idea - it's really hard to
 avoid the security problems.  An alternative is to let them enter
 a simpler markup language, like <a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a>.
 You store the markdown in your database, and convert it to HTML when displayed using a gem:</p>
 <ul>
-<li>gem <a href="https://github.com/vmg/redcarpet">redcarpet</a> - see <a href="http://railscasts.com/episodes/272-markdown-with-redcarpet?view=asciicast">Railscast #272</a>
+<li>gem <a href="https://github.com/github/markup">github-markup</a>
 </li>
+</ul>
+<p>Or use the builtin editor (since rails 6):</p>
+<ul>
+<li><a href="https://edgeguides.rubyonrails.org/action_text_overview.html">ActionText</a></li>
 </ul>
 </div>
 <div class='slide'>
-<a class='slide_break' href='rails_gems.html#slide-15'>▻</a>
-<h4 id="pagination">2.8 Pagination</h4>
+<a class='slide_break' href='rails_gems.html#slide-13'>▻</a>
+<h4 id="pagination">2.6 Pagination</h4>
 <p>Do you need to displaying a lot of items?  Use a pagination gem
 to go through them page by page:</p>
 <ul>
@@ -296,24 +264,24 @@ to go through them page by page:</p>
 </ul>
 </div>
 <div class='slide'>
-<a class='slide_break' href='rails_gems.html#slide-16'>▻</a>
-<h4 id="filter">2.9 Filter</h4>
+<a class='slide_break' href='rails_gems.html#slide-14'>▻</a>
+<h4 id="filter">2.7 Filter</h4>
 <p>You need to filter objects shown by the index action?</p>
 <ul>
-<li>gem <a href="https://github.com/procore/brita">brita</a> can be used in APIs and full rails apps</li>
+<li>gem <a href="https://github.com/procore/sift">brita</a> can be used in APIs and full rails apps</li>
 </ul>
 </div>
 <div class='slide'>
-<a class='slide_break' href='rails_gems.html#slide-17'>▻</a>
-<h4 id="ordered-lists">2.10 Ordered Lists</h4>
+<a class='slide_break' href='rails_gems.html#slide-15'>▻</a>
+<h4 id="ordered-lists">2.8 Ordered Lists</h4>
 <ul>
 <li>gem <a href="https://github.com/swanandp/acts_as_list">acts_as_list</a>
 </li>
 </ul>
 </div>
 <div class='slide'>
-<a class='slide_break' href='rails_gems.html#slide-18'>▻</a>
-<h4 id="search">2.11 Search</h4>
+<a class='slide_break' href='rails_gems.html#slide-16'>▻</a>
+<h4 id="search">2.9 Search</h4>
 <p>You need to search in more than just one attribute of your
 model?  use a search gem:</p>
 <ul>
@@ -324,8 +292,8 @@ model?  use a search gem:</p>
 </ul>
 </div>
 <div class='slide'>
-<a class='slide_break' href='rails_gems.html#slide-19'>▻</a>
-<h4 id="activity-stream">2.12 Activity Stream</h4>
+<a class='slide_break' href='rails_gems.html#slide-17'>▻</a>
+<h4 id="activity-stream">2.10 Activity Stream</h4>
 <p>If you want to give users an overview of what happened recently
 you can use an activity stream, similar to what you see in facebook.</p>
 <p><img src="images/gem-activity.png" alt="activity stream example"></p>
@@ -335,66 +303,85 @@ you can use an activity stream, similar to what you see in facebook.</p>
 </ul>
 </div>
 <div class='slide'>
-<a class='slide_break' href='rails_gems.html#slide-20'>▻</a>
-<h4 id="admin-backend">2.13 Admin Backend</h4>
+<a class='slide_break' href='rails_gems.html#slide-18'>▻</a>
+<h4 id="admin-backend">2.11 Admin Backend</h4>
 <p>Create a Backend for manipulating data with a few lines of code:</p>
 <p><img src="images/gem-active-admin.png" alt="ActiveAdmin Screenshot"></p>
 <ul>
 <li>gem <a href="https://activeadmin.info/">activeadmin</a>
 </li>
+<li>gem <a href="https://github.com/sferik/rails_admin">rails_admin</a>
+</li>
 </ul>
 </div>
 <div class='slide'>
-<a class='slide_break' href='rails_gems.html#slide-21'>▻</a>
-<h4 id="sending-mail">2.14 Sending Mail</h4>
+<a class='slide_break' href='rails_gems.html#slide-19'>▻</a>
+<h4 id="sending-mail">2.12 Sending Mail</h4>
 <p>To send mail from Rails use <a href="https://guides.rubyonrails.org/action_mailer_basics.html">ActionMailer</a>.</p>
 <p>To see the generated mails in your web browser <em>instead</em> of sending them, use the gem <a href="https://github.com/ryanb/letter_opener">letter_opener</a></p>
+<p>To receive Mail use <a href="https://edgeguides.rubyonrails.org/action_mailbox_basics.html">ActionMailbox</a></p>
 </div>
 <div class='slide'>
-<a class='slide_break' href='rails_gems.html#slide-22'>▻</a>
-<h4 id="http-requests">2.15 HTTP Requests</h4>
+<a class='slide_break' href='rails_gems.html#slide-20'>▻</a>
+<h4 id="http-requests">2.13 HTTP Requests</h4>
 <p>This might be handy for downloading from Webpages or APIs</p>
 <ul>
 <li>gem <a href="https://github.com/taf2/curb">curb</a>  - the http library curl for ruby</li>
 </ul>
 </div>
 <div class='slide'>
-<a class='slide_break' href='rails_gems.html#slide-23'>▻</a>
-<h4 id="using-apis">2.16 Using APIs</h4>
+<a class='slide_break' href='rails_gems.html#slide-21'>▻</a>
+<h4 id="using-apis">2.14 Using APIs</h4>
 <ul>
 <li>gem <a href="https://github.com/octokit/octokit.rb">octokit</a> - for github</li>
 <li>gem <a href="https://github.com/sferik/twitter">twitter</a>
 </li>
+<li>gem <a href="https://github.com/arsduo/koala">koala</a> - for facebook</li>
 <li>gem <a href="https://github.com/sinisterchipmunk/gravatar">gravatar</a>
 </li>
-<li>gem <a href="https://github.com/arsduo/koala">koala</a> - for facebook</li>
 <li>gem <a href="https://github.com/attack/barometer">barometer</a> - A multi API consuming weather forecasting superstar</li>
 <li>gem <a href="https://github.com/apneadiving/Google-Maps-for-Rails">gmaps4rails</a>
 </li>
 </ul>
 </div>
 <div class='slide'>
-<a class='slide_break' href='rails_gems.html#slide-24'>▻</a>
-<h4 id="geocoding">2.17 Geocoding</h4>
+<a class='slide_break' href='rails_gems.html#slide-22'>▻</a>
+<h4 id="geo-information-geocoding">2.15 Geo Information, Geocoding</h4>
 <p>sometimes you want to convert longitude/latitude coordinates
 to street addresses, or the reverse</p>
 <ul>
 <li>gem <a href="https://github.com/alexreisner/geocoder">geocoder</a>
 </li>
 </ul>
+<p>Use postgres's inbuilt geographical features:</p>
+<ul>
+<li>gem <a href="http://www.rubygeocoder.com/">activerecord-postgis-adapter</a>
+</li>
+</ul>
 </div>
 <div class='slide'>
-<a class='slide_break' href='rails_gems.html#slide-25'>▻</a>
-<h4 id="testing">2.18 Testing</h4>
+<a class='slide_break' href='rails_gems.html#slide-23'>▻</a>
+<h4 id="pdf-excel-csv">2.16 PDF, Excel, csv, ...</h4>
 <ul>
-<li>gem <a href="https://github.com/thoughtbot/factory_girl">factory_girl</a> for creating test data.</li>
+<li>gem <a href="github.com/yob/pdf-reader">pdf-reader</a> </li>
+<li>gem <a href="https://github.com/zdavatz/spreadsheet">spreadsheet</a>
+</li>
+<li>gem <a href="https://github.com/tilo/smarter_csv">smarter_csv</a>
+</li>
+</ul>
+</div>
+<div class='slide'>
+<a class='slide_break' href='rails_gems.html#slide-24'>▻</a>
+<h4 id="testing">2.17 Testing</h4>
+<ul>
+<li>gem <a href="https://github.com/thoughtbot/factory_bot_rails">factory_bot_rails</a> for creating test data.</li>
 <li>gem <a href="https://github.com/jnicklas/capybara">capybara</a> as the "browser" for acceptance tests, with</li>
 <li>gem <a href="https://github.com/thoughtbot/capybara-webkit">capybara-webkit</a> for testing client side javascript.</li>
 </ul>
 </div>
 <div class='slide'>
-<a class='slide_break' href='rails_gems.html#slide-26'>▻</a>
-<h4 id="understanding-your-code-better">2.19 Understanding your Code better</h4>
+<a class='slide_break' href='rails_gems.html#slide-25'>▻</a>
+<h4 id="understanding-your-code-better">2.18 Understanding your Code better</h4>
 <p><img src="images/gem-better_errors.png" alt="better_errors screenshot"></p>
 <ul>
 <li>gem <a href="https://github.com/charliesome/better_errors">better_errors</a>
@@ -404,17 +391,17 @@ to street addresses, or the reverse</p>
 <li>gem <a href="https://github.com/ctran/annotate_models">annotate</a> - inserts the db schema as comments in your model.rb file</li>
 <li>gem <a href="https://github.com/preston/railroady">railroady</a> - UML diagram generation for Rails projects, capable of analyzing existing models and controllers</li>
 <li>gem <a href="https://github.com/flyerhzm/bullet">bullet</a> - helps you improve your usage of activerecord queries</li>
-<li>gem <a href="">metric_fu</a> - many code metrics for your rails project</li>
+<li>gem <a href="https://github.com/presidentbeef/brakeman">brakeman</a> - checks for security vulnerabilities</li>
 <li>gem <a href="https://github.com/railsbp/rails_best_practices">rails_best_practices</a>
 </li>
 <li>gem <a href="https://github.com/bbatsov/rubocop">rubocop</a> - static code analyzer</li>
 <li>gem <a href="https://github.com/schneems/derailed_benchmarks">derailed_benchmarks</a>
 </li>
-<li>gem <a href="https://github.com/presidentbeef/brakeman">brakeman</a> - checks for security vulnerabilities</li>
+<li>gem <a href="">metric_fu</a> - many code metrics for your rails project</li>
 </ul>
 </div>
 <div class='slide'>
-<a class='slide_break' href='rails_gems.html#slide-27'>▻</a>
+<a class='slide_break' href='rails_gems.html#slide-26'>▻</a>
 <h3 id="ressources">3 Ressources</h3>
 <ul>
 <li><a href="https://rubygems.org/">Ruby Gems</a></li>

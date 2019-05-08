@@ -97,7 +97,7 @@
           i = 1
 
           until @string.empty?
-            match = scan_until /^(<h[234].*?>|<hr>+|^(<p>)*§(<.p>)*)$/m
+            match =  scan_until /^(<h[23456].*?>|<hr>+|^(<p>)*§(<.p>)*)$/m
 
             break if !match
 

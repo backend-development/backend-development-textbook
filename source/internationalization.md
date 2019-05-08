@@ -15,3 +15,4 @@ See Also
 --------
 
 * [Rails Guide: Internationalization](https://guides.rubyonrails.org/i18n.html)
+* [A Localization Horror Story: It Could Happen To You](https://metacpan.org/pod/distribution/Locale-Maketext/lib/Locale/Maketext/TPJ13.pod#A-Localization-Horror-Story:-It-Could-Happen-To-You)

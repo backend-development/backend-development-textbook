@@ -343,7 +343,61 @@ expects a JSON array of objects like above:</p>
 </div>
 <div class='slide'>
 <a class='slide_break' href='apis.html#slide-13'>▻</a>
-<h4 id="creating-json-with-erb">4.2 creating JSON with erb</h4>
+<h4 id="creating-an-api-with-existing-controllers">4.2 creating an API with existing controllers</h4>
+<p>The scaffold generator always adds handling JSON responses
+to the actions of a controller.</p>
+<p>For handling just HTML only this code would be needed in the
+create action:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+  # POST /users
+  def create
+    @user = User.new(user_params)
+    if @user.save
+      redirect_to @user, notice: 'User was successfully created.'
+    else
+      render :new
+    end
+    end
+  end
+
+</pre>
+</div>
+<p>But the scaffold generator also adds <code>resond_to</code> and <code>format</code> commands,
+to handle json differently from html:</p>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+  # POST /users
+  # POST /users.json
+  def create
+    @user = User.new(user_params)
+    respond_to do |format|
+      if @user.save
+        format.html { 
+          redirect_to @user, notice: 'User was successfully created.' 
+        }
+        format.json { 
+          render :show, status: :created, location: @user 
+        }
+      else
+        format.html { 
+          render :new 
+        }
+        format.json { 
+          render json: @user.errors, status: :unprocessable_entity 
+        }
+      end
+    end
+  end
+
+</pre>
+</div>
+<p>so in the controller we might not need to change anything to add the
+API, only in the view.</p>
+</div>
+<div class='slide'>
+<a class='slide_break' href='apis.html#slide-14'>▻</a>
+<h4 id="creating-json-with-erb-not-a-good-idea">4.3 creating JSON with erb - not a good idea</h4>
 <p>We could create views using erb in <code>app/views/users/show.json.erb</code>:</p>
 <div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
@@ -390,14 +444,13 @@ but there should be no comma after the last.</p>
 
 </pre>
 </div>
+<p>And wait, there's another problem: What happens
+if a users name contains a quote? For example <kbd>Jack "the Ripper"</kbd>.
+That would break our current view, because we don't do proper escaping.</p>
 </div>
 <div class='slide'>
-<a class='slide_break' href='apis.html#slide-14'>▻</a>
-<h4 id="creating-json-with-jbuilder">4.3 creating JSON with jbuilder</h4>
-<p>Formatting JSON would get quite repetitive if we need to create views for several resources.
-We have not even touched on the problem of escaping: what happens
-if a users name contains a quote? For example <kbd>Jack "the Ripper"</kbd>.
-That would break our current view.</p>
+<a class='slide_break' href='apis.html#slide-15'>▻</a>
+<h4 id="creating-json-with-jbuilder-a-better-idea">4.4 creating JSON with jbuilder - a better idea</h4>
 <p>Rails 5 comes with the gem <code>jbuilder</code> which helps you create JSON, and
 which handles all the escaping and formatting correctly.</p>
 <p>We need to name the view <code>app/views/users/show.json.jbuilder</code>,
@@ -430,52 +483,18 @@ end
 </div>
 </div>
 <div class='slide'>
-<a class='slide_break' href='apis.html#slide-15'>▻</a>
-<h4 id="authentication">4.4 authentication</h4>
+<a class='slide_break' href='apis.html#slide-16'>▻</a>
+<h4 id="authentication-and-the-api">4.5 Authentication and the API</h4>
 <p>All the authentication and access control we built into the
-rails app before is still applicable to the JSON views.</p>
-<p>In fact the scaffold generator always adds handling JSON responses
-to the create, update and destroy actions of a controller.</p>
-<p>For handling just HTML only this code would be needed:</p>
-<div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
-  # POST /users
-  def create
-    @user = User.new(user_params)
-    if @user.save
-      redirect_to @user, notice: 'User was successfully created.'
-    else
-      render :new
-    end
-    end
-  end
-
-</pre>
-</div>
-<p>But the scaffold generator also adds <code>resond_to</code> and <code>format</code> commands,
-to handle json differently from html:</p>
-<div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
-  # POST /users
-  # POST /users.json
-  def create
-    @user = User.new(user_params)
-    respond_to do |format|
-      if @user.save
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
-        format.json { render :show, status: :created, location: @user }
-      else
-        format.html { render :new }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-</pre>
-</div>
+rails app before is still applicable to the API and JSON views.
+If the "Frontend" that is using our API is displayed in a browser,
+the handling of cookies and the session is exactly the same as before.</p>
+<p>If the "Frontend" is not in a browser, but is a native mobile app or
+just another server side job, we have to use an alternative to cookies.
+<a href="https://backend-development.github.io/rails_authentication.html#how-to-add-state-to-http">JSON Web Tokens</a> are a solution.</p>
 </div>
 <div class='slide'>
-<a class='slide_break' href='apis.html#slide-16'>▻</a>
+<a class='slide_break' href='apis.html#slide-17'>▻</a>
 <h3 id="stand-alone-api">5 Stand Alone API</h3>
 <p>To create a stand alone API we define new, separate routes under <code>/api/v1</code>.</p>
 <div class="code_container">
@@ -506,7 +525,7 @@ ActiveModelSerializers.config.adapter = :json_api
 </div>
 </div>
 <div class='slide'>
-<a class='slide_break' href='apis.html#slide-17'>▻</a>
+<a class='slide_break' href='apis.html#slide-18'>▻</a>
 <h4 id="jsonapi-for-the-sample-app">5.1 JSONAPI for the sample app</h4>
 <p>The "Frontend 2" in the example app expects the json to be formed
 according to the json api specification.</p>
@@ -551,7 +570,7 @@ is an object with on attribute <code>data</code>:</p>
 </div>
 </div>
 <div class='slide'>
-<a class='slide_break' href='apis.html#slide-18'>▻</a>
+<a class='slide_break' href='apis.html#slide-19'>▻</a>
 <h4 id="creating-json-with-active-model-serializers">5.2 creating JSON with active_model_serializers</h4>
 <p>After we defined the routes, we next need to create a controller.
 As we are setting up a new hierarchy of controllers that will only
@@ -599,12 +618,12 @@ end
 </div>
 </div>
 <div class='slide'>
-<a class='slide_break' href='apis.html#slide-19'>▻</a>
+<a class='slide_break' href='apis.html#slide-20'>▻</a>
 <h3 id="documenting-an-api">6 Documenting an API</h3>
 <p>See Halliday(2016): <a href="https://blog.codeship.com/producing-documentation-for-your-rails-api/">Producing Documentation for Your Rails API</a> for a discussion of automatic methods of documentation generation.</p>
 </div>
 <div class='slide'>
-<a class='slide_break' href='apis.html#slide-20'>▻</a>
+<a class='slide_break' href='apis.html#slide-21'>▻</a>
 <h3 id="see-also">7 See Also</h3>
 <ul>
 <li>

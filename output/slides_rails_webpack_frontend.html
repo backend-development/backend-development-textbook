@@ -40,7 +40,7 @@
 <p>While the asset pipeline is rails' way of preparing
 files for the frontend, in recent years a completely
 different toolchain was developed in the frontend community.</p>
-<p>In this guide you will learn how to integrate webpacker
+<p>In this guide you will learn how to integrate webpack
 and a current frontend framework with your rails app.
 You will be able to:</p>
 <ul>
@@ -55,18 +55,21 @@ You will be able to:</p>
 <div class='slide'>
 <a class='slide_break' href='rails_webpack_frontend.html#slide-3'>▻</a>
 <h3 id="frontend-pipelines">1 Frontend Pipelines</h3>
-<p>When the rails asset pipeline was published with rails 3.1 in 2011, node.js
-was only 2 years old. Version 1.0 of npm, the node package manager, was released at the
-same time as the asset pipeline.</p>
-<p>In the years since, the frontend community developed, released (and dropped) many
-new tools: bower, grunt, gulp, yarn, webpacker.</p>
-<p>Since Rails 5.1 webpacker is an official part of Rails. It coexists with the asset pipeline.
-The primary purpose for webpack is app-like JavaScript. You can still use
-the asset pipeline for images, CSS, or even small JavaScript "sprinkles" to use in server generated html.</p>
+<p>When the rails asset pipeline was published with Rails 3.1 in 2011, node.js
+was only 2 years old and version 1.0 of npm was just released.<br>
+In the years since, the frontend community developed, released (and dropped) a lot of
+new tools: bower, grunt, gulp, yarn, webpack.</p>
+<p>Since Rails 5.1 the webpacker gem is officialy part of Rails. It integrates webpack
+into rails, and makes developing with react, vue, angular or other frontend frameworks
+easy.</p>
+<p>Webpacker coexists with the asset pipeline.  You can start using webpacker for
+certain aspects of your Rails app, for example just one page with very complex, UI,
+and still continue using the asset pipeline for the rest. </p>
 </div>
 <div class='slide'>
 <a class='slide_break' href='rails_webpack_frontend.html#slide-4'>▻</a>
 <h3 id="files">2 Files</h3>
+<p>Webpacker creates a new folder <code>app/javascript</code> and a folder structure:</p>
 <p><img src="images/javascript-folder.png" srcset='images/javascript-folder.png 1x, images/javascript-folder@2x.png 2x' alt=""></p>
 </div>
 <div class='slide'>
