@@ -2,9 +2,9 @@
 
 After working through this guide you will:
 
-* know about the thinking behind REST APIs and JSON API
-* be able to configure your existing controllers to offer resources as JSON
-* be able to set up an API for your rails app that is separate from existing controllers
+- know about the thinking behind REST APIs and JSON API
+- be able to configure your existing controllers to offer resources as JSON
+- be able to set up an API for your rails app that is separate from existing controllers
 
 REPO: You can study the [code](https://github.com/backend-development/api_sample_app) and try out [the demo](https://dry-cove-38472.herokuapp.com/) for the example described here.
 
@@ -112,15 +112,15 @@ Use HTTP Methods (and Status Codes) as intended.
 
 Regarding the HTTP Methods there are two important distinctions:
 
-* the GET and HEAD methods should take no other action than retrieval. These methods ought to be considered **safe**.
-* The methods GET, HEAD, PUT and DELETE are idempotent: repeating the request will not change the end result (aside from error or expiration issues)
+- the GET and HEAD methods should take no other action than retrieval. These methods ought to be considered **safe**.
+- The methods GET, HEAD, PUT and DELETE are idempotent: repeating the request will not change the end result (aside from error or expiration issues)
 
 The definition of the [Methods](https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html) in HTTP1.0 is just a short read, and worth its while!
 
 References for status codes:
 
-* [Status codes](https://httpstatuses.com/422)
-* [Status cats](https://http.cat/)
+- [Status codes](https://httpstatuses.com/422)
+- [Status cats](https://http.cat/)
 
 When buidling a REST API, the HTTP Protocol already defines a lot
 about that API. There is no need to come up with a way to delete
@@ -214,9 +214,7 @@ When an API returns JSON data this could take many forms.
 The [json:api specification](https://jsonapi.org/) is a well thought out
 convention for this.
 
-It is especially good with the HATEOS aspect of REST.
-
-The json:api specification adhers to this principle.
+It is especially good with the HATEOS aspect of REST, the json:api specification adhers to this principle.
 
 ## Rendering JSON
 
@@ -236,12 +234,12 @@ When you look at `rails routes` you can see that the routes created by
 Only HTML is implemented by default. But we could use this feature
 to have other formats:
 
-* `/users`
-* `/users.json`
-* `/users.xml`
-* `/users/1`
-* `/users/1.json`
-* `/users/1.xml`
+- `/users`
+- `/users.json`
+- `/users.xml`
+- `/users/1`
+- `/users/1.json`
+- `/users/1.xml`
 
 When you try out accessing `/users/1.json` you get a response:
 
@@ -321,18 +319,18 @@ to handle json differently from html:
     @user = User.new(user_params)
     respond_to do |format|
       if @user.save
-        format.html { 
-          redirect_to @user, notice: 'User was successfully created.' 
+        format.html {
+          redirect_to @user, notice: 'User was successfully created.'
         }
-        format.json { 
-          render :show, status: :created, location: @user 
+        format.json {
+          render :show, status: :created, location: @user
         }
       else
-        format.html { 
-          render :new 
+        format.html {
+          render :new
         }
-        format.json { 
-          render json: @user.errors, status: :unprocessable_entity 
+        format.json {
+          render json: @user.errors, status: :unprocessable_entity
         }
       end
     end
@@ -341,7 +339,6 @@ to handle json differently from html:
 
 so in the controller we might not need to change anything to add the
 API, only in the view.
-
 
 ### creating JSON with erb - not a good idea
 
@@ -392,7 +389,6 @@ And wait, there's another problem: What happens
 if a users name contains a quote? For example <kbd>Jack "the Ripper"</kbd>.
 That would break our current view, because we don't do proper escaping.
 
-
 ### creating JSON with jbuilder - a better idea
 
 Rails 5 comes with the gem `jbuilder` which helps you create JSON, and
@@ -433,7 +429,6 @@ the handling of cookies and the session is exactly the same as before.
 If the "Frontend" is not in a browser, but is a native mobile app or
 just another server side job, we have to use an alternative to cookies.
 [JSON Web Tokens](https://backend-development.github.io/rails_authentication.html#how-to-add-state-to-http) are a solution.
-
 
 ## Stand Alone API
 
@@ -554,12 +549,13 @@ See Halliday(2016): [Producing Documentation for Your Rails API](https://blog.co
 
 ## See Also
 
-* [Fielding, Roy(2000): Architectural Styles and the Design of Network-based Software Architectures](https://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm). Dissertation. University of California/Irvine, USA.
-* [Fowler (2010): Richardson Maturity Model](https://martinfowler.com/articles/richardsonMaturityModel.html)
-* [Tilkov(2007): A Brief Introduction to REST](https://www.infoq.com/articles/rest-introduction)
-* [Rails Guide: Rendering JSON in Action Controller Overview](https://edgeguides.rubyonrails.org/action_controller_overview.html#rendering-xml-and-json-data)
-* [Rails Guide: Using Rails for API-only Applications](https://edgeguides.rubyonrails.org/api_app.html)
-* [Vasilakis(2017): Rails 5 API Tutorial](https://github.com/vasilakisfil/rails5_api_tutorial)
-* [Methods HTTP/1.0](https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html)
-* [Status codes](https://httpstatuses.com/422)
-* [gem knock](https://github.com/nsarno/knock) for token based authentication for API only Rails apps
+- [Fielding, Roy(2000): Architectural Styles and the Design of Network-based Software Architectures](https://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm). Dissertation. University of California/Irvine, USA.
+- [Fowler (2010): Richardson Maturity Model](https://martinfowler.com/articles/richardsonMaturityModel.html)
+- [Tilkov(2007): A Brief Introduction to REST](https://www.infoq.com/articles/rest-introduction)
+- [standards.rest](http://standards.rest/) a collection of standards that have developed around REST
+- [Rails Guide: Rendering JSON in Action Controller Overview](https://edgeguides.rubyonrails.org/action_controller_overview.html#rendering-xml-and-json-data)
+- [Rails Guide: Using Rails for API-only Applications](https://edgeguides.rubyonrails.org/api_app.html)
+- [Vasilakis(2017): Rails 5 API Tutorial](https://github.com/vasilakisfil/rails5_api_tutorial)
+- [Methods HTTP/1.0](https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html)
+- [Status codes](https://httpstatuses.com/422)
+- [gem knock](https://github.com/nsarno/knock) for token based authentication for API only Rails apps
