@@ -28,27 +28,28 @@ are displayed on "/users". If you as a programmer decide to do that, no framewor
 
 ![](images/security-password-shown.png)
 
-§
+## Regression Tests for Security Problems
 
 Let's use this as an example of how to fix a security problem
-once you've found it: First we write a test for the problem: `rails g integration_test users`
+once you've found it: First we write a test for the problem: `rails g integration_test security`
 
 ```ruby
 require 'test_helper'
 
-class UsersTest < ActionDispatch::IntegrationTest
+class SecurityTest < ActionDispatch::IntegrationTest
   fixtures :users
 
   test 'users are listed publicly' do
     get '/users'
     assert_response :success
-    assert_select 'td', users(:one).email
+    assert_select 'td', text: users(:one).email
+
   end
 
-  test 'users passwords are not shown publicly' do
+  test 'users password is not shown publicly' do
     get '/users'
     assert_response :success
-    assert_select 'td', { text: users(:one).password, count: 0 }, 'no table cell contains a password'
+    assert_select 'td', text: users(:one).password, count: 0
   end
 end
 ```
