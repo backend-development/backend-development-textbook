@@ -185,7 +185,22 @@ end
 [Blog article on pwned gem](https://www.twilio.com/blog/2018/03/better-passwords-in-ruby-applications-pwned-passwords-api.html)
 
 
+Friendly reminder: this is how you test if a user can be created:
 
+```
+  test "can create user with password ljkw8723kjasf889r" do
+    get "/sign_up"
+    assert_response :success
+
+    assert_difference('User.count',1) do
+      post "/users", params:{user:{name:"Me Stupid",email:"peter@prayalot.com",password:'ljkw8723kjasf889r',homepage:'https://some.where'}}
+    end
+    assert_select 'span', text: 'has previously appeared in a data breach and should not be used', count: 0
+    follow_redirect!
+
+    assert_select 'li', text: /Me Stupid/
+  end
+```
 
 Sensitive Data Exposure
 ---
