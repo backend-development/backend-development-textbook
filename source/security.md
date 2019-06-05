@@ -90,7 +90,7 @@ But if you use string interpolation to build up SQL queries,
 you open up your application to injection attacks. An example that is vunerable:
 
 ```ruby
-Project.where("title = '#{params[:title]}'")
+@projects = Project.where("title = '#{params[:title]}'")
 # SELECT "projects".* FROM "projects" WHERE (title = 'Marios Welt')
 ```
 
@@ -105,6 +105,22 @@ the string was handed to ActiveRecord.
 
 So the resulting query returns all records from the projects table.
 This is because the condition is true for all records.
+
+§
+
+To test for SQL Injection you can also use an integration test.
+Check if the result-table has the right number of rows.
+
+```
+  test "should search for users - result table shows 1 row" do
+    ...
+    assert_select 'table tbody tr', count: 1
+  end
+
+  test "should not allow sql injections - result table has not rows" do
+    ...
+  end
+```
 
 §
 
