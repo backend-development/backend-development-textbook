@@ -486,8 +486,28 @@ Rails.application.config.content_security_policy do |policy|
 end
 ```
 
-To handle the violation reports you need to set up a model, controller and route
-[as described here](https://bauland42.com/ruby-on-rails-content-security-policy-csp/#cspviolationreports).
+This automatically forbids all 'unsave-inline' script: `<script>`-tags
+in the html code and event-handler-attributes like `<button onclick=...>`.
+
+To allow certain `<script>`-tags in your code you can give
+them a "nonce":
+
+```
+<script nonce="2726c7f26c">
+  var inline = 1;  // good javascript
+</script>
+```
+
+This must be the same nonce given in the CSP:
+
+```
+Content-Security-Policy: script-src 'nonce-2726c7f26c'
+```
+
+Rails can generate separate nonces for separate sessions automatically,
+see [the Rails Security Guide](https://edgeguides.rubyonrails.org/security.html#content-security-policy).
+
+If you want to handle violation reports, you need to set up a model, controller and route [as described here](https://bauland42.com/ruby-on-rails-content-security-policy-csp/#cspviolationreports).
 
 ### Escape for the correct context:
 
