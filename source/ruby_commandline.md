@@ -52,7 +52,7 @@ months.  The rails community values speed of development, DRY code, testing,
 version control, ... when you learn rails you also pick up a whole culture
 surrounding it.
 
-Some sites built with Rails are: [GitHub](https://gitlab.com), [Shopify](https://shopify.com), [Airbnb](https://airbnb.com), [Twitch](https://twitch.io), [SoundCloud](https://soundcloud.com), [Square](https://squareup.com/) and of course [Basecamp](https://basecamp.com), DHHs own product.
+Some sites built with Rails are: [GitHub](https://github.com) and [GitLab](https://gitlab.com), [Shopify](https://shopify.com), [Airbnb](https://airbnb.com), [Twitch](https://www.twitch.tv/), [SoundCloud](https://soundcloud.com), [Square](https://squareup.com/) and of course [Basecamp](https://basecamp.com), DHHs own product.
 
 ### Why Ruby? Why Rails ?
 
