@@ -220,7 +220,7 @@ end
 
 again: notice the plural `tweets` and singular `zombie`.
 
-$
+§
 
 You can also use a model to create associated models:
 
