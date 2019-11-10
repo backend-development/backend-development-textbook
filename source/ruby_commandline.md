@@ -1,25 +1,22 @@
-Ruby
-====
+# Ruby
 
 This guide will focus on ruby - the language - alone.
 
 After finishing this guide you will
 
-* have an overview of rubys type system
-* be able to use list processing functions in ruby
-* be able to use blocks and `yield` in ruby.
+- have an overview of rubys type system
+- be able to use list processing functions in ruby
+- be able to use blocks and `yield` in ruby.
 
 REPO: Fork the [learn_ruby](https://github.com/backend-development/learn_ruby) repository to try some test driven ruby learning
 
+---
 
------------------------------------------------------------------------
-
-What is Ruby
-------------
+## What is Ruby
 
 ![Ruby Logo](images/Ruby_logo.png)
 
-Ruby is an open source project.  It was started
+Ruby is an open source project. It was started
 in 1996 by Yukihiro 'Matz' Matsumoto. He is still
 the "benevolent dictator" who decides on the future of the language.
 
@@ -30,15 +27,15 @@ choose a name starting with p for his scripting language
 Ruby is a thoroughly object oriented scripting language.
 Even basic data types are object:
 
-``` ruby
+```ruby
 1.to_s
 => "1"
 ```
 
 In this example the number 1 is used as an object, the method `to_s` is
-called on it.  The result is an Object of class String.
+called on it. The result is an Object of class String.
 
-### What is ruby on rails
+### What is Ruby on Rails
 
 ![Ruby on Rails Logo](images/Ruby_on_Rails_logo.png)
 
@@ -48,7 +45,7 @@ It was created by David Heinemeier Hansson ('DHH') starting in 2005.
 Rails is famous for the high productivity it gives to developers. It
 is often used in startups, where speed of delivery is very important.
 Rails moves fast, new versions with major improvement appear about every 18
-months.  The rails community values speed of development, DRY code, testing,
+months. The rails community values speed of development, DRY code, testing,
 version control, ... when you learn rails you also pick up a whole culture
 surrounding it.
 
@@ -57,11 +54,11 @@ Some sites built with Rails are: [GitHub](https://github.com) and [GitLab](https
 ### Why Ruby? Why Rails ?
 
 Why should you use Ruby and Rails over other programming languages
-and frameworks?  
+and frameworks?
 
-* Because you want to be a highly productive web developer?
-* Because you want to learn from the best?
-* Because you want try out many different languages and many frameworks?
+- Because you want to be a highly productive web developer?
+- Because you want to learn from the best?
+- Because you want try out many different languages and many frameworks?
 
 All these answers are equally valid.
 
@@ -69,12 +66,10 @@ Also, there are cool t-shirts:
 
 ![Ruby and Rails T-Shirts](images/ruby-and-rails-t-shirts.png)
 
-
-Ruby Basics
------------
+## Ruby Basics
 
 To get to know ruby you don't need to write
-whole programes.  You can start out with **interactive ruby - irb**.
+whole programes. You can start out with **interactive ruby - irb**.
 When you start irb you get a command line to type in ruby code. When
 you press enter the code is evaluted immediatly and you get the result.
 Use the commands `exit` or `quit` or the key combination CONTROL-D to get out.
@@ -82,20 +77,20 @@ Use the commands `exit` or `quit` or the key combination CONTROL-D to get out.
 In this guide we will show code run in irb by marking the prompt as `>>` and
 the result as `=>`, for example:
 
-``` ruby
+```ruby
 >> 2 + 2
 => 4
 ```
 
 ### Some code conventions
 
-Try to stick to [github's style for ruby](https://github.com/styleguide/ruby). 
+Try to stick to [github's style for ruby](https://github.com/styleguide/ruby).
 
 When you chose names for your objects, classes and methods
 you should stick to the following conventions to avoid
 confusing other ruby developers:
 
-``` ruby
+```ruby
 the_variable = SomeClass.new
              # variables are written in snake_case
              # classes in capital CamelCase
@@ -111,35 +106,34 @@ b.sugar!     # a method that changes its object
 In the last two examples the punctuation marks are really
 part of the method names!
 
-
 The parantheses around the arguments of a method are optional.
 Leave them off unless your code get's confusing:
 
-``` ruby
+```ruby
 puts("less code")
 puts "less code"
 ```
 
 # Data Types
 
-All of rubys basic data types are Classes.  
+All of rubys basic data types are Classes.
 
-* nil
-* Numeric, Integer, Fixnum, Bignum, Float `# are converted automatically to each other`
-* Ranges
-* String
-* true  `# TrueClass`
-* false `# FalseClass`
-* Symbol
-* Array
-* Hash
-* Object
-* Regex
+- nil
+- Numeric, Integer, Fixnum, Bignum, Float `# are converted automatically to each other`
+- Ranges
+- String
+- true `# TrueClass`
+- false `# FalseClass`
+- Symbol
+- Array
+- Hash
+- Object
+- Regex
 
 Ruby is strict about data types, there is no automatic conversion except
 between numeric types.
 
-``` ruby
+```ruby
 >> "a string" + "another"
 => "a stringanother"
 
@@ -153,7 +147,7 @@ TypeError: no implicit conversion of Fixnum into String
 Everything is an Object, even Integers and Strings.
 They have methods and properties, like other objects:
 
-``` ruby
+```ruby
 >> nil.class
 => NilClass
 
@@ -166,7 +160,7 @@ They have methods and properties, like other objects:
 
 ### Strings
 
-``` ruby
+```ruby
 s = 'just a string of characters'
 s = "string with #{the_variable} embedded"
 s = "string with #{a+b/c} a ruby expression embedded"
@@ -176,6 +170,11 @@ it can contain many lines of text
 and ends with the identifier EOM (that i chose!)
 but only if it's alone on a line all by itself:
 EOM
+s = %Q§with %Q you can chose any character als string delimiters§
+s = %Q{
+  with %Q you can chose any character als string delimiters.
+  opening brackets go with closing brackets.
+}
 ```
 
 ### Boolean Values
@@ -184,12 +183,12 @@ In ruby only `false` and `nil` are treated as false. This might
 be confusing for programmers used to other languages with
 more complex rules for truthyness:
 
-``` ruby
+```ruby
 if 0
   puts '0 is true!'
 end
 if "false"
-  puts '"false" (the string) is true'       
+  puts '"false" (the string) is true'
 end
 ```
 
@@ -197,28 +196,28 @@ end
 
 The two conditions shown in the last
 code block only have one statement inside
-the block.  
+the block.
 
 This can also be written in another way by
 appending the condition to the statement,
 like so:
 
-``` ruby
+```ruby
 puts '0 is true!' if 0
 puts '"false" (the string) is true' if "false"
 ```
 
 This syntax should be familiar to you if
-you understand english.  (yes, that's an english
+you understand english. (yes, that's an english
 sentence using the same syntax).
 
 ### Boolean Operators
 
 When ruby evaluates a boolean operator,
-it does as little work as possible.  It
+it does as little work as possible. It
 stops evaluation as soon as the result is clear:
 
-``` ruby
+```ruby
 # the second argument is not evaluated!
 a =  true || ...
 a = false && ...
@@ -228,7 +227,7 @@ The boolean operators don't just return true or
 false, they return the argument last evaluated.
 This is often used to set a variable:
 
-``` ruby
+```ruby
 default_value = "gray"
 input_value = nil
 # here input_value might be set...
@@ -238,18 +237,18 @@ a = input_value || default_value
 ## The 'Save Navigation' Operator
 
 Imagine you have an Object a, that has a property b containing
-another object, and b has a property c.  You can access c through `a.b.c`
+another object, and b has a property c. You can access c through `a.b.c`
 
 But if a is `nil` then you will get an error:
 
-``` ruby
+```ruby
 > a.b.c
 NoMethodError: undefined method `b' for nil:NilClass
 ```
 
 The Operator `&.` avoids this error:
 
-``` ruby
+```ruby
 > a&.b&.c
 nil
 ```
@@ -257,13 +256,12 @@ nil
 The Operator was introduced in Ruby 2.3.0 is is called
 "save navigation operator" or sometimes "lonely operator".
 
-
 ### Symbols
 
 A Symbol looks - at first glance - similar to a string: you can
 invent it at any time (no 'declaration') and give it any name:
 
-``` ruby
+```ruby
 a = :foo
 a = :bar
 
@@ -274,7 +272,7 @@ s = "bar"
 But: there is always just one instance of a symbol while
 there can be several strings that have the same content, but are different objects:
 
-``` ruby
+```ruby
 >> :foo.object_id
 => 635528
 >> :foo.object_id
@@ -293,7 +291,7 @@ or if you need distinct constants, when the value is not important.
 Methods in ruby return the last expression - even
 if no explicit `return` statement is given.
 
-``` ruby
+```ruby
 def f(a,b)
   "x"
 end
@@ -306,7 +304,7 @@ f(1,42)  # returns "x"
 There are several ways of writing literal arrays in ruby.
 The first one looks like JSON:
 
-``` ruby
+```ruby
 >> a = ["this", "that", "something"]
 => ["this", "that", "something"]
 ```
@@ -314,7 +312,7 @@ The first one looks like JSON:
 For creating an array of words (strings without whitespace in them)
 you can use `%w`:
 
-``` ruby
+```ruby
 >> a = %w(this that something)
 => ["this", "that", "something"]
 ```
@@ -322,23 +320,17 @@ you can use `%w`:
 When creating an array of consecutive numbers you can
 use a Range and convert it to an Array:
 
-``` ruby
+```ruby
 >> (1..4).to_a
 => [1, 2, 3, 4]
 ```
 
-
-
-
-
-
-Hashes
-----------------------------
+## Hashes
 
 A Hash is a datastructure similar to an array. An array uses integers as keys
 while a Hash allows any type as the keys. Mostly strings and symbols are used:
 
-``` ruby
+```ruby
 h = Hash.new
 h["alice"] = "beer"
 h["chris"] = "tea"
@@ -347,62 +339,60 @@ h["bob"] = "mate"
 
 But you can use other objects:
 
-``` ruby
+```ruby
 t = Date.new
 h[t] = "recently"
 ```
 
 The data structure behind a ruby Hash is more complex
-than an array: The key is sent though a function  (called hash function)
+than an array: The key is sent though a function (called hash function)
 that returns a number. This number is used as the index
-for an array.  If the hash function for two keys is the
+for an array. If the hash function for two keys is the
 same a linked list is built.
-
 
 ![How Hash(tabl)es work](images/hash_table.svg)
 
 This datastructure seems like an serious waste of memory
 at first. But it offers the following intresting features:
 
-* looking up a key can be accomplished in constant time
-* inserting a new key / value pair can be accomplished in constant time
-
+- looking up a key can be accomplished in constant time
+- inserting a new key / value pair can be accomplished in constant time
 
 Most scripting languages offer Hashes as a basic data type,
-most compiled languages as a library.  Read more about
+most compiled languages as a library. Read more about
 Hashes in Wikipedia:
 
-* [Hashtables in Wikipedia](https://en.wikipedia.org/wiki/Hash_table)
+- [Hashtables in Wikipedia](https://en.wikipedia.org/wiki/Hash_table)
 
 (If you don't know what "in constant time" means above, you
 should learn more about the analysis of algorithms. e.g. by
 taking a algorithms and data strcture course as offered in the second
-semester of most computer science programs.
+semester of most computer science programs.)
 
 ### Implicit Form
 
 A Hash can be created by using its "implicit form":
 
-``` ruby
+```ruby
 roomnumber = { "Jane Doe" => 10, "Jim Doe" => 6 }
 ```
 
 Since Ruby 1.9.3 Hashes allow an alternate syntax when the keys are symbols. Instead of
 
-``` ruby
+```ruby
 style = { :font_size => 10, :font_family => "Arial" }
 ```
 
-you could write this  in  a JSON-like way:
+you could write this in a JSON-like way:
 
-``` ruby
+```ruby
 style = { font_size: 10, font_family: "Arial" }
 ```
 
 This style of hash is often used as an argument for a method.
 Calling the method then reads like named arguments:
 
-``` ruby
+```ruby
 def apply_the_style( h )
   ...
 end
@@ -411,10 +401,51 @@ apply_the_style(font_size: 10, font_family: "Arial")
 apply_the_style font_size: 10, font_family: "Arial"
 ```
 
+## Frozen vs Mutable Values
 
+Most objects in Ruby are mutabel by default.
 
-Enumerables and Piping Data
-----------------------------
+```
+# mutable
+>> configuration = { color: 'yellow', number: 10 }
+=> {:color=>"yellow", :number=>10}
+>> configuration[:smoking] = false  # no problem, can add new key
+=> false
+>> configuration[:number] = 2       # no problem, change value
+=> 2
+>> configuration
+=> {:color=>"yellow", :number=>2, :smoking=>false}
+```
+
+You can freeze an object to make it immutable.
+Notice that this is different from using a `const`
+in JavaScript: changing the object in any way
+will throw a runtime error.
+
+```
+# frozen
+>> configuration = { color: 'yellow', number: 10 }.freeze
+=> {:color=>"yellow", :number=>10}
+>> configuration[:smoking] = false
+=> RuntimeError: can't modify frozen Hash
+>> configuration[:number] = 2
+=>RuntimeError: can't modify frozen Hash
+```
+
+You cannot modify a frozen object, but you can copy it with `.dup`
+
+### Frozen String Literals
+
+Since Ruby 2.3 all String literals can be frozen by adding
+this line to to top of a ruby file:
+
+```
+# frozen_string_literal: true
+```
+
+This is switched on in Rails since 5.2.
+
+## Enumerables and Piping Data
 
 When working with a list of values ruby
 helps you think about data on a new, more abstract level
@@ -425,22 +456,22 @@ with Enumerables:
 From the UNIX shell you may know the concept of piping data
 from one command to the next:
 
-``` shell
+```shell
 # many httpd processes are running. as which user(s) ?
 #
 $ ps aux | grep httpd | cut -c1-8 | sort | uniq
 ```
 
 Each of those programs reads data from "Standard Input" and
-writes data to "Standard Output".  The vertical bar symbol (called "pipe") takes
+writes data to "Standard Output". The vertical bar symbol (called "pipe") takes
 the output of the preceding program and sends it input the next
-program.  The data in question is plain text, consisting
+program. The data in question is plain text, consisting
 of several lines.
 
 Try it out on your commmand line by building up
 the pipe step by step:
 
-``` shell
+```shell
 $ ps aux | less
 $ ps aux | grep httpd | less
 $ ps aux | grep httpd | cut -c1-8 | less
@@ -453,7 +484,7 @@ $ ps aux | grep httpd | cut -c1-8 | sort | uniq | less
 When piping data in ruby you can start with
 an Array
 
-``` ruby
+```ruby
 languages = %w[Fortran Ada C C++ Java Scala Haskell]
 languages.sort.first(3)
 ```
@@ -463,28 +494,28 @@ of elements. Theses are piped into first, which only returns the first three and
 the rest. The result is a list of 3 elements.
 
 Here are some simple methods you can use on Arrays (and other Enumerables)
-that return a new Enumerable.  You can connect theses methods to each other:
+that return a new Enumerable. You can connect theses methods to each other:
 
-* sort
-* first(n)
-* drop(n)
-* last(n)
-* grep(/pattern/)
-* chunk(method)
-* reverse
+- sort
+- first(n)
+- drop(n)
+- last(n)
+- grep(/pattern/)
+- chunk(method)
+- reverse
 
 Some other methods return just a single value, and thus end the pipe:
 
-* count
-* count("only this exact value")
-* max
-* min
+- count
+- count("only this exact value")
+- max
+- min
 
 More advanced methods take a Block (of code) as their argument.
 The method `map` applys the Block to each piece of data, and
 returns an Enumerable of the new data:
 
-``` ruby
+```ruby
 >> (1..10).map{ |x| 2*x }
 => [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
 
@@ -495,7 +526,7 @@ returns an Enumerable of the new data:
 If the computation is more complex you can write
 the Block on several lines, ending with `end`
 
-``` ruby
+```ruby
 >> (1..10).map do |x|
 ?>   x*2
 >> end
@@ -507,38 +538,34 @@ the Block on several lines, ending with `end`
 => [20, 18, 16, 14, 12, 10, 8, 6, 4, 2]
 ```
 
-
 Some other methods for Enumerables that take a Block:
 
-* `map {|x|` new value computed from x `}`
-* `select {|x|` should x be selected? `}`
-* `reduce(:+)`
-* `reduce{|memo, item|` compute new value for memo, using current item `}`
-
+- `map {|x|` new value computed from x `}`
+- `select {|x|` should x be selected? `}`
+- `reduce(:+)`
+- `reduce{|memo, item|` compute new value for memo, using current item `}`
 
 These methods should help you avoid loops and thus simplify
 code considerably.
 
 Read the Reference on
 
-* [Enumerable](https://ruby-doc.org/core-2.5.3/Enumerable.html)
-* [Array](https://ruby-doc.org/core-2.5.3/Array.html)
+- [Enumerable](https://ruby-doc.org/core-2.5.3/Enumerable.html)
+- [Array](https://ruby-doc.org/core-2.5.3/Array.html)
 
-
-Blocks
-------
+## Blocks
 
 Blocks of code are not just used in Enumerables, they are
-a basic building block of ruby.  You can write functions
+a basic building block of ruby. You can write functions
 that take a Block as an argument:
 
 ### My Function takes a Block of Code
 
 Any function you write can take an addictional block
-of code as its last argument.  The block is only
+of code as its last argument. The block is only
 called if and when you call `yield` inside the function:
 
-``` ruby
+```ruby
 def my_function_with_block_arg
   puts "code in the funtion"
   yield
@@ -554,47 +581,43 @@ my_function_with_block_arg { puts "code in the block" }
 ```
 
 There is an alternate syntax for calling the function: instead
-of the curly braces you can use `do` and  `end`:
+of the curly braces you can use `do` and `end`:
 
-``` ruby
+```ruby
 my_function_with_block_arg do
   puts "code in the block"
   puts "more code in the block"
 end
 ```
 
+## Summary
 
-Summary
--------
-
-You now know about the basic data types, about enumerables and about blocks -   
-features that distinguish ruby from other scripting languages. 
-
+You now know about the basic data types, about enumerables and about blocks -  
+features that distinguish ruby from other scripting languages.
 
 If you want to get more pracitical with ruby, you can
-do the 
+do the
 [Learn Ruby](https://github.com/backend-development/learn_ruby) test driven ruby exercises.
-
 
 This should be a good enough basis to start with Rails.  
 But do take every
-oppertunity you get to learn more about Ruby itself: if you are unsure about
+opportunity you get to learn more about Ruby itself: if you are unsure about
 a line of code, look it up in the Ruby documentation and use the
 opportunity to read a bit more than strictly necessary.
 
 Get an offline version of the documentation
 installed on your development machine so you can look up stuff instantly.
 
-* Mac Tool [Dash](https://kapeli.com/dash) for keeping offline copies of documentation
+- Mac Tool [Dash](https://kapeli.com/dash) for keeping offline copies of documentation
 
 ### Online Resources
 
-* [try ruby](https://ruby.github.io/TryRuby/)
-* [learningruby.com tutorial](http://rubylearning.com/satishtalim/tutorial.html)
+- [try ruby](https://ruby.github.io/TryRuby/)
+- [learningruby.com tutorial](http://rubylearning.com/satishtalim/tutorial.html)
 
 ### Books
 
-* Flanagan, Matsumoto(2008): [The Ruby Programming Language](https://www.amazon.com/Ruby-Programming-Language-David-Flanagan/dp/0596516177). O'Reilly. ISBN 0596516177.
-* Thomas(2013): [Programming Ruby 1.9 + 2.0](https://www.amazon.com/Programming-Ruby-1-9-2-0-Programmers/dp/1937785491/). Pragmatic Porgrammers. ISBN 1937785491
-* Olsen (2011): [Eloquent Ruby](https://www.amazon.com/Eloquent-Ruby-Addison-Wesley-Professional/dp/0321584104/). Addison-Wesley. ISBN 0321584104
-* Tate(2010): [Seven Languages in Seven Weeks: A Pragmatic Guide to Learning Programming Languages](https://www.amazon.com/Seven-Languages-Weeks-Programming-Programmers/dp/193435659X/). Pragmatic Programmers.  ISBN 193435659X
+- Flanagan, Matsumoto(2008): [The Ruby Programming Language](https://www.amazon.com/Ruby-Programming-Language-David-Flanagan/dp/0596516177). O'Reilly. ISBN 0596516177.
+- Thomas(2013): [Programming Ruby 1.9 + 2.0](https://www.amazon.com/Programming-Ruby-1-9-2-0-Programmers/dp/1937785491/). Pragmatic Porgrammers. ISBN 1937785491
+- Olsen (2011): [Eloquent Ruby](https://www.amazon.com/Eloquent-Ruby-Addison-Wesley-Professional/dp/0321584104/). Addison-Wesley. ISBN 0321584104
+- Tate(2010): [Seven Languages in Seven Weeks: A Pragmatic Guide to Learning Programming Languages](https://www.amazon.com/Seven-Languages-Weeks-Programming-Programmers/dp/193435659X/). Pragmatic Programmers. ISBN 193435659X
