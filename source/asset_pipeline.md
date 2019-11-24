@@ -28,9 +28,9 @@ or button, or typing in an URL) to having the page displayed and interactive in 
 We will call this the 'response time'.
 
 From the publishers point of view it might also encompass the question of
-how many uses you can serve (with acceptable response time) on a given
-server.  If you look at the question of how to server more users in case
-of more demand you enter the realm of 'scalability'.  This is a more advanced
+how many users you can serve (with acceptable response time) on a given
+server.  If you look at the question of how to serve more users in case
+of more demand you enter the realm of 'scalability'. This is a more advanced
 question that goes beyond the scope of this guide.
 
 ### Myths About Performance
@@ -42,7 +42,7 @@ language like: `will using more variables make my program slower?`
 or `is string concatenation faster than string interpolation?`.
 
 These 'micro optimizations' are hardly ever necssary with modern
-programming languages and computers.  Using rails, postgres and a modern
+programming languages and computers.  Using Rails, Postgres and a modern
 hosting service you will have no trouble serving hundreds 
 of users a day and achieving adequate performance for all of them.
 
@@ -62,7 +62,7 @@ start to 'optimize'.
 
 ### Measuring Web Performance 
 
-The "exceptional performance" group at yahoo published the browser addon
+The "exceptional performance" group at Yahoo published the browser addon
 `yslow` in 2007. It measures performance and displays the timing
 of the different HTTP connections as a "waterfall graph":
 
@@ -73,7 +73,7 @@ of the different HTTP connections as a "waterfall graph":
 Each bar is one resource being retrieved via HTTP, the x-axis
 is a common timeline for all.  The most striking result you can read from
 this graph: the backend is only responsible for 5% of the time in this
-example!  95% of time are spent loading and parsing javascript and css files
+example!  95% of time is spent loading and parsing javascript and css files
 and loading and displaying images!
 
 This graph was later integrated into the built in developer tools
@@ -121,8 +121,8 @@ a lot of tools.  The Rails asset pipeline was introduced in Rails 3.1 in the yea
 
 I lets you use all theses tools automatically:
 
-* compile to JavaScript  (e.g. coffeescript, typescript, babel)
-* compile to CSS (e.g. LESS, SASS)
+* Compile to JavaScript  (e.g. coffeescript, typescript, babel)
+* Compile to CSS (e.g. LESS, SASS)
 * Minify and combine several JavaScript files into one
 * Minify and combine several CSS files into one
 * Optimize images
@@ -139,7 +139,7 @@ There are two main folders:
 * files for publishing are created  in `public/assets/*`
 
 
-The second folder will be served by web server directly, without going through the rails stack
+The second folder will be served by the web server directly, without going through the Rails stack
 
 ### Rails Environments
 
@@ -197,7 +197,7 @@ which generates the files in `public/assets`, including `public/assets/manifest-
 If you look at the generated HTML code on the production server,
 you will only find two links (plus some code to handle IE 8): in production
 the many css files have been concatenated into one `application*.css`, and
-all JavaScript files have bin concatenated int one `application*.js`:
+all JavaScript files have been concatenated into one `application*.js`:
 
 ```
 <link href="/assets/application-dee0187.css" media="screen" rel="stylesheet" />

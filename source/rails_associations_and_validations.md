@@ -110,7 +110,7 @@ or you can combine several validations on one property:
 
 ### Validations vs Database Constraints
 
-Validations are checked by ruby code **before** data is inserted
+Validations are checked by Ruby code **before** data is inserted
 in the database.  If you want to ensure that the e-mails of your users
 are unique, you can do so in Rails, by adding
 
@@ -130,7 +130,7 @@ You could also do this by adding a [UNIQUE CONSTRAINT](https://www.postgresql.or
 
 Later, when we learn about Views and Forms, you will see 
 that the save / validate / errors lifecycle fits perfectly with
-the way that forms a handled in Rails. See [Rails: View and Controller](/rails_view_and_controller.html)
+the way that forms are handled in Rails. See [Rails: View and Controller](/rails_view_and_controller.html)
 
 
 
@@ -183,7 +183,7 @@ this will generate a migration with the following command
 
 ### Model
 
-You have to declare association in both models, by
+You have to declare associations in both models, by
 editing the two files in `app/models/*.rb`.
 
 1:n associations are declared with `belongs_to` and `has_many`:
@@ -200,7 +200,7 @@ class Tweet
 end
 ```
 
-notice the plural used with `has_many` and the singular used with `belongs_to`.
+Notice the plural used with `has_many` and the singular used with `belongs_to`.
 
 ### Methods
 
@@ -218,7 +218,7 @@ z.tweets.each do |t|
 end
 ```
 
-again: notice the plural `tweets` and singular `zombie`.
+Again: notice the plural `tweets` and singular `zombie`.
 
 §
 

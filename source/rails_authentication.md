@@ -4,7 +4,7 @@ This guide is about Logins and Logouts for your Rails app.
 
 After reading this guide you will
 
-* understand how cookies, sessions, logins are connected
+* understand how cookies, sessions, and logins are connected
 * be able to build a rails app with simple login and logout
 * be able to offer password reminders to your users
 * be able to use other authentication providers
@@ -37,7 +37,7 @@ to that user, and they will carry over through many interactions
 (opening a new window of our app, clicking a button, selecting
 something from a menu).
 
-In a **web app** this is true for the front end of the app, but only in a very
+In a **web app** this is true for the frontend of the app, but only in a very
 limited sense: If you set a variable in javascript it will only
 be available for this one user in this one webbrowser.
 But if the user leaves your app by typing in a new URL,
@@ -98,7 +98,7 @@ curl -v --cookie "_kanban_session=bWdwc...d4c; path=/; HttpOnly" https://kanban-
 <span>Logged in as mariam <a href="/logout">logout</a>
 ```
 
-This makes it all the more important that the cookie not be stolen!
+This makes it all the more important that the cookie can not be stolen!
 Remember to **always use https** if your app authenticates users at
 any point.
 
@@ -117,9 +117,9 @@ multiple web servers.
 
 §
 
-Even without a Login, you can use the session to track a user
+Even without a login, you can use the session to track a user
 as they browse through the web app. For example you could count
-now many requests they have already made:
+how many requests they have already made:
 
 ```ruby
 # in app/controllers/application_controller.rb
@@ -149,7 +149,7 @@ for more details.
 The session lets you recognize the same user from one HTTP
 request to the next. But it does not - in itself - help to authenticate users.
 
-The most common way to achieve Authentication is through passwords.
+The most common way to achieve authentication is through passwords.
 
 ### Password Storage
 
@@ -179,7 +179,7 @@ User.create({username: "mariam", password: 'badpassword123' })
 ```
 
 The password will be encrypted, and only the encrypted version
-will be stored in the database, in attribut `password_digest`.
+will be stored in the database, in attribute `password_digest`.
 
 It will add the `authenticate` method to your User model:
 
@@ -253,7 +253,7 @@ We now have all the bits and pieces to build a Login with username (or e-mail ad
 There are some Rails convention around this:
 
 * the current user should be accessible in controllers and views via a helper method `current_user`,
-* login in and login out is seen as "creating a session" and "deleting a session" and handled by restful routes,
+* logging in and logging out are seen as "creating a session" and "deleting a session" and handled by restful routes,
 * there is a session controller and some views, but no session model!
 
 ### Routes
@@ -269,7 +269,7 @@ Let's start by creating the routes:
 
 ### Controller
 
-and the session controller to handle this routes:
+And the session controller to handle these routes:
 
 ```bash
 rails g controller sessions new create destroy
@@ -379,7 +379,7 @@ to display different things for logged in users and non logged in visitors:
 
 ## Better Login UX
 
-If your app deals with more then just one or two users
+If your app deals with more than just one or two users
 that you set up "by hand", the gem `devise` can help you a lot.
 It can makes your logins ...
 
@@ -414,15 +414,15 @@ other authentication providers. The [list of strategies](https://github.com/intr
 is quite impressive. Think carefully about what services your users
 are using, and which services might be useful to your app: could
 you use Dropbox to authenticate, and also to deliver data directly
-to your users dropbox? Would it make sense to use facebook or twitter and also
+to your user's dropbox? Would it make sense to use Facebook or Twitter and also
 send out messages that way?  Or are your users very privacy conscious and
-want to avoid facebook and google?
+want to avoid Facebook and Google?
 
 ### Providers
 
 You will need the Gem `omniauth` and
 additional gems for each provider. For example if you
-want to use both github and stackoverflow for your web app geared
+want to use both Github and Stackoverflow for your web app geared
 towards developers, you would need three gems:
 
 ```
@@ -447,10 +447,10 @@ In Twitter this looks like this:
 
 ![facebook app configuration](images/oauth-app-secret.png)
 
-(A word of warning: if you change the configuration in `developers.facebook.com` the
+(A word of warning: if you change the configuration in `developers.facebook.com` then
 you will get a new key and secret!)
 
-You need add the key and the secret to the configuration of omniauth:
+You need to add the key and the secret to the configuration of omniauth:
 
 ```ruby
 # config/initializers/omniauth.rb:
@@ -509,9 +509,9 @@ rails g model user provider uid token secret
 ```
 
 If you want to enable that one user can log in via different
-providers and still be recognised as the same user you need to
+providers and still be recognised as the same user, you need to
 create a user model with a has_many relationship to an authentiation model
-that stores provider uid.
+that stores provider and uid.
 
 But we will stick to the simple version:
 
@@ -530,8 +530,8 @@ end
 ### Login and Logout
 
 Omniauth is a "Rack Middleware". That means it is somewhat independent
-of the rails app you are building. It has access to the HTTP request, will
-analyze that, and pass on data to your rails app through the
+of the Rails app you are building. It has access to the HTTP request, will
+analyze that, and pass on data to your Rails app through the
 environment variable `omniauth.auth`.
 
 To log in you send the user to `/auth/:provider` (e.g. `/auth/facebook`).
@@ -548,8 +548,8 @@ To log in you send the user to `/auth/:provider` (e.g. `/auth/facebook`).
 
 §
 
-This URL is handled by omniauth, not by your rails app. omniauth will send
-the users browser on to a URL at the provider. There the user can log in. After
+This URL is handled by omniauth, not by your Rails app. Omniauth will send
+the user's browser on to a URL at the provider. There the user can log in. After
 that the browser is redirected to your app again, to `/auth/:provider/callback`
 
 This URL you need to map to a session controller:

@@ -179,21 +179,21 @@ capability for zombies:
 
 ![scaffold](images/rest.png)
 
-Do adapt the views to better fit your users needs, but 
+Do adapt the views to better fit your user's needs, but 
 try to keep the underlying routes the same!
 
 
 Form Helpers
 -------
 
-When you write a Rails App, you never write `form`- or `input`-Tags by hand.
+When you write a Rails App, you never write `form`- or `input`-tags by hand.
 You always use form helpers to contruct the HTML for you.  You gain a lot of
 functionality by using the helpers, but you also need to understand how they work.
 
 
 ### Creating the Form Tag
 
-Let's look at a very simple edit-form for a Resource called user:
+Let's look at a very simple edit-form for a resource called user:
 
 ``` ruby
 <%= form_for(@user) do |f| %>
@@ -264,7 +264,7 @@ Processing by UsersController#update as HTML
   Parameters: { "user"=>{"uid"=>"4206851", "name"=>"Brigitte Jellinek", "email"=>"", ... }, "id"=>"16"}
 ```
 
-Actually the Parameter came in through two separate channels: the data for the
+Actually the Parameters came in through two separate channels: the data for the
 user came through the body of the HTTP request, the `id` came in as part of the URL.
 Observe the URI Pattern in the output of `rails routes`:
 
