@@ -161,8 +161,12 @@ $ rails generate migration AddZombieToTweets zombie:references
 this will generate a migration with the following command
 
 ```ruby
-  add_reference :tweets, :zombie, foreign_key: true
+    add_reference :tweets, :zombie, null: false, foreign_key: true
 ```
+
+Warning: in SQLite3 this will cause some problems ("SQLite3::SQLException: Cannot add a NOT NULL column with default value NULL"), please remove the `null: false,` part of the migration.
+
+If you ever mistype your `rails generate ...` line, you can undo it by running `rails destroy ...`.
 
 ### Model
 
