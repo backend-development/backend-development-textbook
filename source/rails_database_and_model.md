@@ -186,6 +186,58 @@ Use `rails` on the commandline to apply this migration to the existing database:
 A word of warning: you never, ever need to change a migration after
 using, commiting and pushing it. You only ever add new migrations!
 
+### a real world example:
+
+The following are three migrations from the program `gitlab` which
+is written in rails:
+
+```
+== 20191120084627 AddEncryptedFieldsToApplicationSettings: migrating ==========
+-- add_column(:application_settings, "encrypted_akismet_api_key", :text)
+ -> 0.0013s
+-- add_column(:application_settings, "encrypted_akismet_api_key_iv", :string, {:limit=>255})
+ -> 0.0007s
+-- add_column(:application_settings, "encrypted_elasticsearch_aws_secret_access_key", :text)
+ -> 0.0007s
+-- add_column(:application_settings, "encrypted_elasticsearch_aws_secret_access_key_iv", :string, {:limit=>255})
+ -> 0.0008s
+-- add_column(:application_settings, "encrypted_recaptcha_private_key", :text)
+ -> 0.0008s
+-- add_column(:application_settings, "encrypted_recaptcha_private_key_iv", :string, {:limit=>255})
+ -> 0.0007s
+-- add_column(:application_settings, "encrypted_recaptcha_site_key", :text)
+ -> 0.0007s
+-- add_column(:application_settings, "encrypted_recaptcha_site_key_iv", :string, {:limit=>255})
+ -> 0.0007s
+-- add_column(:application_settings, "encrypted_slack_app_secret", :text)
+ -> 0.0007s
+-- add_column(:application_settings, "encrypted_slack_app_secret_iv", :string, {:limit=>255})
+ -> 0.0007s
+-- add_column(:application_settings, "encrypted_slack_app_verification_token", :text)
+ -> 0.0007s
+-- add_column(:application_settings, "encrypted_slack_app_verification_token_iv", :string, {:limit=>255})
+ -> 0.0007s
+== 20191120084627 AddEncryptedFieldsToApplicationSettings: migrated (0.0095s) =
+
+== 20191120115530 EncryptPlaintextAttributesOnApplicationSettings: migrating ==
+== 20191120115530 EncryptPlaintextAttributesOnApplicationSettings: migrated (0.4133s)
+
+== 20191122135327 RemovePlaintextColumnsFromApplicationSettings: migrating ====
+-- remove_column(:application_settings, "akismet_api_key")
+ -> 0.0010s
+-- remove_column(:application_settings, "elasticsearch_aws_secret_access_key")
+ -> 0.0006s
+-- remove_column(:application_settings, "recaptcha_private_key")
+ -> 0.0006s
+-- remove_column(:application_settings, "recaptcha_site_key")
+ -> 0.0006s
+-- remove_column(:application_settings, "slack_app_secret")
+ -> 0.0006s
+-- remove_column(:application_settings, "slack_app_verification_token")
+ -> 0.0007s
+== 20191122135327 RemovePlaintextColumnsFromApplicationSettings: migrated (0.0045s)
+```
+
 ## The Model
 
 Look at the model generated in file `app/models/tweet.rb`. Add validations, associations to other model and the business logic here.
