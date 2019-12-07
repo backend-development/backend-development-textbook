@@ -1,260 +1,773 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Generator: Adobe Illustrator 14.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 43363)  -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="900px" height="669.079px" viewBox="0 0 900 669.079" enable-background="new 0 0 900 669.079" xml:space="preserve">
-<symbol  id="File" viewBox="-14.795 -17.5 29.59 35">
-	<g>
-		<polygon fill="#92ACFC" stroke="#000000" points="-14.295,17 14.295,17 14.295,-17 -14.295,-17 		"/>
-	</g>
-</symbol>
-<symbol  id="Folder" viewBox="-22.968 -19.102 45.936 38.204">
-	<g id="g2642_4_" transform="translate(-342.85714,-542.94643)">
-		<g id="shadow_4_" transform="matrix(2.262383e-2,0,0,2.086758e-2,387.2653,580.34254)">
-			
-				<linearGradient id="rect6709_1_" gradientUnits="userSpaceOnUse" x1="-1339.0625" y1="-907512.625" x2="-1339.0625" y2="-907482.3125" gradientTransform="matrix(3.167336e-05 0 0 -1.878082e-05 1018374.6875 -1211132.375)">
-				<stop  offset="0" style="stop-color:#000000;stop-opacity:0"/>
-				<stop  offset="0.5" style="stop-color:#000000"/>
-				<stop  offset="1" style="stop-color:#000000;stop-opacity:0"/>
-			</linearGradient>
-			<polygon id="rect6709_4_" opacity="0.4021" fill="url(#rect6709_1_)" enable-background="new    " points="-2632.625,-2229.094 
-				-1293.062,-2229.094 -1293.062,-2707.375 -2632.625,-2707.375 			"/>
-			
-				<radialGradient id="path6711_1_" cx="-51484.4062" cy="-120073.9062" r="4.4819" gradientTransform="matrix(3.167336e-05 0 0 -1.878082e-05 1018375.375 -1211132.375)" gradientUnits="userSpaceOnUse">
-				<stop  offset="0" style="stop-color:#000000"/>
-				<stop  offset="1" style="stop-color:#000000;stop-opacity:0"/>
-			</radialGradient>
-			<path id="path6711_4_" opacity="0.4021" fill="url(#path6711_1_)" enable-background="new    " d="M-1293.062-2229.094v-478.281
-				c142.875-0.844,345.406,107.156,345.406,239.125C-947.656-2336.188-1107.094-2229.094-1293.062-2229.094z"/>
-			
-				<radialGradient id="path6713_1_" cx="-125962.7812" cy="-120073.9062" r="4.4819" gradientTransform="matrix(-3.167336e-05 0 0 -1.878082e-05 1064077 -1211132.375)" gradientUnits="userSpaceOnUse">
-				<stop  offset="0" style="stop-color:#000000"/>
-				<stop  offset="1" style="stop-color:#000000;stop-opacity:0"/>
-			</radialGradient>
-			<path id="path6713_4_" opacity="0.4021" fill="url(#path6713_1_)" enable-background="new    " d="M-2632.625-2229.094v-478.281
-				c-142.875-0.844-345.406,107.156-345.406,239.125C-2978.031-2336.188-2818.625-2229.094-2632.625-2229.094z"/>
-		</g>
-		<path id="back_4_" fill="#9B9A9A" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" d="M324.068,528.385
-			c0.021-0.416,0.461-0.834,0.877-0.834h31.36c0.416,0,0.812,0.418,0.789,0.834l-0.938,27.283c-0.021,0.418-0.459,0.834-0.877,0.834
-			h-13.283c-0.486,0-1.236,0.316-1.403,1.109l-0.612,2.898c-0.154,0.736-0.883,1.039-1.299,1.039h-14.795
-			c-0.417,0-0.812-0.418-0.79-0.834L324.068,528.385z"/>
-		<g id="front_4_">
-			<path id="orange_4_" fill="#FCA342" stroke="#CE5C00" stroke-linejoin="round" d="M359.402,527.555
-				c1.137,0.043,1.951,1.094,2.033,2.316c0.786,11.521,1.646,21.186,1.646,21.186c0.072,0.248-0.165,0.494-0.477,0.494h-34.134
-				l-1.838-21.82c-0.112-0.979-0.463-1.801-1.539-2.18L359.402,527.555z"/>
-			<path id="path323_4_" fill="#FFFFFF" fill-opacity="0.0893" d="M329.447,550.793l-1.158-15.611c0,0,8.238,4.143,18.537,4.143
-				s15.449,11.471,15.449,11.471L329.447,550.793L329.447,550.793z"/>
-		</g>
-	</g>
-</symbol>
-<symbol  id="Folder_1" viewBox="-22.969 -19.102 45.937 38.203">
-	<g id="g2642_3_" transform="translate(-342.85714,-542.94643)">
-		<g id="shadow_3_" transform="matrix(2.262383e-2,0,0,2.086758e-2,387.2653,580.34254)">
-			
-				<linearGradient id="rect6709_2_" gradientUnits="userSpaceOnUse" x1="-1339.125" y1="-2518.2188" x2="-1339.125" y2="-2487.9111" gradientTransform="matrix(3.167336e-05 0 0 -1.878082e-05 1018374.6875 -1211132.375)">
-				<stop  offset="0" style="stop-color:#000000;stop-opacity:0"/>
-				<stop  offset="0.5" style="stop-color:#000000"/>
-				<stop  offset="1" style="stop-color:#000000;stop-opacity:0"/>
-			</linearGradient>
-			<polygon id="rect6709_3_" opacity="0.4021" fill="url(#rect6709_2_)" enable-background="new    " points="-2632.688,-2229.094 
-				-1293.062,-2229.094 -1293.062,-2707.375 -2632.688,-2707.375 			"/>
-			
-				<radialGradient id="path6711_2_" cx="-1120.3438" cy="-2468.25" r="4.4816" gradientTransform="matrix(3.167336e-05 0 0 -1.878082e-05 1018375.375 -1211132.375)" gradientUnits="userSpaceOnUse">
-				<stop  offset="0" style="stop-color:#000000"/>
-				<stop  offset="1" style="stop-color:#000000;stop-opacity:0"/>
-			</radialGradient>
-			<path id="path6711_3_" opacity="0.4021" fill="url(#path6711_2_)" enable-background="new    " d="M-1293.062-2229.094v-478.281
-				c142.875-0.844,345.406,107.156,345.406,239.125C-947.656-2336.188-1107.156-2229.094-1293.062-2229.094z"/>
-			
-				<radialGradient id="path6713_2_" cx="-2805.375" cy="-2468.25" r="4.4816" gradientTransform="matrix(-3.167336e-05 0 0 -1.878082e-05 1064077 -1211132.375)" gradientUnits="userSpaceOnUse">
-				<stop  offset="0" style="stop-color:#000000"/>
-				<stop  offset="1" style="stop-color:#000000;stop-opacity:0"/>
-			</radialGradient>
-			<path id="path6713_3_" opacity="0.4021" fill="url(#path6713_2_)" enable-background="new    " d="M-2632.688-2229.094v-478.281
-				c-142.875-0.844-345.406,107.156-345.406,239.125C-2978.094-2336.188-2818.688-2229.094-2632.688-2229.094z"/>
-		</g>
-		<path id="back_3_" fill="#9B9A9A" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" d="M324.067,528.385
-			c0.021-0.416,0.461-0.834,0.877-0.834h31.36c0.416,0,0.812,0.418,0.789,0.834l-0.938,27.283c-0.021,0.418-0.461,0.834-0.877,0.834
-			h-13.284c-0.486,0-1.236,0.316-1.403,1.109l-0.612,2.898c-0.154,0.736-0.883,1.039-1.299,1.039h-14.795
-			c-0.417,0-0.812-0.418-0.79-0.834L324.067,528.385z"/>
-		<g id="front_3_">
-			<path id="orange_3_" fill="#7FA1FF" stroke="#4410FF" stroke-linejoin="round" d="M359.402,527.555
-				c1.135,0.043,1.949,1.094,2.032,2.316c0.786,11.521,1.647,21.186,1.647,21.186c0.072,0.248-0.166,0.494-0.477,0.494h-34.135
-				l-1.838-21.82c-0.112-0.979-0.463-1.801-1.539-2.18L359.402,527.555z"/>
-			<path id="path323_3_" fill="#FFFFFF" fill-opacity="0.0893" d="M329.446,550.793l-1.158-15.611c0,0,8.238,4.143,18.538,4.143
-				c10.299,0,15.447,11.471,15.447,11.471L329.446,550.793L329.446,550.793z"/>
-		</g>
-	</g>
-</symbol>
-<symbol  id="Klammer" viewBox="-9.875 -64 19.75 128">
-	<path fill="none" stroke="#EF6060" stroke-width="2" d="M-9.875,63c21.75,0-1.75-63,19.75-63 M-9.875-63c21.75,0-1.75,63,19.75,63"
-		/>
-</symbol>
-<symbol  id="Pfeil" viewBox="-20.396 -18.23 40.792 36.462">
-	<polygon fill="#DE22FF" stroke="#000000" points="19.695,-0.806 3.026,17.019 2.927,14.667 3.015,8.546 -19.896,8.648 
-		-19.896,-9.587 3.015,-9.495 3.015,-17.046 	"/>
-</symbol>
-<g id="Ebene_2_6_">
-	<rect fill="#FFFFFF" stroke="#000000" width="900" height="669.079"/>
-</g>
-<g>
-	<g id="Ebene_2">
-		
-			<use xlink:href="#Folder"  width="45.936" height="38.204" x="-22.968" y="-19.102" transform="matrix(1 0 0 -1 42.9727 133.5337)" overflow="visible"/>
-	</g>
-	<text transform="matrix(1 0 0 1 70.0039 142.4321)" font-family="'MyriadPro-Regular'" font-size="24">assets</text>
-</g>
-<g>
-	<g id="Ebene_2_1_">
-		
-			<use xlink:href="#Folder"  width="45.936" height="38.204" x="-22.968" y="-19.102" transform="matrix(1 0 0 -1 86.8784 186.5337)" overflow="visible"/>
-	</g>
-	<text transform="matrix(1 0 0 1 113.9097 195.4321)" font-family="'MyriadPro-Regular'" font-size="24">images</text>
-</g>
-<g>
-	<g id="Ebene_2_2_">
-		
-			<use xlink:href="#Folder"  width="45.936" height="38.204" x="-22.968" y="-19.102" transform="matrix(1 0 0 -1 84.8472 299.0332)" overflow="visible"/>
-	</g>
-	<text transform="matrix(1 0 0 1 111.8784 307.9321)" font-family="'MyriadPro-Regular'" font-size="24">javascripts</text>
-</g>
-<g>
-	<g id="Ebene_2_3_">
-		
-			<use xlink:href="#Folder"  width="45.936" height="38.204" x="-22.968" y="-19.102" transform="matrix(1 0 0 -1 81.6851 476.981)" overflow="visible"/>
-	</g>
-	<text transform="matrix(1 0 0 1 108.7163 485.8794)" font-family="'MyriadPro-Regular'" font-size="24">stylesheets</text>
-</g>
-<g>
-	<g>
-		<path fill="none" stroke="#F99532" stroke-width="2" d="M229.628,239.388c176.125-2.229,138.291-41.837,295.808-40.633"/>
-		<path fill="#F99532" d="M537.508,198.754c-5.68,2.107-12.728,5.703-17.094,9.51l3.438-9.51l-3.438-9.51
-			C524.78,193.051,531.828,196.648,537.508,198.754z"/>
-	</g>
-</g>
-<text transform="matrix(1 0 0 1 36.5029 59.5503)" font-family="'MyriadPro-Regular'" font-size="36">Asset Pipeline</text>
-<g>
-	<rect x="104.411" y="221.04" fill="#FFC65F" stroke="#BC5E08" width="28.59" height="34"/>
-	<text transform="matrix(1 0 0 1 140.4819 246.4321)" font-family="'MyriadPro-Regular'" font-size="24">rails.png</text>
-</g>
-<g>
-	<rect x="104.411" y="334.79" fill="#FFC65F" stroke="#BC5E08" width="28.59" height="34"/>
-	<text transform="matrix(1 0 0 1 140.4814 360.1821)" font-family="'MyriadPro-Regular'" font-size="24">application.js</text>
-</g>
-<g>
-	<rect x="104.411" y="513.987" fill="#FFC65F" stroke="#BC5E08" width="28.59" height="34"/>
-	<text transform="matrix(1 0 0 1 140.4814 539.3794)" font-family="'MyriadPro-Regular'" font-size="24">application.css</text>
-</g>
-<g>
-	<rect x="104.411" y="560.018" fill="#FFC65F" stroke="#BC5E08" width="28.59" height="34"/>
-	<text transform="matrix(1 0 0 1 140.4814 585.4126)" font-family="'MyriadPro-Regular'" font-size="24">main.css.sass</text>
-</g>
-<g>
-	<rect x="104.411" y="378.79" fill="#FFC65F" stroke="#BC5E08" width="28.59" height="34"/>
-	<text transform="matrix(1 0 0 1 140.4814 404.1821)" font-family="'MyriadPro-Regular'" font-size="24">main.js.coffee</text>
-</g>
-<g>
-	<rect x="104.411" y="604.018" fill="#FFC65F" stroke="#BC5E08" width="28.59" height="34"/>
-	<text transform="matrix(1 0 0 1 140.4819 629.4126)" font-family="'MyriadPro-Regular'" font-size="24">x.css.sass.erb</text>
-</g>
-<g>
-	<g id="Ebene_2_4_">
-		
-			<use xlink:href="#Folder_1"  width="45.937" height="38.203" x="-22.969" y="-19.102" transform="matrix(1 0 0 -1 465.4922 78.6528)" overflow="visible"/>
-	</g>
-	<text transform="matrix(1 0 0 1 492.5234 87.5513)" font-family="'MyriadPro-Regular'" font-size="24">public</text>
-</g>
-<g>
-	<g id="Ebene_2_5_">
-		
-			<use xlink:href="#Folder_1"  width="45.937" height="38.203" x="-22.969" y="-19.102" transform="matrix(1 0 0 -1 500.4922 133.5073)" overflow="visible"/>
-	</g>
-	<text transform="matrix(1 0 0 1 527.5234 142.4067)" font-family="'MyriadPro-Regular'" font-size="24">assets</text>
-</g>
-<g>
-	
-		<use xlink:href="#File"  width="29.59" height="35" x="-14.795" y="-17.5" transform="matrix(1 0 0 -1 561.9912 197.5508)" overflow="visible"/>
-	<text transform="matrix(1 0 0 1 583.7676 205.9438)" font-family="'MyriadPro-Regular'" font-size="24">rails.png</text>
-</g>
-<g>
-	<text transform="matrix(1 0 0 1 583.7676 245.5522)" font-family="'MyriadPro-Regular'" font-size="24">rails-be8732da.png</text>
-	
-		<use xlink:href="#File"  width="29.59" height="35" x="-14.795" y="-17.5" transform="matrix(1 0 0 -1 561.9912 237.3882)" overflow="visible"/>
-</g>
-<g>
-	<text transform="matrix(1 0 0 1 583.7676 320.479)" font-family="'MyriadPro-Regular'" font-size="24">application.js</text>
-	
-		<use xlink:href="#File"  width="29.59" height="35" x="-14.795" y="-17.5" transform="matrix(1 0 0 -1 560.9912 312.4351)" overflow="visible"/>
-</g>
-<g>
-	<text transform="matrix(1 0 0 1 583.7676 397.2104)" font-family="'MyriadPro-Regular'" font-size="24">application-3374f2a8.js</text>
-	
-		<use xlink:href="#File"  width="29.59" height="35" x="-14.795" y="-17.5" transform="matrix(1 0 0 -1 561.8789 388.1987)" overflow="visible"/>
-</g>
-<g>
-	<text transform="matrix(1 0 0 1 583.7676 435.5747)" font-family="'MyriadPro-Regular'" font-size="24">application-3374f2a8.js.gz</text>
-	
-		<use xlink:href="#File"  width="29.59" height="35" x="-14.795" y="-17.5" transform="matrix(1 0 0 -1 561.8789 427.4341)" overflow="visible"/>
-</g>
-<g>
-	<text transform="matrix(1 0 0 1 583.7676 358.8442)" font-family="'MyriadPro-Regular'" font-size="24">application.js.gz</text>
-	
-		<use xlink:href="#File"  width="29.59" height="35" x="-14.795" y="-17.5" transform="matrix(1 0 0 -1 561.9912 350.4517)" overflow="visible"/>
-</g>
-<g>
-	<text transform="matrix(1 0 0 1 583.7676 491.1851)" font-family="'MyriadPro-Regular'" font-size="24">application.css</text>
-	
-		<use xlink:href="#File"  width="29.59" height="35" x="-14.795" y="-17.5" transform="matrix(1 0 0 -1 561.8789 483.1226)" overflow="visible"/>
-</g>
-<g>
-	<text transform="matrix(1 0 0 1 583.7676 530.1733)" font-family="'MyriadPro-Regular'" font-size="24">application.css.gz</text>
-	
-		<use xlink:href="#File"  width="29.59" height="35" x="-14.795" y="-17.5" transform="matrix(1 0 0 -1 562.5117 522.3589)" overflow="visible"/>
-</g>
-<g>
-	<text transform="matrix(1 0 0 1 583.7676 569.1626)" font-family="'MyriadPro-Regular'" font-size="24">application-3c9de844.css</text>
-	
-		<use xlink:href="#File"  width="29.59" height="35" x="-14.795" y="-17.5" transform="matrix(1 0 0 -1 561.8789 561.5942)" overflow="visible"/>
-</g>
-<g>
-	<text transform="matrix(1 0 0 1 583.7676 608.1509)" font-family="'MyriadPro-Regular'" font-size="24">application-3c9de844.css.gz</text>
-	
-		<use xlink:href="#File"  width="29.59" height="35" x="-14.795" y="-17.5" transform="matrix(1 0 0 -1 561.8789 600.1968)" overflow="visible"/>
-</g>
-<g>
-	
-		<use xlink:href="#Pfeil"  width="40.792" height="36.462" x="-20.396" y="-18.23" transform="matrix(1 0 0 -1 306.291 397.1235)" overflow="visible"/>
-	<text transform="matrix(1 0 0 1 328.2314 404.4321)" font-family="'MyriadPro-Regular'" font-size="24">.js</text>
-</g>
-<g>
-	<text transform="matrix(1 0 0 1 319.0518 584.2817)" font-family="'MyriadPro-Regular'" font-size="24">.css</text>
-	
-		<use xlink:href="#Pfeil"  width="40.792" height="36.462" x="-20.396" y="-18.23" transform="matrix(1 0 0 -1 297.4971 577.0474)" overflow="visible"/>
-</g>
-<g>
-	<text transform="matrix(1 0 0 1 317.9297 628.2817)" font-family="'MyriadPro-Regular'" font-size="24">.sass</text>
-	
-		<use xlink:href="#Pfeil"  width="40.792" height="36.462" x="-20.396" y="-18.23" transform="matrix(1 0 0 -1 295.5981 621.7134)" overflow="visible"/>
-</g>
-<g>
-	<text transform="matrix(1 0 0 1 410.4297 628.2817)" font-family="'MyriadPro-Regular'" font-size="24">.css</text>
-	
-		<use xlink:href="#Pfeil"  width="40.792" height="36.462" x="-20.396" y="-18.23" transform="matrix(1 0 0 -1 388.3589 621.3462)" overflow="visible"/>
-</g>
-<use xlink:href="#Klammer"  width="19.75" height="128" x="-9.875" y="-64" transform="matrix(1 0 0 -1 455.0322 574.5396)" overflow="visible"/>
-<use xlink:href="#Klammer"  width="19.75" height="128" x="-9.875" y="-64" transform="matrix(1 0 0 -0.6969 360 377.5396)" overflow="visible"/>
-<g>
-	<g>
-		<path fill="none" stroke="#F99532" stroke-width="2" d="M374.006,377.54c52.348,0,81.575-65.491,151.43-65.491"/>
-		<path fill="#F99532" d="M537.508,312.047c-5.68,2.107-12.728,5.703-17.094,9.51l3.438-9.51l-3.438-9.51
-			C524.78,306.344,531.828,309.941,537.508,312.047z"/>
-	</g>
-</g>
-<g>
-	<g>
-		<path fill="none" stroke="#F99532" stroke-width="2" d="M468.416,575.163c52.348,0-5.835-91.787,64.021-91.787"/>
-		<path fill="#F99532" d="M544.508,483.375c-5.68,2.105-12.728,5.703-17.094,9.51l3.438-9.51l-3.438-9.512
-			C531.78,477.67,538.828,481.268,544.508,483.375z"/>
-	</g>
-</g>
-</svg>
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="Ebene_1"
+   x="0px"
+   y="0px"
+   width="940"
+   height="720"
+   viewBox="0 0 940 720.00002"
+   enable-background="new 0 0 900 669.079"
+   xml:space="preserve"
+   sodipodi:docname="asset-pipeline.svg"
+   inkscape:version="0.92.2 5c3e80d, 2017-08-06"><metadata
+     id="metadata267"><rdf:RDF><cc:Work
+         rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
+     id="defs265"><linearGradient
+       inkscape:collect="always"
+       xlink:href="#rect6709_1_"
+       id="linearGradient343"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(3.167336e-5,0,0,-1.878082e-5,1018374.7,-1211132.4)"
+       x1="-1339.0625"
+       y1="-907512.62"
+       x2="-1339.0625"
+       y2="-907482.31" /><radialGradient
+       inkscape:collect="always"
+       xlink:href="#path6711_1_"
+       id="radialGradient345"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(3.167336e-5,0,0,-1.878082e-5,1018375.4,-1211132.4)"
+       cx="-51484.406"
+       cy="-120073.91"
+       r="4.4819002" /><radialGradient
+       inkscape:collect="always"
+       xlink:href="#path6713_1_"
+       id="radialGradient347"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(-3.167336e-5,0,0,-1.878082e-5,1064077,-1211132.4)"
+       cx="-125962.78"
+       cy="-120073.91"
+       r="4.4819002" /><linearGradient
+       inkscape:collect="always"
+       xlink:href="#rect6709_2_"
+       id="linearGradient349"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(3.167336e-5,0,0,-1.878082e-5,1018374.7,-1211132.4)"
+       x1="-1339.125"
+       y1="-2518.2188"
+       x2="-1339.125"
+       y2="-2487.9111" /><radialGradient
+       inkscape:collect="always"
+       xlink:href="#path6711_2_"
+       id="radialGradient351"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(3.167336e-5,0,0,-1.878082e-5,1018375.4,-1211132.4)"
+       cx="-1120.3438"
+       cy="-2468.25"
+       r="4.4815998" /><radialGradient
+       inkscape:collect="always"
+       xlink:href="#path6713_2_"
+       id="radialGradient353"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(-3.167336e-5,0,0,-1.878082e-5,1064077,-1211132.4)"
+       cx="-2805.375"
+       cy="-2468.25"
+       r="4.4815998" /></defs><sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1283"
+     inkscape:window-height="761"
+     id="namedview263"
+     showgrid="false"
+     inkscape:zoom="0.70544736"
+     inkscape:cx="514.54793"
+     inkscape:cy="357.55396"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="Ebene_1" /><symbol
+     id="File"
+     viewBox="-14.795 -17.5 29.59 35"
+     transform="translate(0,50.921023)"><g
+       id="g4"><polygon
+         points="-14.295,17 14.295,17 14.295,-17 -14.295,-17 "
+         id="polygon2"
+         style="fill:#92acfc;stroke:#000000" /></g></symbol><symbol
+     id="Folder"
+     viewBox="-22.968 -19.102 45.936 38.204"
+     transform="translate(0,50.921023)"><g
+       id="g2642_4_"
+       transform="translate(-342.85714,-542.94643)"><g
+         id="shadow_4_"
+         transform="matrix(0.02262383,0,0,0.02086758,387.2653,580.34254)"><linearGradient
+           id="rect6709_1_"
+           gradientUnits="userSpaceOnUse"
+           x1="-1339.0625"
+           y1="-907512.62"
+           x2="-1339.0625"
+           y2="-907482.31"
+           gradientTransform="matrix(3.167336e-5,0,0,-1.878082e-5,1018374.7,-1211132.4)"><stop
+             offset="0"
+             style="stop-color:#000000;stop-opacity:0"
+             id="stop7" /><stop
+             offset="0.5"
+             style="stop-color:#000000"
+             id="stop9" /><stop
+             offset="1"
+             style="stop-color:#000000;stop-opacity:0"
+             id="stop11" /></linearGradient><polygon
+           id="rect6709_4_"
+           enable-background="new    "
+           points="-2632.625,-2229.094 -1293.062,-2229.094 -1293.062,-2707.375 -2632.625,-2707.375 "
+           style="opacity:0.40210003;fill:url(#linearGradient343)" /><radialGradient
+           id="path6711_1_"
+           cx="-51484.406"
+           cy="-120073.91"
+           r="4.4819002"
+           gradientTransform="matrix(3.167336e-5,0,0,-1.878082e-5,1018375.4,-1211132.4)"
+           gradientUnits="userSpaceOnUse"><stop
+             offset="0"
+             style="stop-color:#000000"
+             id="stop15" /><stop
+             offset="1"
+             style="stop-color:#000000;stop-opacity:0"
+             id="stop17" /></radialGradient><path
+           id="path6711_4_"
+           enable-background="new    "
+           d="m -1293.062,-2229.094 v -478.281 c 142.875,-0.844 345.406,107.156 345.406,239.125 0,132.062 -159.438,239.156 -345.406,239.156 z"
+           inkscape:connector-curvature="0"
+           style="opacity:0.40210003;fill:url(#radialGradient345)" /><radialGradient
+           id="path6713_1_"
+           cx="-125962.78"
+           cy="-120073.91"
+           r="4.4819002"
+           gradientTransform="matrix(-3.167336e-5,0,0,-1.878082e-5,1064077,-1211132.4)"
+           gradientUnits="userSpaceOnUse"><stop
+             offset="0"
+             style="stop-color:#000000"
+             id="stop21" /><stop
+             offset="1"
+             style="stop-color:#000000;stop-opacity:0"
+             id="stop23" /></radialGradient><path
+           id="path6713_4_"
+           enable-background="new    "
+           d="m -2632.625,-2229.094 v -478.281 c -142.875,-0.844 -345.406,107.156 -345.406,239.125 0,132.062 159.406,239.156 345.406,239.156 z"
+           inkscape:connector-curvature="0"
+           style="opacity:0.40210003;fill:url(#radialGradient347)" /></g><path
+         id="back_4_"
+         d="m 324.068,528.385 c 0.021,-0.416 0.461,-0.834 0.877,-0.834 h 31.36 c 0.416,0 0.812,0.418 0.789,0.834 l -0.938,27.283 c -0.021,0.418 -0.459,0.834 -0.877,0.834 h -13.283 c -0.486,0 -1.236,0.316 -1.403,1.109 l -0.612,2.898 c -0.154,0.736 -0.883,1.039 -1.299,1.039 h -14.795 c -0.417,0 -0.812,-0.418 -0.79,-0.834 z"
+         inkscape:connector-curvature="0"
+         style="fill:#9b9a9a;stroke:#000000;stroke-linecap:round;stroke-linejoin:round" /><g
+         id="front_4_"><path
+           id="orange_4_"
+           d="m 359.402,527.555 c 1.137,0.043 1.951,1.094 2.033,2.316 0.786,11.521 1.646,21.186 1.646,21.186 0.072,0.248 -0.165,0.494 -0.477,0.494 H 328.47 l -1.838,-21.82 c -0.112,-0.979 -0.463,-1.801 -1.539,-2.18 z"
+           inkscape:connector-curvature="0"
+           style="fill:#fca342;stroke:#ce5c00;stroke-linejoin:round" /><path
+           id="path323_4_"
+           d="m 329.447,550.793 -1.158,-15.611 c 0,0 8.238,4.143 18.537,4.143 10.299,0 15.449,11.471 15.449,11.471 z"
+           inkscape:connector-curvature="0"
+           style="fill:#ffffff;fill-opacity:0.0893" /></g></g></symbol><symbol
+     id="Folder_1"
+     viewBox="-22.969 -19.102 45.937 38.203"
+     transform="translate(0,50.921023)"><g
+       id="g2642_3_"
+       transform="translate(-342.85714,-542.94643)"><g
+         id="shadow_3_"
+         transform="matrix(0.02262383,0,0,0.02086758,387.2653,580.34254)"><linearGradient
+           id="rect6709_2_"
+           gradientUnits="userSpaceOnUse"
+           x1="-1339.125"
+           y1="-2518.2188"
+           x2="-1339.125"
+           y2="-2487.9111"
+           gradientTransform="matrix(3.167336e-5,0,0,-1.878082e-5,1018374.7,-1211132.4)"><stop
+             offset="0"
+             style="stop-color:#000000;stop-opacity:0"
+             id="stop34" /><stop
+             offset="0.5"
+             style="stop-color:#000000"
+             id="stop36" /><stop
+             offset="1"
+             style="stop-color:#000000;stop-opacity:0"
+             id="stop38" /></linearGradient><polygon
+           id="rect6709_3_"
+           enable-background="new    "
+           points="-2632.688,-2229.094 -1293.062,-2229.094 -1293.062,-2707.375 -2632.688,-2707.375 "
+           style="opacity:0.40210003;fill:url(#linearGradient349)" /><radialGradient
+           id="path6711_2_"
+           cx="-1120.3438"
+           cy="-2468.25"
+           r="4.4815998"
+           gradientTransform="matrix(3.167336e-5,0,0,-1.878082e-5,1018375.4,-1211132.4)"
+           gradientUnits="userSpaceOnUse"><stop
+             offset="0"
+             style="stop-color:#000000"
+             id="stop42" /><stop
+             offset="1"
+             style="stop-color:#000000;stop-opacity:0"
+             id="stop44" /></radialGradient><path
+           id="path6711_3_"
+           enable-background="new    "
+           d="m -1293.062,-2229.094 v -478.281 c 142.875,-0.844 345.406,107.156 345.406,239.125 0,132.062 -159.5,239.156 -345.406,239.156 z"
+           inkscape:connector-curvature="0"
+           style="opacity:0.40210003;fill:url(#radialGradient351)" /><radialGradient
+           id="path6713_2_"
+           cx="-2805.375"
+           cy="-2468.25"
+           r="4.4815998"
+           gradientTransform="matrix(-3.167336e-5,0,0,-1.878082e-5,1064077,-1211132.4)"
+           gradientUnits="userSpaceOnUse"><stop
+             offset="0"
+             style="stop-color:#000000"
+             id="stop48" /><stop
+             offset="1"
+             style="stop-color:#000000;stop-opacity:0"
+             id="stop50" /></radialGradient><path
+           id="path6713_3_"
+           enable-background="new    "
+           d="m -2632.688,-2229.094 v -478.281 c -142.875,-0.844 -345.406,107.156 -345.406,239.125 0,132.062 159.406,239.156 345.406,239.156 z"
+           inkscape:connector-curvature="0"
+           style="opacity:0.40210003;fill:url(#radialGradient353)" /></g><path
+         id="back_3_"
+         d="m 324.067,528.385 c 0.021,-0.416 0.461,-0.834 0.877,-0.834 h 31.36 c 0.416,0 0.812,0.418 0.789,0.834 l -0.938,27.283 c -0.021,0.418 -0.461,0.834 -0.877,0.834 h -13.284 c -0.486,0 -1.236,0.316 -1.403,1.109 l -0.612,2.898 c -0.154,0.736 -0.883,1.039 -1.299,1.039 h -14.795 c -0.417,0 -0.812,-0.418 -0.79,-0.834 z"
+         inkscape:connector-curvature="0"
+         style="fill:#9b9a9a;stroke:#000000;stroke-linecap:round;stroke-linejoin:round" /><g
+         id="front_3_"><path
+           id="orange_3_"
+           d="m 359.402,527.555 c 1.135,0.043 1.949,1.094 2.032,2.316 0.786,11.521 1.647,21.186 1.647,21.186 0.072,0.248 -0.166,0.494 -0.477,0.494 h -34.135 l -1.838,-21.82 c -0.112,-0.979 -0.463,-1.801 -1.539,-2.18 z"
+           inkscape:connector-curvature="0"
+           style="fill:#7fa1ff;stroke:#4410ff;stroke-linejoin:round" /><path
+           id="path323_3_"
+           d="m 329.446,550.793 -1.158,-15.611 c 0,0 8.238,4.143 18.538,4.143 10.299,0 15.447,11.471 15.447,11.471 z"
+           inkscape:connector-curvature="0"
+           style="fill:#ffffff;fill-opacity:0.0893" /></g></g></symbol><symbol
+     id="Klammer"
+     viewBox="-9.875 -64 19.75 128"
+     transform="translate(0,50.921023)"><path
+       d="m -9.875,63 c 21.75,0 -1.75,-63 19.75,-63 m -19.75,-63 c 21.75,0 -1.75,63 19.75,63"
+       id="path61"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#ef6060;stroke-width:2" /></symbol><symbol
+     id="Pfeil"
+     viewBox="-20.396 -18.23 40.792 36.462"
+     transform="translate(0,50.921023)"><polygon
+       points="-19.896,8.648 -19.896,-9.587 3.015,-9.495 3.015,-17.046 19.695,-0.806 3.026,17.019 2.927,14.667 3.015,8.546 "
+       id="polygon64"
+       style="fill:#de22ff;stroke:#000000" /></symbol><g
+     id="Ebene_2_6_"
+     transform="matrix(1.0511948,0,0,1.0814361,0.01644803,0.44429102)"><rect
+       width="900"
+       height="669.07898"
+       id="rect67"
+       x="0"
+       y="0"
+       style="fill:#ffffff;stroke:#000000" /></g><g
+     id="g75"
+     transform="translate(0,-37.078977)"><g
+       id="Ebene_2"><use
+         xlink:href="#Folder"
+         width="45.936001"
+         height="38.203999"
+         x="-22.968"
+         y="-19.101999"
+         transform="matrix(1,0,0,-1,42.9727,184.45472)"
+         overflow="visible"
+         id="use70"
+         style="overflow:visible" /></g><text
+       transform="translate(70.0039,142.4321)"
+       font-size="24"
+       id="text73"
+       style="font-size:24px;font-family:MyriadPro-Regular">assets</text>
+</g><text
+     font-size="36"
+     id="text106"
+     style="font-size:36px;font-family:MyriadPro-Regular"
+     x="29.415197"
+     y="55.692493">Asset Pipeline</text>
+<g
+     id="g149"
+     transform="translate(0,66.921023)"><g
+       id="Ebene_2_4_"><use
+         xlink:href="#Folder_1"
+         width="45.937"
+         height="38.202999"
+         x="-22.969"
+         y="-19.101999"
+         transform="matrix(1,0,0,-1,465.4922,129.57382)"
+         overflow="visible"
+         id="use144"
+         style="overflow:visible" /></g><text
+       transform="translate(492.5234,87.5513)"
+       font-size="24"
+       id="text147"
+       style="font-size:24px;font-family:MyriadPro-Regular">public</text>
+</g><g
+     id="g156"
+     transform="translate(0,70.921023)"><g
+       id="Ebene_2_5_"><use
+         xlink:href="#Folder_1"
+         width="45.937"
+         height="38.202999"
+         x="-22.969"
+         y="-19.101999"
+         transform="matrix(1,0,0,-1,500.4922,184.42832)"
+         overflow="visible"
+         id="use151"
+         style="overflow:visible" /></g><text
+       transform="translate(527.5234,142.4067)"
+       font-size="24"
+       id="text154"
+       style="font-size:24px;font-family:MyriadPro-Regular">assets</text>
+</g><g
+     id="g489"
+     transform="translate(0,10)"><g
+       transform="translate(0,58.921023)"
+       id="g82"><g
+         id="Ebene_2_1_"><use
+           style="overflow:visible"
+           id="use77"
+           overflow="visible"
+           transform="matrix(1,0,0,-1,86.8784,237.45472)"
+           y="-19.101999"
+           x="-22.968"
+           height="38.203999"
+           width="45.936001"
+           xlink:href="#Folder" /></g><text
+         style="font-size:24px;font-family:MyriadPro-Regular"
+         id="text80"
+         font-size="24"
+         transform="translate(113.9097,195.4321)">images</text>
+</g><g
+       transform="translate(0,58.921023)"
+       id="g104"><g
+         id="g102"><path
+           style="fill:none;stroke:#f99532;stroke-width:2"
+           inkscape:connector-curvature="0"
+           id="path98"
+           d="M 250.8911,239.388 C 427.0161,237.159 367.919,197.551 525.436,198.755"
+           sodipodi:nodetypes="cc" /><path
+           style="fill:#f99532"
+           inkscape:connector-curvature="0"
+           id="path100"
+           d="m 537.508,198.754 c -5.68,2.107 -12.728,5.703 -17.094,9.51 l 3.438,-9.51 -3.438,-9.51 c 4.366,3.807 11.414,7.404 17.094,9.51 z" /></g></g><g
+       transform="translate(0,58.921023)"
+       id="g112"><rect
+         style="fill:#ffc65f;stroke:#bc5e08"
+         id="rect108"
+         height="34"
+         width="28.59"
+         y="221.03999"
+         x="104.411" /><text
+         style="font-size:24px;font-family:MyriadPro-Regular"
+         id="text110"
+         font-size="24"
+         transform="translate(140.4819,246.4321)">rails.png</text>
+</g><g
+       transform="translate(0,58.921023)"
+       id="g162"><use
+         style="overflow:visible"
+         id="use158"
+         overflow="visible"
+         transform="matrix(1,0,0,-1,561.9912,248.47182)"
+         y="-17.5"
+         x="-14.795"
+         height="35"
+         width="29.59"
+         xlink:href="#File" /><text
+         style="font-size:24px;font-family:MyriadPro-Regular"
+         id="text160"
+         font-size="24"
+         transform="translate(583.7676,205.9438)">rails.png</text>
+</g><g
+       transform="translate(0,58.921023)"
+       id="g168"><text
+         style="font-size:24px;font-family:MyriadPro-Regular"
+         id="text164"
+         font-size="24"
+         transform="translate(583.7676,245.5522)">rails-be8732da.png</text>
+<use
+         style="overflow:visible"
+         id="use166"
+         overflow="visible"
+         transform="matrix(1,0,0,-1,561.9912,288.30922)"
+         y="-17.5"
+         x="-14.795"
+         height="35"
+         width="29.59"
+         xlink:href="#File" /></g></g><g
+     id="g470"
+     transform="translate(0,202)"><g
+       transform="translate(0,58.921023)"
+       id="g89"><g
+         id="Ebene_2_2_"><use
+           style="overflow:visible"
+           id="use84"
+           overflow="visible"
+           transform="matrix(1,0,0,-1,84.8472,349.95422)"
+           y="-19.101999"
+           x="-22.968"
+           height="38.203999"
+           width="45.936001"
+           xlink:href="#Folder" /></g><text
+         style="font-size:24px;font-family:MyriadPro-Regular"
+         id="text87"
+         font-size="24"
+         transform="translate(111.8784,307.9321)">javascripts</text>
+</g><g
+       transform="translate(0,58.921023)"
+       id="g118"><rect
+         style="fill:#ffc65f;stroke:#bc5e08"
+         id="rect114"
+         height="34"
+         width="28.59"
+         y="334.79001"
+         x="104.411" /><text
+         style="font-size:24px;font-family:MyriadPro-Regular"
+         id="text116"
+         font-size="24"
+         transform="translate(140.4814,360.1821)">application.js</text>
+</g><g
+       transform="translate(0,58.921023)"
+       id="g136"><rect
+         style="fill:#ffc65f;stroke:#bc5e08"
+         id="rect132"
+         height="34"
+         width="28.59"
+         y="378.79001"
+         x="104.411" /><text
+         style="font-size:24px;font-family:MyriadPro-Regular"
+         id="text134"
+         font-size="24"
+         transform="translate(140.4814,404.1821)">main.js.ts</text>
+</g><g
+       transform="translate(0,58.921023)"
+       id="g174"><text
+         style="font-size:24px;font-family:MyriadPro-Regular"
+         id="text170"
+         font-size="24"
+         transform="translate(583.7676,320.479)">application.js</text>
+<use
+         style="overflow:visible"
+         id="use172"
+         overflow="visible"
+         transform="matrix(1,0,0,-1,560.9912,363.35612)"
+         y="-17.5"
+         x="-14.795"
+         height="35"
+         width="29.59"
+         xlink:href="#File" /></g><g
+       transform="translate(0,58.921023)"
+       id="g180"><text
+         style="font-size:24px;font-family:MyriadPro-Regular"
+         id="text176"
+         font-size="24"
+         transform="translate(583.7676,397.2104)">application-3374f2a8.js</text>
+<use
+         style="overflow:visible"
+         id="use178"
+         overflow="visible"
+         transform="matrix(1,0,0,-1,561.8789,439.11972)"
+         y="-17.5"
+         x="-14.795"
+         height="35"
+         width="29.59"
+         xlink:href="#File" /></g><g
+       transform="translate(0,58.921023)"
+       id="g186"><text
+         style="font-size:24px;font-family:MyriadPro-Regular"
+         id="text182"
+         font-size="24"
+         transform="translate(583.7676,435.5747)">application-3374f2a8.js.gz</text>
+<use
+         style="overflow:visible"
+         id="use184"
+         overflow="visible"
+         transform="matrix(1,0,0,-1,561.8789,478.35512)"
+         y="-17.5"
+         x="-14.795"
+         height="35"
+         width="29.59"
+         xlink:href="#File" /></g><g
+       transform="translate(0,58.921023)"
+       id="g192"><text
+         style="font-size:24px;font-family:MyriadPro-Regular"
+         id="text188"
+         font-size="24"
+         transform="translate(583.7676,358.8442)">application.js.gz</text>
+<use
+         style="overflow:visible"
+         id="use190"
+         overflow="visible"
+         transform="matrix(1,0,0,-1,561.9912,401.37272)"
+         y="-17.5"
+         x="-14.795"
+         height="35"
+         width="29.59"
+         xlink:href="#File" /></g><g
+       transform="translate(0,58.921023)"
+       id="g222"><use
+         style="overflow:visible"
+         id="use218"
+         overflow="visible"
+         transform="matrix(1,0,0,-1,296.291,448.04452)"
+         y="-18.23"
+         x="-20.396"
+         height="36.462002"
+         width="40.792"
+         xlink:href="#Pfeil" /><text
+         style="font-size:24px;font-family:MyriadPro-Regular"
+         id="text220"
+         font-size="24"
+         transform="translate(328.2314,404.4321)">.js</text>
+</g><use
+       style="overflow:visible"
+       id="use244"
+       overflow="visible"
+       transform="matrix(1,0,0,-0.6969,360,471.94748)"
+       y="-64"
+       x="-9.875"
+       height="128"
+       width="19.75"
+       xlink:href="#Klammer" /><g
+       transform="translate(0,58.921023)"
+       id="g252"><g
+         id="g250"><path
+           style="fill:none;stroke:#f99532;stroke-width:2"
+           inkscape:connector-curvature="0"
+           id="path246"
+           d="m 374.006,377.54 c 52.348,0 81.575,-65.491 151.43,-65.491" /><path
+           style="fill:#f99532"
+           inkscape:connector-curvature="0"
+           id="path248"
+           d="m 537.508,312.047 c -5.68,2.107 -12.728,5.703 -17.094,9.51 l 3.438,-9.51 -3.438,-9.51 c 4.366,3.807 11.414,7.404 17.094,9.51 z" /></g></g></g><g
+     id="g438"
+     transform="translate(-2.0047046,-166.47046)"><g
+       transform="translate(0,58.921023)"
+       id="g96"><g
+         id="Ebene_2_3_"><use
+           style="overflow:visible"
+           id="use91"
+           overflow="visible"
+           transform="matrix(1,0,0,-1,81.6851,527.90202)"
+           y="-19.101999"
+           x="-22.968"
+           height="38.203999"
+           width="45.936001"
+           xlink:href="#Folder" /></g><text
+         style="font-size:24px;font-family:MyriadPro-Regular"
+         id="text94"
+         font-size="24"
+         transform="translate(108.7163,485.8794)">stylesheets</text>
+</g><g
+       transform="translate(0,58.921023)"
+       id="g124"><rect
+         style="fill:#ffc65f;stroke:#bc5e08"
+         id="rect120"
+         height="34"
+         width="28.59"
+         y="513.987"
+         x="104.411" /><text
+         style="font-size:24px;font-family:MyriadPro-Regular"
+         id="text122"
+         font-size="24"
+         transform="translate(140.4814,539.3794)">application.css</text>
+</g><g
+       transform="translate(0,58.921023)"
+       id="g130"><rect
+         style="fill:#ffc65f;stroke:#bc5e08"
+         id="rect126"
+         height="34"
+         width="28.59"
+         y="560.01801"
+         x="104.411" /><text
+         style="font-size:24px;font-family:MyriadPro-Regular"
+         id="text128"
+         font-size="24"
+         transform="translate(140.4814,585.4126)">main.css.sass</text>
+</g><g
+       transform="translate(0,58.921023)"
+       id="g142"><rect
+         style="fill:#ffc65f;stroke:#bc5e08"
+         id="rect138"
+         height="34"
+         width="28.59"
+         y="604.01801"
+         x="104.411" /><text
+         style="font-size:24px;font-family:MyriadPro-Regular"
+         id="text140"
+         font-size="24"
+         transform="translate(140.4819,629.4126)">x.css.sass.erb</text>
+</g><g
+       transform="translate(0,58.921023)"
+       id="g198"><text
+         style="font-size:24px;font-family:MyriadPro-Regular"
+         id="text194"
+         font-size="24"
+         transform="translate(583.7676,491.1851)">application.css</text>
+<use
+         style="overflow:visible"
+         id="use196"
+         overflow="visible"
+         transform="matrix(1,0,0,-1,561.8789,534.04362)"
+         y="-17.5"
+         x="-14.795"
+         height="35"
+         width="29.59"
+         xlink:href="#File" /></g><g
+       transform="translate(0,58.921023)"
+       id="g204"><text
+         style="font-size:24px;font-family:MyriadPro-Regular"
+         id="text200"
+         font-size="24"
+         transform="translate(583.7676,530.1733)">application.css.gz</text>
+<use
+         style="overflow:visible"
+         id="use202"
+         overflow="visible"
+         transform="matrix(1,0,0,-1,562.5117,573.27992)"
+         y="-17.5"
+         x="-14.795"
+         height="35"
+         width="29.59"
+         xlink:href="#File" /></g><g
+       transform="translate(0,58.921023)"
+       id="g210"><text
+         style="font-size:24px;font-family:MyriadPro-Regular"
+         id="text206"
+         font-size="24"
+         transform="translate(583.7676,569.1626)">application-3c9de844.css</text>
+<use
+         style="overflow:visible"
+         id="use208"
+         overflow="visible"
+         transform="matrix(1,0,0,-1,561.8789,612.51522)"
+         y="-17.5"
+         x="-14.795"
+         height="35"
+         width="29.59"
+         xlink:href="#File" /></g><g
+       transform="translate(0,58.921023)"
+       id="g216"><text
+         style="font-size:24px;font-family:MyriadPro-Regular"
+         id="text212"
+         font-size="24"
+         transform="translate(583.7676,608.1509)">application-3c9de844.css.gz</text>
+<use
+         style="overflow:visible"
+         id="use214"
+         overflow="visible"
+         transform="matrix(1,0,0,-1,561.8789,651.11782)"
+         y="-17.5"
+         x="-14.795"
+         height="35"
+         width="29.59"
+         xlink:href="#File" /></g><g
+       transform="translate(40,58.921023)"
+       id="g228"><text
+         style="font-size:24px;font-family:MyriadPro-Regular"
+         id="text224"
+         font-size="24"
+         transform="translate(319.0518,584.2817)">.css</text>
+<use
+         style="overflow:visible"
+         id="use226"
+         overflow="visible"
+         transform="matrix(1,0,0,-1,297.4971,627.96842)"
+         y="-18.23"
+         x="-20.396"
+         height="36.462002"
+         width="40.792"
+         xlink:href="#Pfeil" /></g><g
+       transform="translate(40,58.921023)"
+       id="g234"><text
+         style="font-size:24px;font-family:MyriadPro-Regular"
+         id="text230"
+         font-size="24"
+         transform="translate(317.9297,628.2817)">.sass</text>
+<use
+         style="overflow:visible"
+         id="use232"
+         overflow="visible"
+         transform="matrix(1,0,0,-1,295.5981,672.63442)"
+         y="-18.23"
+         x="-20.396"
+         height="36.462002"
+         width="40.792"
+         xlink:href="#Pfeil" /></g><g
+       transform="translate(53.7833,58.06842)"
+       id="g240"><text
+         style="font-size:24px;font-family:MyriadPro-Regular"
+         id="text236"
+         font-size="24"
+         transform="translate(410.4297,628.2817)">.css</text>
+<use
+         style="overflow:visible"
+         id="use238"
+         overflow="visible"
+         transform="matrix(1,0,0,-1,388.3589,672.26722)"
+         y="-18.23"
+         x="-20.396"
+         height="36.462002"
+         width="40.792"
+         xlink:href="#Pfeil" /></g><use
+       style="overflow:visible"
+       id="use242"
+       overflow="visible"
+       transform="matrix(1,0,0,-1,512.44258,680.83779)"
+       y="-64"
+       x="-9.875"
+       height="128"
+       width="19.75"
+       xlink:href="#Klammer" /><g
+       transform="translate(1.41754,59.629794)"
+       id="g260"><g
+         id="g258"><path
+           style="fill:none;stroke:#f99532;stroke-width:2"
+           inkscape:connector-curvature="0"
+           id="path254"
+           d="M 527.27897,570.03435 C 542.06215,526.79938 500.14582,484.79354 532.437,483.376"
+           sodipodi:nodetypes="cc" /><path
+           style="fill:#f99532"
+           inkscape:connector-curvature="0"
+           id="path256"
+           d="m 544.508,483.375 c -5.68,2.105 -12.728,5.703 -17.094,9.51 l 3.438,-9.51 -3.438,-9.512 c 4.366,3.807 11.414,7.405 17.094,9.512 z" /></g></g></g><g
+     id="g494"
+     transform="translate(0,8)"><g
+       transform="translate(0,-43.078977)"
+       id="g331"><use
+         style="overflow:visible"
+         id="use329"
+         overflow="visible"
+         transform="matrix(1,0,0,-1,86.8784,237.45472)"
+         y="-19.101999"
+         x="-22.968"
+         height="38.203999"
+         width="45.936001"
+         xlink:href="#Folder" /></g><text
+       y="152.35312"
+       x="113.9097"
+       style="font-size:24px;font-family:MyriadPro-Regular"
+       id="text333"
+       font-size="24">config</text>
+</g><g
+     transform="translate(0,-35.078977)"
+     id="g341"><rect
+       style="fill:#ffc65f;stroke:#bc5e08"
+       id="rect337"
+       height="34"
+       width="28.59"
+       y="221.03999"
+       x="104.411" /><text
+       style="font-size:24px;font-family:MyriadPro-Regular"
+       id="text339"
+       font-size="24"
+       transform="translate(140.4819,246.4321)">manifest.js</text>
+</g></svg>
