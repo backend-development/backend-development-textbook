@@ -50,7 +50,7 @@ Rails implements the Active Record pattern in a class called `ActiveRecord`.
 All the '''models''' in a Rails project inherit from `ActiveRecord`.
 
 ```ruby
-class Thing < ActiveRecord::Base
+class Thing < ApplicationRecord
 end
 ```
 

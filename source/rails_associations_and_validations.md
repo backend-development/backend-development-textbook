@@ -43,7 +43,7 @@ code to handle the error!
 Validation are declared in the model:
 
 ```ruby
-class Tweet < ActiveRecord::Base
+class Tweet < ApplicationRecord
   validates :status, :zombie presence: true
 end
 ```

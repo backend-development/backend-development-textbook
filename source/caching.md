@@ -733,7 +733,7 @@ In Rails we can define a model for a database view:
 
 ```
 app/models/degree_program.rb
-class DegreeProgram < ActiveRecord::Base
+class DegreeProgram < ApplicationRecord
   belongs_to :user
 
   def to_s
@@ -745,7 +745,7 @@ end
 And add a relationship from user:
 
 ```
-class User < ActiveRecord::Base
+class User < ApplicationRecord
 ...
   has_many :degree_programs
 ```
