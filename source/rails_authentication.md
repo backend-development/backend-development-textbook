@@ -239,19 +239,6 @@ class CreateUsers < ActiveRecord::Migration[5.1]
 end
 ```
 
-§
-
-You can create the first user in the rails console
-or in db/seed like so:
-
-```ruby
-User.create!(
-  username:'admin',
-  password:'secret',
-  password_confirmation: 'secret'
-)
-```
-
 ## Basic Login
 
 We now have all the bits and pieces to build a Login with username (or e-mail adress) and password.
@@ -292,12 +279,20 @@ Next you need to set up the view for the login form there:
 
 <h1>Log in</h1>
 
-<%= form_with url: login_path do |f| %>
-    Username: <%= text_field_tag     :username %> <br>
-    Password: <%= password_field_tag :password %> <br>
-    Password Confirmation: <%= password_field_tag :password_confirmation %> <br>
+<%= form_with url: login_path, local: true do |f| %>
 
-    <%= submit_tag 'Log In' %>
+  <div>
+    <%= f.label :username %>
+    <%= f.text_field :username %>
+  </div>
+
+  <div>
+    <%= f.label :password %>
+    <%= f.password_field :password %>
+  </div>
+
+  <%= submit_tag 'Log In' %>
+
 <% end %>
 ```
 
