@@ -209,9 +209,14 @@ Now the create-method is changed again: you need to supply the
 passwort twice to the create method:
 
 ```ruby
-User.create({username: "mariam",
-    password: 'badpassword123',
-    password_confirmation: 'badpassword1234'})
+> u = User.create({username: "yusuf",
+                   password: 'badpassword123',
+                   password_confirmation: 'badpassword1234'})
+=> #<User id: nil, username: "yusuf", password_digest: [FILTERED], created_at: nil, updated_at: nil>
+> u.save
+=> false
+> u.errors.messages
+=> {:password_confirmation=>["doesn't match Password"]}
 ```
 
 This use of create will not actually succeed, because the password_confirmation does
