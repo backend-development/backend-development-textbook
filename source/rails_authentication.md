@@ -404,6 +404,34 @@ When set up correctly devise gives you helper methods to use in your controllers
 - `user_signed_in?` # to check if a user is signed in (in views and controllers)
 - `before_action :authenticate_user!` # to make a controller only accessible to authenticated users
 
+It also adds new routes to your app:
+
+```
+                  Prefix Verb   URI Pattern              Controller#Action
+        new_user_session GET    /users/sign_in           devise/sessions#new
+            user_session POST   /users/sign_in           devise/sessions#create
+    destroy_user_session DELETE /users/sign_out          devise/sessions#destroy
+       new_user_password GET    /users/password/new      devise/passwords#new
+      edit_user_password GET    /users/password/edit     devise/passwords#edit
+           user_password PATCH  /users/password          devise/passwords#update
+                         PUT    /users/password          devise/passwords#update
+                         POST   /users/password          devise/passwords#create
+cancel_user_registration GET    /users/cancel            devise/registrations#cancel
+   new_user_registration GET    /users/sign_up           devise/registrations#new
+  edit_user_registration GET    /users/edit              devise/registrations#edit
+       user_registration PATCH  /users                   devise/registrations#update
+                         PUT    /users                   devise/registrations#update
+                         DELETE /users                   devise/registrations#destroy
+                         POST   /users                   devise/registrations#create
+   new_user_confirmation GET    /users/confirmation/new  devise/confirmations#new
+       user_confirmation GET    /users/confirmation      devise/confirmations#show
+                         POST   /users/confirmation      devise/confirmations#create
+```
+
+You will propably want to link to `new_user_session_path` for login,
+`destroy_user_session` for logout and `new_user_registration` for registering
+a new user.
+
 ## Other Auth-Providers
 
 In many scenarios it might be more convenient for your users
