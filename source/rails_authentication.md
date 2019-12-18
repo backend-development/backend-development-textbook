@@ -470,6 +470,9 @@ You have to specify the URL of your web app, and a callback URL:
 
 ![oauth app configuration](images/oauth-app-config.png)
 
+There might also be a review process involved which might take
+a few business days to go through.
+
 §
 
 You get back two pieces of information: a key and a secret.
