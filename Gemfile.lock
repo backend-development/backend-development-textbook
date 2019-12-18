@@ -49,11 +49,11 @@ GEM
       nokogiri (>= 1.5.9)
     lumberjack (1.0.13)
     method_source (0.9.1)
-    mini_portile2 (2.3.0)
+    mini_portile2 (2.4.0)
     minitest (5.11.3)
     nenv (0.3.0)
-    nokogiri (1.8.5)
-      mini_portile2 (~> 2.3.0)
+    nokogiri (1.10.4)
+      mini_portile2 (~> 2.4.0)
     notiffany (0.1.1)
       nenv (~> 0.1)
       shellany (~> 0.0)
@@ -90,7 +90,7 @@ DEPENDENCIES
   guard
   guard-rake
   loofah (~> 2.3.1)
-  nokogiri (~> 1.8.2)
+  nokogiri (~> 1.10.4)
   rails-html-sanitizer (~> 1.0.4)
   rake
   redcarpet
