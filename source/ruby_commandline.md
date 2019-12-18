@@ -1,12 +1,12 @@
 # Ruby
 
-This guide will focus on ruby - the language - alone.
+This guide will focus on Ruby - the language - alone.
 
 After finishing this guide you will
 
-- have an overview of rubys type system
-- be able to use list processing functions in ruby
-- be able to use blocks and `yield` in ruby.
+- have an overview of Ruby's type system
+- be able to use list processing functions in Ruby
+- be able to use blocks and `yield` in Ruby.
 
 REPO: Fork the [learn_ruby](https://github.com/backend-development/learn_ruby) repository to try some test driven ruby learning
 
@@ -39,14 +39,14 @@ called on it. The result is an Object of class String.
 
 ![Ruby on Rails Logo](images/Ruby_on_Rails_logo.png)
 
-Ruby on Rails is a web framework written in ruby.
+Ruby on Rails is a web framework written in Ruby.
 It was created by David Heinemeier Hansson ('DHH') starting in 2005.
 
 Rails is famous for the high productivity it gives to developers. It
 is often used in startups, where speed of delivery is very important.
 Rails moves fast, new versions with major improvement appear about every 18
-months. The rails community values speed of development, DRY code, testing,
-version control, ... when you learn rails you also pick up a whole culture
+months. The Rails community values speed of development, DRY code, testing,
+version control, ... when you learn Rails you also pick up a whole culture
 surrounding it.
 
 Some sites built with Rails are: [GitHub](https://github.com) and [GitLab](https://gitlab.com), [Shopify](https://shopify.com), [Airbnb](https://airbnb.com), [Twitch](https://www.twitch.tv/), [SoundCloud](https://soundcloud.com), [Square](https://squareup.com/) and of course [Basecamp](https://basecamp.com), DHHs own product.
@@ -68,10 +68,10 @@ Also, there are cool t-shirts:
 
 ## Ruby Basics
 
-To get to know ruby you don't need to write
+To get to know Ruby you don't need to write
 whole programes. You can start out with **interactive ruby - irb**.
-When you start irb you get a command line to type in ruby code. When
-you press enter the code is evaluted immediatly and you get the result.
+When you start irb you get a command line to type in Ruby code. When
+you press enter the code is evaluated immediately and you get the result.
 Use the commands `exit` or `quit` or the key combination CONTROL-D to get out.
 
 In this guide we will show code run in irb by marking the prompt as `>>` and
@@ -86,9 +86,9 @@ the result as `=>`, for example:
 
 Try to stick to [github's style for ruby](https://github.com/styleguide/ruby).
 
-When you chose names for your objects, classes and methods
+When you choose names for your objects, classes and methods
 you should stick to the following conventions to avoid
-confusing other ruby developers:
+confusing other Ruby developers:
 
 ```ruby
 the_variable = SomeClass.new
@@ -96,7 +96,7 @@ the_variable = SomeClass.new
              # classes in capital CamelCase
 
              # method names are written in snake_case
-a = b.sugar  # a method the returns something
+a = b.sugar  # a method that returns something
 b.sweet?     # a method that returns true or false
              # ends in a question mark
 b.sugar!     # a method that changes its object
@@ -116,7 +116,7 @@ puts "less code"
 
 # Data Types
 
-All of rubys basic data types are Classes.
+All of Ruby's basic data types are Classes.
 
 - nil
 - Numeric, Integer, Fixnum, Bignum, Float `# are converted automatically to each other`
@@ -179,7 +179,7 @@ s = %Q{
 
 ### Boolean Values
 
-In ruby only `false` and `nil` are treated as false. This might
+In Ruby only `false` and `nil` are treated as false. This might
 be confusing for programmers used to other languages with
 more complex rules for truthyness:
 
@@ -208,12 +208,12 @@ puts '"false" (the string) is true' if "false"
 ```
 
 This syntax should be familiar to you if
-you understand english. (yes, that's an english
+you understand English. (yes, that's an English
 sentence using the same syntax).
 
 ### Boolean Operators
 
-When ruby evaluates a boolean operator,
+When Ruby evaluates a boolean operator,
 it does as little work as possible. It
 stops evaluation as soon as the result is clear:
 
@@ -288,7 +288,7 @@ or if you need distinct constants, when the value is not important.
 
 ### Methods
 
-Methods in ruby return the last expression - even
+Methods in Ruby return the last expression - even
 if no explicit `return` statement is given.
 
 ```ruby
@@ -301,7 +301,7 @@ f(1,42)  # returns "x"
 
 ### Arrays
 
-There are several ways of writing literal arrays in ruby.
+There are several ways of writing literal arrays in Ruby.
 The first one looks like JSON:
 
 ```ruby
@@ -344,16 +344,16 @@ t = Date.new
 h[t] = "recently"
 ```
 
-The data structure behind a ruby Hash is more complex
-than an array: The key is sent though a function (called hash function)
+The data structure behind a Ruby Hash is more complex
+than an array: The key is sent through a function (called hash function)
 that returns a number. This number is used as the index
 for an array. If the hash function for two keys is the
 same a linked list is built.
 
 ![How Hash(tabl)es work](images/hash_table.svg)
 
-This datastructure seems like an serious waste of memory
-at first. But it offers the following intresting features:
+This datastructure seems like a serious waste of memory
+at first. But it offers the following interesting features:
 
 - looking up a key can be accomplished in constant time
 - inserting a new key / value pair can be accomplished in constant time
@@ -366,8 +366,8 @@ Hashes in Wikipedia:
 
 (If you don't know what "in constant time" means above, you
 should learn more about the analysis of algorithms. e.g. by
-taking a algorithms and data strcture course as offered in the second
-semester of most computer science programs.)
+taking an algorithms and data structure course as offered in the second
+semester of most computer science programs.
 
 ### Implicit Form
 
@@ -447,7 +447,7 @@ This is switched on in Rails since 5.2.
 
 ## Enumerables and Piping Data
 
-When working with a list of values ruby
+When working with a list of values Ruby
 helps you think about data on a new, more abstract level
 with Enumerables:
 
@@ -490,7 +490,7 @@ languages.sort.first(3)
 ```
 
 The elements of the array are piped into the sort-method, which again outputs a list
-of elements. Theses are piped into first, which only returns the first three and discards
+of elements. These are piped into first, which only returns the first three and discards
 the rest. The result is a list of 3 elements.
 
 Here are some simple methods you can use on Arrays (and other Enumerables)
@@ -593,11 +593,11 @@ end
 ## Summary
 
 You now know about the basic data types, about enumerables and about blocks -  
-features that distinguish ruby from other scripting languages.
+features that distinguish Ruby from other scripting languages.
 
-If you want to get more pracitical with ruby, you can
+If you want to get more pracitical with Ruby, you can
 do the
-[Learn Ruby](https://github.com/backend-development/learn_ruby) test driven ruby exercises.
+[Learn Ruby](https://github.com/backend-development/learn_ruby) test driven Ruby exercises.
 
 This should be a good enough basis to start with Rails.  
 But do take every
