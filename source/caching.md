@@ -33,8 +33,6 @@ Given these numbers it makes sense to keep a local copy of data that
 we might use again soon. Better to read it from ssd or memory the second
 time we need it!
 
-§
-
 In general english usage a cache is [stuff hidden in a secret place](https://en.oxforddictionaries.com/definition/cache). But in computing
 a cache is "auxiliary memory from which high-speed retrieval is possible".
 
