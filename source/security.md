@@ -350,10 +350,62 @@ Browsers restrict cross-origin HTTP requests initiated by scripts. For example, 
 
 ![cors principle](images/cors_principle.png)
 
+(Text and Image originally from [MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) by [many contributres](https://wiki.developer.mozilla.org/en-US/docs/Web/HTTP/CORS$history) is licensed under [CC BY-SA 2.5](https://creativecommons.org/licenses/by-sa/2.5/)
+
 §
 
-If you want to make your API available to frontends on other origins you
-can use the `rack-cors` gem:
+In the most simple case, when doing a cross-origin request:
+
+* the client send a `Origin` header 
+* the server responds with a `Access-Control-Allow-Origin` header
+
+for example:
+
+```
+GET /resources/data.json HTTP/1.1
+Host: bar.other
+Origin: https://foo.example
+
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: *
+Content-Type: application/json
+```
+
+§
+
+If you try to fetch a ressource cross-origin and no
+is set, an error occurs:
+
+```
+fetch("https://iou-brigitte.herokuapp.com/users.json")
+  .then(function(response) {
+    return response.json();
+  })
+  .then(function(data) {
+    console.log(data);
+  });  
+```
+
+
+![](/images/cors-error.png)
+
+§
+
+After setting the right Headers for the HTTP Response, 
+the request goes through:
+
+```
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Methods: GET
+```
+
+![](/images/cors-ok.png)
+
+§
+
+In Rails you
+can use the `rack-cors` gem to set the Header in middleware:
 
 ```ruby
 # Gemfile
@@ -366,18 +418,22 @@ The configuration is done in an initializer:
 # config/initializers/cors.rb
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins 'localhost:3000', '127.0.0.1:3000', 'https://my-frontend.org'
-    resource '/api/v1/*',
-      methods: %i(get post put patch delete options head),
-      max_age: 600
+    origins '*'
+    resource '/*', headers: :any, methods: :get
   end
 
   allow do
-    origins '*'
-    resource '/public/*', headers: :any, methods: :get
+    origins 'localhost:3000', '127.0.0.1:3000', 'https://my-frontend.org'
+    resource '/api/v1/*',
+      methods: %i(get post put patch delete options head)
   end
 end
 ```
+
+In this example get-requests are allowed for all origins,
+while using the full api is only allowed for three specific domains.
+
+§
 
 - [MDN: CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)
 - [rack-cors](https://github.com/cyu/rack-cors)
