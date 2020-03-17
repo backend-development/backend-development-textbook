@@ -33,7 +33,7 @@ Here we hit on an old problem in computer science: storing
 objects into a relational database does not work all that well.
 This problem is called the
 [Object-relational impedance mismatch](https://en.wikipedia.org/wiki/Object-relational_impedance_mismatch)
-and has been discussed since the early 1980ies.
+and has been discussed since the early 1980s.
 
 ### ORMs
 
@@ -50,7 +50,7 @@ Rails implements the Active Record pattern in a class called `ActiveRecord`.
 All the '''models''' in a Rails project inherit from `ActiveRecord`.
 
 ```ruby
-class Thing < ActiveRecord::Base
+class Thing < ApplicationRecord
 end
 ```
 
@@ -130,7 +130,7 @@ This will generate a Model `Tweet` and a migration to create table `tweets`.
 Have a look at the migration that was generated in `db/migrate/*create_tweets.rb`.
 You can edit this migration now - but not later! Run the migration on the command line with `rails db:migrate`. This will run the appropriate `CREATE TABLE` statement in your database.
 
-Look at the model generated in file `app/models/tweet.rb`. Add validations, associations to other model and the business logic here.
+Look at the model generated in file `app/models/tweet.rb`. Add validations, associations to other models and the business logic here.
 
 ### Database Migrations
 
@@ -144,7 +144,7 @@ Rails offers "Database Migrations" to cope with this fact.
 §
 
 A "Migration" is a (small) change in the database schema. The change is
-described in ruby and saved to a file in the folder `db/migrations`.
+described in Ruby and saved to a file in the folder `db/migrations`.
 The files are identified by a timestamp and a unique name, for example:
 
 ```
@@ -240,7 +240,7 @@ is written in rails:
 
 ## The Model
 
-Look at the model generated in file `app/models/tweet.rb`. Add validations, associations to other model and the business logic here.
+Look at the model generated in file `app/models/tweet.rb`. Add validations, associations to other models and the business logic here.
 
 ### the model in the console
 
@@ -443,7 +443,7 @@ Tweet.where("created_at > '2018-10-01'").
   order(:zombie).limit(3)
 ```
 
-(normally the dot is placed in front of the method when chaining. here
+(Normally the dot is placed in front of the method when chaining. Here
 it is placed at the end, to enable copy-and-paste to the Rails console)
 
 §

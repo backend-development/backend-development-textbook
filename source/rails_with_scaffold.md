@@ -1,88 +1,84 @@
-Rails with Scaffold 
-===================
+# Rails with Scaffold
 
 We will build our first rails project but we will not really understand
 everything - that comes later.
 
 After finishing this guide you will
 
-* have finished your first rails project
-* know how to use the scaffold generator
-* know about the main folders of a rails project: `config`, `db`, `app`
-* have an overview of what model, view, controller (MVC) means in rails
+- have finished your first rails project
+- know how to use the scaffold generator
+- know about the main folders of a rails project: `config`, `db`, `app`
+- have an overview of what model, view, controller (MVC) means in rails
 
------------------------------------------------------------------------
+---
 
-
-Rails from the Outside In
--------------------------
+## Rails from the Outside In
 
 Let's look at a fairly complex web application - the course
 management system for a university. How would the code for this
-app be organized, if it is written in ruby on rails?
+app be organized, if it is written in Ruby on Rails?
 
 The course management system surely deals with courses in some
-way. 
+way.
 
 Rails is organized along the distinction of model - view - controller (MVC).
 In our exmple we would find:
 
-* an entry in `conf/route.rb` that configures the mapping of  URLs and parameters to the controller
-* several templates for courses in the folder `app/views/courses/` 
-* a ruby class in the `apps/controllers` folder with the class name `CourseController`
-* a ruby class in the `app/models` folder with the class name `Course`
-* a relational database in the backend. this database contains a table `courses`
+- an entry in `conf/route.rb` that configures the mapping of URLs and parameters to the controller
+- several templates for courses in the folder `app/views/courses/`
+- a ruby class in the `apps/controllers` folder with the class name `CourseController`
+- a ruby class in the `app/models` folder with the class name `Course`
+- a relational database in the backend. this database contains a table `courses`
 
-As a rails programmer you know about all these folders and files.  If you are
-told that there is a problem in the webpage with url http://myapp.com/courses/5/edit 
+As a rails programmer you know about all these folders and files. If you are
+told that there is a problem in the webpage with url http://myapp.com/courses/5/edit
 you immediately
 know to look in conf/routes.rb to find out exactly which files are concerned,
 but that the most likely canditates are
 
-* app/models/course.rb
-* app/controller/course_controller.b
-* app/views/course/edit.html.erb
+- app/models/course.rb
+- app/controller/course_controller.b
+- app/views/course/edit.html.erb
 
 If you have not used a framework before this might feel very restrictive in the
 beginning: you can't just make up filenames any way you want, there is a
-**convention** for everything.  
+**convention** for everything.
 
 You have to stick to the convention if you want to profit from the framework,
 it will make your work as a programmer a lot easier.
 And you will profit from this convention
 every time you look at a new project - you'll instantly know your way around.
 
-
 ### Start a Rails Project
 
 Before you can start your first rails project you have
-to install ruby and the rails gem on your computer.  
+to install ruby and the rails gem on your computer.
 
-A word of warning: Ruby and Rails will work on any Unix, including Mac OS. 
+A word of warning: Ruby and Rails will work on any Unix, including Mac OS.
 To use them on a windows system you need a lot more patience and troubleshooting
-ability.  So if you are a windows user you might consider running
-ruby and rails in a virtual (unix) machine (without GUI) instead. 
+ability. So if you are a windows user you might consider running
+ruby and rails in a virtual (unix) machine (without GUI) instead.
 
 Make sure you are using a current ruby (>= 2.3) and rails (>= 5.0) before
 you proceed:
 
-``` sh
+```sh
 $ ruby -v
 ruby 2.3.1p112 (2016-04-26 revision 54768) [x86_64-darwin15]
 $ rails -v
 Rails 5.0.0.1
 ```
 
-Another word of warning: rails moves fast.  This textbook first written in the fall
-of 2012 for rails 3.2, and has been updated every year until fall 2016. 
-If you are reading this in the far future (which in rails terms means: in late 1017 or later) 
+Another word of warning: rails moves fast. This textbook first written in the fall
+of 2012 for rails 3.2, and has been updated every year until fall 2016.
+If you are reading this in the far future (which in rails terms means: in late 1017 or later)
 you are probably using ruby 3 or later, and rails 6 or later, and this text is **not** for you!
 
 Before you start your rails project you have to decide on the name (and folder
-name) of your application.  The name of application cannot easily be changed
-afterwards!  In the following example we create an app called 'alljokes':
+name) of your application. The name of application cannot easily be changed
+afterwards! In the following example we create an app called 'alljokes':
 
-``` sh
+```sh
 rails new alljokes -T
 ```
 
@@ -96,15 +92,15 @@ that might help if the gems are installed on your computer already.
 Rails will create a directory structure and about 40 files for you.
 Let's start to look at a few of them:
 
-* `Gemfile` - in this file you specify which libraries (gems) your project uses
-* `app`
-  * `model` - contains all the classes of models
-  * `view` - contains a folder full of templates for every controller
-  * `controller` - contains all the classes of controllers
-* `config`
-  * `database.yml` - database configuration
-  * `routes.rb`  - configuration of routes
-* `public` - the webspace. files in here are accessible without routing
+- `Gemfile` - in this file you specify which libraries (gems) your project uses
+- `app`
+  - `model` - contains all the classes of models
+  - `view` - contains a folder full of templates for every controller
+  - `controller` - contains all the classes of controllers
+- `config`
+  - `database.yml` - database configuration
+  - `routes.rb` - configuration of routes
+- `public` - the webspace. files in here are accessible without routing
 
 With your code split up into so many different files it is really useful
 to haven an editor that not only helps you edit a single file, but that
@@ -115,31 +111,29 @@ or submline or RubyMine:
 
 ### Start the Webserver
 
-Rails comes with a tiny webserver called `puma`.  You start
+Rails comes with a tiny webserver called `puma`. You start
 it in your terminal window (and then you need another window to go on working)
 
-``` sh 
+```sh
 $ rails server
 ```
 
 Now you can point your browser at `http://localhost:3000/` to find the first
-webpage of your app.  It's just a dummy page that will vanish once
+webpage of your app. It's just a dummy page that will vanish once
 you add your own pages.
 
-
-Make it a Git Repository
--------------
+## Make it a Git Repository
 
 A new rails project is already prepared to be turned
-into a git repository: there is a `.gitignore` file in the main 
-folder.   (If you are using rubymine you could add `/.idea` to
+into a git repository: there is a `.gitignore` file in the main
+folder. (If you are using rubymine you could add `/.idea` to
 your `.gitignore` - that's the directory where rubymine stores
-it's configuration.  You probably want to keep that private to
+it's configuration. You probably want to keep that private to
 each developer.
 
 Create a new repository and commit in the current status:
 
-``` sh 
+```sh
 $ git init .
 Initialized empty Git repository in /Developer/alljokes/.git/
 $ git add .
@@ -156,22 +150,21 @@ $ git commit -m 'empty rails project'
 From now on you should `commit` your changes after every
 finished step of programming.
 
-Scaffold
--------------
+## Scaffold
 
-A scaffold helps you build something.  In Rails a scaffold
+A scaffold helps you build something. In Rails a scaffold
 helps you generate code according to the conventions.
 
-In our application we want to store jokes.  Let's generate
+In our application we want to store jokes. Let's generate
 the scaffold for that: We want a model called `joke` with
-two attributes:  a (short) title and a (longer) fulltext.
+two attributes: a (short) title and a (longer) fulltext.
 
 When we call the scaffold generator on the commandline
 we need to specify the name of the model, and the names (and types)
-of the attributes.  short strings / varchars do not need a type at all.
+of the attributes. short strings / varchars do not need a type at all.
 
-``` sh
-$ rails generate scaffold joke title fulltext:text 
+```sh
+$ rails generate scaffold joke title fulltext:text
       invoke  active_record
       create    db/migrate/20161112171526_create_jokes.rb
       create    app/models/joke.rb
@@ -180,15 +173,14 @@ $ rails generate scaffold joke title fulltext:text
 This will generate about 30 lines of output, and create 15 new files.
 We will work through the files we need step by step:
 
-
 ### Migration
 
-The first file we have to look at is stored in `db/migrate`.  The filename
+The first file we have to look at is stored in `db/migrate`. The filename
 will be different from the one shown above, because it contains a timestamp.
 
 Inside the file you will find
 
-``` ruby
+```ruby
 class CreateJokes < ActiveRecord::Migration[5.0]
   def change
     create_table :jokes do |t|
@@ -202,17 +194,15 @@ end
 ```
 
 This is ruby code to generate a database table. You can see the
-two attrivbutes you specified when you called the generator.  There is
+two attrivbutes you specified when you called the generator. There is
 also a line `t.timestamps` that will add two more attributes to the
-table: `created_at` and `updated_at`.  Rails handles these to values
-automatically. 
-
+table: `created_at` and `updated_at`. Rails handles these to values
+automatically.
 
 You can run the migration (tell ruby to actually create the table) by
 typing in `rails db:migrate` on the command line:
 
-
-``` sh
+```sh
 $ rails db:migrate
 == 20161112171526 CreateJokes: migrating ======
 -- create_table(:jokes)
@@ -221,9 +211,9 @@ $ rails db:migrate
 ```
 
 This actually created the table in a sqlite3 database called
-`db/development.sqlite3`.  As a side effect it also dumped the current
+`db/development.sqlite3`. As a side effect it also dumped the current
 database schema into `db/schema.rb` and created a two extra tables
-`schema_migrations` and `ar_internal_metadata`. 
+`schema_migrations` and `ar_internal_metadata`.
 
 ### Use your app
 
@@ -235,24 +225,24 @@ list, show, create, edit and destroy jokes:
 
 ![webpages created by the scaffold](images/scaffold-with-arrows.png?viewbox=0;0;900;820)
 
-* `/jokes/` is a list of all the jokes, with links to create, edit and destroy them
-* `/jokes/1` shows a single joke, in this case the joke with id=1
-* `/jokes/new` shows a form used to enter a new joke
-* `/jokes/1/edit` shows a form to edit a joke, in this case the joke with id=1
+- `/jokes/` is a list of all the jokes, with links to create, edit and destroy them
+- `/jokes/1` shows a single joke, in this case the joke with id=1
+- `/jokes/new` shows a form used to enter a new joke
+- `/jokes/1/edit` shows a form to edit a joke, in this case the joke with id=1
 
 ### View
 
 You can find the views that correspond to the webpages in `app/views/jokes`. Try to add a bit
 of html to the following two views:
 
-* `index.html.erb` is a list of all the jokes, with links to create, edit and destroy them
-* `show.html.erb` shows a single joke
+- `index.html.erb` is a list of all the jokes, with links to create, edit and destroy them
+- `show.html.erb` shows a single joke
 
 ### Model
 
-The model is stored in `app/models`.  Add the following validation:
+The model is stored in `app/models`. Add the following validation:
 
-``` ruby
+```ruby
 class Joke < ApplicationRecord
   validates :title, presence: true
 end
@@ -260,7 +250,7 @@ end
 
 This tell the model not only accept jokes that have a title.
 
-Now try to enter a new joke without a title, you should get a 
+Now try to enter a new joke without a title, you should get a
 error message:
 
 ![Error message caused by unfullfilled validation](images/error-validation.png)
@@ -273,5 +263,3 @@ and a first impression of ruby code (used in controllers, models)
 and embedded ruby (erb) used in the views.
 
 Congratulations on your first step!
-
-

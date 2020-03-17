@@ -285,7 +285,7 @@ the new name of the ingredient.  This is left as an exercise for the reader.
 ### The Rails Javascript Style
 
 Sending JavaScript from the Server to the client is a very
-strange concept at first.  But as you have seen you can achive
+strange concept at first.  But as you have seen you can achieve
 a lot with a few lines of jQuery and some clever reuse of existing
 templates.
 

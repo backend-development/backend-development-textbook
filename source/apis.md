@@ -43,6 +43,10 @@ A REST API allows to access and manipulate textual representations of Web resour
 4.  One resource can have multiple representations, for example HTML, JSON and XML
 5.  Communicate statelessly - if possible!
 
+### Exploring a REST API with postman
+
+TODO
+
 ### URLS
 
 Give every resource a unique URL.
@@ -208,7 +212,7 @@ servers behind a load balancer, not having state on the server means
 the application will work if the requests bei one client are routest
 to different servers.
 
-## JSON API
+### JSON API
 
 When an API returns JSON data this could take many forms.
 The [json:api specification](https://jsonapi.org/) is a well thought out
@@ -216,7 +220,67 @@ convention for this.
 
 It is especially good with the HATEOS aspect of REST, the json:api specification adhers to this principle.
 
-## Rendering JSON
+## GraphQL
+
+GraphQL is different way of writing APIs. GraphQL is less
+concerned with HTTP, it just uses the POST method for all requests.
+
+see
+
+- [author of graphql gem](https://rmosolgo.github.io/talks)
+- [howtographql](https://www.howtographql.com)
+- [graphql](https://graphql.org)
+
+### exploring GraphQL with Playground
+
+GraphQL Playground
+
+### types
+
+### basic example
+
+example query:
+
+```
+{
+  cityZone(id: "2349ksj0342" ) {
+    id
+    url
+  }
+}
+```
+
+a possible resonse
+
+```
+{
+  "data": {
+    "cityZone": {
+      "id": "2349ksj0342",
+      "url": "wuppertal"
+    }
+  }
+}
+```
+
+### how the server handles the request
+
+- parse query
+- validate with schema
+- resolve data
+- convert response to JSON
+
+### aggragate
+
+### pagination
+
+### mutation and response
+
+### errors
+
+### versioning, deprecation
+
+## Using Rails to build a basic REST API
 
 Rails is equipped to not just create HTML as output, but to easily
 offer other representations as well.
@@ -430,7 +494,7 @@ If the "Frontend" is not in a browser, but is a native mobile app or
 just another server side job, we have to use an alternative to cookies.
 [JSON Web Tokens](https://backend-development.github.io/rails_authentication.html#how-to-add-state-to-http) are a solution.
 
-## Stand Alone API
+## Using Rails to build a stand alone REST API
 
 To create a stand alone API we define new, separate routes under `/api/v1`.
 
@@ -542,6 +606,8 @@ class Api::V1::UserSerializer < ActiveModel::Serializer
   attributes(:name, :email)
 end
 ```
+
+## Using Rails to build a GraphQL API
 
 ## Documenting an API
 
