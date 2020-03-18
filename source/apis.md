@@ -506,21 +506,13 @@ namespace :api do
 end
 ```
 
-we will be using the `active_model_serializers` gem for creating jsonapi:
+we will be using the `fast_jsonapi` gem for creating JSON output that compllies to jsonapi:
 
 ```
-bundle add 'active_model_serializers'
+bundle add 'fast_jsonapi'
 ```
 
-this gem needs an initizalizer `config/initializers/active_model_serializers.rb`
-
-```
-require 'active_model_serializers/register_jsonapi_renderer'
-
-ActiveModelSerializers.config.adapter = :json_api
-```
-
-**Beware**: After adding a gem or changing an initializer you
+**Beware**: After adding a gem you
 need to restart the rails server!
 
 ### JSONAPI for the sample app
@@ -565,7 +557,7 @@ is an object with on attribute `data`:
 }
 ```
 
-### creating JSON with active_model_serializers
+### creating JSON with fast_jsonapi
 
 After we defined the routes, we next need to create a controller.
 As we are setting up a new hierarchy of controllers that will only
@@ -600,15 +592,25 @@ end
 The controller loads the right model, and then calls a **serializer** to
 do the actual rendering of the json data.
 
-The serializer needs to be defined in a separate file:
+All serializers live in the `/app/serializers` folder.
+You can generate a serializer from an existing model:
 
 ```
-# app/serializers/api/v1/user_serializer.rb
+rails g serializer User name email
+```
 
-class Api::V1::UserSerializer < ActiveModel::Serializer
-  attributes(:name, :email)
+this creates the following code:
+
+```
+# app/serializers/user_serializer.rb
+
+class UserSerializer
+  include FastJsonapi::ObjectSerializer
+  attributes :name, :email
 end
 ```
+
+
 
 ## Using Rails to build a GraphQL API
 
