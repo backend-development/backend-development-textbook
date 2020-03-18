@@ -509,7 +509,7 @@ end
 we will be using the `active_model_serializers` gem for creating jsonapi:
 
 ```
-gem 'active_model_serializers'
+bundle add 'active_model_serializers'
 ```
 
 this gem needs an initizalizer `config/initializers/active_model_serializers.rb`
@@ -519,6 +519,9 @@ require 'active_model_serializers/register_jsonapi_renderer'
 
 ActiveModelSerializers.config.adapter = :json_api
 ```
+
+**Beware**: After adding a gem or changing an initializer you
+need to restart the rails server!
 
 ### JSONAPI for the sample app
 
