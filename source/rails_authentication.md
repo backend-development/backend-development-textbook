@@ -52,7 +52,7 @@ There are several ways to do this:
 
 1.  **HTTP Basic Authentication** according to [rfc 1945, section 11](https://tools.ietf.org/html/rfc1945#section-11): The server sends a `WWW-Authenticate: Basic ...` header in the first response. The browser asks the user for username and password, and then sends the (hashed) username and password to the server with subsequent request using the HTTP Headers `Authorization: Basic ...`.
 2.  **HTTP Cookies** according to [rfc 6265](https://tools.ietf.org/html/rfc6265). The server sets the cookie (using the Header 'Set-Cookie'), the client returns the cookie automatically for every subsequent request to the server (using the HTTP Header `Cookie`).
-3.  **JSON-Token** according to [jwt.io](https://jwt.io/) / [rfc 7519](https://tools.ietf.org/html/rfc7519) use a can be used in three ways:
+3.  **JSON-Web-Token** according to [jwt.io](https://jwt.io/) / [rfc 7519](https://tools.ietf.org/html/rfc7519) use a can be used in three ways:
 
 - directly in HTTP with `Authorization: Bearer ...` and `WWW-Authenticate: Bearer ...`
 - as a parameter in an URL
@@ -676,6 +676,66 @@ def name
   "#{uid}@#{provider}"
 end
 ```
+
+
+## JWT for your API
+
+Cookies work best when the only clients are browsers (and not native apps),
+and when the frontend and the backend are hosted on the same domain.
+
+For more complex scenarios  **JSON-Web-Token** use a can be, as the
+offer the flexibility to use 
+
+- HTTP-Headers  `Authorization: Bearer ...` and `WWW-Authenticate: Bearer ...`
+- Parameter in an URL
+- POST data
+
+[jwt.io](https://jwt.io/) / [rfc 7519](https://tools.ietf.org/html/rfc7519)
+
+### Structure of a Token
+
+A JWT consists of three parts: header, payload and signature.
+All three are encoded and concatenated with a dot. The result
+looks like this (if you color-code it):
+
+![](images/encoded-jwt3.png)
+
+The encoding consists of two steps:  
+
+* with [Base64](https://en.wikipedia.org/wiki/Base64#Examples)
+endcoding the input string is converted to a new, longer string of only 64 characters
+that are considered "save".  Three bytes of the original are encoded into 4 bytes in 
+the resulting string.  Base64 encoded strings may contain plus signs and equal signs at the
+end for padding. 
+* As a second step the plus signs are replaced by minus signs and
+the padding is dropped, resulting in a string that can be used in a URL without problems:
+
+```
+{ "msg_en": "Hello",
+  "msg_jp": "こんにちは"
+  "msg_de": "Guten Tag" }
+
+eyAibXNnX2VuIjogIkhlbGxvIiwKICAibXNnX2pwIjogIuOBk+OCk+OBq+OBoeOBryIKICAibXNnX2RlIjogIkd1dGVuIFRhZyIgfQ==
+
+eyAibXNnX2VuIjogIkhlbGxvIiwKICAibXNnX2pwIjogIuOBk-OCk-OBq-OBoeOBryIKICAibXNnX2RlIjogIkd1dGVuIFRhZyIgfQ
+```
+
+You can use the [JWT Debugger](https://jwt.io/#debugger-io) to decode this.
+
+![](images/jwt-debugger.png)
+
+
+
+
+### Adding JWT to Rails
+
+`bundler add jwt` and restart the server.
+
+
+
+
+
+
 
 ## Further Reading
 
