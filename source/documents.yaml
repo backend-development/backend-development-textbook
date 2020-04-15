@@ -59,7 +59,7 @@
     -
       name: Advanced Authentication
       url: adv_authentication.html
-      description: Different Scenarios demand different authentication methods: Web Auth, OAuth, JWT,...
+      description: Different Scenarios demand different authentication methods - Web Auth, OAuth, JWT,...
     -
       name: Caching
       url: caching.html
