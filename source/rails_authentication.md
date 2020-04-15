@@ -683,8 +683,8 @@ end
 Cookies work best when the only clients are browsers (and not native apps),
 and when the frontend and the backend are hosted on the same domain.
 
-For more complex scenarios  **JSON-Web-Token** use a can be, as the
-offer the flexibility to use 
+**JSON-Web-Token** are used for more complex scenarios.
+They offer the flexibility to use many transmission methods:
 
 - HTTP-Headers  `Authorization: Bearer ...` and `WWW-Authenticate: Bearer ...`
 - Parameter in an URL
@@ -692,7 +692,7 @@ offer the flexibility to use
 
 [jwt.io](https://jwt.io/) / [rfc 7519](https://tools.ietf.org/html/rfc7519)
 
-### Structure of a Token
+### Encoding a Token
 
 A JWT consists of three parts: header, payload and signature.
 All three are encoded and concatenated with a dot. The result
@@ -704,9 +704,9 @@ The encoding consists of two steps:
 
 * with [Base64](https://en.wikipedia.org/wiki/Base64#Examples)
 endcoding the input string is converted to a new, longer string of only 64 characters
-that are considered "save".  Three bytes of the original are encoded into 4 bytes in 
-the resulting string.  Base64 encoded strings may contain plus signs and equal signs at the
-end for padding. 
+that are considered "save" for transfer via (ASCII only) e-mail.  Three bytes of the original are encoded into 4 bytes in 
+the resulting string.  Base64 encoded strings may contain plus signs and are
+padded with equal signs at the end. 
 * As a second step the plus signs are replaced by minus signs and
 the padding is dropped, resulting in a string that can be used in a URL without problems:
 
@@ -724,6 +724,8 @@ You can use the [JWT Debugger](https://jwt.io/#debugger-io) to decode this.
 
 ![](images/jwt-debugger.png)
 
+
+### Structure of a Token
 
 
 
