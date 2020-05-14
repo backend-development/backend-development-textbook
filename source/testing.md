@@ -699,16 +699,16 @@ brew install chromedriver # for chrome
 There is a generator to create a test skeleton for you.
 
 ```bash
-$ rails generate minitest:feature add_a_star_to_a_user
-      create  test/features/add_a_star_to_a_user_test.rb
+$ rails generate test_unit:system add_a_star_to_a_user
+      create  test/system/add_a_star_to_a_user_test.rb
 ```
 
-Here's what a freshly-generated feature test looks like:
+Here's what a freshly-generated system test looks like:
 
 ```ruby
 require 'test_helper'
 
-class AddAStarToAUserTest < Capybara::Rails::TestCase
+class AddAStarToAUserTest < ApplicationSystemTestCase
   test "sanity" do
     visit root_path
     assert_content page, "Hello World"
@@ -719,9 +719,10 @@ end
 
 `visit` is capybaras method for making a HTTP request just as the browser would.
 
+
 #### Testing a form
 
-Syste tests are black box tests: we only interact with the
+System tests are black box tests: we only interact with the
 app through the web browser, and have no "inside knowledge" about the app.
 
 Some helper methods:

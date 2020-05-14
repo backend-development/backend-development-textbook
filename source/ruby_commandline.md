@@ -401,6 +401,20 @@ apply_the_style(font_size: 10, font_family: "Arial")
 apply_the_style font_size: 10, font_family: "Arial"
 ```
 
+Since ruby 2.0 keyword arguments can be used instead,
+and can be given default values:
+
+```ruby
+def apply_the_style(font_family: 'MS Comic Sans', font_size: 16 )
+  ...
+end
+
+apply_the_style()    # uses both default values
+apply_the_style(font_family: "Arial")   
+apply_the_style(font_size: 10, font_family: "Arial")  # order can be different
+```
+
+
 ## Frozen vs Mutable Values
 
 Most objects in Ruby are mutabel by default.
