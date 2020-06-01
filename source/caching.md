@@ -15,29 +15,42 @@ After working through this guide:
 - you will be able to configure rails for caching
 - you will be able to measure if a change you made improved the performance of your rails app
 
-DEMO: You can study [the demo](https://rails-caching-demo.herokuapp.com/) for the example described here
+DEMO: You can study [the demo](https://caching-red.projects.multimediatechnology.at/) for the example described here
 
 - if it's currently online.
 
 ---
 
+
+
 ## What is Caching
+
+In general english usage a cache is [A store of things that may be required in the future, which can be retrieved rapidly, protected or hidden in some way. ](https://en.wiktionary.org/wiki/cache#Noun). 
+But in computing the cache is not proteced or hidden, the important part
+it that data stored in a cache can be retrieved rapidly. 
+
+![what is caching](images/caching.svg)
+
+The basic algorithm is very simple:  is the data I need already in the cache?
+then retrieve it from there.  If not, retrieve the original data and store
+it in the cache.
+
+## Why Cache?
 
 In computing we are faced with vastly different access speeds for different media:
 
 - reading a megabyte of data from another host on the internet might take seconds
-- loading the same data from a local ssd takes only 200 µs
-- reading the data from main memory takes 9 µs.
+- loading the same data from a local ssd takes may take a few hundred µs
+- reading the data from main memory may take a few µs.
+
+See [Latency numbers every programmer should know](https://gist.github.com/hellerbarde/2843375#file-latency_humanized-markdown).
 
 Given these numbers it makes sense to keep a local copy of data that
 we might use again soon. Better to read it from ssd or memory the second
-time we need it!
+time we need it! 
 
-In general english usage a cache is [stuff hidden in a secret place](https://en.oxforddictionaries.com/definition/cache). But in computing
-a cache is "auxiliary memory from which high-speed retrieval is possible".
-
-When you load a webpage into your browser there are many level
-of caches influencing this process. We will look at some of the caches
+When you load a webpage into your browser there are many levels
+of caches involved. We will look at some of the caches
 that we can influence as web developers.
 
 ## Measuring Performance
@@ -68,7 +81,7 @@ the webpage. So we need to compare the numbers Mini Profiler gives us to the
 ### Example App
 
 We will use a portfolio site as an example app. All the screenshots
-above already show this example app. You can study [the demo](https://rails-caching-demo.herokuapp.com/)
+above already show this example app. You can study [the demo](https://caching-red.projects.multimediatechnology.at/)
 on heroku, there all the caching is already implemented.
 
 ## HTTP Caching
@@ -123,7 +136,7 @@ method when using just one web server is in-memory.
 
 When using
 several web servers you need a cache store that can be shared between them
-like [memcached](https://de.wikipedia.org/wiki/Memcached) or [redis](https://de.wikipedia.org/wiki/Redis).
+like [memcached](https://en.wikipedia.org/wiki/Memcached) or [redis](https://en.wikipedia.org/wiki/Redis).
 
 In development, to get a quick impression of what is saved to the cache
 it is helpful to use the file_store:
@@ -132,9 +145,6 @@ it is helpful to use the file_store:
 # in the file config/environments/development.rb
     # config.cache_store = :memory_store
     config.cache_store = :file_store, "#{Rails.root}/tmp/file_store"
-    config.public_file_server.headers = {
-      'Cache-Control' => 'public, max-age=172800'
-    }
 ```
 
 ### Caching a View
@@ -239,7 +249,7 @@ Reload again to check if the new version is cached.
 
 ### Caching smaller fragements
 
-If you look at the homepage of [the demo](https://rails-caching-demo.herokuapp.com/)
+If you look at the homepage of [the demo](https://caching-red.projects.multimediatechnology.at/)
 you can see that the list of project under "Bachelorprojekte" is different every time
 you reload the page. There are 9 projects in all, but only 5 will be picked randomly
 and will be displayed.
@@ -312,7 +322,7 @@ See [Deshmane(2016)](http://blog.bigbinary.com/2016/03/09/rails-5-makes-partial-
 #### Side Effects
 
 An unexpected side effect of caching the partial can be seen in the
-[edition view](https://rails-caching-demo.herokuapp.com/editions/bachelorprojekte-web-2015):
+[edition view](https://caching-red.projects.multimediatechnology.at/editions/bachelorprojekte-web-2015):
 this view also uses the `projects/_project` partial, so it too will
 profit from the caching.
 
