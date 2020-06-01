@@ -15,7 +15,7 @@ After working through this guide:
 - you will be able to configure rails for caching
 - you will be able to measure if a change you made improved the performance of your rails app
 
-DEMO: You can study [the demo](https://caching-red.projects.multimediatechnology.at/) for the example described here
+DEMO: You can study [the demo](https://caching-red.projects.multimediatechnology.at/?pp=enable) for the example described here
 
 - if it's currently online.
 
@@ -81,7 +81,7 @@ the webpage. So we need to compare the numbers Mini Profiler gives us to the
 ### Example App
 
 We will use a portfolio site as an example app. All the screenshots
-above already show this example app. You can study [the demo](https://caching-red.projects.multimediatechnology.at/)
+above already show this example app. You can study [the demo](https://caching-red.projects.multimediatechnology.at/?pp=enable)
 on heroku, there all the caching is already implemented.
 
 ## HTTP Caching
@@ -249,7 +249,7 @@ Reload again to check if the new version is cached.
 
 ### Caching smaller fragements
 
-If you look at the homepage of [the demo](https://caching-red.projects.multimediatechnology.at/)
+If you look at the homepage of [the demo](https://caching-red.projects.multimediatechnology.at/?pp=enable)
 you can see that the list of project under "Bachelorprojekte" is different every time
 you reload the page. There are 9 projects in all, but only 5 will be picked randomly
 and will be displayed.
@@ -322,7 +322,7 @@ See [Deshmane(2016)](http://blog.bigbinary.com/2016/03/09/rails-5-makes-partial-
 #### Side Effects
 
 An unexpected side effect of caching the partial can be seen in the
-[edition view](https://caching-red.projects.multimediatechnology.at/editions/bachelorprojekte-web-2015):
+[edition view](https://caching-red.projects.multimediatechnology.at/editions/bachelorprojekte-web-2015?pp=enable):
 this view also uses the `projects/_project` partial, so it too will
 profit from the caching.
 
