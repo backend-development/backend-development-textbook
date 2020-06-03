@@ -49,9 +49,33 @@ Given these numbers it makes sense to keep a local copy of data that
 we might use again soon. Better to read it from ssd or memory the second
 time we need it! 
 
+## Where are caches used?
+
 When you load a webpage into your browser there are many levels
-of caches involved. We will look at some of the caches
-that we can influence as web developers.
+of caches involved:
+
+* Caching in the Browser, configured by HTTP Headers
+* Caching Proxies 
+* Load Balancer + Caches, for example [nginx](https://dev.to/satrobit/how-to-set-up-an-nginx-reverse-proxy-cluster-with-a-shared-cache-38eh), or [varnish](https://varnish-cache.org/)
+* Inside the Backend Framework (see below)
+* Inside the Database (see below)
+
+And in all the computers involved in this process:
+
+* [CPU Cache](https://en.wikipedia.org/wiki/CPU_cache) reading a cache line from memory event if the CPU only needs one byte
+* [File Systems](https://en.wikipedia.org/wiki/File_system) reading (+caching) whole blocks of data when only a byte is requested 
+
+
+### Browser + HTTP Caching
+
+HTTP Caching is built into the HTTP protocol. There are several
+headers in both the HTTP-request and HTTP-response that influence
+if the browser will cache a resource for later and how long
+it will keep the resource in the cache.
+
+### Caching Proxies
+
+
 
 ## Measuring Performance
 
@@ -84,20 +108,7 @@ We will use a portfolio site as an example app. All the screenshots
 above already show this example app. You can study [the demo](https://caching-red.projects.multimediatechnology.at/?pp=enable)
 on heroku, there all the caching is already implemented.
 
-## HTTP Caching
 
-HTTP Caching is built into the HTTP protocol. There are several
-headers in both the HTTP-request and HTTP-response that influence
-if the browser will cache a resource for later and how long
-it will keep the resource in the cache.
-
-The Asset Pipeline handles setting the right headers
-for images, css and javascript by default.
-See [the chapter on the asset pipeline](asset_pipeline.html).
-
-For the HTML and JSON output rendered by our rails views we
-assume that most of them should not be cached by the browser as a whole.
-For HTML and JSON server side caching is a better approach.
 
 ## Fragment Caching
 
