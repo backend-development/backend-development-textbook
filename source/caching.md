@@ -62,8 +62,8 @@ of caches involved:
 
 And in all the computers involved in this process:
 
-* [CPU Cache](https://en.wikipedia.org/wiki/CPU_cache) reading a cache line from memory event if the CPU only needs one byte
-* [File Systems](https://en.wikipedia.org/wiki/File_system) reading (+caching) whole blocks of data when only a byte is requested 
+* [CPU Cache](https://en.wikipedia.org/wiki/CPU_cache) reading a cache line from memory, even if the CPU only needs one byte
+* [File Systems](https://en.wikipedia.org/wiki/File_system) reading (+caching) whole blocks of data, when only a byte is requested 
 
 
 ### Browser + HTTP Caching

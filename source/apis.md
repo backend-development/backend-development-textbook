@@ -620,6 +620,10 @@ end
 
 ## Using Rails to build a GraphQL API
 
+* https://www.howtographql.com/graphql-ruby/0-introduction/
+* https://github.com/ajsharp/graphql-rails-generators
+
+
 ## Documenting an API
 
 See Halliday(2016): [Producing Documentation for Your Rails API](https://blog.codeship.com/producing-documentation-for-your-rails-api/) for a discussion of automatic methods of documentation generation.
