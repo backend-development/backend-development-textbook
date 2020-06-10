@@ -847,9 +847,8 @@ dd.work-in-progress {
   margin-top: 0.5em;
 }
 #subCol .chapters ul li {
-  list-style: none;
-  padding: 0 0 0 1em;
-  background: url(../images/bullet.gif) no-repeat left 0.45em;
+  list-style-type: "-";
+  padding: 0 0 0 0.61em;
   margin-left: 0;
   font-size: 1em;
   font-weight: normal;
@@ -899,10 +898,9 @@ div.code_container {
 }
 
 #mainCol ul li {
-  list-style: none;
-  background: url(../images/grey_bullet.gif) no-repeat left 0.5em;
-  padding-left: 1em;
+  padding-left: 0.61em;
   margin-left: 0;
+  list-style-type: "—";
   margin-bottom: 0.7em;
 }
 
@@ -1045,6 +1043,11 @@ table th {
 }
 
 /* deck js : */
+
+.slide p,
+.slide li {
+  max-width: 40em;
+}
 
 .slide_break:link,
 .slide_break:visited {

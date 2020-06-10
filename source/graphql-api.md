@@ -8,7 +8,9 @@ After working through this guide you will:
 
 ---
 
-## What is an API
+## API Styles
+
+### What is an API?
 
 API stands for "Application Programming Interface". It is a set of clearly defined methods
 of communication with a software component. So the objects and methods exposed by a library
@@ -19,7 +21,7 @@ commonly used when the software component in question runs on a different server
 Internet and is accessed via HTTP.
 
 
-## SOAP, REST and GraphQL
+### SOAP, REST and GraphQL
 
 Currently three main API styles are used on the Web:
 
@@ -31,7 +33,7 @@ This Guide is concerned with GraphQL, there is a second guide for [REST](/rest-a
 is rearely offered with Rails, but there is a [soap client](https://github.com/savonrb/savon) in
 ruby.
 
-## API layer is a separate layer
+### API layer is a separate layer
 
 Please note that any of the API styles can be used
 with any backend, frontend, persistance layers: 
@@ -95,6 +97,8 @@ these types in queries and mutations.
 
 ## Using Rails to build a GraphQL API
 
+### Setup
+
 To add a GraphQL API to an existing Rails app you need just two gems:
 
 ```
@@ -104,7 +108,7 @@ group :development do
 end
 ```
 
-### generator
+#### generator
 
 The rest of the setup is handled by a generator added by the `graphql` gem:
 
@@ -135,7 +139,7 @@ add_root_type  mutation
 Gemfile has been modified, make sure you `bundle install`
 ```
 
-### playground is available
+#### playground is available
 
 After running bundle and restarting the server you can
 access the graphql playground at `http://localhost:3000/graphiql`:
@@ -175,7 +179,7 @@ module Types
 end
 ```
 
-### Defining a Query: dummy query
+### Defining a Query
 
 The next level up we come to the query.  There is already
 a dummy Query in `app/graphql/types/query_type.rb`
@@ -196,7 +200,7 @@ module Types
 end
 ```
 
-### Defining a Query
+#### Declare the Query and implement the resolver
 
 
 We can replace this with a query that returns a list of all projects:
@@ -222,7 +226,7 @@ We can now run the query in the playground. Your query will be autocompleted.
   ![GraphQL Playground](images/graphql-playground.png)
 </video>
 
-### Queries with arguments
+#### Queries with arguments
 
 If a query needs arguments you have do declare
 them in the `fields` declaration and then handle
@@ -237,7 +241,10 @@ them in the method:
     end
 ```
 
-### Relationships between models: create type for a second model
+### Relationships between models
+
+
+#### Create type for a second model
 
 ![1:n relationship in the database](images/graphql-project-has-many-urls.png)
 
@@ -254,16 +261,16 @@ module Types
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: true
   end
 end
-````
+```
 
-### Relationships between models: create queries for the second model
+#### create queries for the second model
 
 
 add the queries `all_urls` and `url` to  `app/graphql/types/query_type.rb`
 
 now you can use those queries in the playground
 
-### Relationships between models: add field for relationship to type
+#### add field for relationship to type
 
 
 add the field `urls` to `app/graphql/types/project_type.rb`:
@@ -288,7 +295,7 @@ now you can query for Urls through their project:
 ![query a 1:n relationship with graphql](images/graphql-query-relationship.png)
 
 
-### Relationships between models: Thought Experiment
+#### inverse relationship
 
 
 what would you need to do, to make a query 
@@ -308,7 +315,7 @@ from Url to Project possible?
 }
 ``` 
 
-### Relationships between models: Answer
+#### implementation of the inverse relationship
 
 Answer: add a field project to UrlType:
 
@@ -329,13 +336,15 @@ end
 ![query a 1:n relationship with graphql (reverse)](images/graphql-query-belongs-to.png)
 
 
-### Types: defining an Enum Type
+### More Types
 
 In Ruby and JavaScript we often use Strings to store all
 kinds of values.   In the example
 above, `Url.url_type` only has three possible values: 'Link','Repository','Award'.
 
-In GraphQL you can define a Type for that:
+GraphQL comes with an Enum Type that we can use for that
+
+#### define the Enum Type:
 
 ```
 rails g graphql:enum UrlTypeEnum Link Repository Award
@@ -352,7 +361,7 @@ module Types
 end
 ```
 
-### Types: using an Enum Type
+#### using the Enum Type
 
 
 This can now be used in `UrlType`:
@@ -371,7 +380,7 @@ module Types
 end
 ```
 
-### Types: uses and limitations
+#### Types: uses and limitations
 
 
 The data returned by a query is still JSON, and cannot contain
@@ -397,7 +406,7 @@ This guide has not touched on:
 
 
 
-## See Also
+### See Also
 
 - [GraphQL Guides: Ruby ](https://www.howtographql.com/graphql-ruby/0-introduction/)
 - [Apollo Client + Server](https://www.apollographql.com/) in JavaScript
