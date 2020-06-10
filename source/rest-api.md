@@ -595,3 +595,4 @@ See Halliday(2016): [Producing Documentation for Your Rails API](https://blog.co
 - [Methods HTTP/1.0](https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html)
 - [Status codes](https://httpstatuses.com/422)
 - [gem knock](https://github.com/nsarno/knock) for token based authentication for API only Rails apps
+- [API Platform](https://api-platform.com/) to build REST + GraphQL APIs in PHP

@@ -400,3 +400,5 @@ This guide has not touched on:
 ## See Also
 
 - [GraphQL Guides: Ruby ](https://www.howtographql.com/graphql-ruby/0-introduction/)
+- [Apollo Client + Server](https://www.apollographql.com/) in JavaScript
+- [API Platform](https://api-platform.com/) to build REST + GraphQL APIs in PHP
