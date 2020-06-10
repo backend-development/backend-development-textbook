@@ -23,9 +23,9 @@ Internet and is accessed via HTTP.
 
 Currently three main API styles are used on the Web:
 
-* SOAP, designed 1998 at Mircosoft, uses XML and POST requests to make "remote procedure calls"
+* SOAP, designed 1998 at Microsoft, uses XML and POST requests to make "remote procedure calls"
 * REST, described in 2000, uses different HTTP Methods and Status Messages to access "resources"
-* GraphQL, released 2015 by Facebook, uses POST requests, it's only query language and JSON
+* GraphQL, released 2015 by Facebook, uses POST requests, it's own query language and JSON
 
 This Guide is concerned with GraphQL, there is a second guide for [REST](/rest-api.html). SOAP
 is rearely offered with Rails, but there is a [soap client](https://github.com/savonrb/savon) in
@@ -86,52 +86,12 @@ A GraphQL delivers JSON, which only has objects, arrays, strings, numbers and nu
 as types.  But GraphQL itself can build a more detailed type system and check
 these types in queries and mutations.
 
+### How the server handles the request
 
-
-### basic example
-
-example query:
-
-```
-{
-  cityZone(id: "2349ksj0342" ) {
-    id
-    url
-  }
-}
-```
-
-a possible resonse
-
-```
-{
-  "data": {
-    "cityZone": {
-      "id": "2349ksj0342",
-      "url": "wuppertal"
-    }
-  }
-}
-```
-
-### how the server handles the request
-
-- parse query
+- parse the query
 - validate with schema
 - resolve data
 - convert response to JSON
-
-### aggragate
-
-### pagination
-
-### mutation and response
-
-### errors
-
-### versioning, deprecation
-
-
 
 ## Using Rails to build a GraphQL API
 
@@ -143,6 +103,8 @@ group :development do
   gem 'graphql-rails-generators'
 end
 ```
+
+§ 
 
 The rest of the setup is handled by a generator added by the `graphql` gem:
 
@@ -173,6 +135,8 @@ add_root_type  mutation
 Gemfile has been modified, make sure you `bundle install`
 ```
 
+§
+
 After running bundle and restarting the server you can
 access the graphql playground at `http://localhost:3000/graphiql`:
 in the left pane you can enter a query, run it, and see the
@@ -181,7 +145,12 @@ that was created automatically.
 
 ![GraphQL Playground](images/graphql-playground.png)
 
-We have no Queries to run yet.  As a first step we can
+We have no Queries to run yet.  
+
+
+### Generating a Type from a Model
+
+As a first step we can
 use a generator to create a type from an existing model:
 
 ```
@@ -189,7 +158,8 @@ rails generate gql:model_type Project
       create  app/graphql/types/project_type.rb
 ```
 
-Now edit the type to fit your needs:
+Now we can edit the type to fit our needs, for example
+we can remove attributes that should never be public:
 
 ```
 module Types
@@ -204,6 +174,8 @@ module Types
   end
 end
 ```
+
+### Defining a Query
 
 The next level up we come to the query.  There is already
 a dummy Query in `app/graphql/types/query_type.rb`
@@ -224,7 +196,9 @@ module Types
 end
 ```
 
-We can replace it with a query that returns a list of all projects:
+§ 
+
+We can replace this with a query that returns a list of all projects:
 
 ```
 module Types
@@ -233,13 +207,13 @@ module Types
       null: false,
       description: "a list of all publicly visible projects"
     def all_projects
-      "Hello World!"
+      Project.public.all
     end
   end
 end
 ```
 
-and run the query in the playground. Your query will be autocompleted.
+We can now run the query in the playground. Your query will be autocompleted.
 
 <video controls autoplay>
   <source src="images/autocomplete.mov" type="video/quicktime" />
@@ -248,6 +222,10 @@ and run the query in the playground. Your query will be autocompleted.
 </video>
 
 ### Queries with arguments
+
+If a query needs arguments you have do declare
+them in the `fields` declaration and then handle
+them in the method:
 
 ```
     field :project, ProjectType, null: true do
@@ -262,18 +240,7 @@ and run the query in the playground. Your query will be autocompleted.
 
 ![1:n relationship in the database](images/graphql-project-has-many-urls.png)
 
-
-```
-    field :project, ProjectType, null: true do
-      argument :id, ID, required: true
-    end
-    def project(id:)
-      Project.visible.find(id)
-    end
-```
-
-generate the UlrType automatically from the model:
-
+generate the UrlType automatically from the model:
 
 ```
 module Types
@@ -288,7 +255,13 @@ module Types
 end
 ````
 
+§
+
 add the queries `all_urls` and `url` to  `app/graphql/types/query_type.rb`
+
+now you can use those queries in the playground
+
+§
 
 add the field `urls` to `app/graphql/types/project_type.rb`:
 
@@ -306,13 +279,13 @@ module Types
   end
 end
 ```
-
-
-now you can query for Urls directly or though their project:
+now you can query for Urls through their project:
 
 
 ![query a 1:n relationship with graphql](images/graphql-query-relationship.png)
 
+
+§
 
 Thought Experiment: what would you need to do, to make a query 
 from Url to Project possible?
@@ -375,8 +348,9 @@ module Types
 end
 ```
 
-This can now be used in `UrlType`:
+§
 
+This can now be used in `UrlType`:
 
 ```
 module Types
@@ -392,6 +366,7 @@ module Types
 end
 ```
 
+§
 
 The data returned by a query is still JSON, and cannot contain
 enums, only Strings. 
@@ -399,27 +374,23 @@ enums, only Strings.
 ![querying an enum gives a string](images/graphql-enum.png)
 
 
-
 In the documentation you can see that
 only three Strings are valid.  The GraphQL API will 
 validate this both in Queries and in Mutations.
 
 
+## A lot more to learn
 
+This guide has not touched on:
 
-
-
-
-
-
-
-* Hannes sagt gem graphql, für n+1 queries graphql-batch von shopify.  und graphiql 
-* https://github.com/eliias/concat-tv
-* https://www.howtographql.com/graphql-ruby/0-introduction/
-* https://github.com/ajsharp/graphql-rails-generators
+* mutations
+* filtering, searching
+* pagination
+* resolving graphql queries that are not directly mapped to models
+* ...
 
 
 
 ## See Also
 
-- [Rails Guide: Using Rails for API-only Applications](https://edgeguides.rubyonrails.org/api_app.html)
+- [GraphQL Guides: Ruby ](https://www.howtographql.com/graphql-ruby/0-introduction/)

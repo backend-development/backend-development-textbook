@@ -24,9 +24,9 @@ Internet and is accessed via HTTP.
 
 Currently three main API Styles are used on the Web:
 
-* SOAP, designed 1998 at Mircosoft, uses XML and POST requests to make "remote procedure calls"
+* SOAP, designed 1998 at Microsoft, uses XML and POST requests to make "remote procedure calls"
 * REST, described in 2000, uses different HTTP Methods and Status Messages to access "resources"
-* GraphQL, released 2015 by Facebook, uses POST requests, it's only query language and JSON
+* GraphQL, released 2015 by Facebook, uses POST requests, it's own query language and JSON
 
 This Guide is concerned with REST, there is a second guide for [GraphQL](/graphql-api.html). SOAP
 is rearely offered with Rails, but there is a [soap client](https://github.com/savonrb/savon) in
