@@ -1,4 +1,4 @@
-# APIs
+# REST APIs
 
 After working through this guide you will:
 
@@ -18,9 +18,31 @@ form an API.
 
 In Web development the acronym API is most
 commonly used when the software component in question runs on a different server on the
-Internet and is accessed via the network.
+Internet and is accessed via HTTP.
 
-This Guide is concerned with APIs that you build and run using Ruby on Rails.
+## SOAP, REST and GraphQL
+
+Currently three main API Styles are used on the Web:
+
+* SOAP, designed 1998 at Mircosoft, uses XML and POST requests to make "remote procedure calls"
+* REST, described in 2000, uses different HTTP Methods and Status Messages to access "resources"
+* GraphQL, released 2015 by Facebook, uses POST requests, it's only query language and JSON
+
+This Guide is concerned with REST, there is a second guide for [GraphQL](/graphql-api.html). SOAP
+is rearely offered with Rails, but there is a [soap client](https://github.com/savonrb/savon) in
+ruby.
+
+## API layer is a separate layer
+
+Please note that any of the API styles can be used
+with any backend, frontend, persistance layers: 
+
+* You can build a REST in front of a PHP backend using MongoDB as the database and use it from a frontend written with jQuery. 
+* You can build a GraphQL API for a Rails backend using MySQL as the database and build the frontend with React.
+
+That's kind of the point of an API: to allow different technologies
+on both sides of the API.
+
 
 ## REST
 
@@ -219,66 +241,6 @@ The [json:api specification](https://jsonapi.org/) is a well thought out
 convention for this.
 
 It is especially good with the HATEOS aspect of REST, the json:api specification adhers to this principle.
-
-## GraphQL
-
-GraphQL is different way of writing APIs. GraphQL is less
-concerned with HTTP, it just uses the POST method for all requests.
-
-see
-
-- [author of graphql gem](https://rmosolgo.github.io/talks)
-- [howtographql](https://www.howtographql.com)
-- [graphql](https://graphql.org)
-
-### exploring GraphQL with Playground
-
-GraphQL Playground
-
-### types
-
-### basic example
-
-example query:
-
-```
-{
-  cityZone(id: "2349ksj0342" ) {
-    id
-    url
-  }
-}
-```
-
-a possible resonse
-
-```
-{
-  "data": {
-    "cityZone": {
-      "id": "2349ksj0342",
-      "url": "wuppertal"
-    }
-  }
-}
-```
-
-### how the server handles the request
-
-- parse query
-- validate with schema
-- resolve data
-- convert response to JSON
-
-### aggragate
-
-### pagination
-
-### mutation and response
-
-### errors
-
-### versioning, deprecation
 
 ## Using Rails to build a basic REST API
 
@@ -618,14 +580,6 @@ end
 
 
 
-## Using Rails to build a GraphQL API
-
-* Hannes sagt gem graphql, für n+1 queries graphql-batch von shopify.  und graphiql 
-* https://github.com/eliias/concat-tv
-* https://www.howtographql.com/graphql-ruby/0-introduction/
-* https://github.com/ajsharp/graphql-rails-generators
-
-
 ## Documenting an API
 
 See Halliday(2016): [Producing Documentation for Your Rails API](https://blog.codeship.com/producing-documentation-for-your-rails-api/) for a discussion of automatic methods of documentation generation.
@@ -638,7 +592,6 @@ See Halliday(2016): [Producing Documentation for Your Rails API](https://blog.co
 - [standards.rest](http://standards.rest/) a collection of standards that have developed around REST
 - [Rails Guide: Rendering JSON in Action Controller Overview](https://edgeguides.rubyonrails.org/action_controller_overview.html#rendering-xml-and-json-data)
 - [Rails Guide: Using Rails for API-only Applications](https://edgeguides.rubyonrails.org/api_app.html)
-- [Vasilakis(2017): Rails 5 API Tutorial](https://github.com/vasilakisfil/rails5_api_tutorial)
 - [Methods HTTP/1.0](https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html)
 - [Status codes](https://httpstatuses.com/422)
 - [gem knock](https://github.com/nsarno/knock) for token based authentication for API only Rails apps

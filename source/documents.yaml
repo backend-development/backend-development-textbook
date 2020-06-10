@@ -38,9 +38,13 @@
       url: rails_gems.html
       description: How bundler helps with dependencies, and some gems you might need for your first Rails project
     -
-      name: APIs
-      url: apis.html
-      description: Offer an API as part of your Rails app
+      name: REST API
+      url: rest-api.html
+      description: Offer an REST stype API as part of your Rails app
+    -
+      name: GraphQL API
+      url: graphql-api.html
+      description: Offer an GraphQL API as part of your Rails app      
     -
       name: Websocket in Rails
       url: rails_websockets.html
