@@ -104,7 +104,7 @@ group :development do
 end
 ```
 
-§ 
+### generator
 
 The rest of the setup is handled by a generator added by the `graphql` gem:
 
@@ -135,7 +135,7 @@ add_root_type  mutation
 Gemfile has been modified, make sure you `bundle install`
 ```
 
-§
+### playground is available
 
 After running bundle and restarting the server you can
 access the graphql playground at `http://localhost:3000/graphiql`:
@@ -175,7 +175,7 @@ module Types
 end
 ```
 
-### Defining a Query
+### Defining a Query: dummy query
 
 The next level up we come to the query.  There is already
 a dummy Query in `app/graphql/types/query_type.rb`
@@ -196,7 +196,8 @@ module Types
 end
 ```
 
-§ 
+### Defining a Query
+
 
 We can replace this with a query that returns a list of all projects:
 
@@ -236,7 +237,7 @@ them in the method:
     end
 ```
 
-### Relationships between models
+### Relationships between models: create type for a second model
 
 ![1:n relationship in the database](images/graphql-project-has-many-urls.png)
 
@@ -255,13 +256,15 @@ module Types
 end
 ````
 
-§
+### Relationships between models: create queries for the second model
+
 
 add the queries `all_urls` and `url` to  `app/graphql/types/query_type.rb`
 
 now you can use those queries in the playground
 
-§
+### Relationships between models: add field for relationship to type
+
 
 add the field `urls` to `app/graphql/types/project_type.rb`:
 
@@ -275,7 +278,7 @@ module Types
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
     field :slug, String, null: false
-    field :urls, [UrlType], null: false
+    field :urls, [ UrlType ], null: false
   end
 end
 ```
@@ -285,9 +288,10 @@ now you can query for Urls through their project:
 ![query a 1:n relationship with graphql](images/graphql-query-relationship.png)
 
 
-§
+### Relationships between models: Thought Experiment
 
-Thought Experiment: what would you need to do, to make a query 
+
+what would you need to do, to make a query 
 from Url to Project possible?
 
 ``` 
@@ -304,7 +308,7 @@ from Url to Project possible?
 }
 ``` 
 
-§
+### Relationships between models: Answer
 
 Answer: add a field project to UrlType:
 
@@ -325,7 +329,7 @@ end
 ![query a 1:n relationship with graphql (reverse)](images/graphql-query-belongs-to.png)
 
 
-### Types 
+### Types: defining an Enum Type
 
 In Ruby and JavaScript we often use Strings to store all
 kinds of values.   In the example
@@ -348,7 +352,8 @@ module Types
 end
 ```
 
-§
+### Types: using an Enum Type
+
 
 This can now be used in `UrlType`:
 
@@ -366,7 +371,8 @@ module Types
 end
 ```
 
-§
+### Types: uses and limitations
+
 
 The data returned by a query is still JSON, and cannot contain
 enums, only Strings. 
