@@ -15,7 +15,7 @@ Sadly it is no longer available.
 
 ## Models and Databases
 
-In a modern programming language like Rails we represent
+In an object-oriented programming language like Ruby we represent
 things in the real world with objects in our program. For example if you are
 building an application for project management, you might
 have objects of classes `Project` and `WorkPackage` and `User`.
@@ -25,7 +25,7 @@ needed for handling projects are actually implemented in the Project class.
 To save these objects permanently (often called "persistance")
 we use a relational database,
 in most cases Postgres or MySQL/MariaDB. Only the data is stored in the database,
-not the behaviour (see "Business Logic" above).
+not the behaviour (the "Business Logic" mentioned above).
 
 Here we hit on an old problem in computer science: storing
 objects into a relational database does not work all that well.
