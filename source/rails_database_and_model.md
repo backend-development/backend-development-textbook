@@ -8,8 +8,6 @@ After working through this guide you should
 - Understand how ActiveRecord works
 - Understand what Database Migrations are
 
-REPO: There is an exercise fo this in [basic zombies](https://github.com/backend-development/basic-zombies) repository.
-
 The examples were inspired by "Rails for Zombies", which used to be a free Rails online course.
 Sadly it is no longer available.
 
@@ -351,7 +349,7 @@ uses the primary key and always returns one object. The method `where` is used f
 
 ```ruby
 t1 = Tweet.find(3)
-t2 = Tweet.where("created_at > '2018-10-01'")
+t2 = Tweet.where("created_at > '2020-10-01'")
 t3 = Tweet.where(zombie: 'Ash')
 ```
 
@@ -363,8 +361,8 @@ In the Rails console you can see the return values: `where` returns serveral obj
 railsconsole> t1 = Tweet.find(3)
   Tweet Load (0.3ms)  SELECT  "tweets".* FROM "tweets" WHERE "tweets"."id" = ? LIMIT ?  [["id", 3], ["LIMIT", 1]]
  => #<Tweet id: 3, status: "I just ate some delicious brains.", zombie: "Jim", created_at: "2020-11-24 09:26:48", updated_at: "2020-11-24 09:26:48">
-railsconsole> t2 = Tweet.where("created_at > '2018-10-01'")
-  Tweet Load (0.5ms)  SELECT  "tweets".* FROM "tweets" WHERE (created_at > '2018-10-01') LIMIT ?  [["LIMIT", 11]]
+railsconsole> t2 = Tweet.where("created_at > '2020-10-01'")
+  Tweet Load (0.5ms)  SELECT  "tweets".* FROM "tweets" WHERE (created_at > '2020-10-01') LIMIT ?  [["LIMIT", 11]]
  => #<ActiveRecord::Relation [#<Tweet id: 1, status: "I <3 brains.", zombie: nil, created_at: "2020-11-24 09:20:15", updated_at: "2020-11-24 09:20:15">, #<Tweet id: 2, status: "Where can I get a good bite to eat?", zombie: "Ash", created_at: "2020-11-24 09:26:26", updated_at: "2020-11-24 09:26:26">, #<Tweet id: 3, status: "I just ate some delicious brains.", zombie: "Jim", created_at: "2020-11-24 09:26:48", updated_at: "2020-11-24 09:26:48">]>
 railsconsole> t3 = Tweet.where(zombie: 'Ash')
   Tweet Load (0.3ms)  SELECT  "tweets".* FROM "tweets" WHERE "tweets"."zombie" = ? LIMIT ?  [["zombie", "Ash"], ["LIMIT", 11]]
@@ -435,7 +433,7 @@ This class also supports all the ActiveRecord methods. This means
 we can chain several `where`s together:
 
 ```ruby
-tweets = Tweet.where("created_at > '2018-10-01'").where(zombie: 'Ash')
+tweets = Tweet.where("created_at > '2020-10-01'").where(zombie: 'Ash')
 ```
 
 §
@@ -446,7 +444,7 @@ In fact there are many more methods we might want to use for chaining:
 Tweet.limit(3)
 Tweet.order(:zombie)
 Tweet.select(:created_at, :zombie, :status)
-Tweet.where("created_at > '2018-10-01'").
+Tweet.where("created_at > '2020-10-01'").
   where(zombie: 'Ash').
   order(:zombie).limit(3)
 ```
@@ -460,13 +458,13 @@ You can use the method `to_sql` to see the SQL Statement produced by the chained
 
 ```ruby
 railsconsole> Tweet.select(:created_at, :zombie, :status).
-  where("created_at > '2018-10-01'").
+  where("created_at > '2020-10-01'").
   where(zombie: 'Ash').
   order(:zombie).
   limit(3).to_sql
  => SELECT  "created_at", "zombie", "status"
        FROM "tweets"
-       WHERE (created_at > '2018-10-01')
+       WHERE (created_at > '2020-10-01')
        AND "zombie" = 'Ash'
        ORDER BY "zombie" ASC
        LIMIT 3
@@ -478,13 +476,13 @@ The order of the methods is not relevant. You can also save an intermediate step
 a variable, and then chain more methods to that variable later on:
 
 ```ruby
-railsconsole> query = Tweet.where("created_at > '2018-10-01'").
+railsconsole> query = Tweet.where("created_at > '2020-10-01'").
   order(:zombie).limit(3)
 railsconsole> query.select(:created_at, :zombie, :status).
   where(zombie: 'Ash').to_sql
  => SELECT  "created_at", "zombie", "status"
       FROM "tweets"
-      WHERE (created_at > '2018-10-01')
+      WHERE (created_at > '2020-10-01')
       AND "zombie" = 'Ash'
       ORDER BY "zombie" ASC
       LIMIT 3
