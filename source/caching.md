@@ -96,7 +96,7 @@ This gem helps you analyze where your Rails App spends time.
 
 [https://github.com/MiniProfiler/rack-mini-profiler](https://github.com/MiniProfiler/rack-mini-profiler)
 
-See [RailsCast #368](http://railscasts.com/episodes/368-miniprofiler?view=asciicast) for a good introduction.
+See [RailsCast #368](https://archive.org/details/podcast_railscasts_368-miniprofiler_1000118526275) for a good introduction.
 
 The Mini Profiler only measures the server side: the time spent in the rails app to generate
 the webpage. So we need to compare the numbers Mini Profiler gives us to the

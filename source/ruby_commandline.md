@@ -490,7 +490,7 @@ $ ps aux | less
 $ ps aux | grep httpd | less
 $ ps aux | grep httpd | cut -c1-8 | less
 $ ps aux | grep httpd | cut -c1-8 | sort | less
-$ ps aux | grep httpd | cut -c1-8 | sort | uniq | less
+$ ps aux | grep httpd | cut -c1-8 | sort | uniq | less
 ```
 
 ### Piping Data in Ruby
@@ -517,6 +517,12 @@ that return a new Enumerable. You can connect theses methods to each other:
 - grep(/pattern/)
 - chunk(method)
 - reverse
+
+The method `tally` counts the occourance of elements and returns a hash:
+
+    ["a", "b", "c", "b"].tally
+    #=> {"a"=>1, "b"=>2, "c"=>1}
+
 
 Some other methods return just a single value, and thus end the pipe:
 
@@ -628,6 +634,7 @@ installed on your development machine so you can look up stuff instantly.
 
 - [try ruby](https://ruby.github.io/TryRuby/)
 - [learningruby.com tutorial](http://rubylearning.com/satishtalim/tutorial.html)
+- [learn ruby onliners](https://learnbyexample.github.io/learn_ruby_oneliners/one-liner-introduction.html) 
 
 ### Books
 

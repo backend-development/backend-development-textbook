@@ -26,7 +26,7 @@ Some questions to ask yourself:
 ### Authentication and Authorisation
 
 This is epecially intresting when my app wants to access
-data in another app.  For exampl:  Authenticate via github, and also
+data in another app.  For example:  Authenticate via github, and also
 access the users private repositories.  Authenticate via google and also
 access the users photos. 
 
@@ -35,13 +35,13 @@ access the users photos.
 any combination of:
 
 *  Something you know - a password or a pin
-*  Something you have -   mobile phone or a ecurity token like a [YubiKey](https://www.yubico.com/products/#yubikey-5ci)
+*  Something you have -   mobile phone or a security token like a [YubiKey](https://www.yubico.com/products/#yubikey-5ci)
 *  Something you are - fingerprint, retina scan, FaceID
 *  Something you do - typing speed, locational information etc.
 
 ### Different types of programs
 
-Browsers do Cookies, other types of programs do not
+Browsers do Cookies, other types of programs do not.
 
 Command Line Authentication Flow:
 
