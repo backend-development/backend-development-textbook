@@ -227,6 +227,14 @@ You need to filter objects shown by the index action?
 
 * gem [acts_as_list](https://github.com/swanandp/acts_as_list)
 
+
+### 
+
+state machines are an importante pattern for
+representing workflows:
+
+*  [state_machine(s) gem](https://planetruby.github.io/gems/week/09-state-machine.html) intro on Best of Ruby Gems
+
 ### Search
 
 You need to search in more than just one attribute of your
