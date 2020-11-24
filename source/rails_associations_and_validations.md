@@ -5,8 +5,6 @@ After working through this guide you should
 - Be able to write validations to check data before it is saved to the database
 - Be able to create models with associations to other models
 
-REPO: Continue to use the [basic zombies](https://github.com/backend-development/advanced_zombies) example.
-
 The examples were inspired by "Rails for Zombies", which used to be a free rails online course.
 Sadly it is no longer available.
 
@@ -97,10 +95,10 @@ or you can combine several validations on one property:
 ```ruby
   :coursecode,
     format: { with: /\A[a-zA-Z]+\z/, message: "only allows letters" },
-    length: { is: 10 }
+    length: { is: 10 }
 ```
 
-### Validations vs Database Constraints
+### Checking Uniqueness in ActiveRecord
 
 Validations are checked by Ruby code **before** data is inserted
 in the database. If you want to ensure that the e-mails of your users
@@ -113,9 +111,49 @@ are unique, you can do so in Rails, by adding
 The validation happens by performing an SQL query into the model's table, searching for an existing record with the same value in that attribute. An error is reported by
 returning a false value from `save` and setting the `errors` attribute.
 
-You could also do this by adding a [UNIQUE CONSTRAINT](https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-UNIQUE-CONSTRAINTS) in your database.
+If we run this in the console we can see the SQL:
 
-[comment]: # "It will be checked by the database.  An error is reported by raising an exception when the `safe` is called."
+```
+> u3 = User.new(name: 'Ash', email: 'b@a.com')
+> u3.save
+  BEGIN
+  SELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2  [["email", "b@a.com"], ["LIMIT", 1]]
+  INSERT INTO "users" ("name", "email", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["name", "Ash"], ["email", "b@a.com"], ["created_at", "2020-11-24 10:02"], ["updated_at", "2020-11-24 10:02"]]
+  COMMIT
+```
+
+We can see a transaction from `BEGIN` to `COMMIT`. 
+
+### Checking Uniqueness in the Database
+
+
+You could also achieve the same effect using a [UNIQUE CONSTRAINT](https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-UNIQUE-CONSTRAINTS) in your database:
+
+```
+class AddUniqConstraint < ActiveRecord::Migration[6.0]
+  def change
+    add_index :users, :email, unique: true
+  end
+end
+```
+
+When Constraints in the Database are broken an exception is raised:
+
+```
+> u3 = User.new(name: 'Ash', email: 'b@a.com')
+> u3.save
+  BEGIN
+  INSERT INTO "users" ("name", "email", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["name", "Ash"], ["email", "b@a.com"], ["created_at", "2020-11-24 10:12:25.789051"], ["updated_at", "2020-11-24 10:12:25.789051"]]
+  ROLLBACK
+Traceback (most recent call last):
+        1: from (irb):2
+ActiveRecord::RecordNotUnique (PG::UniqueViolation: ERROR:  duplicate key value violates unique constraint "index_users_on_email")
+DETAIL:  Key (email)=(b@a.com) already exists.
+```
+
+You can see that the exception is of class `ActiveRecord::RecordNotUnique` and contains
+a description "Key (email)=(b@a.com) already exists".
+
 
 ### Validations and Forms
 
@@ -134,7 +172,7 @@ One Zombie has many Tweets          One Tweet belongs to one Zombie
 
 Zombie Ash  ----------------------- Tweet 'arg'
             \---------------------- Tweet 'aarrrrrgggh'
-            \---------------------- Tweet 'aaaarrrrrrrrrgggh'
+             \--------------------- Tweet 'aaaarrrrrrrrrgggh'
 
 Zombie Sue ------------------------ Tweet 'gagaga'
 ```
@@ -163,8 +201,6 @@ this will generate a migration with the following command
 ```ruby
     add_reference :tweets, :zombie, null: false, foreign_key: true
 ```
-
-Warning: in SQLite3 this will cause some problems ("SQLite3::SQLException: Cannot add a NOT NULL column with default value NULL"), please remove the `null: false,` part of the migration.
 
 If you ever mistype your `rails generate ...` line, you can undo it by running `rails destroy ...`.
 
