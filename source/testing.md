@@ -28,17 +28,17 @@ Rails tests can also simulate browser requests without or with javascript and th
 
 ### Setup for Testing
 
-Rails creates a `test` directory for you. If you list the contents of this directory you see:
+Rails creates a `test` directory for you. If you list the contents of this directory you will
+find two files that hold the configuration for your tests:
 
-```bash
-$ ls -F test
-integration/    system/
-controllers/    helpers/        mailers/        models/
-fixtures/       test_helper.rb
-```
+* `test_helper.rb` global test configuration
+* `application_system_test_case.rb` configure a browser for system test
 
-The `models`, `controllers`, `mailers` and `helpers` directory
-hold tests for (surprise) models, controllers, mailers and view helpers respectively.
+
+and several directories:
+
+The `models`, `controllers`, `mailers`, `channels`,  and `helpers` directory
+hold tests for (surprise) models, controllers, mailers, channels and view helpers respectively.
 These tests that are focussed on one single class are also called _unit tests_.
 
 The `integration` directory hold tests that exercise the whole Rails stack,
@@ -52,7 +52,6 @@ the javascript.
 
 Fixtures are a way of organizing test data; they reside in the `fixtures` directory.
 
-The `test_helper.rb` file holds the default configuration for your tests.
 
 ### The Test Environment
 
@@ -74,7 +73,7 @@ end
 
 ### Write one Test
 
-When you use the scaffold generator it will create
+When you use a generator it will also create
 basic tests and fixtures for you:
 
 ```bash
@@ -148,45 +147,24 @@ In a real test an assertion can check many things:
 
 Every test must contain at least one assertion, with no restriction as to how many assertions are allowed. Only when all the assertions are successful will the test pass.
 
-Here an example of a useful test: It checks that
-a new article does not have an empty or nil title:
+Here an example of a useful test: I want to add a validation
+to my article class to forbid very short or missing titles.
+
+I start by writing this test:
 
 ```ruby
-test "new article has default title" do
-  a = Article.new
-  assert a.title.length > 3
+test "article title needs to be at least 3 characters long" do
+  a = Article.new(title: 'x')
+  assert_not article.save
 end
 ```
+
 
 ### Running Tests
 
 To run all the tests for your project use `rails test`.
 
-```bash
-$ rails test
-Run options: --seed 8625
-
-# Running:
-
-........
-
-Finished in 0.498780s, 16.0391 runs/s, 28.0685 assertions/s.
-
-8 runs, 14 assertions, 0 failures, 0 errors, 0 skips
-```
-
-Every dot stands for one test that ran through sucessfully.
-
-To see how a test failure is reported, you can add a failing test:
-
-```ruby
-test "should not save article without title" do
-  article = Article.new
-  assert_not article.save
-end
-```
-
-If you run this newly added test the result might look like this:
+If you run the test above the result might look like this:
 
 ```bash
 $ rails test
@@ -208,9 +186,9 @@ Expected true to be nil or false
 In the output, `F` denotes a failure. You can see the corresponding trace shown under `1)` along with the name of the failing test. The next few lines contain the stack trace followed by a message that mentions the actual value and the expected value by the assertion. The default assertion messages provide just enough information to help pinpoint the error. To make the assertion failure message more readable, provide a message, as shown here:
 
 ```ruby
-test "should not save article without title" do
-  article = Article.new
-  assert_not article.save, "Saved the article without a title"
+test "article title needs to be at least 3 characters long" do
+  a = Article.new(title: 'x')
+  assert_not article.save, "Saved the article with title of length 1"
 end
 ```
 
@@ -218,19 +196,36 @@ Running this test shows the friendlier assertion message:
 
 ```bash
   1) Failure:
-test_should_not_save_article_without_title(ArticleTest) [test/models/article_test.rb:6]:
-Saved the article without a title
+article_title_needs_to_be_at_least_3_characters_long(ArticleTest) [test/models/article_test.rb:6]:
+Saved the article with title of length 1
 ```
 
 Now to get this test to pass we can add a model level validation for the _title_ field.
 
 ```ruby
 class Article < ApplicationRecord
-  validates :title, presence: true
+  validates :title, length: { minimum: 3 }
 end
 ```
 
 Now the test should pass. Verify this by actually running the test!
+
+
+```bash
+$ rails test
+Run options: --seed 8625
+
+# Running:
+
+........
+
+Finished in 0.498780s, 16.0391 runs/s, 28.0685 assertions/s.
+
+8 runs, 14 assertions, 0 failures, 0 errors, 0 skips
+```
+
+Every dot stands for one test that ran through sucessfully.
+```
 
 We first wrote a test which fails for a desired
 functionality, then we wrote some code which adds the functionality and finally
@@ -268,7 +263,7 @@ NameError: undefined local variable or method `some_undefined_variable' for #<Ar
 10 tests, 10 assertions, 0 failures, 1 errors, 0 skips
 ```
 
-Notice the 'E' in the output. It denotes a test with error.
+Notice the 'E' in the output. It denotes a test with an error.
 
 NOTE: The execution of each test method stops as soon as any error or an
 assertion failure is encountered. But the test suite continues with the next
@@ -291,8 +286,6 @@ test "MyClass no longer implements @@counter, raises error" do
   end
 end
 ```
-
-This test should now pass.
 
 ### Available Assertions
 
@@ -365,7 +358,7 @@ class CourseTest < ActiveSupport::TestCase
 end
 ```
 
-So ist the model test a unit test? It only tests one unit
+So is the model test a unit test? It only tests one unit
 of source code that you have written. It also exercises ActiveRecord
 and the test database. So you could argue that it is more
 than just a unit test. But for now it is a near a unit test as
