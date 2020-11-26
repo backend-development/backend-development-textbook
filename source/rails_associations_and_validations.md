@@ -213,12 +213,12 @@ editing the two files in `app/models/*.rb`.
 
 ```ruby
 # in file app/models/zombie.rb
-class Zombie
+class Zombie < ApplicationRecord
   has_many :tweets
 end
 
 # in file app/models/tweet.rb
-class Tweet
+class Tweet < ApplicationRecord
   belongs_to :zombie
 end
 ```
