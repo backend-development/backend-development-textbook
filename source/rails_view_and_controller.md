@@ -131,7 +131,7 @@ $ rails routes
                  DELETE   /groups/:id(.:format)
 ```
 
-Use the "prefix" from `rails routes` and `_path` or `_url` to get the path or full URL of the
+Use the "prefix" from `rails routes` and  add`_path` or `_url` to get the path or full URL of the
 action.
 
 * `link_to "Add a User", add_user_group_path` links to the `groups#add_user` action
@@ -174,12 +174,20 @@ DELETE /zombies/:id      zombies_controller  def destroy
 
 You have already used the scaffold generator which also
 adds the necessary views.  This way we end up with full CRUD (create, read, update, delete)
-capability for zombies:
+capability.  For this example:
+
+```
+rails generate scaffold thing title no:integer description start:date
+```
+
+we end up with 4 web pages and the following connections:
 
 ![scaffold](images/rest.png)
 
-Do adapt the views to better fit your user's needs, but 
-try to keep the underlying routes the same!
+
+The scaffold is only meant as a starting point. Always change
+the view to better fit your user's needs. But 
+try to keep the underlying routes the same.
 
 
 Form Helpers
