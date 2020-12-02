@@ -16,7 +16,6 @@ and be able to
 * build a form for editing a model
 * use nested resources
 
-REPO: Fork the [example app 'kanban-board'](https://github.com/backend-development/rails-example-kanban-board) and try out what you learn here.
 
 -------------------------------------------------------
 
