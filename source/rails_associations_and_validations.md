@@ -154,6 +154,9 @@ DETAIL:  Key (email)=(b@a.com) already exists.
 You can see that the exception is of class `ActiveRecord::RecordNotUnique` and contains
 a description "Key (email)=(b@a.com) already exists".
 
+### explore the models
+
+```User.reflect_on_association```
 
 ### Validations and Forms
 

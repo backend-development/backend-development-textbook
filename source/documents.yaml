@@ -22,9 +22,9 @@
       url: rails_authentication.html
       description: How do we implement "logging in" over statless HTTP? Sessions in rails. Logging in with Passwords or with another service like github, twitter, facebook (using devise and omniauth)
     -
-      name: Asset Pipeline
-      url: asset_pipeline.html
-      description: How CSS, Javascript, Images are prepared for publishing
+      name: Assets and Webpacker
+      url: assets_and_webpacker.html
+      description: How CSS, Javascript, Font and Images are prepared for publishing
     -
       name: Javascript and Rails
       url: javascript_and_ajax.html
