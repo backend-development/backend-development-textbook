@@ -259,6 +259,11 @@ changed and should be deposable.  You need a [backing service](https://12factor.
 for storing files.  This can be another cloud service like S3 (storage only) or [cloudinary](https://cloudinary.com/) (storage and image processing)
 
 
+## Using webpacker for images and css
+
+- [CSS with Webpacker](https://stackoverflow.com/questions/57748953/importing-css-with-webpacker-in-rails-6#answer-57750067)
+- [Images with Webpacker](https://rossta.net/blog/importing-images-with-webpacker.html)
+
 ## Further Reading
 
 - Souders(2007): High Performance Web Sites. O'Reilly. ISBN-13: 978-0596529307.
