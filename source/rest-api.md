@@ -2,11 +2,11 @@
 
 After working through this guide you will:
 
-- know about the thinking behind REST APIs and JSON API
+- know about the thinking behind REST APIs
 - be able to configure your existing controllers to offer resources as JSON
 - be able to set up an API for your rails app that is separate from existing controllers
 
-REPO: You can study the [code](https://github.com/backend-development/api_sample_app) and try out [the demo](https://dry-cove-38472.herokuapp.com/) for the example described here.
+REPO: You can study the [code](https://github.com/backend-development/api_sample_app) and try out [the demo](https://iou-brigitte.herokuapp.com) for the example described here.
 
 ---
 
@@ -20,7 +20,7 @@ In Web development the acronym API is most
 commonly used when the software component in question runs on a different server on the
 Internet and is accessed via HTTP.
 
-## SOAP, REST and GraphQL
+### SOAP, REST and GraphQL
 
 Currently three main API Styles are used on the Web:
 
@@ -32,18 +32,32 @@ This Guide is concerned with REST, there is a second guide for [GraphQL](/graphq
 is rearely offered with Rails, but there is a [soap client](https://github.com/savonrb/savon) in
 ruby.
 
-## API layer is a separate layer
+### API separates two layers
 
 Please note that any of the API styles can be used
-with any backend, frontend, persistance layers: 
+with any backend, frontend, persistance layers:
 
-* You can build a REST in front of a PHP backend using MongoDB as the database and use it from a frontend written with jQuery. 
+* You can build a REST in front of a PHP backend using MongoDB as the database and use it from a frontend written with jQuery.
 * You can build a GraphQL API for a Rails backend using MySQL as the database and build the frontend with React.
 
 That's kind of the point of an API: to allow different technologies
 on both sides of the API.
 
+### API for many different clients
 
+Using an API you can build a common backend for different cleints:
+
+* one client could be a native mobile app for iOS
+* another client could be a natvie mobile app for Android
+* a third client could be a Single Page App written with React
+
+### Backend offers more than an API
+
+Your "backend" might still offer some "Server Rendered HTML" besides
+the API:
+
+* Documentation for the API (e.g. swagger, see below)
+* AdminPanel (e.g. created automatically by rails_admin)
 ## REST
 
 The acronym REST was coined by Roy Fielding in his dissertation. When describing
@@ -65,9 +79,6 @@ A REST API allows to access and manipulate textual representations of Web resour
 4.  One resource can have multiple representations, for example HTML, JSON and XML
 5.  Communicate statelessly - if possible!
 
-### Exploring a REST API with postman
-
-TODO
 
 ### URLS
 
@@ -240,9 +251,20 @@ When an API returns JSON data this could take many forms.
 The [json:api specification](https://jsonapi.org/) is a well thought out
 convention for this.
 
-It is especially good with the HATEOS aspect of REST, the json:api specification adhers to this principle.
+It is imlements the HATEOS aspect of REST and defines a way to do associations and aggregation.
 
-## Using Rails to build a basic REST API
+For smaller projects it might be overkill.
+
+### Exploring a REST API
+
+You can explor a REST with the browser or several tool:
+
+* [curl](https://curl.haxx.se/docs/manual.html) is a command line tool for sending HTTP requests
+* developer tools in the browser can edit "re-send" a request, or [copy as curl](https://developer.mozilla.org/en-US/docs/Tools/Network_Monitor/request_list#Context_menu)
+* [postman](https://www.postman.com/downloads/) is a stand alone app 
+
+
+## REST API in Rails with existing Controllers
 
 Rails is equipped to not just create HTML as output, but to easily
 offer other representations as well.
@@ -456,7 +478,7 @@ If the "Frontend" is not in a browser, but is a native mobile app or
 just another server side job, we have to use an alternative to cookies.
 [JSON Web Tokens](https://backend-development.github.io/rails_authentication.html#how-to-add-state-to-http) are a solution.
 
-## Using Rails to build a stand alone REST API
+## Stand Alone REST API in Rails
 
 To create a stand alone API we define new, separate routes under `/api/v1`.
 
@@ -468,58 +490,17 @@ namespace :api do
 end
 ```
 
-we will be using the `fast_jsonapi` gem for creating JSON output that compllies to jsonapi:
+we will be using the `blueprint` gem for creating JSON output. It does not comply with
+the JSON-API specification, but it is fine for smaller projects.
 
 ```
-bundle add 'fast_jsonapi'
+bundle add 'blueprinter'
 ```
 
 **Beware**: After adding a gem you
 need to restart the rails server!
 
-### JSONAPI for the sample app
-
-The "Frontend 2" in the example app expects the json to be formed
-according to the json api specification.
-
-`/api/v1/user/1` will return data about one resource:
-
-```
-{
-
-    "data": {
-        "id": "1",
-        "type": "users",
-        "attributes": {
-            "name": "Example User",
-            "email": "example@railstutorial.org"
-        }
-    }
-
-}
-```
-
-`/api/v1/users/` returns an array, but the top level JSON structure
-is an object with on attribute `data`:
-
-```
-{
-
-    "data": [
-        {
-            "id": "2",
-            "type": "users",
-            "attributes": {
-                "name": "Precious Heaney",
-                "email": "example-1@railstutorial.org"
-            },
-        },
-        ...
-    ]
-}
-```
-
-### creating JSON with fast_jsonapi
+### setting up controllers 
 
 After we defined the routes, we next need to create a controller.
 As we are setting up a new hierarchy of controllers that will only
@@ -542,47 +523,70 @@ The users controller is the one that's actually called by the route:
 ```
 # app/controllers/api/v1/users_controller.rb
 
-class Api::V1::UsersController < Api::V1::BaseController
+class Api::V1::UsersController < Api::V0::BaseController
   def index
     users = User.all
-
-    render json: UserSerializer.new(users).serialized_json
+    render json: ...
   end
 
   def show
     user = User.find(params[:id])
-
-    render json: UserSerializer.new(user).serialized_json
+    render json: ...
   end
 end
 ```
 
-The controller loads the right model, and then calls a **serializer** to
-do the actual rendering of the json data.
+The controller loads the right model, and then needs to calls a **serializer**  to
+do the actual rendering of the json data.  We will create this serializer next.
 
-All serializers live in the `/app/serializers` folder.
-You can generate a serializer from an existing model:
+## creating JSON with blueprinter
 
-```
-rails g serializer User name email
-```
+With the gem blueprinter the
+serializers live in the `/app/blueprints` folder.
 
-this creates the following code:
 
 ```
-# app/serializers/user_serializer.rb
+# app/blueprints/user_blueprint.rb
 
-class UserSerializer
-  include FastJsonapi::ObjectSerializer
-  attributes :name, :email
+class UserBlueprint < Blueprinter::Base
+  identifier :id
+  fields :name, :email
+end
+```
+
+This serializer can be used both for single users and for arrays
+of users. We can now complete the controller:
+
+```
+# app/controllers/api/v1/users_controller.rb
+
+class Api::V1::UsersController < Api::V0::BaseController
+  def index
+    users = User.all
+    render json: UserBlueprint.render(users)
+  end
+
+  def show
+    user = User.find(params[:id])
+    render json: UserBlueprint.render(user)
+  end
 end
 ```
 
 
 
-## Documenting an API
+## Testing and Documenting a REST API
 
-See Halliday(2016): [Producing Documentation for Your Rails API](https://blog.codeship.com/producing-documentation-for-your-rails-api/) for a discussion of automatic methods of documentation generation.
+
+[Swagger](https://swagger.io/) and the OpenAPI Specification is a way for
+specifying and documenting REST APIs.  There are a lot of tools available around it.
+
+For Rails I recommend the gem `rswag`: with rswag you write tests (specs) for your 
+api, and the documentation is generated from the (successful) tests.
+There is also a web-ui to read the documentation and run API requests -
+[Swagger Web UI in the example app](https://iou-brigitte.herokuapp.com/api-docs/index.html)
+
+
 
 ## See Also
 
@@ -596,3 +600,4 @@ See Halliday(2016): [Producing Documentation for Your Rails API](https://blog.co
 - [Status codes](https://httpstatuses.com/422)
 - [gem knock](https://github.com/nsarno/knock) for token based authentication for API only Rails apps
 - [API Platform](https://api-platform.com/) to build REST + GraphQL APIs in PHP
+- Halliday(2016): [Producing Documentation for Your Rails API](https://blog.codeship.com/producing-documentation-for-your-rails-api/) for a discussion of automatic methods of documentation generation.

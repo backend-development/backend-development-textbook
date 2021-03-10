@@ -62,11 +62,12 @@ There are several ways to do this:
 2.  **HTTP Cookies** according to [rfc 6265](https://tools.ietf.org/html/rfc6265). The server sets the cookie (using the Header 'Set-Cookie'), the client returns the cookie automatically for every subsequent request to the server (using the HTTP Header `Cookie`).
 3.  **Bearer-Token**, with  `Authorization: Bearer ...` and `WWW-Authenticate: Bearer ...`
 
-## Web Authentication
+## Web Authentication "WebAuthn"
 
 A relatively new Method: the browser keeps tracks of private keys,
 uses public key to log in on server. Implemented in Browsers since 2018, 2019.
-See [Guide](https://webauthn.guide/) and [Demo](https://webauthn.io/).
+See [Guide](https://webauthn.guide/) and [Demo](https://webauthn.io/), 
+[caniuse](https://caniuse.com/?search=WebAuthn).
 
 <video class="wp-video-shortcode" id="video-2462-3_html5" poster="images/webauthn-android-fennec.png" loop="1" preload="metadata" style="width: 400px; height: 710.667px;" src="images/webauthn-android-fennec-1.mp4" width="400" height="711"><source type="video/mp4" src="images/webauthn-android-fennec-1.mp4?_=3"><source type="video/webm" src="images/webauthn-android-fennec-1.webm"><a href="images/webauthn-android-fennec-1.mp4">images/webauthn-android-fennec-1.mp4</a></video>
 
