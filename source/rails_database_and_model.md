@@ -258,6 +258,13 @@ to the development database!
 
 - `rails console`
 
+
+if you just want to play around and not make changes to the database use
+
+- `rails console --sandbox`
+
+instead.
+
 ### Finding a model
 
 The database table always has a primary key `id`. You can use this

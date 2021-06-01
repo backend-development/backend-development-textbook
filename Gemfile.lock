@@ -68,7 +68,7 @@ GEM
       nokogiri (>= 1.6)
     rails-html-sanitizer (1.0.4)
       loofah (~> 2.2, >= 2.2.2)
-    rake (12.3.1)
+    rake (13.0.3)
     rb-fsevent (0.10.3)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
@@ -96,7 +96,7 @@ DEPENDENCIES
   redcarpet
 
 RUBY VERSION
-   ruby 2.6.6p146
+   ruby 2.7.1p83
 
 BUNDLED WITH
    1.17.3
