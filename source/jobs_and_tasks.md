@@ -153,9 +153,11 @@ application.  To finish the taks we can use an already existing
   end
 ```
 
-### Tasks in other frameworks
+### Other Task Runners
 
-For `node.js` you can use `npm` as a task runner. 
+On **UNIX** Systems you can use `cron` to schedule tasks.
+
+You can use **npm** as a task runner. 
 Edit `package.json` and add your tasks under the key `scripts`:
 
 ```json
@@ -171,7 +173,9 @@ like build or cleanup steps, or running tests.
 
 See [the npm documentation](https://docs.npmjs.com/cli/v6/using-npm/scripts).
 
-See [envoy](https://laraveldocs.com/docs/5.0/envoy) for Laravel.
+In **nest.js** [task scheduling](https://docs.nestjs.com/techniques/task-scheduling) is handled by node-cron.
+
+In **Laravel** see [envoy](https://laraveldocs.com/docs/5.0/envoy).
 
 
 Jobs
@@ -185,7 +189,7 @@ HTTP Request-Response cycle. They are also called **background jobs**.
 
 ### How do I generate a job?
 
-Use `rails geneate` to get started:
+Use `rails generate` to get started:
 
 ```shell
 $ rails generate job guests_cleanup
