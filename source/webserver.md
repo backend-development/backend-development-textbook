@@ -9,7 +9,7 @@ After reading it you should be familiar with:
 - apache and mod_passenger
 
 ---
-
+ 
 ## The Stack
 
 Rack is an interface between webservers and the Ruby and Ruby framework - or
