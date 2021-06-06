@@ -25,7 +25,7 @@ DEMO: You can study [the demo](https://caching-red.projects.multimediatechnology
 
 ## What is Caching
 
-In general english usage a cache is [A store of things that may be required in the future, which can be retrieved rapidly, protected or hidden in some way. ](https://en.wiktionary.org/wiki/cache#Noun). 
+In general english usage a cache is [A store of things that may be required in the future, which can be retrieved rapidly, protected or hidden in some way](https://en.wiktionary.org/wiki/cache#Noun).
 But in computing the cache is not proteced or hidden, the important part
 it that data stored in a cache can be retrieved rapidly. 
 
@@ -47,7 +47,10 @@ See [Latency numbers every programmer should know](https://gist.github.com/helle
 
 Given these numbers it makes sense to keep a local copy of data that
 we might use again soon. Better to read it from ssd or memory the second
-time we need it! 
+time we need it!
+
+Caches have finite storage so items are periodically removed from storage.
+This process is called cache eviction.
 
 ## Where are caches used?
 
@@ -73,7 +76,14 @@ headers in both the HTTP-request and HTTP-response that influence
 if the browser will cache a resource for later and how long
 it will keep the resource in the cache.
 
-### Caching Proxies
+
+
+The Server can send the `Cache-Control:` header:
+
+* `Cache-Control: no-store` - The cache should not store anything about the client request or server response. A request is sent to the server and a full response is downloaded each and every time.
+* `Cache-Control: no-cache` - The cache will send the request to the origin server for validation before releasing a cached copy.
+* `Cache-Control: public` - that the response may be cached by any cache. 
+* `Cache-Control: private` - the response is intended for a single user only and must not be stored by a shared cache. A private browser cache may store the response.
 
 
 
@@ -414,6 +424,18 @@ The next time the same page was rendered the edition cache was reused.
 
 ![russian doll caching at work: changes when a project changes](images/russian-change.png)
 
+### Caching in API-only Rails Projects
+
+jbuilder has built in caching support:
+
+```ruby
+json.cache! ['v1', @person], expires_in: 10.minutes do
+  json.extract! @person, :name, :age
+end
+```
+
+
+
 ### The limits of fragment caching
 
 Caching is really helpful for pages that are accessed a lot.
@@ -423,16 +445,11 @@ Each individual project page will only get very few hits.
 Which means that chances are high that the page will not
 already be in the cache when it is requested.
 
-So caching cannot be the solution to all performance problems.
-We need to take a closer look at the first render of a page
-to find where we are wasting time.
-To do this it makes sense to switch off caching in development:
+You can "warm up the cache" by automatically loading the most
+important pages of your app after each deployment.
 
-```
-# on the command line
-$ rails dev:cache
-Development mode is no longer being cached.
-```
+But caching cannot be the solution to all performance problems.
+
 
 ### Final Thought on Caching in Rails
 
@@ -451,6 +468,16 @@ Accessing the database takes a long time - compared to all
 the computation that is done in ruby code itself. So looking
 at the Database, and the ORM we use to access the database, might
 make sense for performance optimisation.
+
+Before you start working on the Database, 
+make sure to switch off caching in development:
+
+```
+# on the command line
+$ rails dev:cache
+Development mode is no longer being cached.
+```
+
 
 ### Ignore this
 
@@ -718,7 +745,7 @@ WHERE user_id=901;
 
 §
 
-We can use the select statement to create a view:
+Any Query can turned into a **view** by prepending it with `CREATE VIEW ... AS`.
 
 ```
 mysql> CREATE VIEW degree_programs AS
@@ -729,11 +756,11 @@ LEFT JOIN agegroups ON (x.agegroup_id=agegroups.id);
 Query OK, 0 rows affected (0,06 sec)
 ```
 
+
 §
 
-The select statment with the two joins can now
-be used like a simple table called `degree_programs` in the database when creating
-new sql queries.
+After the view has been created, we can use `degree_programs` like a
+table in the database.
 
 ```
 mysql> SELECT * from degree_programs WHERE user_id=901 ;
@@ -811,7 +838,9 @@ This way we end up with only very few sql queries, and a big performance improve
 
 #### create view in production
 
-To deploy the view to production, you need to create it with a migration:
+To deploy the view to production, you need to create it with a migration.
+Both the `up` and `down` methods of this migration use `execute` to run
+SQL directly in the database.
 
 ```
 class CreateViewDegreeProgram < ActiveRecord::Migration
@@ -832,8 +861,8 @@ end
 
 #### uses and limitations of view
 
-In this case the view might be a first step towards refactoring
-the database. We just have too many tables in the database that
+In this case the view might be a **first step** towards **refactoring
+the database**. We just have too many tables in the database that
 are not really needed.
 
 We can rewrite the rails app step by step to use only the new view,
@@ -842,11 +871,16 @@ have changed all the rails code, we can drop the view, and create
 a table with the same data instead. Then we can drop the original tables
 and are finished with the database refactoring.
 
-In other cases you might use a view permanently: If you need both
+§
+
+In other cases you might use a view **permanently**: If you need both
 the underlying, more complex data, and the simplified data in the view.
 Reports with aggregated data, top 10 lists, queries that use
 complex database expressions, or tables with a reduced set
 of attributes would be good examples for using a view.
+
+
+§
 
 For data that is accessed a lot, but changes very seldom, you can
 us a **materialized view**. In a normal view each access to the view
