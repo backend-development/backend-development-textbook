@@ -58,10 +58,13 @@ When you load a webpage into your browser there are many levels
 of caches involved:
 
 * Caching in the Browser, configured by HTTP Headers
-* Caching Proxies 
+* Caching Proxies
 * Load Balancer + Caches, for example [nginx](https://dev.to/satrobit/how-to-set-up-an-nginx-reverse-proxy-cluster-with-a-shared-cache-38eh), or [varnish](https://varnish-cache.org/)
 * Inside the Backend Framework (see below)
 * Inside the Database (see below)
+
+If you are using a separate frontend you will have another caching layer
+in the frontend for storing the result of api requests.
 
 And in all the computers involved in this process:
 
@@ -451,6 +454,23 @@ important pages of your app after each deployment.
 But caching cannot be the solution to all performance problems.
 
 
+### Caching in other Frameworks
+
+Backend Frameworks:
+
+* laravel: [Cache](https://laravel.com/docs/8.x/cache)
+* nest.js: [Caching](https://docs.nestjs.com/techniques/caching#in-memory-cache)
+
+
+Frontend Frameworks:
+
+* Angular: [$templateCache](https://laravel.com/docs/8.x/cache)
+* vue SSR: [caching](https://ssr.vuejs.org/guide/caching.html#page-level-caching)
+
+Frontend + SSR:
+
+* Stale-While-Revalidate Staregy for frontend and APIs [SWR](https://medium.com/nerd-for-tech/swr-frontend-data-fetching-and-caching-ca0313239d6f)
+* next.js: [SWR](https://nextjs.org/docs/basic-features/data-fetching#swr)
 ### Final Thought on Caching in Rails
 
 If you find that the backend framework causes a performance problem
@@ -902,6 +922,14 @@ ORM creates make sense and are efficient. You should
 - recognize n+1 queries and avoid them by using `includes`
 - use view in the database to isolate complex sql and to add caching if needed
 
+
+
+
+### ORMs in other Frameworks
+
+* Laravel: the ORM eloquent offers `with()` to [solve the n+1 problem](https://kordes.dev/posts/laravel-and-n-1-problem)
+* nest.js: [Dealing in the N + 1 problem in GraphQL](https://wanago.io/2021/02/08/api-nestjs-n-1-problem-graphql/)
+* typeorm: [hat ernste Probleme](https://github.com/typeorm/typeorm/issues/3857)
 # See Also
 
 - [Rails Guide: Caching](https://guides.rubyonrails.org/caching_with_rails.html)
