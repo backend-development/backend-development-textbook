@@ -471,6 +471,8 @@ Frontend + SSR:
 
 * Stale-While-Revalidate Staregy for frontend and APIs [SWR](https://medium.com/nerd-for-tech/swr-frontend-data-fetching-and-caching-ca0313239d6f)
 * next.js: [SWR](https://nextjs.org/docs/basic-features/data-fetching#swr)
+
+
 ### Final Thought on Caching in Rails
 
 If you find that the backend framework causes a performance problem
@@ -930,6 +932,7 @@ ORM creates make sense and are efficient. You should
 * Laravel: the ORM eloquent offers `with()` to [solve the n+1 problem](https://kordes.dev/posts/laravel-and-n-1-problem)
 * nest.js: [Dealing in the N + 1 problem in GraphQL](https://wanago.io/2021/02/08/api-nestjs-n-1-problem-graphql/)
 * typeorm: [hat ernste Probleme](https://github.com/typeorm/typeorm/issues/3857)
+
 # See Also
 
 - [Rails Guide: Caching](https://guides.rubyonrails.org/caching_with_rails.html)

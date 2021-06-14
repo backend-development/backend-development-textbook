@@ -10,14 +10,23 @@ By referring to this guide, you will be able to:
 - Use rails's security features
 - Appreciate how hard security is
 
-REPO: You can fork the [code of the example app](https://github.com/backend-development/rails-example-security). This app is full of security holes. While reading this guide you should
-work on the app and fix those holes one by one.
+REPO: You can fork the [code of the example app](https://github.com/backend-development/rails-example-security). This app is full of security holes. While reading this guide you can
+work on the app and fix those problems one by one.
 
 ---
 
-§
 
-Later on this Guide will follow the OWASP Top 10 from 2017 to discuss
+
+## Where to learn about security
+
+For a real world project, follow the [OWASP Application Security Verification Standard](https://github.com/OWASP/ASVS/blob/master/4.0/OWASP%20Application%20Security%20Verification%20Standard%204.0.2-de.pdf).
+
+To get a first impression learn about the [OWASP Top 10](https://owasp.org/www-project-top-ten/).
+
+
+## What a framework can't do for you
+
+Later on this Guide will follow the OWASP Top 10 to discuss
 security features of Ruby on Rails. But first a word of warning:
 
 Rails offers a lot of security features. But all those clever features
@@ -78,7 +87,7 @@ Project.find(42)
 
 Project.where(title: params[:title])
 # SELECT "projects".* FROM "projects" WHERE "projects"."title" = $1
-# [["title", "Marios Welt"]]
+# [["title", "Marios World"]]
 
 Project.where("publication_date > ?",  1.year.ago)
 # SELECT "projects".* FROM "projects" WHERE (publication_date > '2018-06-03 12:15:54.952581')
@@ -91,7 +100,7 @@ you open up your application to injection attacks. An example that is vunerable:
 
 ```ruby
 @projects = Project.where("title = '#{params[:title]}'")
-# SELECT "projects".* FROM "projects" WHERE (title = 'Marios Welt')
+# SELECT "projects".* FROM "projects" WHERE (title = 'Marios World')
 ```
 
 If a malicious user enters `' OR ''='` as the name parameter, the resulting SQL query is:
@@ -145,7 +154,7 @@ production:
 Broken Authentication
 ---
 
-> Application functions related to authentication and session management are often implemented incorrectly, allowing attackers to compromise passwords, keys, or session tokens, or to exploit other implementation flaws to assume other users' identities temporarily or permanently. [OWASP Wiki](https://www.owasp.org/index.php/Top_10-2017_A2-Broken_Authentication)
+> Application functions related to authentication and session management are often implemented incorrectly, allowing attackers to compromise passwords, keys, or session tokens, or to exploit other implementation flaws to assume other users' identities temporarily or permanently. [OWASP Wiki](https://owasp.org/www-project-top-ten/2017/A2_2017-Broken_Authentication)
 
 §
 
@@ -193,7 +202,14 @@ Friendly reminder: this is how you test if a user can be created:
     assert_response :success
 
     assert_difference('User.count',1) do
-      post "/users", params:{user:{name:"Me Stupid",email:"peter@prayalot.com",password:'ljkw8723kjasf889r',homepage:'https://some.where'}}
+      post "/users", params: {
+        user: {
+          name:"Me Stupid",
+          email:"peter@prayalot.com",
+          password:'ljkw8723kjasf889r',
+          homepage:'https://some.where'
+        }
+      }
     end
     assert_select 'span', text: 'has previously appeared in a data breach and should not be used', count: 0
     follow_redirect!
@@ -214,11 +230,21 @@ The OWASP advises: Determine the protection needs of data **in transit** and **a
 
 ### Encryption in the Database
 
-In Rails you can use the [attr_encrypted gem](https://github.com/attr-encrypted/attr_encrypted) to encrypt certain attributes in the database transparently.  While choosing to encrypt at the attribute level is the most secure solution, it is not without drawbacks. Namely, you cannot search the encrypted data, and because you can't search it, you can't index it either. You also can't use joins on the encrypted data.
+From Rails version 7 on [ActiveRecord offers encryption](https://edgeguides.rubyonrails.org/active_record_encryption.html). For older versions  you can use the [attr_encrypted gem](https://github.com/attr-encrypted/attr_encrypted) to encrypt certain attributes in the database transparently.  
+
+While choosing to encrypt at the attribute level is the most secure solution, it is not without drawbacks. Namely, you cannot search the encrypted data, and because you can't search it, you can't index it either. You also can't use joins on the encrypted data.
 
 ### Removing from the Logfile
 
 By default, Rails logs all requests being made to the web application.  You can _filter certain request parameters from your log files_ by appending them to `config.filter_parameters` in the application configuration. These parameters will be replaced by "[FILTERED]" in the log.
+
+
+```
+Started POST "/user/sign_in" for 127.0.0.1 at 2021-01-05 08:46:01 +0100
+Processing by Devise::SessionsController#create as HTML
+  Parameters: {"utf8"=>"✓", "user"=>{"email"=>"brigitte.jellinek@fh-salzburg.ac.at", "password"=>"[FILTERED]", "remember_me"=>"1"}
+In"}
+```
 
 ```ruby
 # in initializers/filter_parameter_logging.rb
@@ -250,16 +276,6 @@ This will do three things:
 See [this blog article](https://blog.bigbinary.com/2016/08/24/rails-5-adds-more-control-to-fine-tuning-ssl-usage.html) for more details on configuring this
 
 
-XML External Entities (XXE)
----
-
-> Many older or poorly configured XML processors evaluate external entity references within XML documents. External entities can be used to disclose internal files using the file URI handler, internal file shares, internal port scanning, remote code execution, and denial of service attacks. [OWASP Wiki](https://www.owasp.org/index.php/Top_10-2017_A4-XML_External_Entities_(XXE))
-
-A XEE vunerability in nokogiri was [fixed in 2014](https://github.com/sparklemotion/nokogiri/issues/693), but
-another was [found in 2017, and is not completely fixed yet](https://snyk.io/blog/nokogiri-xxe-vulnerabilities/).
-
-Use a service like [snyk](https://snyk.io/vuln/search?q=nokogiri&type=rubygems) to learn about vunerable
-dependencies.
 
 Broken Access Control
 ---
@@ -288,7 +304,7 @@ Instead, _query the user's access rights, too_:
 ```
 
 For more complex setups with different roles that have different permissions
-use a gem like `cancancan` which will let you [define access in a declarative way](https://github.com/CanCanCommunity/cancancan/wiki/defining-abilities) and give you an `authorize!` method for controllers:
+use a gem like `cancancan` which will let you [define access in a declarative way](https://github.com/CanCanCommunity/cancancan/blob/develop/docs/Defining-Abilities.md#readme) and give you an `authorize!` method for controllers:
 
 ```ruby
 @project = Project.find(params[:id])
@@ -297,9 +313,10 @@ authorize! :read, @project
 
 ### use UUIDs instead of bigint as id
 
-If you need to have a resource that is available
-to anyone with the URL (think google docs, doodle),
-but do not want users to be able to enumerate all possible URLs:
+In some circumstances you need to have a resource that is available
+to anyone with the URL - think google docs or doodle.
+
+But you do not want users to be able to enumerate all possible URLs:
 
 ```
 https://my-schedule.at/calendar/17
@@ -307,7 +324,14 @@ https://my-schedule.at/calendar/18
 https://my-schedule.at/calendar/19 ...
 ````
 
-Instead of serial/autocincrement  use of UUID
+To avoid the enumeration attack you can switch from using serial/autocincrement as
+the primary key in the database to using UUIDs.  Then the URLs will look like this:
+
+```
+https://my-schedule.at/calendar/0d60a85e-0b90-4482-a14c-108aea2557aa
+https://my-schedule.at/calendar/39240e9f-ae09-4e95-9fd0-a712035c8ad7 
+https://my-schedule.at/calendar/a3240e9e-1209-4e95-9fd0-a712035c8ad4 ...
+```
 
 §
 
@@ -335,13 +359,6 @@ Rails can handle all this for you:
 config.generators do |g|
   g.orm :active_record, primary_key_type: :uuid
 end
-```
-
-now your urls will be harder to enumerate:
-
-```
-https://my-schedule.at/calendar/0d60a85e-0b90-4482-a14c-108aea2557aa
-https://my-schedule.at/calendar/39240e9f-ae09-4e95-9fd0-a712035c8ad7 ...
 ```
 
 ### set CORS for your API
@@ -446,7 +463,7 @@ This is espacially relevent if you are running your own virtual machine:
 
 - upgrade the operating system, apply security patches
 - remove unused components, e.g. a wordpress installation you no longer need
-- upgrade ruby after [security problems are fixed](https://www.ruby-lang.org/en/news/2018/03/28/unintentional-file-and-directory-creation-with-directory-traversal-cve-2018-6914/)
+- upgrade ruby after [security problems are fixed](https://www.ruby-lang.org/en/news/)
 
 ### Use Environment Variables
 
@@ -474,12 +491,10 @@ test:
 
 production:
   <<: *default
-  database: myapp_production
-  username: myapp
-  password: <%= ENV['MYAPP_DATABASE_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>
 ```
 
-### Handling Secrets and Credentials
+### Storing Secrets in the code base
 
 Rails 5.2 and later generates two files to handle credentials (passwords, api keys, ...):
 
@@ -520,10 +535,9 @@ Rails.application.credentials.some_api_key!
 
 ### Use a Content Security Policy (CSP)
 
-In Rails 5.2 and later you dan configure a
-[Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy)
-for your application in an initializer. You can configure a global default policy and then
-override it on a per-resource basis.
+The modern solution to XSS ist a [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)(CSP).
+In Rails you can configure the Content Security Policy 
+for your application in an initializer. 
 
 Example global policy:
 
@@ -631,17 +645,12 @@ This way no user credentials will every be sent to `code.jquery.com`).
 - Report: [Comcast uses MITM javascript injection to serve unwanted ads and messages](https://www.privateinternetaccess.com/blog/2016/12/comcast-still-uses-mitm-javascript-injection-serve-unwanted-ads-messages/)
 - MDN: [Subresource Integrity - SRI](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity)
 
-## Insufficient Logging&Monitoring
-
-> Insufficient logging and monitoring, coupled with missing or ineffective integration with incident response, allows attackers to further attack systems, maintain persistence, pivot to more systems, and tamper, extract, or destroy data. Most breach studies show time to detect a breach is over 200 days, typically detected by external parties rather than internal processes or monitoring. [OWASP Wiki](https://www.owasp.org/index.php/Top_10-2017_A10-Insufficient_Logging%26Monitoring)
-
-This is really outside the scope of the backend framework.
 
 ## Cross Site Request Forgery (CSRF)
 
 This security problem used to be No 8 on the list, but was no longer listed in the 2017.
 
-> A CSRF attack forces a logged-on victim’s browser to send a forged HTTP request, including the victim’s session cookie and any other automatically included authentication information, to a vulnerable web application. This allows the attacker to force the victim’s browser to generate requests the vulnerable application thinks are legitimate requests from the victim. [OWASP Wiki](<https://www.owasp.org/index.php/Top_10_2013-A8-Cross-Site_Request_Forgery_(CSRF)>)
+> A CSRF attack forces a logged-on victim’s browser to send a forged HTTP request, including the victim’s session cookie and any other automatically included authentication information, to a vulnerable web application. This allows the attacker to force the victim’s browser to generate requests the vulnerable application thinks are legitimate requests from the victim. [OWASP](https://owasp.org/www-community/attacks/csrf)
 
 First use GET and POST appropriately. Secondly, a security token in non-GET requests will protect your application from CSRF. Rails can handle this for you:
 
