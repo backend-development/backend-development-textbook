@@ -15,10 +15,22 @@ After reading this guide you will
 
 ## Gems and Bundler
 
+
+### dependencies
+
+Code reuse is a deciding factor for programmer productivity.
+Other people code that we reuse is called a "dependency" because
+our program depends on it.
+
+Using a dependency always carries a risk.
+
+![](images/dependency.png)
+
+Visualisation of modern software development in [xkcd](https://xkcd.com/2347/)
+
 ### gems
 
-Code reuse is a deciding factor for programmer productivity. In Ruby
-the unit of reuse is called a `gem`. `rubygems` is the package manager for ruby,
+In Ruby the unit of reuse is called a `gem`. `rubygems` is the package manager for ruby,
 it let's you install gems on your system.
 
 A gem has a name (e.g. `rake`) and a version number (e.g. `10.4.2`).
