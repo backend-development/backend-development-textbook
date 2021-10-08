@@ -19,7 +19,6 @@ namespace :guides do
         cp source_file, 'output/', :verbose => true
       end
       cp 'README.md', 'output/', :verbose => true
-      sh './deploy.sh'
     end
   end
 
