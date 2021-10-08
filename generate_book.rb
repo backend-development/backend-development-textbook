@@ -1,6 +1,11 @@
 pwd = __dir__
 $LOAD_PATH.unshift pwd
 $LOAD_PATH.unshift "#{pwd}/vendor/bundle"
+$LOAD_PATH.unshift "/home/runner/work/backend-development-textbook/backend-development-textbook/vendor/bundle"
+
+
+gems = Dir.glob('/home/runner/work/backend-development-textbook/backend-development-textbook/vendor/bundle/*')
+gems.each {|g| puts g }
 
 # This is a predicate useful for the doc:guides task of applications.
 def bundler?
