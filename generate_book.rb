@@ -1,5 +1,6 @@
 pwd = File.dirname(__FILE__)
 $LOAD_PATH.unshift pwd
+$LOAD_PATH.unshift "#{pwd}/vendor/bundle"
 
 # This is a predicate useful for the doc:guides task of applications.
 def bundler?
