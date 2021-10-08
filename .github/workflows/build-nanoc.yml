@@ -1,0 +1,22 @@
+name: Build Static Site with Ruby Guides build system
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install libcurl
+        run: sudo apt-get install libcurl4 libcurl3-gnutls libcurl4-openssl-dev
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7.1 # Not needed with a .ruby-version file
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+      - name: compile
+        run: rake
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          personal_token: ${{ secrets.PERSONAL_TOKEN }}
+          external_repository: backend-development/backend-development.github.io.git
+          publish_branch: master
+          publish_dir: ./output

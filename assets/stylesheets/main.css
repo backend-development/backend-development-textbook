@@ -482,8 +482,14 @@ h2#preheader {
 
 a,
 a:link,
+{
+  color: #f9980f
+  text-decoration: underline;
+}
+
+
 a:visited {
-  /* color: #ee3f3f; */
+  color: #c28f49
   text-decoration: underline;
 }
 
