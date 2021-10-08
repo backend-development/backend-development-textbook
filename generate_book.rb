@@ -8,6 +8,7 @@ def bundler?
   File.exist?('Gemfile')
 end
 
+puts "I will require stuff from the LOAD PATH #{$LOAD_PATH}"
 
 require 'rails_guides/markdown'
 require 'rails_guides/generator'

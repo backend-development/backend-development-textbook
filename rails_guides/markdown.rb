@@ -1,5 +1,5 @@
-require 'redcarpet'
 require 'nokogiri'
+require 'redcarpet'
 require 'rails_guides/markdown/renderer'
 
 module RailsGuides
