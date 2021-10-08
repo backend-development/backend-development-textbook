@@ -5,7 +5,10 @@ $LOAD_PATH.unshift "/home/runner/work/backend-development-textbook/backend-devel
 
 
 gems = Dir.glob('/home/runner/work/backend-development-textbook/backend-development-textbook/vendor/bundle/*')
+puts "the gems are:"
 gems.each {|g| puts g }
+
+puts "/gems"
 
 # This is a predicate useful for the doc:guides task of applications.
 def bundler?
