@@ -1,4 +1,4 @@
-pwd = File.dirname(__FILE__)
+pwd = __dir__
 $LOAD_PATH.unshift pwd
 $LOAD_PATH.unshift "#{pwd}/vendor/bundle"
 
