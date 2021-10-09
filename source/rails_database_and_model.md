@@ -45,7 +45,7 @@ ActiveRecord is the default solution used in Rails, we will look into it in deta
 ## ActiveRecord Basics
 
 Rails implements the Active Record pattern in a class called `ActiveRecord`.
-All the '''models''' in a Rails project inherit from `ActiveRecord`.
+All the models in a Rails project inherit from `ActiveRecord`.
 
 ```ruby
 # file app/models/thing.rb
@@ -257,7 +257,6 @@ Any changes you make are really written
 to the development database!
 
 - `rails console`
-
 
 if you just want to play around and not make changes to the database use
 

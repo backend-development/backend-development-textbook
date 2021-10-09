@@ -36,4 +36,4 @@ and send me a pull request
 
 - code from the rails guides, found in the 'guides' folder of the rails repository
 - deck.js for the slides http://imakewebthings.com/deck.js/docs/
-- syntax highlighter http://alexgorbatchev.com/SyntaxHighlighter
+- syntax highlighter https://github.com/syntaxhighlighter/syntaxhighlighter

@@ -51,10 +51,6 @@ surrounding it.
 
 Some sites built with Rails are: [GitHub](https://github.com) and [GitLab](https://gitlab.com), [Shopify](https://shopify.com), [Fiverr](https://www.fiverr.com/), [codepen.io](https://codepen.io/), [Airbnb](https://airbnb.com), [Twitch](https://blog.twitch.tv/en/2015/12/18/twitch-engineering-an-introduction-and-overview-a23917b71a25/), [Square](https://squareup.com/), [Dribble](https://dribbble.com/) and of course [Basecamp](https://basecamp.com), DHHs own product.
 
-
-
-
-
 ### Why Ruby? Why Rails ?
 
 Why should you use Ruby and Rails over other programming languages
@@ -110,7 +106,10 @@ b.sugar!     # a method that changes its object
 In the last two examples the punctuation marks are really
 part of the method names!
 
-The parantheses around the arguments of a method are optional.
+## Methods
+
+When calling a method,
+the parantheses around the arguments are optional.
 Leave them off unless your code get's confusing:
 
 ```ruby
@@ -118,35 +117,44 @@ puts("less code")
 puts "less code"
 ```
 
-# Data Types
-
-All of Ruby's basic data types are Classes.
-
-- nil
-- Numeric, Integer, Fixnum, Bignum, Float `# are converted automatically to each other`
-- Ranges
-- String
-- true `# TrueClass`
-- false `# FalseClass`
-- Symbol
-- Array
-- Hash
-- Object
-- Regex
-
-Ruby is strict about data types, there is no automatic conversion except
-between numeric types.
+### Definig a Method
 
 ```ruby
->> "a string" + "another"
-=> "a stringanother"
-
->> "a string" + 2
-TypeError: no implicit conversion of Fixnum into String
-
->> 42 + 3.141
-=> 45.141
+def f(a,b)
+  puts "Hello World"
+  puts "I'm just ignoring my arguments for now"
+end
 ```
+
+### Return Value
+
+Methods in Ruby return the last expression - even
+if no explicit `return` statement is given.
+
+```ruby
+def f(a,b)
+  "x"
+end
+
+f(1,42)  # returns "x"
+```
+
+### Keyword Arguments
+
+Since ruby 2.0 keyword arguments can be used instead,
+and can be given default values:
+
+```ruby
+def apply_the_style(font_family: 'MS Comic Sans', font_size: 16 )
+  ...
+end
+
+apply_the_style()    # uses both default values
+apply_the_style(font_family: "Arial")
+apply_the_style(font_size: 10, font_family: "Arial")  # order can be different
+```
+
+## Object Orientation
 
 Everything is an Object, even Integers and Strings.
 They have methods and properties, like other objects:
@@ -162,6 +170,60 @@ They have methods and properties, like other objects:
 => 9
 ```
 
+### The 'Save Navigation' Operator
+
+Imagine you have an Object `a`, that has a property `b` containing
+another object, and `b` has a property `c`. You can access `c` through `a.b.c`
+
+But if a is `nil` then you will get an error:
+
+```ruby
+> a.b.c
+NoMethodError: undefined method `b' for nil:NilClass
+```
+
+The Operator `&.` avoids this error:
+
+```ruby
+> a&.b&.c
+nil
+```
+
+The Operator was introduced in Ruby 2.3.0 is is called
+"save navigation operator" or sometimes "lonely operator".
+
+## Type System
+
+All of Ruby's basic data types are Classes.
+
+- nil
+- Numeric, Integer, Fixnum, Bignum, Float `# are converted automatically to each other`
+- Ranges
+- String
+- true `# TrueClass`
+- false `# FalseClass`
+- Symbol
+- Array
+- Hash
+- Object
+- Regex
+
+### Strict Type Checking
+
+Ruby is strict about data types, there is no automatic conversion except
+between numeric types.
+
+```ruby
+>> "a string" + "another"
+=> "a stringanother"
+
+>> "a string" + 2
+TypeError: no implicit conversion of Fixnum into String
+
+>> 42 + 3.141
+=> 45.141
+```
+
 ### Strings
 
 ```ruby
@@ -174,7 +236,7 @@ it can contain many lines of text
 and ends with the identifier EOM (that i chose!)
 but only if it's alone on a line all by itself:
 EOM
-s = %Q§with %Q you can chose any character als string delimiters§
+s = %Q|with %Q you can chose any character als string delimiters|
 s = %Q{
   with %Q you can chose any character als string delimiters.
   opening brackets go with closing brackets.
@@ -195,70 +257,6 @@ if "false"
   puts '"false" (the string) is true'
 end
 ```
-
-### Shorthand version of Conditions
-
-The two conditions shown in the last
-code block only have one statement inside
-the block.
-
-This can also be written in another way by
-appending the condition to the statement,
-like so:
-
-```ruby
-puts '0 is true!' if 0
-puts '"false" (the string) is true' if "false"
-```
-
-This syntax should be familiar to you if
-you understand English. (yes, that's an English
-sentence using the same syntax).
-
-### Boolean Operators
-
-When Ruby evaluates a boolean operator,
-it does as little work as possible. It
-stops evaluation as soon as the result is clear:
-
-```ruby
-# the second argument is not evaluated!
-a =  true || ...
-a = false && ...
-```
-
-The boolean operators don't just return true or
-false, they return the argument last evaluated.
-This is often used to set a variable:
-
-```ruby
-default_value = "gray"
-input_value = nil
-# here input_value might be set...
-a = input_value || default_value
-```
-
-## The 'Save Navigation' Operator
-
-Imagine you have an Object a, that has a property b containing
-another object, and b has a property c. You can access c through `a.b.c`
-
-But if a is `nil` then you will get an error:
-
-```ruby
-> a.b.c
-NoMethodError: undefined method `b' for nil:NilClass
-```
-
-The Operator `&.` avoids this error:
-
-```ruby
-> a&.b&.c
-nil
-```
-
-The Operator was introduced in Ruby 2.3.0 is is called
-"save navigation operator" or sometimes "lonely operator".
 
 ### Symbols
 
@@ -281,6 +279,7 @@ there can be several strings that have the same content, but are different objec
 => 635528
 >> :foo.object_id
 => 635528
+
 >> "foo".object_id
 => 70099463087600
 >> "foo".object_id
@@ -289,19 +288,6 @@ there can be several strings that have the same content, but are different objec
 
 Use symbols where you would enums in a database or another language,
 or if you need distinct constants, when the value is not important.
-
-### Methods
-
-Methods in Ruby return the last expression - even
-if no explicit `return` statement is given.
-
-```ruby
-def f(a,b)
-  "x"
-end
-
-f(1,42)  # returns "x"
-```
 
 ### Arrays
 
@@ -329,7 +315,7 @@ use a Range and convert it to an Array:
 => [1, 2, 3, 4]
 ```
 
-## Hashes
+### Hashes
 
 A Hash is a datastructure similar to an array. An array uses integers as keys
 while a Hash allows any type as the keys. Mostly strings and symbols are used:
@@ -348,13 +334,17 @@ t = Date.new
 h[t] = "recently"
 ```
 
+#### Hash implementation
+
 The data structure behind a Ruby Hash is more complex
 than an array: The key is sent through a function (called hash function)
 that returns a number. This number is used as the index
-for an array. If the hash function for two keys is the
-same a linked list is built.
+for an array. If the result for two keys is the
+same, a linked list is built.
 
 ![How Hash(tabl)es work](images/hash_table.svg)
+
+#### Why this Hash implementation?
 
 This datastructure seems like a serious waste of memory
 at first. But it offers the following interesting features:
@@ -371,29 +361,28 @@ Hashes in Wikipedia:
 (If you don't know what "in constant time" means above, you
 should learn more about the analysis of algorithms. e.g. by
 taking an algorithms and data structure course as offered in the second
-semester of most computer science programs.
+semester of most computer science programs.)
 
-### Implicit Form
+#### Implicit Form
 
-A Hash can be created by using its "implicit form":
+A Hash can be created with Hash.new, or by writing it in "implicit form":
 
 ```ruby
 roomnumber = { "Jane Doe" => 10, "Jim Doe" => 6 }
 ```
 
-Since Ruby 1.9.3 Hashes allow an alternate syntax when the keys are symbols. Instead of
+When the keys are symbols you can use an alternative syntax that
+looks like json
 
 ```ruby
 style = { :font_size => 10, :font_family => "Arial" }
+style = {  font_size:   10,  font_family:   "Arial" }
 ```
 
-you could write this in a JSON-like way:
+#### A Hash as an Argument
 
-```ruby
-style = { font_size: 10, font_family: "Arial" }
-```
-
-This style of hash is often used as an argument for a method.
+Before keyword arguments were added to ruby,
+often a hash was used as the single argument for a method.
 Calling the method then reads like named arguments:
 
 ```ruby
@@ -405,21 +394,7 @@ apply_the_style(font_size: 10, font_family: "Arial")
 apply_the_style font_size: 10, font_family: "Arial"
 ```
 
-Since ruby 2.0 keyword arguments can be used instead,
-and can be given default values:
-
-```ruby
-def apply_the_style(font_family: 'MS Comic Sans', font_size: 16 )
-  ...
-end
-
-apply_the_style()    # uses both default values
-apply_the_style(font_family: "Arial")   
-apply_the_style(font_size: 10, font_family: "Arial")  # order can be different
-```
-
-
-## Frozen vs Mutable Values
+## Frozen vs Mutable
 
 Most objects in Ruby are mutabel by default.
 
@@ -463,13 +438,86 @@ this line to to top of a ruby file:
 
 This is switched on in Rails since 5.2.
 
-## Enumerables and Piping Data
+## Conditions
+
+The Basic condition with `if` works like in most programming languages.
+
+```ruby
+if i > 10
+  puts 'cannot compute, not enough fingers'
+elsif i <= 0
+  puts 'cannot compute, negative number'
+else
+  puts 'input corrent'
+end
+```
+
+The `case` expression can match one value in several ways.
+
+```ruby
+case x
+  when 1..5
+    puts "It's between 1 and 5"
+  when 6
+    puts "It's 6"
+  when "foo", "bar"
+    puts "It's either foo or bar"
+  when String
+    puts "You passed a string"
+  else
+    puts "You gave me #{x} -- I have no idea what to do with that."
+end
+```
+
+### Shorthand version
+
+If the `if` only has one statement
+you can write it in a shorthand version:
+
+```ruby
+if errors > 0
+  puts "Some errors occured"
+end
+
+puts "Some errors occured" if errors > 0
+```
+
+This syntax should be familiar to you if
+you understand English. (yes, that's an English
+sentence using the same syntax).
+
+### Boolean Operators as conditions
+
+When Ruby evaluates a boolean operator,
+it does as little work as possible. It
+stops evaluation as soon as the result is clear:
+
+```ruby
+# the second argument is not evaluated!
+a =  true || ...
+a = false && ...
+```
+
+§
+
+The boolean operators don't just return true or
+false, they return the argument last evaluated.
+This is often used to set a variable:
+
+```ruby
+default_value = "gray"
+input_value = nil
+# here input_value might be set...
+a = input_value || default_value
+```
+
+## Enumerables
 
 When working with a list of values Ruby
 helps you think about data on a new, more abstract level
 with Enumerables:
 
-### "Piping Data"
+### Piping Data
 
 From the UNIX shell you may know the concept of piping data
 from one command to the next:
@@ -526,7 +574,6 @@ The method `tally` counts the occourance of elements and returns a hash:
 
     ["a", "b", "c", "b"].tally
     #=> {"a"=>1, "b"=>2, "c"=>1}
-
 
 Some other methods return just a single value, and thus end the pipe:
 
@@ -616,14 +663,14 @@ end
 
 ## Summary
 
-You now know about the basic data types, about enumerables and about blocks -  
+You now know about the basic data types, about enumerables and about blocks -
 features that distinguish Ruby from other scripting languages.
 
 If you want to get more pracitical with Ruby, you can
 do the
 [Learn Ruby](https://github.com/backend-development/learn_ruby) test driven Ruby exercises.
 
-This should be a good enough basis to start with Rails.  
+This should be a good enough basis to start with Rails.
 But do take every
 opportunity you get to learn more about Ruby itself: if you are unsure about
 a line of code, look it up in the Ruby documentation and use the
@@ -638,7 +685,7 @@ installed on your development machine so you can look up stuff instantly.
 
 - [try ruby](https://ruby.github.io/TryRuby/)
 - [learningruby.com tutorial](http://rubylearning.com/satishtalim/tutorial.html)
-- [learn ruby onliners](https://learnbyexample.github.io/learn_ruby_oneliners/one-liner-introduction.html) 
+- [learn ruby onliners](https://learnbyexample.github.io/learn_ruby_oneliners/one-liner-introduction.html)
 
 ### Books
 

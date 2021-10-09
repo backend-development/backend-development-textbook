@@ -8,9 +8,8 @@
   <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
   <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
 
-  <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shCore.css" />
-  <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shThemeRailsGuides.css" />
-
+  <link rel="stylesheet" type="text/css" href="stylesheets/code.css" />
+  
   <link rel="stylesheet" type="text/css" href="stylesheets/fixes.css" />
 
   <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
@@ -88,16 +87,16 @@
         def add_slide_links(html)
           my_path = content_for(:output_path)
           link = "slides_#{ my_path&.gsub('./output/', '') }"
-          #puts "linking to #{link}"
+          puts "linking to #{link}"
 
           @string = html.dup
 
           pending = ""
-          output = "<div class='slide'><a id='slide-1'></a>\n"
+          output = "<div class='slide'><a id='slide-0'></a>\n"
           i = 1
 
           until @string.empty?
-            match =  scan_until /^(<h[23456].*?>|<hr>+|^(<p>)*§(<.p>)*)$/m
+            match =  scan_until /(<h[23456].*?>|<hr>+|(<p>)*§(<.p>)*)/m
 
             break if !match
 
@@ -106,8 +105,10 @@
             output << "</div>\n<div class='slide'>\n<a class='slide_break' id='slide-#{i}' href='#{link}#slide-#{i}'>▻</a>\n"
             i += 1
             if match[0] =~ /§/ then
+              # puts "slide #{i} until §"
               # discard match
-            else 
+            else
+              # puts "slide #{i} until #{match[0]}"
               output << match[0]
             end
           end # untile @string.empty?
@@ -115,14 +116,14 @@
           output << @string
           output << "</div>"
 
-          output           
+          output
         end
-      %>  
+      %>
 
   <div id="container">
     <div class="wrapper">
       <div id="mainCol">
-        <%= add_slide_links(yield).html_safe %>        
+        <%= add_slide_links(yield).html_safe %>
       </div>
     </div>
   </div>
@@ -140,13 +141,7 @@
   </div>
 
   <script src="javascripts/jquery.min.js"></script>
-  <script src="javascripts/responsive-tables.js"></script>
   <script src="javascripts/guides.js"></script>
-  <script src="javascripts/syntaxhighlighter/shCore.js"></script>
-  <script src="javascripts/syntaxhighlighter/shBrushRuby.js"></script>
-  <script src="javascripts/syntaxhighlighter/shBrushXml.js"></script>
-  <script src="javascripts/syntaxhighlighter/shBrushSql.js"></script>
-  <script src="javascripts/syntaxhighlighter/shBrushPlain.js"></script>
   <script>
     SyntaxHighlighter.all()
     $(guidesIndex.bind);

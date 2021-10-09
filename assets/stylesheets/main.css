@@ -87,6 +87,17 @@ h6 {
   float: right;
   margin-left: 1em;
 }
+
+#mainCol a.anchorlink,
+#mainCol a.anchorlink code {
+  color: #333;
+  text-decoration: none;
+}
+
+.clipboard-button {
+  display: none;
+}
+
 @media screen and (max-width: 480px) {
   .left,
   .right {
@@ -135,7 +146,7 @@ code {
   font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
   font-weight: bold;
   line-height: 1.5;
-  margin: 1.5em 0;
+  margin: 0.5em 0;
   overflow: auto;
   color: #222;
 }
@@ -481,16 +492,13 @@ h2#preheader {
 --------------------------------------- */
 
 a,
-a:link,
-{
-  color: #f9980f
+a:link {
+  color: #f99304;
   text-decoration: underline;
 }
 
-
 a:visited {
-  color: #c28f49
-  text-decoration: underline;
+  color: #f0c07c;
 }
 
 #mainCol a,
@@ -861,8 +869,8 @@ dd.work-in-progress {
 }
 
 div.code_container {
-  background: #eee url(../images/tab_grey.gif) no-repeat left top;
-  padding: 0.25em 1em 0.5em 48px;
+  background: #f8f8f8 url(../images/tab_grey.gif) no-repeat left top;
+  padding: 8px 8px 8px 48px;
 }
 
 .note {

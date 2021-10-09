@@ -8,3 +8,4 @@ puts "I will require stuff from the LOAD PATH #{$LOAD_PATH}"
 require 'rails_guides/markdown'
 require 'rails_guides/generator'
 RailsGuides::Generator.new.generate
+

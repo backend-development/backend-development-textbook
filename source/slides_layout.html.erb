@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=1024, user-scalable=no">
     <title>Slides for
         <%= yield(:page_title) || 'Backend Development Textbook' %>
@@ -44,7 +44,7 @@
         def add_slides(html, intro)
 
           my_path = content_for(:output_path)
-          link = my_path.gsub('slides_', '').gsub('./output/', '')
+          link = my_path&.gsub('slides_', '')&.gsub('./output/', '')
           #puts "linking to #{link}"
 
           @string = html.dup
@@ -55,7 +55,7 @@
           i = 1
 
           until @string.empty?
-            match = scan_until /^(<h[23456].*?>|<hr>+|^(<p>)*§(<.p>)*)$/m
+            match =  scan_until /(<h[23456].*?>|<hr>+|(<p>)*§(<.p>)*)/m
 
             break if !match
 
@@ -65,7 +65,7 @@
             i += 1
             if match[0] =~ /§/ then
               # discard match
-            else 
+            else
               output << match[0]
             end
           end # untile @string.empty?
@@ -73,7 +73,7 @@
           output << @string
           output << "</div>"
 
-          output          
+          output
         end
       %>
         <%= add_slides(yield, yield(:header_section)).html_safe %>
@@ -99,7 +99,6 @@
         <input type="submit" value="Go">
     </form>
     <!-- End extension snippets. -->
-    </div>
     <!-- Required JS files. -->
     <script src="javascripts/jquery.min.js"></script>
     <script src="javascripts/deck.core.js"></script>
