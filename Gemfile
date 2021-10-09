@@ -14,3 +14,4 @@ gem 'nokogiri'
 gem 'rails-html-sanitizer'
 gem 'rake'
 gem 'rouge'
+
