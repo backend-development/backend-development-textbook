@@ -3,6 +3,7 @@ puts "Will load from #{$:}"
 
 require "rubygems"
 require 'bundler/setup'
+Bundler.require(:default)
 
 require "set"
 require "fileutils"
