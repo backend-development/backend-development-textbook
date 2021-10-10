@@ -1,4 +1,6 @@
 # frozen_string_literal: true
+puts "Will load from #{$:}"
+
 require "rubygems"
 require "set"
 require "fileutils"
