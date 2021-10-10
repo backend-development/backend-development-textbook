@@ -3,9 +3,8 @@ require "rubygems"
 require "set"
 require "fileutils"
 
-require "active_support"
-require "action_controller"
-require "action_view"
+require "activesupport"
+require "actionview"
 
 require "rails_guides/markdown"
 require "rails_guides/helpers"
