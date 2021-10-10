@@ -3,7 +3,7 @@ require "rubygems"
 require "set"
 require "fileutils"
 
-require "activesupport"
+require 'active_support/all'
 require "actionview"
 
 require "rails_guides/markdown"
