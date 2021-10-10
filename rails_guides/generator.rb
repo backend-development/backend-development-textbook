@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 require "rubygems"
-require 'bundler/setup'
-
 require "set"
 require "fileutils"
+
+require 'active_support/all'
+require "action_view"
 
 require "rails_guides/markdown"
 require "rails_guides/helpers"
