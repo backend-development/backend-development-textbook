@@ -3,7 +3,9 @@ require "rubygems"
 require "set"
 require "fileutils"
 
-require 'active_support/all'
+require "active_support/core_ext/string/output_safety"
+require "active_support/core_ext/object/blank"
+require "action_controller"
 require "action_view"
 
 require "rails_guides/markdown"
