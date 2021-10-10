@@ -2,6 +2,8 @@
 puts "Will load from #{$:}"
 
 require "rubygems"
+require 'bundler/setup'
+
 require "set"
 require "fileutils"
 
