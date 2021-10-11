@@ -16,6 +16,6 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           personal_token: ${{ secrets.PERSONAL_TOKEN }}
-          external_repository: backend-development/backend-development.github.io.git
+          external_repository: backend-development/backend-development.github.io
           publish_branch: master
           publish_dir: ./output
