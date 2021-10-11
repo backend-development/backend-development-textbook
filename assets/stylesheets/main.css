@@ -491,7 +491,7 @@ h2#preheader {
 /* Links
 --------------------------------------- */
 
-a,
+a:any-link,
 a:link {
   color: #f99304;
   text-decoration: underline;
