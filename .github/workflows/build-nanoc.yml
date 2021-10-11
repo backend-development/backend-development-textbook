@@ -14,7 +14,7 @@ jobs:
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
-          personal_token: ${{secrets.PERSONAL_TOKEN}}
+          deploy_key: ${{ secrets.DEPLOY_KEY }}
           external_repository: backend-development/backend-development.github.io.git
           publish_branch: master
           publish_dir: ./output
