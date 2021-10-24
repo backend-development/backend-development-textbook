@@ -612,6 +612,7 @@ the Block on several lines, ending with `end`
 Some other methods for Enumerables that take a Block:
 
 - `map {|x|` new value computed from x `}`
+- `map.with_index {|x, i|` new value computed from x and i, the position in the array `}`
 - `select {|x|` should x be selected? `}`
 - `reduce(:+)`
 - `reduce{|memo, item|` compute new value for memo, using current item `}`

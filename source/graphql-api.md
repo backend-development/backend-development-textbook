@@ -412,3 +412,4 @@ This guide has not touched on:
 - [Pragmatic Tutorial: GraphQL?](https://pragmaticstudio.com/tutorials/what-is-graphql) (see also part 2 + 3)
 - [Apollo Client + Server](https://www.apollographql.com/) in JavaScript
 - [API Platform](https://api-platform.com/) to build REST + GraphQL APIs in PHP
+- [Analyzing the Twitch.tv GraphQL API](https://wundergraph.com/blog/graphql_in_production_analyzing_public_graphql_apis_1_twitch_tv)
