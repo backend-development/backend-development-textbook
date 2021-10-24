@@ -241,6 +241,12 @@ s = %Q{
   with %Q you can chose any character als string delimiters.
   opening brackets go with closing brackets.
 }
+s = 'aBC'
+puts s.upcase      # ABC
+puts s.downcase    # abc
+puts s.capitalize  # Abc
+puts s[0]          # a    (index of character)
+puts s[0,2]        # aB   (start + length)
 ```
 
 ### Boolean Values
