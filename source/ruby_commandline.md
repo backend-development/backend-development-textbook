@@ -222,6 +222,9 @@ TypeError: no implicit conversion of Fixnum into String
 
 >> 42 + 3.141
 => 45.141
+
+>> ":-)" * 4
+=> ":-):-):-):-)"
 ```
 
 ### Strings
