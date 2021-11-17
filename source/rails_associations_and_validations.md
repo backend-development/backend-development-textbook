@@ -42,7 +42,7 @@ Validation are declared in the model:
 
 ```ruby
 class Tweet < ApplicationRecord
-  validates :status, :zombie presence: true
+  validates :status, :zombie, presence: true
 end
 ```
 
