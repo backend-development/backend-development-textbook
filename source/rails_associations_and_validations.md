@@ -122,10 +122,9 @@ If we run this in the console we can see the SQL:
   COMMIT
 ```
 
-We can see a transaction from `BEGIN` to `COMMIT`. 
+We can see a transaction from `BEGIN` to `COMMIT`.
 
 ### Checking Uniqueness in the Database
-
 
 You could also achieve the same effect using a [UNIQUE CONSTRAINT](https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-UNIQUE-CONSTRAINTS) in your database:
 
@@ -156,7 +155,7 @@ a description "Key (email)=(b@a.com) already exists".
 
 ### explore the models
 
-```User.reflect_on_association```
+`User.reflect_on_association`
 
 ### Validations and Forms
 
@@ -164,7 +163,14 @@ Later, when we learn about Views and Forms, you will see
 that the save / validate / errors lifecycle fits perfectly with
 the way that forms are handled in Rails. See [Rails: View and Controller](/rails_view_and_controller.html)
 
-## 1:n Associations
+## Associations
+
+If you have used relational databases before you are probably familiar
+with the different types of associations or relationships between database tables.
+
+We will only look at 1:n Relationships for now.
+
+### 1:n Associations
 
 If you have used relational databases before you are probably familiar
 with the different types of associations between database tables. But even
