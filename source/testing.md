@@ -24,20 +24,19 @@ By running your Rails tests after every change in the code you can ensure that y
 
 Rails tests can also simulate browser requests without or with javascript and thus you can test your application's response without having to test it through your browser.
 
-## Introduction to Testing
+## Setup
 
-### Setup for Testing
+### Folders and Files
 
 Rails creates a `test` directory for you. If you list the contents of this directory you will
 find two files that hold the configuration for your tests:
 
-* `test_helper.rb` global test configuration
-* `application_system_test_case.rb` configure a browser for system test
-
+- `test_helper.rb` global test configuration
+- `application_system_test_case.rb` configure a browser for system test
 
 and several directories:
 
-The `models`, `controllers`, `mailers`, `channels`,  and `helpers` directory
+The `models`, `controllers`, `mailers`, `channels`, and `helpers` directory
 hold tests for (surprise) models, controllers, mailers, channels and view helpers respectively.
 These tests that are focussed on one single class are also called _unit tests_.
 
@@ -51,7 +50,6 @@ whole system by accessing the app with a browser, including running
 the javascript.
 
 Fixtures are a way of organizing test data; they reside in the `fixtures` directory.
-
 
 ### The Test Environment
 
@@ -85,6 +83,7 @@ create  test/fixtures/articles.yml
 ...
 ```
 
+§
 The default test stub in `test/models/article_test.rb` looks like this:
 
 ```ruby
@@ -99,11 +98,15 @@ end
 
 A line by line examination of this file will help get you oriented to Rails testing code and terminology.
 
+§
+
 ```ruby
 require 'test_helper'
 ```
 
 By requiring the file `test_helper.rb` the default configuration to run our tests is loaded. You will include this with all the tests you write.
+
+§
 
 ```ruby
 class ArticleTest < ActiveSupport::TestCase
@@ -111,6 +114,9 @@ class ArticleTest < ActiveSupport::TestCase
 
 The `ArticleTest` class defines a _test case_ because it inherits from `ActiveSupport::TestCase`, which
 in turn inherits from `Minitest::Test`.
+
+§
+
 Inside this class you will define the tests, either by
 giving them a method name beginning with `test_` (case sensitive) or
 by using this syntax:
@@ -129,6 +135,8 @@ def test_the_truth
 end
 ```
 
+§
+
 Next, let's look at our first assertion:
 
 ```ruby
@@ -138,6 +146,8 @@ assert true
 An assertion is a line of code that evaluates an expression for expected results.
 `assert true` is always satisfied, so this test always passes.
 
+§
+
 In a real test an assertion can check many things:
 
 - does this value equal that value?
@@ -145,10 +155,25 @@ In a real test an assertion can check many things:
 - does this line of code throw an exception?
 - is the user's password longer than 5 characters?
 
+§
+
 Every test must contain at least one assertion, with no restriction as to how many assertions are allowed. Only when all the assertions are successful will the test pass.
 
-Here an example of a useful test: I want to add a validation
+## Test Driven Development
+
+Here an example of a useful test, written with
+[_Test-Driven Development_ (TDD)](http://c2.com/cgi/wiki?TestDrivenDevelopment).
+
+Test Driven Development means:
+
+1. Write a test - it fails - "RED"
+2. Write some code to make the test pass - "GREEN"
+3. Improve your code, but make sure the test still passes - "REFACTOR"
+
+For this example I want to add a validation
 to my article class to forbid very short or missing titles.
+
+### Red
 
 I start by writing this test:
 
@@ -159,10 +184,11 @@ test "article title needs to be at least 3 characters long" do
 end
 ```
 
-
-### Running Tests
+§
 
 To run all the tests for your project use `rails test`.
+
+§
 
 If you run the test above the result might look like this:
 
@@ -183,22 +209,9 @@ Expected true to be nil or false
 9 runs, 15 assertions, 1 failures, 0 errors, 0 skips
 ```
 
-In the output, `F` denotes a failure. You can see the corresponding trace shown under `1)` along with the name of the failing test. The next few lines contain the stack trace followed by a message that mentions the actual value and the expected value by the assertion. The default assertion messages provide just enough information to help pinpoint the error. To make the assertion failure message more readable, provide a message, as shown here:
+In the output, `F` denotes a failure. You can see the corresponding trace shown under `1)` along with the name of the failing test. The next few lines contain the stack trace followed by a message that mentions the actual value and the expected value by the assertion. The default assertion messages provide just enough information to help pinpoint the error.
 
-```ruby
-test "article title needs to be at least 3 characters long" do
-  a = Article.new(title: 'x')
-  assert_not article.save, "Saved the article with title of length 1"
-end
-```
-
-Running this test shows the friendlier assertion message:
-
-```bash
-  1) Failure:
-article_title_needs_to_be_at_least_3_characters_long(ArticleTest) [test/models/article_test.rb:6]:
-Saved the article with title of length 1
-```
+### Green
 
 Now to get this test to pass we can add a model level validation for the _title_ field.
 
@@ -209,7 +222,6 @@ end
 ```
 
 Now the test should pass. Verify this by actually running the test!
-
 
 ```bash
 $ rails test
@@ -225,15 +237,10 @@ Finished in 0.498780s, 16.0391 runs/s, 28.0685 assertions/s.
 ```
 
 Every dot stands for one test that ran through sucessfully.
-```
 
-We first wrote a test which fails for a desired
-functionality, then we wrote some code which adds the functionality and finally
-we ensured that our test passes. This approach to software development is
-referred to as
-[_Test-Driven Development_ (TDD)](http://c2.com/cgi/wiki?TestDrivenDevelopment).
+## Unit Tests
 
-#### What an error in you test looks like
+### What an error in you test looks like
 
 An error is different from a failing test. An error
 is a problem in your test code, not your application code.
@@ -452,7 +459,7 @@ test "should destroy article" do
 end
 ```
 
-## The Test Database
+## Test Data
 
 Just about every Rails application interacts heavily with a database and,
 as a result, your tests will need a database to interact with as well.
@@ -711,7 +718,6 @@ end
 ```
 
 `visit` is capybaras method for making a HTTP request just as the browser would.
-
 
 #### Testing a form
 
