@@ -115,17 +115,18 @@ landscape of web performance! These rules and their priority will change!
 
 ### Static files are fastest
 
-The first think to know is that assets do not need to be
+The first thing to know, is that assets do not need to be
 served through the rails stack, but should be served by the
 web server directly.  In the following diagram they are
 called 'static files':
 
 ![MVC in Rails](images/rails-mvc.svg)
 
-In production these should be static files.
+In production these  static css, js, svg, gif, webp, ... files are found in the `public` folder.
 
-In development we will write other files, that need to be compiled, optimized and / or concatenated to
-create these static files.
+In development we will write other files
+that need to be compiled, optimized and / or concatenated to
+create the static files.
 
 - Compile to JavaScript (e.g. typescript, coffeescript,...)
 - Compile to CSS (e.g. LESS, SASS)
