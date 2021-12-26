@@ -584,7 +584,7 @@ To log in you send the user to `/auth/:provider` (e.g. `/auth/facebook`).
     Logged in as <%= current_user.name %>
     <%= link_to "log out", logout_path %>
   <% else %>
-    log in with <%= link_to "twitter", "/auth/twitter" %>
+    log in with <%= button_to "twitter", "/auth/twitter", method: :post, data: {turbo: "false"} %>
   <% end %>
 ```
 
