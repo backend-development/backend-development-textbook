@@ -329,6 +329,10 @@ more up-to-date list, please check
 
 Because of the modular nature of the testing framework, it is possible to create your own assertions. In fact, that's exactly what Rails does. It includes some specialized assertions to make your life easier.
 
+### Better Asserstion
+
+[better assertion with ramcrest](https://github.com/hamcrest/ramcrest)
+
 ### Testing a Model
 
 Models are easy to test separately because they do not depend on
@@ -789,6 +793,7 @@ console output.
 
 ## Further Reading
 
+- [better assertion with ramcrest](https://github.com/hamcrest/ramcrest)
 - [A Guide to Testing Rails Applications](https://guides.rubyonrails.org/testing.html) - also contains an introduction to testing routes, mailers, helpers, jobs and more in depth information on testing controllers
 - [Fixtures API documentation](https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html)
 - [Observations running 2M headless Chrome sessions](https://news.ycombinator.com/item?id=17233371)
