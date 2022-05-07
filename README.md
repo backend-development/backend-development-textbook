@@ -44,14 +44,19 @@ and send me a pull request
 Bilder caching-before-metrics-2.png
 
 - 1: event#show, mit talks http://localhost:3000/events/111
+step-4-cache-talks: sichtbar bei 0.6
 - 2: event#show, barcamp 2022 https://stempelheft.multimediatechnology.at/events/142
 BEFORE: sichtbar bei 3.2
 step-1-font: sichtbar bei 0.8
 setp-2-defer: sichtbar bei 0.5
+step-4-cache-talks: sichtbar bei 0.6
+step-5-cache-events-index:
 - 3: event#index: archiv-seite https://stempelheft.multimediatechnology.at/events/archiv
 BEFORE: sichtbar bei 1.1
 step-1-font: sichtbar bei 2.4
 setp-2-defer: sichtbar bei 1.5
+step-5-cache-events-index: sichtbar bei 1.5
+
 
 
 ## TODO

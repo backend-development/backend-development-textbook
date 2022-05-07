@@ -200,16 +200,16 @@ it will be rendered normally and still take around 450ms.
 In the log file you will see a message like this:
 
 ```
-Write fragment views/projects/1679-20140722193808000000000/0db0955317bafa37cc34ffcb7567a874 (19.1ms)
+Write fragment views/projects/show:0db0955317bafa37cc34ffcb7567a8/projects/741679-20140722193808000000000 (1.1ms)
 ```
 
 This shows the **key** that is used for the fragment.
 
 The key depends
 on both the object we specified (here `@project`), and on the view fragment.
-In this example '1679' is the id of `@project`, and '20140722193808000000000' is
-the current value of its `updated_at` attribute. The last part
-of the key is a hash of the view fragment inside the `cache` block.
+The first part of the key the name of the view plus a hash of the view fragment inside the `cache` block.
+After the colon you can see the class of the model, the id '741679', and the value of the  `updated_at` attribute  - in this example '20140722193808000000000'.
+
 
 So if either the object or the view changes, a new key will be generated,
 and nothing will be found in the cache. The view will be rendered from scratch.
@@ -220,7 +220,7 @@ When the view is rendered for the **second time**,
 you find the following message in the log file:
 
 ```
-Read fragment views/projects/1679-20140722193808000000000/0db0955317bafa37cc34ffcb7567a874 (1.9ms)
+Read fragment views/projects/show:0db0955317bafa37cc34ffcb7567a8/projects/741679-20140722193808000000000 (0.9ms)
 ```
 
 Here the cache is read out, which is a lot faster then rendering.
@@ -501,7 +501,8 @@ Development mode is no longer being cached.
 ```
 
 In `config/environments/development.rb` you can
-set cache_classes to true, to get rid of extra sql requests:
+set cache_classes to true, to get rid of extra sql requests.
+But beware: now you have to restart the rails server after changing the source code!
 
 ```
   # In the development environment your application's code is reloaded any time
