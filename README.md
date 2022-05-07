@@ -38,6 +38,22 @@ and send me a pull request
 - deck.js for the slides http://imakewebthings.com/deck.js/docs/
 - syntax highlighter https://github.com/syntaxhighlighter/syntaxhighlighter
 
+
+## neues thema: performance
+
+Bilder caching-before-metrics-2.png
+
+- 1: event#show, mit talks http://localhost:3000/events/111
+- 2: event#show, barcamp 2022 https://stempelheft.multimediatechnology.at/events/142
+BEFORE: sichtbar bei 3.2
+step-1-font: sichtbar bei 0.8
+setp-2-defer: sichtbar bei 0.5
+- 3: event#index: archiv-seite https://stempelheft.multimediatechnology.at/events/archiv
+BEFORE: sichtbar bei 1.1
+step-1-font: sichtbar bei 2.4
+setp-2-defer: sichtbar bei 1.5
+
+
 ## TODO
 
 Error: Action failed with "not found deploy key or tokens"

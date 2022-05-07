@@ -27,7 +27,7 @@ DEMO: You can study [the demo](https://caching-red.projects.multimediatechnology
 
 In general english usage a cache is [A store of things that may be required in the future, which can be retrieved rapidly, protected or hidden in some way](https://en.wiktionary.org/wiki/cache#Noun).
 But in computing the cache is not proteced or hidden, the important part
-it that data stored in a cache can be retrieved rapidly. 
+it that data stored in a cache can be retrieved rapidly.
 
 ![what is caching](images/caching.svg)
 
@@ -69,7 +69,7 @@ in the frontend for storing the result of api requests.
 And in all the computers involved in this process:
 
 * [CPU Cache](https://en.wikipedia.org/wiki/CPU_cache) reading a cache line from memory, even if the CPU only needs one byte
-* [File Systems](https://en.wikipedia.org/wiki/File_system) reading (+caching) whole blocks of data, when only a byte is requested 
+* [File Systems](https://en.wikipedia.org/wiki/File_system) reading (+caching) whole blocks of data, when only a byte is requested
 
 
 ### Browser + HTTP Caching
@@ -85,7 +85,7 @@ The Server can send the `Cache-Control:` header:
 
 * `Cache-Control: no-store` - The cache should not store anything about the client request or server response. A request is sent to the server and a full response is downloaded each and every time.
 * `Cache-Control: no-cache` - The cache will send the request to the origin server for validation before releasing a cached copy.
-* `Cache-Control: public` - that the response may be cached by any cache. 
+* `Cache-Control: public` - that the response may be cached by any cache.
 * `Cache-Control: private` - the response is intended for a single user only and must not be stored by a shared cache. A private browser cache may store the response.
 
 
@@ -491,13 +491,24 @@ the computation that is done in ruby code itself. So looking
 at the Database, and the ORM we use to access the database, might
 make sense for performance optimisation.
 
-Before you start working on the Database, 
+Before you start working on the Database,
 make sure to switch off caching in development:
 
 ```
 # on the command line
 $ rails dev:cache
 Development mode is no longer being cached.
+```
+
+In `config/environments/development.rb` you can
+set cache_classes to true, to get rid of extra sql requests:
+
+```
+  # In the development environment your application's code is reloaded any time
+  # it changes. This slows down response time but is perfect for development
+  # since you don't have to restart the web server when you make code changes.
+  # config.cache_classes = false
+  config.cache_classes = true
 ```
 
 
