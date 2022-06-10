@@ -31,9 +31,9 @@ we want to achive a good response time for our users.
 
 §
 
-But some code we write is different: 
+But some code we write is different:
 it might not fit within this
-timeframe.  or it might not be triggered by a HTTP request.  
+timeframe.  or it might not be triggered by a HTTP request.
 
 Some examples:
 
@@ -48,7 +48,7 @@ Tasks
 
 ### What is a task?
 
-In a Rails App **tasks** are small programs you - as the developer - can start on the command line. 
+In a Rails App **tasks** are small programs you - as the developer - can start on the command line.
 
 You have already used some predefined tasks:
 
@@ -93,7 +93,7 @@ end
 ```
 
 This task can be started by running `rails active_directory:load`.
-Notice how the namespace defined in the first line and the taskname defined in the 
+Notice how the namespace defined in the first line and the taskname defined in the
 third line are combined when you call the task on the commandline.
 
 The description defined with `desc`  is displayed when you run `rails -T`.
@@ -153,11 +153,37 @@ application.  To finish the taks we can use an already existing
   end
 ```
 
-### Other Task Runners
+### Scheduling Tasks on UNIX
 
 On **UNIX** Systems you can use `cron` to schedule tasks.
 
-You can use **npm** as a task runner. 
+Use `crontab -e` to edit the cron table.  It is a plain text.
+The first 5 entries in the table specify the time:
+
+```
+# ┌───────────── minute (0 - 59)
+# │ ┌───────────── hour (0 - 23)
+# │ │ ┌───────────── day of the month (1 - 31)
+# │ │ │ ┌───────────── month (1 - 12)
+# │ │ │ │ ┌───────────── day of the week (0 - 6) (Sunday to Saturday;
+# │ │ │ │ │                                   7 is also Sunday on some systems)
+# │ │ │ │ │
+# │ │ │ │ │
+# * * * * * <command to execute>
+```
+
+In the following example the backup script is run at 10 past midnight
+every day:
+
+```
+10 0 * * * /usr/local/bin/backup_script
+```
+
+
+
+### Other Task Runners
+
+You can use **npm** as a task runner.
 Edit `package.json` and add your tasks under the key `scripts`:
 
 ```json
@@ -175,7 +201,7 @@ See [the npm documentation](https://docs.npmjs.com/cli/v6/using-npm/scripts).
 
 In **nest.js** [task scheduling](https://docs.nestjs.com/techniques/task-scheduling) is handled by node-cron.
 
-In **Laravel** see [envoy](https://laraveldocs.com/docs/5.0/envoy).
+In **Laravel** see [envoy](https://laravel.com/docs/9.x/envoy).
 
 
 Jobs
@@ -214,10 +240,10 @@ end
 
 ### How can I start a job - later?
 
-Somwhere in your rails app you can set the job up like this:
+Somwehere in your rails app, for example in a controller, you can set the job up like this:
 
 ```ruby
-GuestsCleanupJob.perform_later(g)
+GuestsCleanupJob.perform_later(guest)
 ```
 
 The job will be peformed asynchronously - outside the HTTP Request-Response cycle.
@@ -262,12 +288,12 @@ UserMailer.welcome(@user).deliver_later
 
 ### How do I configure a queuing backend?
 
-In development you can use the default queuing system called `async`.  
+In development you can use the default queuing system called `async`.
 It's a poor fit for production since it drops pending jobs on restart.
 
 For production you can chose another queuing backend, for example
-[Sidekiq](https://github.com/mperham/sidekiq/wiki/Getting-Started) which
-uses Redis to store the jobs.
+[GoodJob](https://github.com/bensheldon/good_job#set-up) which
+uses the Postgres Database to store the jobs.
 
 
 Beyond Tasks and Jobs
@@ -279,5 +305,5 @@ APIs. Both REST APIs and GraphQL APIs are synchronous.
 
 Jobs and asynchronous work open up a new way of thinking of our application: it
 could be built from several parts that send each other messages, but don't wait
-for a response. 
+for a response.
 
