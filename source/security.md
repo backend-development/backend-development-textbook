@@ -23,7 +23,7 @@ For a real world project, follow the [OWASP Application Security Verification St
 
 To get a first impression learn about the [OWASP Top 10](https://owasp.org/www-project-top-ten/).
 
-Fox configuring your web server follow [mozillas web security guidelines](https://infosec.mozilla.org/guidelines/web_security.html)
+For configuring your web server follow [mozillas web security guidelines](https://infosec.mozilla.org/guidelines/web_security.html)
 
 
 ## What a framework can't do for you
