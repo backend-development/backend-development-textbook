@@ -469,7 +469,7 @@ Frontend Frameworks:
 
 Frontend + SSR:
 
-* Stale-While-Revalidate Staregy for frontend and APIs [SWR](https://medium.com/nerd-for-tech/swr-frontend-data-fetching-and-caching-ca0313239d6f)
+* Stale-While-Revalidate Strategy for frontend and APIs [SWR](https://medium.com/nerd-for-tech/swr-frontend-data-fetching-and-caching-ca0313239d6f)
 * next.js: [SWR](https://nextjs.org/docs/basic-features/data-fetching#swr)
 
 

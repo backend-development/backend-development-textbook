@@ -51,6 +51,8 @@ surrounding it.
 
 Some sites built with Rails are: [GitHub](https://github.com) and [GitLab](https://gitlab.com), [Shopify](https://shopify.com), [Fiverr](https://www.fiverr.com/), [codepen.io](https://codepen.io/), [Airbnb](https://airbnb.com), [Twitch](https://blog.twitch.tv/en/2015/12/18/twitch-engineering-an-introduction-and-overview-a23917b71a25/), [Square](https://squareup.com/), [Dribble](https://dribbble.com/) and of course [Basecamp](https://basecamp.com), DHHs own product.
 
+Read [GitLab's article about why they use Rails](https://about.gitlab.com/blog/2018/10/29/why-we-use-rails-to-build-gitlab/)
+
 ### Why Ruby? Why Rails ?
 
 Why should you use Ruby and Rails over other programming languages
