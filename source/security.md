@@ -19,9 +19,11 @@ work on the app and fix those problems one by one.
 
 ## Where to learn about security
 
-For a real world project, follow the [OWASP Application Security Verification Standard](https://github.com/OWASP/ASVS/blob/master/4.0/OWASP%20Application%20Security%20Verification%20Standard%204.0.2-de.pdf).
+For a real world project, follow the [OWASP Application Security Verification Standard 4.0.2](https://github.com/OWASP/ASVS/blob/master/4.0/OWASP%20Application%20Security%20Verification%20Standard%204.0.2-de.pdf).
 
 To get a first impression learn about the [OWASP Top 10](https://owasp.org/www-project-top-ten/).
+
+Fox configuring your web server follow [mozillas web security guidelines](https://infosec.mozilla.org/guidelines/web_security.html)
 
 
 ## What a framework can't do for you
@@ -32,7 +34,7 @@ security features of Ruby on Rails. But first a word of warning:
 Rails offers a lot of security features. But all those clever features
 **cannot save you from yourself**.
 
-In the example app all the passwords
+In the example below, all the passwords
 are displayed on "/users". If you as a programmer decide to do that, no framework can prevent it!
 
 ![](images/security-password-shown.png)
@@ -72,13 +74,24 @@ When we run this test it fails, because right now passwords are displayed:
 Now we change the view to not display the passwords any more. We can
 run the test to make sure we succeeded.
 
+§
+
+But to be fair: in this example a lot more has gone wrong than
+displaying the passwords: storing the passwords in plain text in the
+database was the first mistake!
+
 ## Injection
 
 > Injection flaws, such as SQL, NoSQL, OS, and LDAP injection, occur when untrusted data is sent to an interpreter as part of a command or query. The attacker's hostile data can trick the interpreter into executing unintended commands or accessing data without proper authorization. [OWASP Wiki](https://www.owasp.org/index.php/Top_10-2017_A1-Injection)
 
 ### SQL Injection and ActiveRecord
 
-ActiveRecord will protect against SQL-Injection if you use methods like `find` and `where` without string interpolation.
+A good ORM like ActiveRecord will protect against SQL-Injection if used correctly.
+For ActiveRecord: if you use the methods `find` or `where` without string interpolation
+Rails will turn them into prepared statements - since [Rails 3.1, 2011](https://patshaughnessy.net/2011/10/22/show-some-love-for-prepared-statements-in-rails-3-1).
+
+You can see this in the Rails console: The SQL statements contain placeholders $1, $2, and the
+bound values are supplied separately:
 
 ```ruby
 Project.find(42)
@@ -110,9 +123,7 @@ SELECT "projects".* FROM "projects" WHERE (title = '' OR ''='')
 ```
 
 As you can see the SQL Fragment was incorporated into the SQL query before
-the string was handed to ActiveRecord.
-
-So the resulting query returns all records from the projects table.
+the string was handed to ActiveRecord. The resulting query returns all records from the projects table.
 This is because the condition is true for all records.
 
 §
@@ -131,15 +142,6 @@ Check if the result-table has the right number of rows.
   end
 ```
 
-§
-
-ActiveRecord will use prepared statements by default, unless you [configure it](https://guides.rubyonrails.org/configuring.html#configuring-a-postgresql-database) not to do that.
-
-````yaml
-production:
-  adapter: postgresql
-  prepared_statements: false
-```
 
 
 ### Links
@@ -230,7 +232,7 @@ The OWASP advises: Determine the protection needs of data **in transit** and **a
 
 ### Encryption in the Database
 
-From Rails version 7 on [ActiveRecord offers encryption](https://edgeguides.rubyonrails.org/active_record_encryption.html). For older versions  you can use the [attr_encrypted gem](https://github.com/attr-encrypted/attr_encrypted) to encrypt certain attributes in the database transparently.  
+From Rails version 7 on [ActiveRecord offers encryption](https://edgeguides.rubyonrails.org/active_record_encryption.html). For older versions  you can use the [attr_encrypted gem](https://github.com/attr-encrypted/attr_encrypted) to encrypt certain attributes in the database transparently.
 
 While choosing to encrypt at the attribute level is the most secure solution, it is not without drawbacks. Namely, you cannot search the encrypted data, and because you can't search it, you can't index it either. You also can't use joins on the encrypted data.
 
@@ -329,7 +331,7 @@ the primary key in the database to using UUIDs.  Then the URLs will look like th
 
 ```
 https://my-schedule.at/calendar/0d60a85e-0b90-4482-a14c-108aea2557aa
-https://my-schedule.at/calendar/39240e9f-ae09-4e95-9fd0-a712035c8ad7 
+https://my-schedule.at/calendar/39240e9f-ae09-4e95-9fd0-a712035c8ad7
 https://my-schedule.at/calendar/a3240e9e-1209-4e95-9fd0-a712035c8ad4 ...
 ```
 
@@ -373,7 +375,7 @@ Browsers restrict cross-origin HTTP requests initiated by scripts. For example, 
 
 In the most simple case, when doing a cross-origin request:
 
-* the client send a `Origin` header 
+* the client send a `Origin` header
 * the server responds with a `Access-Control-Allow-Origin` header
 
 for example:
@@ -390,8 +392,10 @@ Content-Type: application/json
 
 §
 
-If you try to fetch a ressource cross-origin and no
-is set, an error occurs:
+If a scripts tries to fetch a ressource cross-origin from server X and no
+`Access-Control-Allow-Origin` Header
+is set on server X, then the browser will throw an error and not
+continue with the script:
 
 ```
 fetch("https://iou-brigitte.herokuapp.com/users.json")
@@ -400,15 +404,15 @@ fetch("https://iou-brigitte.herokuapp.com/users.json")
   })
   .then(function(data) {
     console.log(data);
-  });  
+  });
 ```
 
 
-![](/images/cors-error.png)
+![](images/cors-error.png)
 
 §
 
-After setting the right Headers for the HTTP Response, 
+After setting the right Headers for the HTTP Response,
 the request goes through:
 
 ```
@@ -417,7 +421,7 @@ Access-Control-Allow-Origin: *
 Access-Control-Allow-Methods: GET
 ```
 
-![](/images/cors-ok.png)
+![](images/cors-ok.png)
 
 §
 
@@ -459,7 +463,7 @@ while using the full api is only allowed for three specific domains.
 
 > Security misconfiguration is a result of insecure default configurations, incomplete or ad hoc configurations, open cloud storage, misconfigured HTTP headers, and verbose error messages containing sensitive information. Not only must all operating systems, frameworks, libraries, and applications be securely configured, but they must be patched/upgraded in a timely fashion. [OWASP Wiki](https://www.owasp.org/index.php/Top_10-2017_A6-Security_Misconfiguration)
 
-This is espacially relevent if you are running your own virtual machine:
+This is especially relevant if you are running your own virtual machine:
 
 - upgrade the operating system, apply security patches
 - remove unused components, e.g. a wordpress installation you no longer need
@@ -494,7 +498,7 @@ production:
   url: <%= ENV['DATABASE_URL'] %>
 ```
 
-### Storing Secrets in the code base
+### Storing Secrets in an encrypted file
 
 Rails 5.2 and later generates two files to handle credentials (passwords, api keys, ...):
 
@@ -517,9 +521,9 @@ the running Rails app via `Rails.application.credentials`.
 For example, with the following decrypted `config/credentials.yml.enc`:
 
     secret_key_base: 3b7cd727ee24e8444053437c36cc66c3
-    some_api_key: SOMEKEY
+    some_api_key: 123454321
 
-`Rails.application.credentials.some_api_key` returns `SOMEKEY` in any environment.
+`Rails.application.credentials.some_api_key` returns `123454321` in any environment.
 
 If you want an exception to be raised when some key is blank, use the bang
 version:
@@ -536,8 +540,8 @@ Rails.application.credentials.some_api_key!
 ### Use a Content Security Policy (CSP)
 
 The modern solution to XSS ist a [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)(CSP).
-In Rails you can configure the Content Security Policy 
-for your application in an initializer. 
+In Rails you can configure the Content Security Policy
+for your application in an initializer.
 
 Example global policy:
 
@@ -575,7 +579,7 @@ Content-Security-Policy: script-src 'nonce-2726c7f26c'
 ```
 
 Rails can generate separate nonces for separate sessions automatically,
-see [the Rails Security Guide](https://edgeguides.rubyonrails.org/security.html#content-security-policy).
+see [the Rails Security Guide](https://guides.rubyonrails.org/security.html#adding-a-nonce).
 
 If you want to handle violation reports, you need to set up a model, controller and route [as described here](https://bauland42.com/ruby-on-rails-content-security-policy-csp/#cspviolationreports).
 
@@ -590,10 +594,19 @@ erb automatically escapes for HTML:
 This escaping is not apporpriate for attributes:
 
 ```ruby
-<p class=<%= params[:style] %>...</p>
+<!-- DANGER, do not use this code -->
+<p class=<%= params[:style] %> >...</p>
+<!-- DANGER, do not use this code -->
 ```
 
-An attacker can insert a space into the style parameter like so: `x%22onmouseover=javascript:alert('hacked')`
+An attacker could insert a space into the style parameter like so: `x%22onmouseover=alert('hacked')`
+resulting in the following html
+
+```html
+<!-- DANGER, do not use this code -->
+<p class=x onmouseover=alert('hacked') >...</p>
+<!-- DANGER, do not use this code -->
+```
 
 To construct HTML Attributes that are properly escaped
 it is easiest to use view helpers like `tag` and `content_tag`:
@@ -602,17 +615,21 @@ it is easiest to use view helpers like `tag` and `content_tag`:
 <%= content_tag :p, "...", class: params[:style]  %>
 ```
 
-In the context of JSON you need to use `json_encode`:
+When transferring data from the backend to the frontend
+through JSON you need to use `json_encode` with the additional
+option
 
 ```ruby
 <script>
-  var userdata = <%= raw json_encode(@stuff.to_json) %>
+  const attributes = <%= raw json_encode(@attrs, escape_html_entities_in_json = true) %>
 </script>
 ```
 
+See [brakeman](https://brakemanscanner.org/docs/warning_types/cross_site_scripting_to_json/) for the rationale.
+
+
 When building a JSON API use `jbuilder` or `active_model_serializers` as described in [chapter APIs](/apis.html#rendering-json).
 
-See [XSS in the brakeman documentation](https://brakemanpro.com/2017/09/08/cross-site-scripting-in-rails)
 
 ## Insecure Deserialization
 
@@ -624,13 +641,22 @@ Brakeman will warn about [Unsafe Deserialization](https://brakemanscanner.org/do
 
 > Components, such as libraries, frameworks, and other software modules, run with the same privileges as the application. If a vulnerable component is exploited, such an attack can facilitate serious data loss or server takeover. Applications and APIs using components with known vulnerabilities may undermine application defenses and enable various attacks and impacts. [OWASP Wiki](https://www.owasp.org/index.php/Top_10-2017_A9-Using_Components_with_Known_Vulnerabilities)
 
+
+Before using a gem, look it up in the [ruby-toolbox](https://www.ruby-toolbox.com/)
+and check if it is actively maintained and if there are better alternatives.
+
 There are several tools that check for vulnerabilities in dependencies:
 
-- [bundle audit](https://github.com/rubysec/bundler-audit) will read the Gemfile.lock, looking for gem versions with vulnerabilities reported in the [Ruby Advisory Database](https://github.com/rubysec/ruby-advisory-db).
+- [bundler-audit](https://www.ruby-toolbox.com/projects/bundler-audit) will read the Gemfile.lock, looking for gem versions with vulnerabilities reported in the [Ruby Advisory Database](https://github.com/rubysec/ruby-advisory-db).
 - [snyk](https://snyk.io/) works for ruby and javascript (and more languages).
 
-When using script-tags to include javascript (e.g. jquery, bootstrap from a cdn)
-use Subresource Integrity checks to prevent [man in the middle attacks](https://security.stackexchange.com/questions/72652/javascript-injection-using-man-in-the-middle-attack?newreg=81c460e021c04123883661e86b95d14f#answer-72661) using your javascript.
+Use `bundle update --conservative gem_name` to safely update vulnerable dependencies.
+
+
+
+When using script-tags to include javascript (e.g. bootstrap, react) from a cdn
+use Subresource Integrity checks. This way, if a hacker manages to change
+the script on the CDN your application will not be affected:
 
 ```
 <script
