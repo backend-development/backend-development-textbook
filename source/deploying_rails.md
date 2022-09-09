@@ -6,7 +6,7 @@ want to publish it on the web.
 
 After working through this guide you should be able to
 
-* deploy a rails app to heroku using git
+* deploy a rails app to dokku (or heroku) using git
 * deploy a rails app to any unix server using capistrano
 
 -------------------------------------------------------------
@@ -18,10 +18,10 @@ heroku is one "Platform as a Service" provider that offers
 to host your rails app.  Heroku uses git to push the code to
 the production server.
 
-(See also 
-[Railsbridge Installfest: Create A Heroku Account](http://installfest.railsbridge.org/installfest/create_a_heroku_account)
+(See also
+[Railsbridge Installfest: Create A Heroku Account](http://railsbridge.projects.multimediatechnology.at/installfest/create_a_heroku_account)
 and
-[Railsbridge Installfest: Create And Deploy A Rails App](http://installfest.railsbridge.org/installfest/create_a_heroku_account#step7)
+[Railsbridge Installfest: Deploy A Rails App](https://railsbridge.projects.multimediatechnology.at/installfest/deploy_a_rails_app)
 )
 
 
@@ -33,10 +33,10 @@ in your rails app, which is already using git:
 
 * heroku create
 * make some changes in the Gemfile (rubyracer, pg instead of sqlite)
-* don't forget to commit all changes!  
+* don't forget to commit all changes!
 * git push heroku master
 * heroku run rake db:migrate
-* heroku open  
+* heroku open
 * heroku logs
 
 That's it.   You should now have an app with a very strange URL, like
@@ -45,7 +45,7 @@ That's it.   You should now have an app with a very strange URL, like
 Public Key Authentication in SSH
 ---------------------
 
-(See also [Railsbridge Installfest](http://installfest.railsbridge.org/installfest/create_an_ssh_key))
+(See also [Railsbridge Installfest](http://railsbridge.projects.multimediatechnology.at/installfest/create_an_ssh_key))
 
 
 ![public key login](images/public_key_crypto.svg)
@@ -197,10 +197,10 @@ the folders
   * 20121201113038
   * 20121201150544
 * shared
-  * assets  
-  * bundle  
-  * log  
-  * pids  
+  * assets
+  * bundle
+  * log
+  * pids
   * system
 
 
