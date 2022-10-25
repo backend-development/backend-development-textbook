@@ -58,15 +58,17 @@ Read [GitLab's article about why they use Rails](https://about.gitlab.com/blog/2
 Why should you use Ruby and Rails over other programming languages
 and frameworks?
 
-- Because you want to be a highly productive web developer?
-- Because you want to learn from the best?
-- Because you want try out many different languages and many frameworks?
-
-All these answers are equally valid.
-
-Also, there are cool t-shirts:
+Because of the cool t-shirts?
 
 ![Ruby and Rails T-Shirts](images/ruby-and-rails-t-shirts.png)
+
+- Because you want to be a highly productive web developer?
+- Because you want to be a well payed developer?
+
+[StackOverflows Survey from 2022](https://survey.stackoverflow.co/2022/#work-salary) shows less Ruby jobs than JavaScript or PHP jobs,
+but they are better payed:
+
+![](images/salary-2022.png)
 
 ## Ruby Basics
 
@@ -86,7 +88,7 @@ the result as `=>`, for example:
 
 ### Some code conventions
 
-Try to stick to [github's style for ruby](https://github.com/styleguide/ruby).
+Try to stick to [github's style for ruby](https://rubystyle.guide/).
 
 When you choose names for your objects, classes and methods
 you should stick to the following conventions to avoid
@@ -143,7 +145,7 @@ f(1,42)  # returns "x"
 
 ### Keyword Arguments
 
-Since ruby 2.0 keyword arguments can be used instead,
+Since ruby 2.0 keyword arguments can be used,
 and can be given default values:
 
 ```ruby
@@ -177,7 +179,7 @@ They have methods and properties, like other objects:
 Imagine you have an Object `a`, that has a property `b` containing
 another object, and `b` has a property `c`. You can access `c` through `a.b.c`
 
-But if a is `nil` then you will get an error:
+But if `a` is `nil` then you will get an error:
 
 ```ruby
 > a.b.c
@@ -198,7 +200,7 @@ The Operator was introduced in Ruby 2.3.0 is is called
 
 All of Ruby's basic data types are Classes.
 
-- nil
+- nil  `# NilClass`
 - Numeric, Integer, Fixnum, Bignum, Float `# are converted automatically to each other`
 - Ranges
 - String
@@ -376,7 +378,7 @@ semester of most computer science programs.)
 
 #### Implicit Form
 
-A Hash can be created with Hash.new, or by writing it in "implicit form":
+A Hash can be created with Hash.new, or by writing it as a literal:
 
 ```ruby
 roomnumber = { "Jane Doe" => 10, "Jim Doe" => 6 }
@@ -467,16 +469,16 @@ The `case` expression can match one value in several ways.
 
 ```ruby
 case x
-  when 1..5
-    puts "It's between 1 and 5"
-  when 6
-    puts "It's 6"
-  when "foo", "bar"
-    puts "It's either foo or bar"
-  when String
-    puts "You passed a string"
-  else
-    puts "You gave me #{x} -- I have no idea what to do with that."
+when 1..5
+  puts "It's between 1 and 5"
+when 6
+  puts "It's 6"
+when "foo", "bar"
+  puts "It's either foo or bar"
+when String
+  puts "You passed a string"
+else
+  puts "You gave me #{x} -- I have no idea what to do with that."
 end
 ```
 
@@ -570,6 +572,8 @@ The elements of the array are piped into the sort-method, which again outputs a 
 of elements. These are piped into first, which only returns the first three and discards
 the rest. The result is a list of 3 elements.
 
+§
+
 Here are some simple methods you can use on Arrays (and other Enumerables)
 that return a new Enumerable. You can connect theses methods to each other:
 
@@ -586,12 +590,16 @@ The method `tally` counts the occourance of elements and returns a hash:
     ["a", "b", "c", "b"].tally
     #=> {"a"=>1, "b"=>2, "c"=>1}
 
+§
+
 Some other methods return just a single value, and thus end the pipe:
 
 - count
 - count("only this exact value")
 - max
 - min
+
+§
 
 More advanced methods take a Block (of code) as their argument.
 The method `map` applys the Block to each piece of data, and
@@ -604,6 +612,8 @@ returns an Enumerable of the new data:
 >> (1..10).map{ |x| 2*x }.reverse
 => [20, 18, 16, 14, 12, 10, 8, 6, 4, 2]
 ```
+
+§
 
 If the computation is more complex you can write
 the Block on several lines, ending with `end`
@@ -619,6 +629,8 @@ the Block on several lines, ending with `end`
 >> end.reverse
 => [20, 18, 16, 14, 12, 10, 8, 6, 4, 2]
 ```
+
+§
 
 Some other methods for Enumerables that take a Block:
 
@@ -644,7 +656,7 @@ that take a Block as an argument:
 
 ### My Function takes a Block of Code
 
-Any function you write can take an addictional block
+Any function you write can take an additional block
 of code as its last argument. The block is only
 called if and when you call `yield` inside the function:
 
@@ -678,7 +690,7 @@ end
 You now know about the basic data types, about enumerables and about blocks -
 features that distinguish Ruby from other scripting languages.
 
-If you want to get more pracitical with Ruby, you can
+If you want to get more practical with Ruby, you can
 do the
 [Learn Ruby](https://github.com/backend-development/learn_ruby) test driven Ruby exercises.
 
@@ -688,20 +700,16 @@ opportunity you get to learn more about Ruby itself: if you are unsure about
 a line of code, look it up in the Ruby documentation and use the
 opportunity to read a bit more than strictly necessary.
 
-Get an offline version of the documentation
-installed on your development machine so you can look up stuff instantly.
-
-- Mac Tool [Dash](https://kapeli.com/dash) for keeping offline copies of documentation
 
 ### Online Resources
 
 - [try ruby](https://ruby.github.io/TryRuby/)
-- [learningruby.com tutorial](http://rubylearning.com/satishtalim/tutorial.html)
-- [learn ruby onliners](https://learnbyexample.github.io/learn_ruby_oneliners/one-liner-introduction.html)
+- [learn ruby one-liners](https://learnbyexample.github.io/learn_ruby_oneliners/one-liner-introduction.html)
 
 ### Books
 
 - Flanagan, Matsumoto(2008): [The Ruby Programming Language](https://www.amazon.com/Ruby-Programming-Language-David-Flanagan/dp/0596516177). O'Reilly. ISBN 0596516177.
 - Thomas(2013): [Programming Ruby 1.9 + 2.0](https://www.amazon.com/Programming-Ruby-1-9-2-0-Programmers/dp/1937785491/). Pragmatic Porgrammers. ISBN 1937785491
+- Black, Josef (2019): [The Well Grounded Rubyist](https://www.amazon.de/Well-Grounded-Rubyist-David-Black/dp/1617295213)
 - Olsen (2011): [Eloquent Ruby](https://www.amazon.com/Eloquent-Ruby-Addison-Wesley-Professional/dp/0321584104/). Addison-Wesley. ISBN 0321584104
 - Tate(2010): [Seven Languages in Seven Weeks: A Pragmatic Guide to Learning Programming Languages](https://www.amazon.com/Seven-Languages-Weeks-Programming-Programmers/dp/193435659X/). Pragmatic Programmers. ISBN 193435659X
