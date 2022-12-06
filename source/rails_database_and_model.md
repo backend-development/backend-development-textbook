@@ -42,6 +42,13 @@ Two Patterns used in Rails for this problem are ActiveRecord and ObjectMapper, b
 described by Fowler in his 2003 book [Patterns of Enterprise Application Architecture](https://martinfowler.com/books/eaa.html).
 ActiveRecord is the default solution used in Rails, we will look into it in detail here.
 
+Some example-ORMs in other Languages:
+
+- PHP: [Doctrine](https://www.doctrine-project.org/) and [Propel](https://propelorm.org/)
+- Java: [Hibernate](https://hibernate.org/)
+- Python: [SQL Alchemy](https://www.sqlalchemy.org/) and [many more](https://www.fullstackpython.com/object-relational-mappers-orms.html)
+- JavaScript+Typescript: [Sequelize](https://sequelize.org/), [TypeORM](https://typeorm.io/), [prisma](https://www.prisma.io/) and [many more](https://blog.logrocket.com/best-typescript-orms/#picking-best-typescript-orms)
+
 ## ActiveRecord Basics
 
 Rails implements the Active Record pattern in a class called `ActiveRecord`.

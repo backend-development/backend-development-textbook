@@ -153,9 +153,6 @@ DETAIL:  Key (email)=(b@a.com) already exists.
 You can see that the exception is of class `ActiveRecord::RecordNotUnique` and contains
 a description "Key (email)=(b@a.com) already exists".
 
-### explore the models
-
-`User.reflect_on_association`
 
 ### Validations and Forms
 
@@ -191,7 +188,7 @@ Zombie Sue ------------------------ Tweet 'gagaga'
 In the table `tweets` there is a column `zombie_id` which references `zombies.id`.
 This column in `tweets` is called a "foreign key".
 
-### Create the Database
+### Create the Tables
 
 You can either add this column when you first create Tweets:
 
@@ -266,6 +263,11 @@ z.tweets.create(status: "Why did my arm just fall off?")
 You can find a list of all the new methods added by the
 association in the Rails Guide under [Methods Added by belongs_to](https://guides.rubyonrails.org/association_basics.html#belongs-to-association-reference) and
 [Methods Added by has_many](https://guides.rubyonrails.org/association_basics.html#has-many-association-reference).
+
+### explore the models
+
+`User.reflect_on_association`
+
 
 ## Further reading
 

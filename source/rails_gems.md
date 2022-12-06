@@ -18,8 +18,8 @@ After reading this guide you will
 
 ### dependencies
 
-Code reuse is a deciding factor for programmer productivity.
-Other people code that we reuse is called a "dependency" because
+Reusing code is a determining factor when it comes to the productivity of a programmer.
+We refer to other people's code we reuse as a "dependency" since
 our program depends on it.
 
 Using a dependency always carries a risk.
@@ -173,7 +173,7 @@ and more.
 
 You can resize or crop your images
 automatically. This is traditionally done with
-the libraries [ImageMagick](https://www.imagemagick.org/)  or 
+the libraries [ImageMagick](https://www.imagemagick.org/)  or
 [vips](https://libvips.github.io/libvips/)
 
 There are ruby gem for those libaries that install precompiled versions:
@@ -183,7 +183,7 @@ There are ruby gem for those libaries that install precompiled versions:
 
 and a high level gem that handles both libraries:
 
-- gem [image-processing](https://github.com/janko/image_processing) 
+- gem [image-processing](https://github.com/janko/image_processing)
 
 You might also want to know how to use ImageMagick on the UNIX commandline:
 
@@ -193,8 +193,11 @@ You might also want to know how to use ImageMagick on the UNIX commandline:
 ### Authentication
 
 - gem [devise](https://github.com/plataformatec/devise) for login,
-- gem [omniauth](https://github.com/intridea/omniauth) to integrate authentication methods.
-- gem [cancancan](https://github.com/CanCanCommunity/cancancan) if you need roles and permissions
+- gem [omniauth](https://github.com/intridea/omniauth) to integrate authentication methods,
+- gem [cancancan](https://github.com/CanCanCommunity/cancancan) if you need roles and permissions.
+
+- gem [devise_zxcvbn](https://github.com/bitzesty/devise_zxcvbn) to  reject weak passwords (port of [zxcvbn](https://dropbox.tech/security/zxcvbn-realistic-password-strength-estimation)).
+- gem [devise-pwned_password](https://github.com/michaelbanfield/devise-pwned_password)
 
 ### Permalinks
 
@@ -233,18 +236,19 @@ to go through them page by page:
 
 You need to filter objects shown by the index action?
 
-- gem [brita](https://github.com/procore/sift) can be used in APIs and full rails apps
+- gem [sift](https://github.com/procore/sift) can be used in APIs and full rails apps
 
 ### Ordered Lists
 
-- gem [acts_as_list](https://github.com/swanandp/acts_as_list)
+- gem [ranked_model](https://github.com/brendon/ranked-model)
 
 ### Workflows
 
 state machines are an importante pattern for
 representing workflows:
 
-- [state_machine(s) gem](https://planetruby.github.io/gems/week/09-state-machine.html) intro on Best of Ruby Gems
+- [state_machine gems](https://blog.appsignal.com/2022/06/22/state-machines-in-ruby-an-introduction.html) intro on AppSignal Blog
+- gem [statesman](https://github.com/gocardless/statesman)
 
 With paper trail you can keep track who changed a model:
 
@@ -272,7 +276,9 @@ you can use an activity stream, similar to what you see in facebook.
 
 ### Payment
 
-Recieve Money through Stripe, Braintree or Paddle with [pay](https://github.com/pay-rails/pay)
+Recieve Money with [ActiveMerchant](https://github.com/activemerchant/active_merchant)
+
+
 ### Admin Backend
 
 Quickly create a Backend for editing the data in your database:
@@ -321,7 +327,8 @@ Use postgres's inbuilt geographical features:
 
 ### PDF, Excel, csv, ...
 
-- gem [pdf-reader](github.com/yob/pdf-reader)
+- gem [pdf-reader](https://github.com/yob/pdf-reader)
+- gem [wicket_pdf](https://github.com/mileszs/wicked_pdf/)
 - gem [spreadsheet](https://github.com/zdavatz/spreadsheet)
 - gem [smarter_csv](https://github.com/tilo/smarter_csv)
 
@@ -329,6 +336,12 @@ Use postgres's inbuilt geographical features:
 ### One Rails Code for Many Sites ("Tenants")
 
 - gem [acts_as_tenant](http://planetruby.github.io/gems/2020/08-acts-as-tenant.html)
+
+
+### Tracking Users
+
+- gem [ahoy](https://github.com/ankane/ahoy)
+
 
 ### Testing
 
