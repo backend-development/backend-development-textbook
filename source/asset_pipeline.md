@@ -45,6 +45,8 @@ Trying to 'optimize' you code if there is no problem, or
 if you don't know where the problem is,
 will make your code worse, not better.
 
+§
+
 Donald Knuth stated this quite forcefully:
 
 "The real problem is that programmers have spent far too much time worrying about efficiency in the wrong places and at the wrong times; **premature optimization is the root of all evil**" -- [Donald Knuth](https://en.wikiquote.org/wiki/Donald_Knuth#Computer_Programming_as_an_Art_.281974.29)
@@ -57,7 +59,7 @@ start to 'optimize'.
 
 ### Measuring Web Performance
 
-The "exceptional performance" group at Yahoo published the browser addon
+The "exceptional performance group" at Yahoo published the browser addon
 `yslow` in 2007. It measures performance and displays the timing
 of the different HTTP connections as a "waterfall graph":
 
@@ -70,6 +72,8 @@ is a common timeline for all. The most striking result you can read from
 this graph: the backend is only responsible for 5% of the time in this
 example! 95% of time is spent loading and parsing javascript and css files
 and loading and displaying images!
+
+§
 
 This graph was later integrated into the built in developer tools
 of several browsers, and into the online tool [webpagetest](https://webpagetest.org/).
@@ -106,21 +110,34 @@ protocols some of these are still very valid today.
 But as a web developer you should always keep an eye on the changing
 landscape of web performance! These rules and their priority will change!
 
+### Less HTTP Requests?
+
+Making less HTTP Requests was a main goal in performance optimization for many years.
+Many JavaScript files were combined into one, the same for CSS.  Icon Fonts were used
+to combine many small image files into one file.
+
+On the other hand the HTTP protocol itself was improved again and again,
+to make repeated requests to the same server "cheaper":
+
+* [HTTP/2](https://en.wikipedia.org/wiki/HTTP/2) server HTTP requests can be multiplexed over a single TCP connection
+* [HTTP/3](https://en.wikipedia.org/wiki/HTTP/3) uses UDP instead of TCP
+
+In 2022 HTTP/3 is [supported by](https://caniuse.com/http3) all common browsers except safari and use by [about a quater](https://w3techs.com/technologies/details/ce-http3) of the top 10 million websites.
+
+So today this "first rule" for avoiding HTTP requests can be relaxed.
+
 ## How Rails helps with Performance
 
-To comply with rule 1 "make fewer HTTP requests" there now exist
-a lot of tools. The Rails asset pipeline was introduced in Rails 3.1 in the year 2011.
+The Rails asset pipeline was introduced in Rails 3.1 in the year 2011.
+It automates handling static assets:
 
-I lets you use all theses tools automatically:
-
-- Compile to JavaScript (e.g. coffeescript, typescript, babel)
 - Compile to CSS (e.g. LESS, SASS)
-- Minify and combine several JavaScript files into one
 - Minify and combine several CSS files into one
+- Compile to JavaScript (e.g. typescript, babel)
+- Minify and combine several JavaScript files into one
 - Optimize images
 - Create several versions of pixel images
 - Create CSS Sprites
-- Set Expires Header for static assets
 
 ![Asset Pipeline](images/asset-pipeline.svg)
 
@@ -130,7 +147,8 @@ There are two main folders:
 - you configure which files are built and included in `app/assets/config/manifest.js`, `app/assets/stylesheets/application.css` and `app/assets/javascript/application.js`
 - files for publishing are created in `public/assets/*`
 
-The second folder will be served by the web server directly, without going through the Rails stack
+The second folder will be served by the web server directly, without going through the Rails stack.
+The expires header for these files is set to a far future date.
 
 ### Rails Environments
 
@@ -151,7 +169,7 @@ How each envirnoments behaves is configured in files in `config/environments/*.r
 The development environment is used by default on your machine. If you deploy
 to heroku or to another hosting server, production will be used there.
 
-### Rails Environments and the Asset Pipeline
+### development Environment and the Asset Pipeline
 
 In `development` the asset pipeline will not write files to `public/assets`. Instead
 these files will be created on the fly, and not be conactenated. The two lines
@@ -180,6 +198,10 @@ Will each result in a number of links. Here an example from a real project:
 <script src="/asset-files/can-custom-c11b4js?body=1"></script>
 <script src="/asset-files/easySlider-6386djs?body=1"></script>
 ```
+
+
+### production Environment and the Asset Pipeline
+
 
 When you deploy to production, you deployment process will run `rake assets:precompile`,
 which generates the files in `public/assets`, including `public/assets/manifest-md5hash.json`.
