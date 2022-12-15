@@ -8,7 +8,7 @@ After reading this guide you will
 - be able to build a rails app with simple login and logout
 - be able to offer password reminders to your users
 
-REPO: You can study the [code](https://github.com/backend-development/rails-example-kanban-board-login) and try out [the demos](https://kanban-1.herokuapp.com/) for the authentication examples described here.
+REPO: You can study the [code](https://github.com/backend-development/rails-example-kanban-board-login) and try out [the demos](https://kanban-1.projects.multimediatechnology.at/) for the authentication examples described here.
 
 ---
 
@@ -339,7 +339,7 @@ class SessionsController < ApplicationController
 private
 
   def login_params
-    params.permit(:username, :password)
+    params.permit(:username, :password, :password_confirmation)
   end
 end
 ```
@@ -370,12 +370,25 @@ to display different things for logged in users and non logged in visitors:
 ```ruby
 <!-- app/views/layouts/application.html.erb -->
 <% if current_user %>
-  Logged in as <%= current_user.name %>
+  Logged in as <%= current_user.username %>
   <%= link_to "log out", logout_path %>
 <% else %>
   <%= link_to "log in", login_path %>
   | <%= link_to "register", new_user_path %>
 <% end %>
+```
+
+§
+
+To register a user - to create a new user - we can
+create a full scaffold for the user model, or build
+the controller and views by hand.
+
+We really only need two actions:
+
+```ruby
+# routes.rb
+resources :users, only: %i[new create]
 ```
 
 ## Better Login UX
@@ -439,8 +452,8 @@ to not have to register on your site, but to use another service
 to authenticate. That way they don't have to remember another password.
 And you might not have to handle passwords at all.
 
-You can achieve this with Open Authentication, 
-or [OAuth](https://en.wikipedia.org/wiki/OAuth) for short. It is a 
+You can achieve this with Open Authentication,
+or [OAuth](https://en.wikipedia.org/wiki/OAuth) for short. It is a
 standard for requesting Authentication and Authorization from
 a priovider. If you only use OAuth for Authentication, not Authorization, then
 you can use [OpenID Connect](https://openid.net/connect/) on top of OAuth.
@@ -448,7 +461,7 @@ you can use [OpenID Connect](https://openid.net/connect/) on top of OAuth.
 ### Rails and OAuth
 
 The gem `omniauth` helps you deal with OAuth2, OpenID, LDAP, and many
-other authentication providers. 
+other authentication providers.
 The [list of strategies](https://github.com/intridea/omniauth/wiki/List-of-Strategies)
 is quite impressive. Think carefully about what services your users
 are using, and which services might be useful to your app: could
