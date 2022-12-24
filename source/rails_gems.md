@@ -240,7 +240,11 @@ You need to filter objects shown by the index action?
 
 ### Ordered Lists
 
+- gem [acts_as_list](https://github.com/brendon/acts_as_list)
 - gem [ranked_model](https://github.com/brendon/ranked-model)
+
+are the two active gems in [Active Record Sortables](https://www.ruby-toolbox.com/categories/Active_Record_Sortables) of the ruby toolbox
+
 
 ### Workflows
 
