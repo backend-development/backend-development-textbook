@@ -241,4 +241,6 @@ and give you a simple programming model to work with.
 For beginners I would recommend Ruby and Rails in the backend and
 plain JavaScript  in the frontend.
 
-This text was first published as [an answer on quora](https://www.quora.com/Is-Ruby-on-Rails-easier-to-learn-than-Node).
+This text was first published as [an answer on quora in 2016](https://www.quora.com/Is-Ruby-on-Rails-easier-to-learn-than-Node).
+The version on this website was
+ updated in 2023.
