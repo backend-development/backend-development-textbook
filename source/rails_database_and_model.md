@@ -523,3 +523,11 @@ locally on your computer. A handy tool for this on mac os x is
   - [find](https://api.rubyonrails.org/classes/ActiveRecord/FinderMethods.html#method-i-find)
   - [where](https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-where)
   - [add_column](https://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/SchemaStatements.html#method-i-add_column) lists all the possible data types for columns
+
+
+### Other Backends
+
+- for the PHP Framework Laraval the ORM  [Eloquent](https://laravel.com/docs/10.x/eloquent#introduction) is used
+  - [Migrations](https://laravel.com/docs/10.x/migrations#introduction)
+- for node.js an example ORM would be [Prisma](https://www.prisma.io/)
+  - [Migrations in Prisma](https://www.prisma.io/docs/concepts/components/prisma-migrate/mental-model) follow a different model: the schema file is edited by hand, the migration file is generated automatically from the changes made. applying the migration is the same
