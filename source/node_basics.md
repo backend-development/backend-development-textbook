@@ -17,23 +17,26 @@ Node.js was originally written by Ryan Dahl in 2009
 as a combination of two pieces of software that
 already existed:
 
-- the google javascript interpreter v8
-- a library for asyncronous programming
+- the google [javascript interpreter v8](https://v8.dev/) - [code](https://github.com/v8/v8)
+- a library for asyncronous programming [libuv](https://libuv.org/) - [code](https://github.com/libuv/libuv/)
 
 To this he added a library written in Javascript.
 In 2010 npm was added as a package manager for
 Javascript Libraries.
 
-In 2017, according to [openhub](https://www.openhub.net/p/node/analyses/latest/languages_summary) the node projects consist of:
+![](images/what-is-node.svg)
 
-- v8: 2 millions lines of code written in c++
-- libuv: 50.000 lines of C code
-- node bindings: 450.000 lines of C code
-- the node library: 1 million lines of Javascript code
+In 2023, according to [openhub](https://www.openhub.net/p/node/analyses/latest/languages_summary)
+the node projects consist of:
+
+- v8: 2,3 millions lines of code written in c++
+- libuv: 100.000 lines of C code
+- node bindings: 2,5 millions lines of C code
+- the node library: 1,6 millions lines of Javascript code
 
 So v8 is the biggest part of node:
 
-![](images/what-is-node.svg)
+
 
 ## Hello World
 
@@ -68,23 +71,24 @@ Node Versions change fast. The node version manager (nvm) makes
 it easy to switch between versions:
 
 ```shell
-$ nvm use 6.10
-Now using node v6.10.3 (npm v3.10.10)
-$ nvm use default
-Now using node v7.9.0 (npm v4.2.0)
+$ nvm use 16.19
+Now using node v16.19.0 (npm v8.19.3)
+$ nvm use stable
+Now using node v20.2.0 (npm v9.6.6
 ```
 
 ## Hello Web
 
 ```
-const http = require('http');
+import * as http from 'http';
+
 const hostname = '127.0.0.1';
 const port = 3000;
 
 const server = http.createServer((req, res) => {
   res.statusCode = 200;
   res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello World\n');
+  res.end('Hello Web\n');
 });
 
 server.listen(port, hostname, () => {
@@ -93,33 +97,34 @@ server.listen(port, hostname, () => {
 ```
 
 ```shell
-$ node app.js 
+$ node app.js
 Server running at http://127.0.0.1:3000/
 ```
 
 ## Packages
 
-Node does not use ES6 modules! node packages are
-installed by npm into a folder node_modules. You can
-also write your own:
+Node had it's own package system called CommonJS, using the keyword `require`.
+Since node 13 you can also use  ECMAScript modules with the keyword `import`.
 
-```javascript
-// File foo.js:
-const http = require("http");
-const app = { hello: "World" };
-exports = module.exports = app;
+Use the type field in `package.json` to switch to ECMAScript modules:
+
+```
+// package.json
+{
+  "type": "module"
+}
 ```
 
-```javascript
-Other file:
-const app = require('./foo');
-console.log(app);
+Use barewords to import packages from `node_modules`, and relative
+paths for your own source files:
+
+```
+import * as http from 'http';
+import * as config from './config/index.js`;
 ```
 
-```shell
-$ node bar.js
-{ hello: 'World' }
-```
+`npm` was the first package manager for node.js.  Today
+there are many alternatives, from `yarn` to `pnpm`.
 
 ## The javascript Event Loop
 
@@ -201,8 +206,10 @@ Doing asyncronous I/O is implemented using callbacks in Javascript, and will loo
 something like this:
 
 ```javascript
+import { readFile } from 'node:fs';
+
 console.log("first");
-fs.readFile(file_name, (err, data) => {
+readFile(file_name, (err, data) => {
   if (err) throw err;
   console.log("... much later, third");
   console.log(data);
@@ -215,6 +222,19 @@ printing out `second`. It will pick up something else to do from
 the event queue. Much later, when the data from the file has been
 loaded, it will find the callback funktion on the event queue, and
 finally reach `third`.
+
+Node also offers the use of promises or async await:
+
+```javascript
+import { readFile } from 'node:fs/promises';
+const filePath = 'package.json';
+const contents = await readFile(filePath, { encoding: 'utf8' });
+```
+
+The main thread will become free at `await`. It will pick up something else to do from
+the event queue. Much later, when the data from the file has been
+loaded, the program will continue with assigning the data to the constant `contents`.
+
 
 ## Example Code
 
@@ -236,105 +256,41 @@ If one aspect of your app is CPU-bound it will monopolize that kernel,
 (other) requests cannot be served. Therefore node and is not well suited for CPU
 bound applications.
 
-## Writing asyncronous code
 
-A Node app by necessety contains a lot of asyncronous code.
-The traditional way of writing it, is the "callback" style:
-
-```javascript
-fs = require("fs");
-console.log("first");
-fs.readFile(file_name, "utf8", (err, data) => {
-  if (err) throw err;
-  console.log("... much later, third");
-  console.log(data);
-});
-console.log("second");
-```
-
-This leads to "callback hell", when callbacks have to be
-nested deepply, and the order of the code lines is in no way
-connected with the order they are executed in.
-
-There have been several attempts to find a more readable alternative:
-
-- Fibers
-- Generators
-- Reactive Programming (Bacon)
-- Promises
-- Async functions (soon)
-
-The last two optinos seem to be the winners (in 2017): [promises](https://caniuse.com/#feat=promises)
-are a part of ES6, and are available in both browsers and node now.
-In node you can use a "promisified" version of the node standard library
-with `mz`:
-
-```javascript
-fs = require("mz/fs");
-console.log("1.");
-fs.readFile("this.txt", "utf8")
-  .then(data => {
-    console.log("... much later: 3.");
-    console.log(data);
-  })
-  .catch(err => {
-    console.log("in case of an error: 3.");
-    throw err;
-  });
-console.log("2.");
-```
-
-[Async functions](https://caniuse.com/#feat=async-functions) are defined in ES8 and
-are usable in browsers, but not in node yet. There Syntax will be something like:
-
-```javascript
-const fs = require("mz/fs");
-console.log("1.");
-
-async function read_text(file_name) {
-  data = await fs.readFile("this.txt", "utf8");
-  return data;
-}
-
-console.log(read_text("this.txt"));
-```
 
 ## Streams
 
-Read the file. After the whole file has been read, send it:
+Streams are a basic bilding block of a node application.
+Without streams, you have to read the whole file before
+you can send it:
 
-```
-var http = require('http');
-var fs = require('fs');
- 
-var server = http.createServer(function (req, res) {
-    fs.readFile(__dirname + '/data.txt', function (err, data) {
-        res.end(data);
-    });
+```javascript
+import { readFile } from 'node:fs/promises';
+const server = http.createServer(async (req, res) => {
+  const filePath = 'package.json';
+  const contents = await readFile(filePath, { encoding: 'utf8' });
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/plain');
+  res.end('Hello Web: ' + contents);
 });
-server.listen(8000);
 ```
 
 Better: connect a stream reading the file to the stream
 that is the HTTP response:
 
-```
-var http = require('http');
-var fs = require('fs');
- 
-var server = http.createServer(function (req, res) {
-  let stream = fs.createReadStream(__dirname + '/data.txt');
-  stream.pipe(res);
-});
-server.listen(8000);
-
+```javascript
+import { createReadStream } from 'node:fs';
+const server = http.createServer(function(req, res) {
+    const filePath = 'package.json';
+    var readStream = createReadStream(filePath);
+    res.setHeader('Content-Type', 'application/json');
+    readStream.pipe(res);
+})
 ```
 
-.pipe() takes care of listening for 'data' and 'end' events from the fs.createReadStream(). This code is not only cleaner, but now the data.txt file will be written to clients one chunk at a time immediately as they are received from the disk.
+`.pipe()` takes care of listening for 'data' and 'end' events from the fs.createReadStream(). This code is not only cleaner, but now the data.txt file will be written to clients one chunk at a time immediately as they are received from the disk.
 
-Using .pipe() has other benefits too, like handling backpressure automatically so that node won't buffer chunks into memory needlessly when the remote client is on a really slow or high-latency connection.
-
-From [the stream handbook](https://github.com/substack/stream-handbook#why-you-should-use-streams)
+Using `.pipe()` has other benefits too, like handling backpressure automatically so that node won't buffer chunks into memory needlessly when the remote client is on a really slow or high-latency connection.
 
 ## See Also
 
@@ -343,5 +299,3 @@ From [the stream handbook](https://github.com/substack/stream-handbook#why-you-s
 - [Event Loop Implementation](https://stackoverflow.com/questions/19822668/what-exactly-is-a-node-js-event-loop-tick)
 - [set the event pool size process.env.UV_THREADPOOL_SIZE](http://docs.libuv.org/en/v1.x/threadpool.html)
 - [V8 needs 4 threads](https://github.com/nodejs/node/blob/278a9267ec41f37e6b7dda876c417945d7725973/src/node.cc#L3964-L3965)
-- [On problems with threads in node.js](https://www.future-processing.pl/blog/on-problems-with-threads-in-node-js/)
-- [Karpov(2017): Async Await Patterns](https://thecodebarbarian.com/common-async-await-design-patterns-in-node.js.html)

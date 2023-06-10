@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 21.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!-- Generator: Adobe Illustrator 24.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 640 480" style="enable-background:new 0 0 640 480;" xml:space="preserve">
 <style type="text/css">
 	.st0{fill:#EAEA7D;}
-	.st1{fill:#48BCEF;}
-	.st2{fill:none;stroke:#000000;stroke-miterlimit:10;stroke-dasharray:12.0179,12.0179;}
-	.st3{fill:#0F9FD1;}
-	.st4{font-family:'MyriadPro-Regular';}
+	.st1{fill:#0F9FD1;}
+	.st2{fill:#48BCEF;}
+	.st3{fill:none;stroke:#000000;stroke-miterlimit:10;stroke-dasharray:12.0179,12.0179;}
+	.st4{font-family:'ArialMT';}
 	.st5{font-size:26px;}
 </style>
 <g id="boxes">
 	<g>
+		<rect x="240.6" y="173.8" class="st0" width="309.6" height="128.2"/>
+	</g>
+	<g>
+		<rect x="241.6" y="306" class="st1" width="274.4" height="131"/>
+	</g>
+	<g>
+		<rect x="521" y="306" class="st2" width="28.4" height="131"/>
+	</g>
+	<g>
 		<rect x="240.6" y="76.2" class="st0" width="309.4" height="98.3"/>
 	</g>
 	<g>
-		<rect x="240.6" y="173.8" class="st1" width="309.6" height="50.5"/>
-	</g>
-	<g>
 		<g>
-			<line class="st2" x1="53.8" y1="174.1" x2="576.6" y2="174.1"/>
+			<line class="st3" x1="53.8" y1="174.1" x2="576.6" y2="174.1"/>
 		</g>
-	</g>
-	<g>
-		<rect x="241.6" y="225.8" class="st3" width="277.4" height="211.2"/>
-	</g>
-	<g>
-		<rect x="521" y="225.8" class="st1" width="28.4" height="211.2"/>
 	</g>
 </g>
 <g id="texts">
 	<text transform="matrix(1 0 0 1 77.6006 117.0972)" class="st4 st5">JavaScript</text>
 	<text transform="matrix(1 0 0 1 279.2673 135.7638)" class="st4 st5">Node standard library</text>
-	<text transform="matrix(1 0 0 1 311.6006 208.0972)" class="st4 st5">Node bindings</text>
-	<text transform="matrix(1 0 0 1 362.9339 335.4305)" class="st4 st5">V8</text>
-	<text transform="matrix(6.123234e-17 -1 1 6.123234e-17 545.1533 351.3887)" class="st4 st5">libuv</text>
+	<text transform="matrix(1 0 0 1 311.6006 247.0972)" class="st4 st5">Node bindings</text>
+	<text transform="matrix(1 0 0 1 362.9339 353.4305)" class="st4 st5">V8</text>
+	<text transform="matrix(6.123234e-17 -1 1 6.123234e-17 545.1533 390.3887)" class="st4 st5">libuv</text>
 	<text transform="matrix(1 0 0 1 92.2673 236.4305)" class="st4 st5">C / C++</text>
 </g>
 </svg>
