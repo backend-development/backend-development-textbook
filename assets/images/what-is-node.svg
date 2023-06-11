@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 24.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 640 480" style="enable-background:new 0 0 640 480;" xml:space="preserve">
+	 viewBox="0 0 1007.1 480" style="enable-background:new 0 0 1007.1 480;" xml:space="preserve">
 <style type="text/css">
 	.st0{fill:#EAEA7D;}
 	.st1{fill:#0F9FD1;}
@@ -9,32 +9,37 @@
 	.st3{fill:none;stroke:#000000;stroke-miterlimit:10;stroke-dasharray:12.0179,12.0179;}
 	.st4{font-family:'ArialMT';}
 	.st5{font-size:26px;}
+	.st6{fill:none; stroke:#000000;stroke-miterlimit:10;}
+	.st7{fill:#FFFFFF;stroke:#FFFFFF;stroke-miterlimit:10;}
 </style>
 <g id="boxes">
 	<g>
-		<rect x="240.6" y="173.8" class="st0" width="309.6" height="128.2"/>
+		<rect x="409.5" y="173.8" class="st0" width="309.6" height="128.2"/>
 	</g>
 	<g>
-		<rect x="241.6" y="306" class="st1" width="274.4" height="131"/>
+		<rect x="410.5" y="306" class="st1" width="274.4" height="131"/>
 	</g>
 	<g>
-		<rect x="521" y="306" class="st2" width="28.4" height="131"/>
+		<rect x="689.9" y="306" class="st2" width="28.4" height="131"/>
 	</g>
 	<g>
-		<rect x="240.6" y="76.2" class="st0" width="309.4" height="98.3"/>
+		<rect x="409.5" y="76.2" class="st0" width="309.4" height="98.3"/>
 	</g>
 	<g>
 		<g>
-			<line class="st3" x1="53.8" y1="174.1" x2="576.6" y2="174.1"/>
+			<line class="st3" x1="222.7" y1="174.1" x2="745.5" y2="174.1"/>
 		</g>
 	</g>
 </g>
 <g id="texts">
-	<text transform="matrix(1 0 0 1 77.6006 117.0972)" class="st4 st5">JavaScript</text>
-	<text transform="matrix(1 0 0 1 279.2673 135.7638)" class="st4 st5">Node standard library</text>
-	<text transform="matrix(1 0 0 1 311.6006 247.0972)" class="st4 st5">Node bindings</text>
-	<text transform="matrix(1 0 0 1 362.9339 353.4305)" class="st4 st5">V8</text>
-	<text transform="matrix(6.123234e-17 -1 1 6.123234e-17 545.1533 390.3887)" class="st4 st5">libuv</text>
-	<text transform="matrix(1 0 0 1 92.2673 236.4305)" class="st4 st5">C / C++</text>
+	<text transform="matrix(1 0 0 1 246.5444 117.0972)" class="st4 st5">JavaScript</text>
+	<text transform="matrix(1 0 0 1 448.2111 135.7638)" class="st4 st5">Node standard library</text>
+	<text transform="matrix(1 0 0 1 480.5443 247.0972)" class="st4 st5">Node bindings</text>
+	<text transform="matrix(1 0 0 1 531.8777 353.4305)" class="st4 st5">V8</text>
+	<text transform="matrix(6.123234e-17 -1 1 6.123234e-17 714.0971 390.3887)" class="st4 st5">libuv</text>
+	<text transform="matrix(1 0 0 1 261.2111 236.4305)" class="st4 st5">C / C++</text>
+	<text transform="matrix(1 0 0 1 771.5433 184.0969)" class="st4 st5">node.js</text>
 </g>
+<polyline class="st6" points="733,78.9 753,101.9 751.5,270.8 731.5,293.9 "/>
+<path class="st7" d="M878.9,187.9"/>
 </svg>

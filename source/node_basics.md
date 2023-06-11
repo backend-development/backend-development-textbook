@@ -24,18 +24,19 @@ To this he added a library written in Javascript.
 In 2010 npm was added as a package manager for
 Javascript Libraries.
 
+
+## How big is node.js?
+
+
 ![](images/what-is-node.svg)
 
 In 2023, according to [openhub](https://www.openhub.net/p/node/analyses/latest/languages_summary)
 the node projects consist of:
 
+- the node library: 1,6 millions lines of Javascript code
+- node bindings: 2,5 millions lines of C code
 - v8: 2,3 millions lines of code written in c++
 - libuv: 100.000 lines of C code
-- node bindings: 2,5 millions lines of C code
-- the node library: 1,6 millions lines of Javascript code
-
-So v8 is the biggest part of node:
-
 
 
 ## Hello World
@@ -77,7 +78,13 @@ $ nvm use stable
 Now using node v20.2.0 (npm v9.6.6
 ```
 
+An alternative would be to use [rtx](https://github.com/jdxcode/rtx), which
+can also handle other languages like ruby, php, python.
+
+
 ## Hello Web
+
+To create a very simple Webserver we can use the package `http`:
 
 ```
 import * as http from 'http';
@@ -104,9 +111,10 @@ Server running at http://127.0.0.1:3000/
 ## Packages
 
 Node had it's own package system called CommonJS, using the keyword `require`.
-Since node 13 you can also use  ECMAScript modules with the keyword `import`.
+Since node 13 you can also use ECMAScript modules with the keyword `import`.
 
-Use the type field in `package.json` to switch to ECMAScript modules:
+Use the type field in `package.json` to switch to ECMAScript modules,
+or use extension `.cjs` for CommonJS and `.mjs` for modules.
 
 ```
 // package.json
@@ -153,7 +161,7 @@ If this code runs in the browser, the output on the console will be:
 3. blix
 4. bar
 
-## Processing Model
+## A different Processing Model
 
 PHP and Ruby on Rails have the same basic processing model. It is either
 implemented with threads or with processes.
