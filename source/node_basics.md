@@ -161,7 +161,7 @@ If this code runs in the browser, the output on the console will be:
 3. blix
 4. bar
 
-## A different Processing Model
+## Classic Processing Model
 
 PHP and Ruby on Rails have the same basic processing model. It is either
 implemented with threads or with processes.
@@ -183,10 +183,7 @@ Currently 56 requests are being processed, 8 worker processes are
 idle, and there are a lot of additional slots for additional worker
 processes.
 
-If your server runs into trouble you can use the `server_status`
-for debugging.
-
-§
+### Syncronous Processing
 
 Using syncronous I/O the program code will look something like this:
 
@@ -203,12 +200,17 @@ in the web server configuration, e.g.
 - when running PHP with apache and PHP-FPM with the configuration directives `pm.max_children`, ```pm.start_servers`,`pm.min_spare_servers`,`pm.max_spare_servers`, see [php.net](https://secure.php.net/manual/de/install.fpm.configuration.php)
 - when running Rails with Passenger with the configuration directives `PassengerMinInstances` und `PassengerMaxPoolSize`, see [phusionpassenger.com](https://www.phusionpassenger.com/library/config/apache/optimization/)
 
+## Node.js processing model
+
 Node has a completely different model:
 
 - there is one thread running the javascript event loop
 - if the thread is free, it picks up the next event from the event queue. this might be a new http request
 - all I/O is done asynchronosly: the main thread hands off the request to the database to a new, separate thread from a thread pool. When the request is done, and the data is available, this is added as a new event to the event queue
 - after starting an asynchronos thread, the main thread immediately contious working
+
+
+### Asyncronous with callbacks
 
 Doing asyncronous I/O is implemented using callbacks in Javascript, and will look
 something like this:
@@ -231,6 +233,9 @@ the event queue. Much later, when the data from the file has been
 loaded, it will find the callback funktion on the event queue, and
 finally reach `third`.
 
+### Asyncronous with async await
+
+
 Node also offers the use of promises or async await:
 
 ```javascript
@@ -244,7 +249,7 @@ the event queue. Much later, when the data from the file has been
 loaded, the program will continue with assigning the data to the constant `contents`.
 
 
-## Example Code
+### Complex Example
 
 ![](images/node-example-code.png)
 
@@ -282,6 +287,8 @@ const server = http.createServer(async (req, res) => {
   res.end('Hello Web: ' + contents);
 });
 ```
+
+### Using Streams
 
 Better: connect a stream reading the file to the stream
 that is the HTTP response:
