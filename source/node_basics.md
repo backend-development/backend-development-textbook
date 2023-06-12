@@ -25,7 +25,7 @@ In 2010 npm was added as a package manager for
 Javascript Libraries.
 
 
-## How big is node.js?
+### How big is node.js?
 
 
 ![](images/what-is-node.svg)
@@ -39,34 +39,7 @@ the node projects consist of:
 - libuv: 100.000 lines of C code
 
 
-## Hello World
-
-You write your program in Javascript:
-
-```javascript
-console.log("Hello World");
-```
-
-and run it with the `node` command:
-
-```shell
-$ node hello.js
-Hello World
-```
-
-You can also use node interactively:
-
-```shell
-$ node
-> console.log("Hello World");
-Hello World
-undefined
-> 1+2
-3
-> [CTRL]-[D]
-```
-
-## Node Version Manager
+### Node Version Manager
 
 Node Versions change fast. The node version manager (nvm) makes
 it easy to switch between versions:
@@ -82,7 +55,34 @@ An alternative would be to use [rtx](https://github.com/jdxcode/rtx), which
 can also handle other languages like ruby, php, python.
 
 
-## Hello Web
+### Hello Node
+
+You write your program in Javascript:
+
+```javascript
+console.log("Hello Node");
+```
+
+and run it with the `node` command:
+
+```shell
+$ node hello.js
+Hello Node
+```
+
+You can also use node interactively:
+
+```shell
+$ node
+> console.log("Hello Node");
+Hello Node
+undefined
+> 1+2
+3
+> [CTRL]-[D]
+```
+
+### Hello Web
 
 To create a very simple Webserver we can use the package `http`:
 
@@ -133,6 +133,8 @@ import * as config from './config/index.js`;
 
 `npm` was the first package manager for node.js.  Today
 there are many alternatives, from `yarn` to `pnpm`.
+
+
 
 ## The javascript Event Loop
 
@@ -251,11 +253,13 @@ loaded, the program will continue with assigning the data to the constant `conte
 
 ### Complex Example
 
-![](images/node-example-code.png)
+![](images/node-example-code@2x.png)
+
+[source](https://gitlab.mediacube.at/-/snippets/66)
 
 ![](images/node-example-diagram.png)
 
-## IO-bound vs. CPU-bound
+### IO-bound vs. CPU-bound
 
 Describes two kinds of performance bottlenecks
 

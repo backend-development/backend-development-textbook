@@ -85,4 +85,4 @@ task :test do
   exit 1 if counter < templates.size
 end
 
-task default: "guides:help"
+task default: "guides:generate"
