@@ -283,12 +283,11 @@ you can send it:
 
 ```javascript
 import { readFile } from 'node:fs/promises';
-const server = http.createServer(async (req, res) => {
-  const filePath = 'package.json';
-  const contents = await readFile(filePath, { encoding: 'utf8' });
+router.get('/all', function(req, res, next) {
+  const contents = await readFile(path.join(__dirname, '../giant.html'), { encoding: 'utf8' });
   res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello Web: ' + contents);
+  res.setHeader('Content-Type', 'text/html');
+  res.end(contents);
 });
 ```
 
@@ -299,17 +298,22 @@ that is the HTTP response:
 
 ```javascript
 import { createReadStream } from 'node:fs';
-const server = http.createServer(function(req, res) {
-    const filePath = 'package.json';
-    var readStream = createReadStream(filePath);
-    res.setHeader('Content-Type', 'application/json');
-    readStream.pipe(res);
-})
+router.get('/stream', function(req, res, next) {
+  let readStream = fs.createReadStream(path.join(__dirname, '../giant.html'));
+  res.setHeader('Content-Type', 'text/html');
+  readStream.pipe(res);
+});
 ```
 
-`.pipe()` takes care of listening for 'data' and 'end' events from the fs.createReadStream(). This code is not only cleaner, but now the data.txt file will be written to clients one chunk at a time immediately as they are received from the disk.
+`.pipe()` takes care of listening for 'data' and 'end' events from the fs.createReadStream().
+This code is not only cleaner, but now the giant.html file will be written to clients one chunk
+at a time immediately as they are received from the disk.
 
-Using `.pipe()` has other benefits too, like handling backpressure automatically so that node won't buffer chunks into memory needlessly when the remote client is on a really slow or high-latency connection.
+Using `.pipe()` has other benefits too, like handling backpressure automatically
+so that node won't buffer chunks into memory needlessly when the remote
+client is on a really slow or high-latency connection.
+
+You can also stream [data from the database](https://github.com/brianc/node-postgres/tree/master/packages/pg-query-stream#pg-query-stream).
 
 ## See Also
 
