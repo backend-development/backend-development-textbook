@@ -211,6 +211,10 @@ Node has a completely different model:
 - all I/O is done asynchronosly: the main thread hands off the request to the database to a new, separate thread from a thread pool. When the request is done, and the data is available, this is added as a new event to the event queue
 - after starting an asynchronos thread, the main thread immediately contious working
 
+![node.js event loop](images/nodejs-eventloop.jpg)
+
+(diagram by [@RichOnTheWeb](https://twitter.com/RichOnTheWeb/status/494959181871316992))
+
 
 ### Asyncronous with callbacks
 
