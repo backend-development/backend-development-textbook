@@ -79,3 +79,8 @@
     - name: Scaling Node
       url: node_cluster.html
       description: how to scale node up with cluster.js
+- name: Next.js
+  documents:
+    - name: Next.js
+      url: nextjs.html
+      description: A Framework for React, including Backend Concerns
