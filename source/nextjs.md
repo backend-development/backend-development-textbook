@@ -39,6 +39,29 @@ combining nextjs with
 * [apollo](https://www.apollographql.com/blog/apollo-client/next-js/how-to-use-apollo-client-with-next-js-13/), which offers graphql
 * [prisma](https://www.prisma.io/nextjs), a ORM for typescript or javascript
 
+
+## next.js routing
+
+From `next.js` 13 onwards the routes are created in the `app/` directory.
+`page.js` is the default (like index.html used to be), folders and
+filenames can contain parameters in brackets:
+
+```
+app/page.js          -->   /
+app/otherpage.js     -->   /otherpage
+app/users/page.js    -->   /users/
+app/users/[:id].js   -->   /users/42/
+```
+
+There are special files:
+
+
+* `layout.js` for [nested layouts](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#nesting-layouts)
+* `error.js`  for [error handling](https://nextjs.org/docs/app/building-your-application/routing/error-handling) with error boundaries
+
+![](images/nested-layouts-ui.png)
+
+
 ## next.js as a Static Site Generator
 
 You can use `next.js` like `jekyll`, `eleventy` or `gatsby` as a [static
@@ -50,6 +73,56 @@ This is the classic [Jamstack](https://jamstack.org/) (where JAM stands for Java
 
 See [Static Site Generation (SSG)](https://nextjs.org/docs/pages/building-your-application/rendering/static-site-generation)
 
+
+* create a nextjs app
+* in next.config.js change the value for `output` to `export`
+* `npm run build`
+* find the static files in folder `out/`
+
+You can use this for example on gitlab pages with the following configuration:
+
+```
+image: node
+
+before_script:
+  - npm install
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+    - .next/cache/
+
+pages:
+  script:
+    - npm run build
+  artifacts:
+    paths:
+      - out
+  only:
+    - main
+```
+
+## next.js for API endpoints
+
+Use files called `route.js` as [route handlers](https://nextjs.org/docs/app/building-your-application/routing/router-handlers) to implement the endpoints.
+
+```js
+// file /app/greeting/route.js
+
+import { NextResponse } from 'next/server'
+
+export async function GET() {
+  return NextResponse.json({ "hello": "world" })
+}
+```
+
+
+## React Server Components
+
+[How Server Components Work](https://www.plasmic.app/blog/how-react-server-components-work)
+
+![](images/react-server-components.png)
 
 ## See Also
 
