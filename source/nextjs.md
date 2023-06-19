@@ -82,12 +82,16 @@ See [Static Site Generation (SSG)](https://nextjs.org/docs/pages/building-your-a
 ### next.config.js for static site generation
 
 We must set `output` to `export` to enable static site generations.
+
+For most Webserver for static pages we need to set `trailingSlash` to `true`.
+
 If the site will be hosted in a subfolder, for example at http://bjelline.pages.mediacube.at/statixnextjs/
 we must configure this as the basepath:
 
 ```
 const nextConfig = {
   output: 'export',
+  trailingSlash: true,
   basePath: '/foldername',
 }
 ```
