@@ -75,11 +75,33 @@ See [Static Site Generation (SSG)](https://nextjs.org/docs/pages/building-your-a
 
 
 * create a nextjs app
-* in next.config.js change the value for `output` to `export`
+* in next.config.js add one or two values (see below)
 * `npm run build`
 * find the static files in folder `out/`
 
-You can use this for example on gitlab pages with the following configuration:
+### next.config.js for static site generation
+
+We must set `output` to `export` to enable static site generations.
+If the site will be hosted in a subfolder, for example at http://bjelline.pages.mediacube.at/statixnextjs/
+we must configure this as the basepath:
+
+```
+const nextConfig = {
+  output: 'export',
+  basePath: '/foldername',
+}
+```
+
+
+
+
+### using github or gitlab pages
+
+You can host your static files gitlab pages with the following configuration:
+gitlab CI is used to build the pages, and the resulting folder `out` is declared
+as an artifact.  Gitlab will pick up this artifact and serve it through its
+pages webserver.
+
 
 ```
 image: node
@@ -96,9 +118,11 @@ cache:
 pages:
   script:
     - npm run build
+    - mv public old_republic
+    - mv out public
   artifacts:
     paths:
-      - out
+      - public
   only:
     - main
 ```
