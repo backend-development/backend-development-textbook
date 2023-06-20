@@ -97,8 +97,6 @@ const nextConfig = {
 ```
 
 
-
-
 ### using github or gitlab pages
 
 You can host your static files gitlab pages with the following configuration:
@@ -145,17 +143,107 @@ export async function GET() {
 }
 ```
 
+## Server Side Rendering (SSR)
+
+With server side rendering, a HTML document is shipped to the browser.
+Then the browser loads the necessary JavaScript, and
+[hydrates](https://react.dev/reference/react-dom/hydrate#hydrating-server-rendered-html) the HTML
+into a client side React App.
+
+
+
 
 ## React Server Components
 
-[How Server Components Work](https://www.plasmic.app/blog/how-react-server-components-work)
+The react render tree is composed from server and client components.  In next.js 13 all components
+are server components by default.  You have to add `"use client";` on top of a component to turn
+it into a client component.
+
 
 ![](images/react-server-components.png)
+
+### How to use RSC
+
+Simple rules for client and server components:
+
+* Use `.server.js` and `.client.js` as filename extensions.
+* Server Components can contain client components.
+* Client Components cannot contain server components.
+* Server Components can instantiate both client and server components, and pass in a Server Component as the children prop to a ClientComponent.
+* Server Components cannot pass functions as props to its descendents, only data.
+
+
+### Server Components can contain client components:
+
+```js
+// this is server_component.server.js
+import ClientComponent from './ClientComponent.client'
+export default function ServerComponent() {
+  return (
+    <>
+      <ClientComponent />
+    </>
+  )
+}
+```
+
+### Client Components cannot contain server components:
+
+
+```js
+// this is client_component.client.js
+// ERROR !!!!
+import ServerComponent from './ServerComponent.server'
+export default function ClientComponent() {
+  return (
+    <div>
+      <ServerComponent />
+    </div>
+  )
+}
+```
+
+### You can pass in Server Components to a ClientComponent
+
+```js
+// this is outer_server_component.server.js
+import ClientComponent from './ClientComponent.client'
+import ServerComponent from './ServerComponent.server'
+export default function OuterServerComponent() {
+  return (
+    <ClientComponent>
+      <ServerComponent />
+    </ClientComponent>
+  )
+}
+```
+
+### Server Comopnents cannot pass functions to its descendents
+
+
+Because props are serialized into JSON, and functions cannot be serialized into JSON,
+Server Components cannot pass functions as props to its descendents.
+
+
+```js
+// ERROR !!!!
+function SomeServerComponent() {
+  return <button onClick={() => alert('OHHAI')}>Click me!</button>
+}
+// ERROR !!!!
+```
+
+
+### How RSC Works
+
+its complicated
+
+[RSC Components from Scratch](https://github.com/reactwg/server-components/discussions/5)
+
+[How Server Components Work](https://www.plasmic.app/blog/how-react-server-components-work)
+
 
 ## See Also
 
 - [Next.js Documentation](https://nextjs.org/docs)
-- [nexttick](https://nodejs.org/en/docs/guides/event-loop-timers-and-nexttick/)
-- [Event Loop Implementation](https://stackoverflow.com/questions/19822668/what-exactly-is-a-node-js-event-loop-tick)
-- [set the event pool size process.env.UV_THREADPOOL_SIZE](http://docs.libuv.org/en/v1.x/threadpool.html)
-- [V8 needs 4 threads](https://github.com/nodejs/node/blob/278a9267ec41f37e6b7dda876c417945d7725973/src/node.cc#L3964-L3965)
+- [Next.js Newsletter](https://nextjsweekly.com/)
