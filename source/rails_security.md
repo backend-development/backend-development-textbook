@@ -1,29 +1,88 @@
-# Security
+# Rails Security
 
 This guide will give you an introduction
-to some security aspects of backend and fullstack frameworks
+to the security features included in Ruby on Rails,
+how to use them, and how to mess up in spite of all the
+help the framework is giving you.
 
+By referring to this guide, you will be able to:
+
+- Use rails's security features
+- Appreciate how hard security is
+
+REPO: You can fork the [code of the example app](https://github.com/backend-development/rails-example-security). This app is full of security holes. While reading this guide you can
+work on the app and fix those problems one by one.
 
 ---
 
 
+
 ## Where to learn about security
 
-* To get a first impression learn about the [OWASP Top 10](https://owasp.org/www-project-top-ten/).
-* For a real world project, follow the [OWASP Application Security Verification Standard 4.0.2](https://github.com/OWASP/ASVS/blob/master/4.0/OWASP%20Application%20Security%20Verification%20Standard%204.0.2-de.pdf).
-* For configuring your web server follow [mozillas web security guidelines](https://infosec.mozilla.org/guidelines/web_security.html)
+For a real world project, follow the [OWASP Application Security Verification Standard 4.0.2](https://github.com/OWASP/ASVS/blob/master/4.0/OWASP%20Application%20Security%20Verification%20Standard%204.0.2-de.pdf).
 
+To get a first impression learn about the [OWASP Top 10](https://owasp.org/www-project-top-ten/).
+
+For configuring your web server follow [mozillas web security guidelines](https://infosec.mozilla.org/guidelines/web_security.html)
+
+
+## What a framework can't do for you
+
+Later on this Guide will follow the OWASP Top 10 to discuss
+security features of Ruby on Rails. But first a word of warning:
+
+Rails offers a lot of security features. But all those clever features
+**cannot save you from yourself**.
+
+In the example below, all the passwords
+are displayed on "/users". If you as a programmer decide to do that, no framework can prevent it!
+
+![](images/security-password-shown.png)
+
+## Regression Tests for Security Problems
+
+Let's use this as an example of how to fix a security problem
+once you've found it: First we write a test for the problem: `rails g integration_test security`
+
+```ruby
+require 'test_helper'
+
+class SecurityTest < ActionDispatch::IntegrationTest
+  fixtures :users
+
+  test 'users are listed publicly' do
+    get '/users'
+    assert_response :success
+    assert_select 'td', text: users(:one).email
+
+  end
+
+  test 'users password is not shown publicly' do
+    get '/users'
+    assert_response :success
+    assert_select 'td', text: users(:one).password, count: 0
+  end
+end
+```
+
+§
+
+When we run this test it fails, because right now passwords are displayed:
+
+![](images/security-password-test-fails.png)
+
+Now we change the view to not display the passwords any more. We can
+run the test to make sure we succeeded.
+
+§
+
+But to be fair: in this example a lot more has gone wrong than
+displaying the passwords: storing the passwords in plain text in the
+database was the first mistake!
 
 ## Injection
 
 > Injection flaws, such as SQL, NoSQL, OS, and LDAP injection, occur when untrusted data is sent to an interpreter as part of a command or query. The attacker's hostile data can trick the interpreter into executing unintended commands or accessing data without proper authorization. [OWASP Wiki](https://www.owasp.org/index.php/Top_10-2017_A1-Injection)
-
-If you use your ORM correctly you should be save. But make sure to find out
-what you ORM does or does not do!
-
-
-
-
 
 ### SQL Injection and ActiveRecord
 
@@ -67,6 +126,23 @@ As you can see the SQL Fragment was incorporated into the SQL query before
 the string was handed to ActiveRecord. The resulting query returns all records from the projects table.
 This is because the condition is true for all records.
 
+§
+
+To test for SQL Injection you can also use an integration test.
+Check if the result-table has the right number of rows.
+
+```
+  test "should search for users - result table shows 1 row" do
+    ...
+    assert_select 'table tbody tr', count: 1
+  end
+
+  test "should not allow sql injections - result table has not rows" do
+    ...
+  end
+```
+
+
 
 ### Links
 
@@ -82,15 +158,7 @@ Broken Authentication
 
 > Application functions related to authentication and session management are often implemented incorrectly, allowing attackers to compromise passwords, keys, or session tokens, or to exploit other implementation flaws to assume other users' identities temporarily or permanently. [OWASP Wiki](https://owasp.org/www-project-top-ten/2017/A2_2017-Broken_Authentication)
 
-
-You should check if your backend framework has the following features,
-or if you need to add them through packages.
-
-* passwords:
-  * support for strong password hashing
-  * support for rejecting known passwords (through [haveibeenpwned API](https://haveibeenpwned.com/API/v3))
-
-### Authentication in Rails
+§
 
 Rails comes with basic built in functionality to handle authentication:
 
@@ -127,10 +195,8 @@ end
 
 [Blog article on pwned gem](https://www.twilio.com/blog/2018/03/better-passwords-in-ruby-applications-pwned-passwords-api.html)
 
-### Testing
 
-When implementing these features you can write integration tests to make
-sure they actually work.
+Friendly reminder: this is how you test if a user can be created:
 
 ```
   test "can create user with password ljkw8723kjasf889r" do
@@ -162,14 +228,6 @@ Sensitive Data Exposure
 §
 
 The OWASP advises: Determine the protection needs of data **in transit** and **at rest**. For example, passwords, credit card numbers, health records, personal information and business secrets require extra protection, particularly if that data falls under privacy laws, e.g. EU's General Data Protection Regulation (GDPR), or regulations, e.g. financial data protection such as PCI Data Security Standard (PCI DSS).
-
-
-You should check if your backend framework has the following features,
-or if you need to add them through packages.
-
-* Encryption in the Database
-* keeping sensitive data from being logged
-* ensuring that https is used
 
 
 ### Encryption in the Database
@@ -226,19 +284,13 @@ Broken Access Control
 
 > Restrictions on what authenticated users are allowed to do are often not properly enforced. Attackers can exploit these flaws to access unauthorized functionality and/or data, such as access other users' accounts, view sensitive files, modify other users' data, change access rights, etc. [OWASP Wiki](https://www.owasp.org/index.php/Top_10-2017_A5-Broken_Access_Control)
 
-
-As a programmer you need to
-
-* remove unused routes
-* check user roles and permissions in every route/controller/server component before data access
-* use UUIDs instead of integers in URLs to avoid enumeration attacks
-* set CORS to restrict access to your API
+Use all lines of defence on the server to restrict access:
 
 ### remove unused routes
 
 [rails_best_practices: Restrict auto-generated routes](https://rails-bestpractices.com/posts/2011/08/19/restrict-auto-generated-routes/)
 
-### check user roles and permissions in every controller
+### check user roles and premissions in every controller
 
 The simplest way is to use `current_user` to control access to models.
 Instead of simply loading data:
@@ -407,8 +459,7 @@ while using the full api is only allowed for three specific domains.
 - [MDN: CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)
 - [rack-cors](https://github.com/cyu/rack-cors)
 
-Security Misconfiguration
----
+## Security Misconfiguration
 
 > Security misconfiguration is a result of insecure default configurations, incomplete or ad hoc configurations, open cloud storage, misconfigured HTTP headers, and verbose error messages containing sensitive information. Not only must all operating systems, frameworks, libraries, and applications be securely configured, but they must be patched/upgraded in a timely fashion. [OWASP Wiki](https://www.owasp.org/index.php/Top_10-2017_A6-Security_Misconfiguration)
 
@@ -416,13 +467,7 @@ This is especially relevant if you are running your own virtual machine:
 
 - upgrade the operating system, apply security patches
 - remove unused components, e.g. a wordpress installation you no longer need
-- upgrade the interpreater after security problems are fixed, see [ruby](https://www.ruby-lang.org/en/news/), [node.js](https://nodejs.org/en/blog)
-
-You should check if your backend framework has the following features,
-or if you need to add them through packages:
-
-- use of Environment Variables for passwords, api keys, etc.
-- Storing Secrets in an encrypted file
+- upgrade ruby after [security problems are fixed](https://www.ruby-lang.org/en/news/)
 
 ### Use Environment Variables
 
@@ -488,56 +533,13 @@ Rails.application.credentials.some_api_key!
 # => raises KeyError: :some_api_key is blank
 ```
 
-Cross-Site Scripting (XSS)
-----
+## Cross-Site Scripting (XSS)
 
 > XSS flaws occur whenever an application includes untrusted data in a new web page without proper validation or escaping, or updates an existing web page with user-supplied data using a browser API that can create HTML or JavaScript. XSS allows attackers to execute scripts in the victim's browser which can hijack user sessions, deface web sites, or redirect the user to malicious sites. [OWASP Wiki](<https://www.owasp.org/index.php/Top_10-2017_A7-Cross-Site_Scripting_(XSS)>)
 
-You already know about escaping data when using it in HTML.
+### Use a Content Security Policy (CSP)
 
-Your view layer probably does this automatically:
-
-The modern solution to XSS ist a [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)(CSP)
-
-It is either defined with the HTTP Header `Content-Security-Policy` or through
-the `meta` tag.
-
-```html
-<meta
-  http-equiv="Content-Security-Policy"
-  content="default-src 'self'" />
-```
-
-### What a Content Security Policy can do
-
-The post basic policy would be
-
-```
-default-src 'self'
-```
-
-This policy will ensure that
-
-1. all content to come from the site's own origin
-2. inline javascript with `<script>` and `onevent` attributes cannot be used
-3. dynamic code evaluation such as `eval`, `setImmediate` and `window.execScript` cannot be used
-
-The first point is explicitly set by the directive. Point 2 and 3 are always in effect
-when using CSP. You can explicitly allow `unsave-inline` and `unsave-eval`, if you want to
-disable 2 and 3.
-
-
-### configuring Policy for different resources
-
-* style-src
-* script-scr
-* img-src
-* font-src
-
-
-### Content Security Policy in Rails
-
-
+The modern solution to XSS ist a [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)(CSP).
 In Rails you can configure the Content Security Policy
 for your application in an initializer.
 
@@ -629,10 +631,13 @@ See [brakeman](https://brakemanscanner.org/docs/warning_types/cross_site_scripti
 When building a JSON API use `jbuilder` or `active_model_serializers` as described in [chapter APIs](/apis.html#rendering-json).
 
 
+## Insecure Deserialization
 
+> Insecure deserialization often leads to remote code execution. Even if deserialization flaws do not result in remote code execution, they can be used to perform attacks, including replay attacks, injection attacks, and privilege escalation attacks. [OWASP Wiki](https://www.owasp.org/index.php/Top_10-2017_A8-Insecure_Deserialization)
 
-Using Components with Known Vulnerabilities
-----
+Brakeman will warn about [Unsafe Deserialization](https://brakemanscanner.org/docs/warning_types/unsafe_deserialization/index.html)
+
+## Using Components with Known Vulnerabilities
 
 > Components, such as libraries, frameworks, and other software modules, run with the same privileges as the application. If a vulnerable component is exploited, such an attack can facilitate serious data loss or server takeover. Applications and APIs using components with known vulnerabilities may undermine application defenses and enable various attacks and impacts. [OWASP Wiki](https://www.owasp.org/index.php/Top_10-2017_A9-Using_Components_with_Known_Vulnerabilities)
 
@@ -646,6 +651,8 @@ There are several tools that check for vulnerabilities in dependencies:
 - [snyk](https://snyk.io/) works for ruby and javascript (and more languages).
 
 Use `bundle update --conservative gem_name` to safely update vulnerable dependencies.
+
+
 
 When using script-tags to include javascript (e.g. bootstrap, react) from a cdn
 use Subresource Integrity checks. This way, if a hacker manages to change
@@ -665,20 +672,13 @@ This way no user credentials will every be sent to `code.jquery.com`).
 - MDN: [Subresource Integrity - SRI](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity)
 
 
-Cross Site Request Forgery (CSRF)
-----
+## Cross Site Request Forgery (CSRF)
 
 This security problem used to be No 8 on the list, but was no longer listed in the 2017.
 
 > A CSRF attack forces a logged-on victim’s browser to send a forged HTTP request, including the victim’s session cookie and any other automatically included authentication information, to a vulnerable web application. This allows the attacker to force the victim’s browser to generate requests the vulnerable application thinks are legitimate requests from the victim. [OWASP](https://owasp.org/www-community/attacks/csrf)
 
-First use GET and POST appropriately. Secondly, a security token in non-GET requests will protect your application from CSRF.
-
-
-
-### CSRF and Rails
-
-Rails can handle this for you
+First use GET and POST appropriately. Secondly, a security token in non-GET requests will protect your application from CSRF. Rails can handle this for you:
 
 To protect against all other forged requests, we introduce a _required security token_ that our site knows but other sites don't know. We include the security token in requests and verify it on the server. This is a one-liner in your application controller, and is the default for newly created Rails applications:
 

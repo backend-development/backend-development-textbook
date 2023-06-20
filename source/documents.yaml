@@ -45,11 +45,14 @@
     - name: Refactoring Rails
       url: refactoring_rails.html
       description: How to improve your code in a systematic way.
+    - name: Rails Security
+      url: rails_security.html
+      description: How Rails framework helps with web security
 - name: Overarching Concerns
   documents:
     - name: Security
       url: security.html
-      description: How a backend framework helps with web security
+      description: Some Security Aspects of using Rails, Node and Next.js
     - name: Advanced Authentication
       url: adv_authentication.html
       description: Different Scenarios demand different authentication methods - Web Auth, OAuth, JWT,...
