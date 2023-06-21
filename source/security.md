@@ -495,9 +495,66 @@ Cross-Site Scripting (XSS)
 
 You already know about escaping data when using it in HTML.
 
-Your view layer probably does this automatically:
+Your view layer probably does this automatically
 
 The modern solution to XSS ist a [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)(CSP)
+
+
+### Escape for the correct context in Ruby on Rails
+
+erb automatically escapes for HTML:
+
+```ruby
+<%= @article.title %>
+```
+
+This escaping is not apporpriate for attributes:
+
+```ruby
+<!-- DANGER, do not use this code -->
+<p class=<%= params[:style] %> >...</p>
+<!-- DANGER, do not use this code -->
+```
+
+An attacker could insert a space into the style parameter like so: `x%22onmouseover=alert('hacked')`
+resulting in the following html
+
+```html
+<!-- DANGER, do not use this code -->
+<p class=x onmouseover=alert('hacked') >...</p>
+<!-- DANGER, do not use this code -->
+```
+
+To construct HTML Attributes that are properly escaped
+it is easiest to use view helpers like `tag` and `content_tag`:
+
+```ruby
+<%= content_tag :p, "...", class: params[:style]  %>
+```
+
+When transferring data from the backend to the frontend
+through JSON you need to use `json_encode` with the additional
+option
+
+```ruby
+<script>
+  const attributes = <%= raw json_encode(@attrs, escape_html_entities_in_json = true) %>
+</script>
+```
+
+See [brakeman](https://brakemanscanner.org/docs/warning_types/cross_site_scripting_to_json/) for the rationale.
+
+When building a JSON API use `jbuilder` or `active_model_serializers` as described in [chapter APIs](/apis.html#rendering-json).
+
+### Escape for the correct context in React
+
+JSX automatically escapes for html:
+
+If you want to output a string that should be interpreted as HTML you need to use
+[dangerouslySetInnerHTML](https://react.dev/reference/react-dom/components/common#common-props)
+
+
+### Content Security Policy
 
 It is either defined with the HTTP Header `Content-Security-Policy` or through
 the `meta` tag.
@@ -508,7 +565,6 @@ the `meta` tag.
   content="default-src 'self'" />
 ```
 
-### What a Content Security Policy can do
 
 The post basic policy would be
 
@@ -581,55 +637,6 @@ see [the Rails Security Guide](https://guides.rubyonrails.org/security.html#addi
 
 If you want to handle violation reports, you need to set up a model, controller and route [as described here](https://bauland42.com/ruby-on-rails-content-security-policy-csp/#cspviolationreports).
 
-### Escape for the correct context:
-
-erb automatically escapes for HTML:
-
-```ruby
-<%= @article.title %>
-```
-
-This escaping is not apporpriate for attributes:
-
-```ruby
-<!-- DANGER, do not use this code -->
-<p class=<%= params[:style] %> >...</p>
-<!-- DANGER, do not use this code -->
-```
-
-An attacker could insert a space into the style parameter like so: `x%22onmouseover=alert('hacked')`
-resulting in the following html
-
-```html
-<!-- DANGER, do not use this code -->
-<p class=x onmouseover=alert('hacked') >...</p>
-<!-- DANGER, do not use this code -->
-```
-
-To construct HTML Attributes that are properly escaped
-it is easiest to use view helpers like `tag` and `content_tag`:
-
-```ruby
-<%= content_tag :p, "...", class: params[:style]  %>
-```
-
-When transferring data from the backend to the frontend
-through JSON you need to use `json_encode` with the additional
-option
-
-```ruby
-<script>
-  const attributes = <%= raw json_encode(@attrs, escape_html_entities_in_json = true) %>
-</script>
-```
-
-See [brakeman](https://brakemanscanner.org/docs/warning_types/cross_site_scripting_to_json/) for the rationale.
-
-
-When building a JSON API use `jbuilder` or `active_model_serializers` as described in [chapter APIs](/apis.html#rendering-json).
-
-
-
 
 Using Components with Known Vulnerabilities
 ----
@@ -653,9 +660,9 @@ the script on the CDN your application will not be affected:
 
 ```
 <script
-        src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-        crossorigin="anonymous"></script>
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
 ```
 
 (This example from jquery also includes the CORS attribte `crossorigin` set to `anonymous`.
