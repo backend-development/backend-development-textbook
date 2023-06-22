@@ -24,14 +24,14 @@ since at least 2021.
 Next.js gives you a folder structure for you application,
 and several different ways to render webpages:
 
-* statics webpages that are rendered once, server side.
+* static webpages that are rendered once, at build time.
 * api endpoints
-* server render pages that are served as HTML, but can be refreshed.
-* React Server Components, where you can mix client and server side components in a tree
+* server rendered pages that are served as HTML, but can be refreshed.
+* React Server Components, where you can mix client and server side components in one react tree
 
 ## The missing persistance layer
 
-Next.js is not a full backend framework. For example it does not offer
+Next.js is not a full backend framework. For example it does not offer an
 ORM or another persistance layer.  There is good documentation for
 combining nextjs with
 
@@ -43,14 +43,13 @@ combining nextjs with
 ## next.js routing
 
 From `next.js` 13 onwards the routes are created in the `app/` directory.
-`page.js` is the default (like index.html used to be), folders and
-filenames can contain parameters in brackets:
+`page.js` is the default (like index.html used to be), folders can contain parameters in brackets:
 
 ```
 app/page.js          -->   /
-app/otherpage.js     -->   /otherpage
+app/otherpage/page.js     -->   /otherpage
 app/users/page.js    -->   /users/
-app/users/[:id].js   -->   /users/42/
+app/users/[:id]/page.js   -->   /users/42/
 ```
 
 There are special files:
