@@ -644,6 +644,12 @@ Using Components with Known Vulnerabilities
 > Components, such as libraries, frameworks, and other software modules, run with the same privileges as the application. If a vulnerable component is exploited, such an attack can facilitate serious data loss or server takeover. Applications and APIs using components with known vulnerabilities may undermine application defenses and enable various attacks and impacts. [OWASP Wiki](https://www.owasp.org/index.php/Top_10-2017_A9-Using_Components_with_Known_Vulnerabilities)
 
 
+In the last years security features have been incorporated in gem, npm, ....
+Many, many malware packages are submitted to the repositories. Here an Example:
+
+* [security audit of a npm package](https://socket.dev/npm/package/segment-bundle/files/6.6.9/package.json)
+
+
 Before using a gem, look it up in the [ruby-toolbox](https://www.ruby-toolbox.com/)
 and check if it is actively maintained and if there are better alternatives.
 

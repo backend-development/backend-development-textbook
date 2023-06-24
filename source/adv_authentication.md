@@ -1,19 +1,20 @@
 # Advanced Authentication
 
 This guide is about Authentication for Web and Mobile
-Apps. 
+Apps.
 
 After reading this guide you will
 
 - have an overview of scenarios and authentication methods
-- be able to build a rails app that uses other authentication providers with OAuth
-- be able to build a rails app with JWT
+- be able to use several authentiation methods in next.js
+- be able to use several authentiation methods in rails
 
-REPO: You can study the [code](https://github.com/backend-development/rails-example-kanban-board-login) and try out [the demos](https://kanban-1.herokuapp.com/) for the authentication examples described here.
 
 ---
 
-## Authentication + Authorisation Scencarios
+## Concepts
+
+### Authentication and Authorisation Scencarios
 
 Some questions to ask yourself:
 
@@ -23,12 +24,17 @@ Some questions to ask yourself:
 * Which programs need to authenticate? Browsers? Native apps? Command line programs?
 * Are users expecting a "single sign on"?
 
-### Authentication and Authorisation
+### Authentication Providers
 
-This is epecially intresting when my app wants to access
-data in another app.  For example:  Authenticate via github, and also
-access the users private repositories.  Authenticate via google and also
-access the users photos. 
+Authentication Providers like github, google ect can
+provide both Authentication and Authorisation to use
+their resources.
+
+For example the app I am building coule
+
+* authenticate a user via github, and also access the users private repositories,
+* authenticate via google and also access the users photos,
+* authenticate via instagram and create posts in their name on instagram.
 
 ### Two Factor Authentication
 
@@ -41,53 +47,153 @@ any combination of:
 
 ### Different types of programs
 
-Browsers do Cookies, other types of programs do not.
+When createing commandline programs, web apps, native apps we
+have different possiblities.
 
-Command Line Authentication Flow:
+You already know how to use HTTP Cookies for authentication
+in a web app. Commandline programms and native app do not use cookies
+automatically as browser do.
+
+To illustrate this let's look at a command line program.
+
+### Command Line Authentication Flow:
+
+Here an example of an authentication flow for the
+office365 command line tool:
+
+1. start the process on the command line
 
 ![Command Line](images/office-cli-1.png)
+
+the program opens a browser at a special microsoft login page
+and asks you to type in a short string there.
+
 ![Command Line](images/cli-login-3.png)
+
+go throug the usual steps of login
+
 ![Command Line](images/cli-login-4.png)
+
+final screen in the browser shows success
+
 ![Command Line](images/cli-login-5.png)
+
+back in the command line program you are now authorized.
+
 ![Command Line](images/office-cli.png)
 
 
-### How to add state to HTTP
+## How to add state to HTTP
 
 When thinking about Authentication and Web Applications we
 first have to overcome the stateless nature of HTTP.
 There are several ways to do this:
 
-1.  **HTTP Basic Authentication** according to [rfc 1945, section 11](https://tools.ietf.org/html/rfc1945#section-11): The server sends a `WWW-Authenticate: Basic ...` header in the first response. The browser asks the user for username and password, and then sends the (hashed) username and password to the server with subsequent request using the HTTP Headers `Authorization: Basic ...`.
-2.  **HTTP Cookies** according to [rfc 6265](https://tools.ietf.org/html/rfc6265). The server sets the cookie (using the Header 'Set-Cookie'), the client returns the cookie automatically for every subsequent request to the server (using the HTTP Header `Cookie`).
-3.  **Bearer-Token**, with  `Authorization: Bearer ...` and `WWW-Authenticate: Bearer ...`
+1.  **HTTP Basic Authentication**
+2.  **HTTP Cookies**
+3.  **Bearer-Token**
 
-## Web Authentication "WebAuthn"
+### HTTP Basic Authentication
 
-A relatively new Method: the browser keeps tracks of private keys,
-uses public key to log in on server. Implemented in Browsers since 2018, 2019.
-See [Guide](https://webauthn.guide/) and [Demo](https://webauthn.io/), 
-[caniuse](https://caniuse.com/?search=WebAuthn).
+This is the oldest method.  It still works in all the browser, but is not used much
+any more because the UI is very restrictive.
 
-<video class="wp-video-shortcode" id="video-2462-3_html5" poster="images/webauthn-android-fennec.png" loop="1" preload="metadata" style="width: 400px; height: 710.667px;" src="images/webauthn-android-fennec-1.mp4" width="400" height="711"><source type="video/mp4" src="images/webauthn-android-fennec-1.mp4?_=3"><source type="video/webm" src="images/webauthn-android-fennec-1.webm"><a href="images/webauthn-android-fennec-1.mp4">images/webauthn-android-fennec-1.mp4</a></video>
+![](images/chrome-basic.png)
 
-## OAuth
+It is specified in  [rfc 1945, section 11](https://tools.ietf.org/html/rfc1945#section-11).
 
-Standard for requesting Authentication and Authorization from
-a priovider.  Slightly different implmentations, [OpenID Connect](https://openid.net/connect/)
-as additional specification makes using it simpler?
+
+1. The Browser requests access to a resource;
+2. The server sends a `WWW-Authenticate: Basic ...` header in the response, but not the resource;
+3. The browser asks the user for username and password through a popup window
+4. The browser sends the (hashed) username and password to the server with all subsequent request using the HTTP Headers `Authorization: Basic ...`
+
+
+### HTTP Cookies
+
+HTTP Cookies are defined in [rfc 6265](https://tools.ietf.org/html/rfc6265).
+
+1. The server sets the cookie (using the Header 'Set-Cookie'),
+2. the client includes the cookie automatically in every subsequent request to the server (using the HTTP Header `Cookie`).
+
+Cookies are often integrated into backend frameworks as a method
+to identify sessions.
+
+
+### Bearer Token
+
+This method uses the same HTTP Header `Authorization` as HTTP Basic authentication,
+[rfc 1945, section 11](https://tools.ietf.org/html/rfc1945#section-11).
+
+
+The client sends the token with the `Authorization: Bearer ...` HTTP header.
+
+## Web Authentication "WebAuthn" or Passkey
+
+Web Authentication, or short "WebAuthn" is a W3C standard
+that has been implemented  [in all Browsers since 2020](https://caniuse.com/?search=webauthn).
+
+You a User you have to own an authenticator: for example a [Yubikey](https://www.yubico.com/), USB Token,
+or your [smartphone](https://www.makeuseof.com/set-up-passkey-google-account-android/).
+This Authenticator
+is a powerful "second factor": it can do cryptographic computation and it can
+store data.
+
+![](images/yubikey-5.png)
+
+This diagram [from auth0](https://auth0.com/blog/introduction-to-web-authentication/) shows the players
+in this form auf authentication:
+
+![](images/web-authn-entities.png)
+
+The server you want to log into is called the "relying party".
+
+During **Registration** the relying party supplies data called "challenge". The JavaScript
+in the users browser calls `navigator.credentials.create()` with this challengen. This makes
+the browser call the authenticator device with the callenge data. The device might ask the user
+for some form of consent, for example given through a fingerprint or a touch sensor.
+The result is a public/private keypair.
+
+During **Authentication** (or "attestation") the same challenge from the relying party
+is given to the authenticator.
+
+See also
+
+* [Guide](https://webauthn.guide/)
+* [Demo](https://webauthn.io/)
+* [awesome-webauthn collection on github](https://github.com/herrjemand/awesome-webauthn)
+
+
+## OpenID + OAuth
+
+OpenID 2.0 is an open standard for Authentication.
+
+OAuth is and open standard for API Access delegation originally published  in 2010.
+The current version is [OAuth 2.0](https://oauth.net/2/), published as RFC 6749 and RFC 6750 in 2012.
+
+Both follow the same flow when used in ""
+
+1.    The user requests a resource or site login from the application.
+2.  The site sees that the user is not authenticated. It formulates a request for the identity provider, encodes it, and sends it to the user as part of a redirect URL.
+3.  The user's browser makes a request to the redirect URL for the identity provider, including the application's request
+4.  If necessary, the identity provider authenticates the user (perhaps by asking them for their username and password)
+5.  Once the identity provider is satisfied that the user is sufficiently authenticated, it processes the application's request, formulates a response, and sends that back to the user along with a redirect URL back to the application.
+6.  The user's browser requests the redirect URL that goes back to the application, including the identity provider's response
+7.  The application decodes the identity provider's response, and carries on accordingly.
+8.  (OAuth only) The response includes an access token which the application can use to gain direct access to the identity provider's services on the user's behalf.
+
+
 
 ## JWT
 
-Cookies work best when the only clients are browsers (and not native apps),
-and when the frontend and the backend are hosted on the same domain.
+**JSON-Web-Token** are a way to encode and sign JSON-Data. You
+can use many transmission methods to send them:
 
-**JSON-Web-Token** are used for more complex scenarios.
-They offer the flexibility to use many transmission methods:
-
-- HTTP-Headers  `Authorization: Bearer ...` and `WWW-Authenticate: Bearer ...`
+- HTTP-Headers  `Authorization: Bearer ...` or `Cookie`
 - Parameter in an URL
 - POST data
+
+
 
 [jwt.io](https://jwt.io/) / [rfc 7519](https://tools.ietf.org/html/rfc7519)
 
@@ -99,13 +205,13 @@ looks like this (if you color-code it):
 
 ![](images/encoded-jwt3.png)
 
-The encoding consists of two steps:  
+The encoding consists of two steps:
 
 * with [Base64](https://en.wikipedia.org/wiki/Base64#Examples)
 endcoding the input string is converted to a new, longer string of only 64 characters
-that are considered "save" for transfer via (ASCII only) e-mail.  Three bytes of the original are encoded into 4 bytes in 
+that are considered "save" for transfer via (ASCII only) e-mail.  Three bytes of the original are encoded into 4 bytes in
 the resulting string.  Base64 encoded strings may contain plus signs and are
-padded with equal signs at the end. 
+padded with equal signs at the end.
 * As a second step the plus signs are replaced by minus signs and
 the padding is dropped, resulting in a string that can be used in a URL without problems:
 
@@ -124,17 +230,12 @@ You can use the [JWT Debugger](https://jwt.io/#debugger-io) to decode this.
 ![](images/jwt-debugger.png)
 
 
-### Structure of a Token
 
 
+## Rails
 
 
-## Rails and OAuth
-
-In many scenarios it might be more convenient for your users
-to not have to register on your site, but to use another service
-to authenticate. That way they don't have to remember another password.
-And you might not have to handle passwords at all.
+### OAuth
 
 The gem `omniauth` helps you deal with OAuth2, OpenID, LDAP, and many
 other authentication providers. The [list of strategies](https://github.com/intridea/omniauth/wiki/List-of-Strategies)
@@ -145,7 +246,6 @@ to your user's dropbox? Would it make sense to use Facebook or Twitter and also
 send out messages that way? Or are your users very privacy conscious and
 want to avoid Facebook and Google?
 
-### Providers
 
 You will need the Gem `omniauth` and
 additional gems for each provider. For example if you
@@ -158,230 +258,19 @@ gem 'omniauth-github'
 gem 'omniauth-stackoverflow'
 ```
 
-§
+### WebAuth
 
-You need to register your app with the authentication
-provider, eg. at [https://developers.facebook.com/apps/](https://developers.facebook.com/apps/)
-or [https://apps.twitter.com/](https://apps.twitter.com/).
-You have to specify the URL of your web app, and a callback URL:
-
-![oauth app configuration](images/oauth-app-config.png)
-
-There might also be a review process involved which might take
-a few business days to go through.
-
-§
-
-You get back two pieces of information: a key and a secret.
-In Twitter this looks like this:
-
-![facebook app configuration](images/oauth-app-secret.png)
-
-(A word of warning: if you change the configuration in `developers.facebook.com` then
-you will get a new key and secret!)
-
-You need to add the key and the secret to the configuration of omniauth:
-
-```ruby
-# config/initializers/omniauth.rb:
-
-Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :twitter, 'TWITTER_KEY', 'TWITTER_SECRET'
-end
+Use the gems `devise` and [devise-passkeys](https://github.com/ruby-passkeys/devise-passkeys)
 ```
 
-§
-
-If you plan on publishing your source code
-you might want to set these values in a way that is NOT saved to the repository.
-You could use environment variables for that:
-
-```ruby
-# config/initializers/omniauth.rb:
-
-Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :twitter, ENV['TWITTER_KEY'], ENV['TWITTER_SECRET']
-end
-```
-
-Then you can set the environment variables locally on the command line:
-
-```sh
-TWITTER_KEY=abc
-TWITTER_SECRET=123
-```
-
-If you deploy to heroku or dokku, use the command line interface to set
-the variables there:
-
-```sh
-heroku config:set TWITTER_KEY=abc
-heroku config:set TWITTER_SECRET=123
-
-dokku config:set TWITTER_KEY=abc
-dokku config:set TWITTER_SECRET=123
-```
-
-### Models
-
-For authentication you need to save at least the provider name and the uid in your database
-somewhere. In the simplest case you just save them in a user model:
-
-```shell
-rails g model user provider uid
-```
-
-To use additional services and get additional info from the provider
-you also need to save a per-user token and secret:
-
-```shell
-rails g model user provider uid token secret
-```
-
-If you want to enable that one user can log in via different
-providers and still be recognised as the same user, you need to
-create a user model with a has_many relationship to an authentiation model
-that stores provider and uid.
-
-But we will stick to the simple version:
-
-```ruby
-class CreateUsers < ActiveRecord::Migration[5.0]
-  def change
-    create_table :users do |t|
-      t.string :provider
-      t.string :uid
-      t.timestamps
-    end
-  end
-end
-```
-
-### Login and Logout
-
-Omniauth is a "Rack Middleware". That means it is somewhat independent
-of the Rails app you are building. It has access to the HTTP request, will
-analyze that, and pass on data to your Rails app through the
-environment variable `omniauth.auth`.
-
-To log in you send the user to `/auth/:provider` (e.g. `/auth/facebook`).
-
-```ruby
-<!-- app/views/layouts/application.html.erb -->
-  <% if current_user %>
-    Logged in as <%= current_user.name %>
-    <%= link_to "log out", logout_path %>
-  <% else %>
-    log in with <%= link_to "twitter", "/auth/twitter" %>
-  <% end %>
-```
-
-§
-
-This URL is handled by omniauth, not by your Rails app. Omniauth will send
-the user's browser on to a URL at the provider. There the user can log in. After
-that the browser is redirected to your app again, to `/auth/:provider/callback`
-
-This URL you need to map to a session controller:
-
-```ruby
-# config/routes.rb:
-match '/auth/:provider/callback', to: 'sessions#create',  via: [:get, :post]
-match '/auth/failure',            to: 'sessions#failure', via: [:get, :post]
-```
-
-In the session controller you can now read the data that omniauth provides
-from the environment variable.
-
-§
-
-As a first step you could just print it out,
-to see what data is provided:
-
-```ruby
-def create
-  render text: "<pre>" + env["omniauth.auth"].to_yaml and return
-end
-```
-
-The data always contains values for `provider` and `uid` at the
-top level. There may be a lot more data.
-
-§
-
-Here some example data from a twitter login:
-
-```
-provider: twitter
-uid: '8506142'
-info:
-  nickname: bjelline
-  name: Brigitte Jellinek
-  ...
-```
-
-§
-
-Now let's look at `session#create`:
-There are two basic cases to consider: either the user has logged in using
-this authorisation method before (then we should find them in our database),
-or they are logging in for the first time.
-
-This can get quite involved, so we hide it away inside the user model:
-
-```ruby
-def create
-  user = User.find_or_create_with_omniauth(request.env['omniauth.auth'])
-
-  if user
-    session[:user_id] = user.id
-    redirect_to root_path, notice: 'Logged in'
-  else
-    redirect_to login_path, alert: 'Log in failed'
-  end
-end
-```
-
-§
-
-In the model we pick apart the information from omniauth:
-
-```ruby
-# app/model/user.rb
-
-def self.find_or_create_with_omniauth(auth)
-  # look for an existing authorisation
-  # provider + uid uniquely identify a user
-  User.find_or_create_by!(
-    provider: auth['provider'],
-    uid:      auth['uid']
-  )
-end
-```
-
-The ActiveRecord method `find_or_create_by` handles both cases in one: either it
-finds an existing user or it creates a new one.
-
-§
-
-We don't really have a name for each user, but
-we can fake that in the model:
-
-```ruby
-# app/model/user.rb
-def name
-  "#{uid}@#{provider}"
-end
-```
-
-## Rails and JWT
+### JSON Web Tokens (JWT)
 
 
-### Adding JWT to Rails
-
-`bundler add jwt` and restart the server.
+Use the gem `jwt`
 
 
+
+## next.js
 
 
 

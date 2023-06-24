@@ -242,6 +242,23 @@ its complicated
 [How Server Components Work](https://www.plasmic.app/blog/how-react-server-components-work)
 
 
+## Hosting next.js
+
+Vercel, the company behind next.js, offers hosting on their platform. There is a free tier.
+
+To host next.js you need:
+
+* to run the build step to create static assets and javascript bundles
+* to run node.js on the server
+
+If you are using dokku a node.js buildpack will be chosen by default,
+and do both for you. you might additionally consider:
+
+* setting up permanent storage at `public/upload`, if you want to handle uploaded file and store them in the webspcae
+* setting up a database
+
+
+
 ## See Also
 
 - [Next.js Documentation](https://nextjs.org/docs)
