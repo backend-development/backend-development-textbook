@@ -14,7 +14,7 @@ After working through this guide you should
 ## What is next.js?
 
 Next.js is an open source framework, but it is mainly developed by Vercel.
-Vercels business is platform a service. They published next.js in 2016.
+Vercel's business is platform a service. They published next.js in 2016.
 React documentation mentions Next.js among "Recommended Toolchains"
 since at least 2021.
 
@@ -29,20 +29,20 @@ and several different ways to render webpages:
 * server rendered pages that are served as HTML, but can be refreshed.
 * React Server Components, where you can mix client and server side components in one react tree
 
-## The missing persistance layer
+## The missing persistence layer
 
 Next.js is not a full backend framework. For example it does not offer an
-ORM or another persistance layer.  There is good documentation for
-combining nextjs with
+ORM or another persistence layer.  There is good documentation for
+combining next.js with
 
-* [superbase](https://supabase.com/docs/guides/getting-started/quickstarts/nextjs), which offers postgres as a service
-* [apollo](https://www.apollographql.com/blog/apollo-client/next-js/how-to-use-apollo-client-with-next-js-13/), which offers graphql
+* [superbase](https://supabase.com/docs/guides/getting-started/quickstarts/nextjs), which offers Postgres as a service
+* [apollo](https://www.apollographql.com/blog/apollo-client/next-js/how-to-use-apollo-client-with-next-js-13/), which offers GraphQL
 * [prisma](https://www.prisma.io/nextjs), a ORM for typescript or javascript
 
 
 ## next.js routing
 
-From `next.js` 13 onwards the routes are created in the `app/` directory.
+From next.js 13 onwards the routes are created in the `app/` directory.
 `page.js` is the default (like index.html used to be), folders can contain parameters in brackets:
 
 ```
@@ -82,10 +82,10 @@ See [Static Site Generation (SSG)](https://nextjs.org/docs/pages/building-your-a
 
 We must set `output` to `export` to enable static site generations.
 
-For most Webserver for static pages we need to set `trailingSlash` to `true`.
+For static pages we need to set `trailingSlash` to `true` on most webservers.
 
 If the site will be hosted in a subfolder, for example at http://bjelline.pages.mediacube.at/statixnextjs/
-we must configure this as the basepath:
+we must configure this as the config value `basePath`:
 
 ```
 const nextConfig = {
@@ -96,7 +96,7 @@ const nextConfig = {
 ```
 
 
-### using github or gitlab pages
+### using Github or gitlab pages
 
 You can host your static files gitlab pages with the following configuration:
 gitlab CI is used to build the pages, and the resulting folder `out` is declared
@@ -170,6 +170,7 @@ Simple rules for client and server components:
 * Client Components cannot contain server components.
 * Server Components can instantiate both client and server components, and pass in a Server Component as the children prop to a ClientComponent.
 * Server Components cannot pass functions as props to its descendents, only data.
+* Use modules to share data in server components, use [context](https://nextjs.org/docs/getting-started/react-essentials#context) to share data in client components.
 
 
 ### Server Components can contain client components:
@@ -257,6 +258,500 @@ and do both for you. you might additionally consider:
 * setting up permanent storage at `public/upload`, if you want to handle uploaded file and store them in the webspcae
 * setting up a database
 
+
+## Telemetry
+
+A next.js app sends at least 500 lines of information to Vercel.
+See [Telemetry](https://nextjs.org/telemetry)
+to learn what information is sent and how to switch it off.
+
+
+```
+[telemetry] {
+  "eventName": "NEXT_CLI_SESSION_STARTED",
+  "payload": {
+    "nextVersion": "13.4.7",
+    "nodeVersion": "v18.16.1",
+    "cliCommand": "build",
+    "isSrcDir": false,
+    "hasNowJson": false,
+    "isCustomServer": null,
+    "hasNextConfig": true,
+    "buildTarget": "default",
+    "hasWebpackConfig": false,
+    "hasBabelConfig": false,
+    "imageEnabled": true,
+    "imageFutureEnabled": true,
+    "basePathEnabled": false,
+    "i18nEnabled": false,
+    "locales": null,
+    "localeDomainsCount": null,
+    "localeDetectionEnabled": null,
+    "imageDomainsCount": 0,
+    "imageRemotePatternsCount": 0,
+    "imageSizes": "16,32,48,64,96,128,256,384",
+    "imageLoader": "default",
+    "imageFormats": "image/webp",
+    "nextConfigOutput": null,
+    "trailingSlashEnabled": false,
+    "reactStrictMode": false,
+    "webpackVersion": 5,
+    "turboFlag": false,
+    "appDir": true,
+    "pagesDir": false
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "build-lint",
+    "invocationCount": 1
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_PACKAGE_DETECTED",
+  "payload": {
+    "packageName": "@auth/prisma-adapter",
+    "packageVersion": "^1.0.0"
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_PACKAGE_DETECTED",
+  "payload": {
+    "packageName": "@prisma/client",
+    "packageVersion": "^4.16.1"
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_PACKAGE_DETECTED",
+  "payload": {
+    "packageName": "autoprefixer",
+    "packageVersion": "10.4.14"
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_PACKAGE_DETECTED",
+  "payload": {
+    "packageName": "date-fns",
+    "packageVersion": "^2.30.0"
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_PACKAGE_DETECTED",
+  "payload": {
+    "packageName": "eslint",
+    "packageVersion": "8.43.0"
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_PACKAGE_DETECTED",
+  "payload": {
+    "packageName": "eslint-config-next",
+    "packageVersion": "13.4.7"
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_PACKAGE_DETECTED",
+  "payload": {
+    "packageName": "next",
+    "packageVersion": "13.4.7"
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_PACKAGE_DETECTED",
+  "payload": {
+    "packageName": "next-auth",
+    "packageVersion": "^4.22.1"
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_PACKAGE_DETECTED",
+  "payload": {
+    "packageName": "postcss",
+    "packageVersion": "8.4.24"
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_PACKAGE_DETECTED",
+  "payload": {
+    "packageName": "prisma",
+    "packageVersion": "^4.16.1"
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_PACKAGE_DETECTED",
+  "payload": {
+    "packageName": "react",
+    "packageVersion": "18.2.0"
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_PACKAGE_DETECTED",
+  "payload": {
+    "packageName": "react-dom",
+    "packageVersion": "18.2.0"
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_PACKAGE_DETECTED",
+  "payload": {
+    "packageName": "tailwindcss",
+    "packageVersion": "3.3.2"
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_COMPLETED",
+  "payload": {
+    "durationInSeconds": 10,
+    "totalAppPagesCount": 4,
+    "totalPageCount": 0,
+    "hasDunderPages": false,
+    "hasTestPages": false
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_LINT_CHECK_COMPLETED",
+  "payload": {
+    "durationInSeconds": 0,
+    "eslintVersion": "8.43.0",
+    "lintedFilesCount": 14,
+    "lintFix": false,
+    "nextEslintPluginVersion": "13.4.7",
+    "nextEslintPluginErrorsCount": 0,
+    "nextEslintPluginWarningsCount": 0,
+    "nextRulesEnabled": {
+      "@next/next/no-html-link-for-pages": "error",
+      "@next/next/no-sync-scripts": "error",
+      "@next/next/google-font-display": "warn",
+      "@next/next/google-font-preconnect": "warn",
+      "@next/next/next-script-for-ga": "warn",
+      "@next/next/no-before-interactive-script-outside-document": "warn",
+      "@next/next/no-css-tags": "warn",
+      "@next/next/no-head-element": "warn",
+      "@next/next/no-img-element": "warn",
+      "@next/next/no-page-custom-font": "warn",
+      "@next/next/no-styled-jsx-in-document": "warn",
+      "@next/next/no-title-in-document-head": "warn",
+      "@next/next/no-typos": "warn",
+      "@next/next/no-unwanted-polyfillio": "warn",
+      "@next/next/inline-script-id": "error",
+      "@next/next/no-assign-module-variable": "error",
+      "@next/next/no-document-import-in-page": "error",
+      "@next/next/no-duplicate-head": "error",
+      "@next/next/no-head-import-in-document": "error",
+      "@next/next/no-script-component-in-head": "error"
+    },
+    "buildLint": true
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_TYPE_CHECK_COMPLETED",
+  "payload": {
+    "durationInSeconds": 0,
+    "typescriptVersion": null
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "experimental/optimizeCss",
+    "invocationCount": 0
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "experimental/nextScriptWorkers",
+    "invocationCount": 0
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "optimizeFonts",
+    "invocationCount": 1
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_OPTIMIZED",
+  "payload": {
+    "durationInSeconds": 13,
+    "staticPageCount": 0,
+    "staticPropsPageCount": 0,
+    "serverPropsPageCount": 0,
+    "ssrPageCount": 0,
+    "hasStatic404": true,
+    "hasReportWebVitals": false,
+    "rewritesCount": 0,
+    "headersCount": 0,
+    "redirectsCount": 0,
+    "headersWithHasCount": 0,
+    "rewritesWithHasCount": 0,
+    "redirectsWithHasCount": 0,
+    "middlewareCount": 0,
+    "totalAppPagesCount": 4,
+    "staticAppPagesCount": 2,
+    "serverAppPagesCount": 2,
+    "edgeRuntimeAppCount": 0,
+    "edgeRuntimePagesCount": 0,
+    "totalPageCount": 0,
+    "hasDunderPages": false,
+    "hasTestPages": false
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "swcLoader",
+    "invocationCount": 1
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "swcMinify",
+    "invocationCount": 1
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "swcRelay",
+    "invocationCount": 0
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "swcStyledComponents",
+    "invocationCount": 0
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "swcReactRemoveProperties",
+    "invocationCount": 0
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "swcExperimentalDecorators",
+    "invocationCount": 0
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "swcRemoveConsole",
+    "invocationCount": 0
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "swcImportSource",
+    "invocationCount": 0
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "swcEmotion",
+    "invocationCount": 0
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "swc/target/x86_64-apple-darwin",
+    "invocationCount": 0
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "swc/target/x86_64-unknown-linux-gnu",
+    "invocationCount": 1
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "swc/target/x86_64-pc-windows-msvc",
+    "invocationCount": 0
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "swc/target/i686-pc-windows-msvc",
+    "invocationCount": 0
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "swc/target/aarch64-unknown-linux-gnu",
+    "invocationCount": 0
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "swc/target/armv7-unknown-linux-gnueabihf",
+    "invocationCount": 0
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "swc/target/aarch64-apple-darwin",
+    "invocationCount": 0
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "swc/target/aarch64-linux-android",
+    "invocationCount": 0
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "swc/target/arm-linux-androideabi",
+    "invocationCount": 0
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "swc/target/x86_64-unknown-freebsd",
+    "invocationCount": 0
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "swc/target/x86_64-unknown-linux-musl",
+    "invocationCount": 0
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "swc/target/aarch64-unknown-linux-musl",
+    "invocationCount": 0
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "swc/target/aarch64-pc-windows-msvc",
+    "invocationCount": 0
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "turbotrace",
+    "invocationCount": 0
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "transpilePackages",
+    "invocationCount": 0
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "skipMiddlewareUrlNormalize",
+    "invocationCount": 0
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "skipTrailingSlashRedirect",
+    "invocationCount": 0
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "modularizeImports",
+    "invocationCount": 0
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "next/image",
+    "invocationCount": 0
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "next/future/image",
+    "invocationCount": 0
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "next/legacy/image",
+    "invocationCount": 0
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "next/script",
+    "invocationCount": 0
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "next/dynamic",
+    "invocationCount": 0
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "@next/font/google",
+    "invocationCount": 0
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "@next/font/local",
+    "invocationCount": 0
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "next/font/google",
+    "invocationCount": 1
+  }
+}
+[telemetry] {
+  "eventName": "NEXT_BUILD_FEATURE_USAGE",
+  "payload": {
+    "featureName": "next/font/local",
+    "invocationCount": 0
+  }
+}
+```
 
 
 ## See Also

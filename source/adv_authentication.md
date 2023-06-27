@@ -6,8 +6,8 @@ Apps.
 After reading this guide you will
 
 - have an overview of scenarios and authentication methods
-- be able to use several authentiation methods in next.js
-- be able to use several authentiation methods in rails
+- be able to use several authentication methods in next.js
+- be able to use several authentication methods in rails
 
 
 ---
@@ -18,21 +18,22 @@ After reading this guide you will
 
 Some questions to ask yourself:
 
-* Do I only need authentication (Is this the user?) or also authorisation (which user may access what?)
-* Is one factor enough?  Do I want to support 2 factor athentication?
+* Do I only need authentication (is this the user?)
+* Do I need authorisation to access resources on other servers in the users name?
+* Is one factor enough?  Do I want to support 2 factor authentication?
 * Who does the authentication? My own app or another "authentication provider"?
 * Which programs need to authenticate? Browsers? Native apps? Command line programs?
 * Are users expecting a "single sign on"?
 
 ### Authentication Providers
 
-Authentication Providers like github, google ect can
+Authentication Providers like Github, Google ect. can
 provide both Authentication and Authorisation to use
 their resources.
 
-For example the app I am building coule
+For example the app I am building could
 
-* authenticate a user via github, and also access the users private repositories,
+* authenticate a user via Github, and also access the users private repositories,
 * authenticate via google and also access the users photos,
 * authenticate via instagram and create posts in their name on instagram.
 
@@ -47,11 +48,11 @@ any combination of:
 
 ### Different types of programs
 
-When createing commandline programs, web apps, native apps we
-have different possiblities.
+When creating command line programs, web apps, native apps we
+have different possibilities.
 
 You already know how to use HTTP Cookies for authentication
-in a web app. Commandline programms and native app do not use cookies
+in a web app. Command line programs and native app do not use cookies
 automatically as browser do.
 
 To illustrate this let's look at a command line program.
@@ -65,7 +66,7 @@ office365 command line tool:
 
 ![Command Line](images/office-cli-1.png)
 
-the program opens a browser at a special microsoft login page
+the program opens a browser at a special Microsoft login page
 and asks you to type in a short string there.
 
 ![Command Line](images/cli-login-3.png)
@@ -100,7 +101,7 @@ any more because the UI is very restrictive.
 
 ![](images/chrome-basic.png)
 
-It is specified in  [rfc 1945, section 11](https://tools.ietf.org/html/rfc1945#section-11).
+It is specified in  [RFC 1945, section 11](https://tools.ietf.org/html/rfc1945#section-11).
 
 
 1. The Browser requests access to a resource;
@@ -111,7 +112,7 @@ It is specified in  [rfc 1945, section 11](https://tools.ietf.org/html/rfc1945#s
 
 ### HTTP Cookies
 
-HTTP Cookies are defined in [rfc 6265](https://tools.ietf.org/html/rfc6265).
+HTTP Cookies are defined in [RFC 6265](https://tools.ietf.org/html/rfc6265).
 
 1. The server sets the cookie (using the Header 'Set-Cookie'),
 2. the client includes the cookie automatically in every subsequent request to the server (using the HTTP Header `Cookie`).
@@ -133,7 +134,7 @@ The client sends the token with the `Authorization: Bearer ...` HTTP header.
 Web Authentication, or short "WebAuthn" is a W3C standard
 that has been implemented  [in all Browsers since 2020](https://caniuse.com/?search=webauthn).
 
-You a User you have to own an authenticator: for example a [Yubikey](https://www.yubico.com/), USB Token,
+You a User you have to own an authenticator: for example a [YubiKey](https://www.yubico.com/), USB Token,
 or your [smartphone](https://www.makeuseof.com/set-up-passkey-google-account-android/).
 This Authenticator
 is a powerful "second factor": it can do cryptographic computation and it can
@@ -149,10 +150,10 @@ in this form auf authentication:
 The server you want to log into is called the "relying party".
 
 During **Registration** the relying party supplies data called "challenge". The JavaScript
-in the users browser calls `navigator.credentials.create()` with this challengen. This makes
-the browser call the authenticator device with the callenge data. The device might ask the user
+in the users browser calls `navigator.credentials.create()` with this challenge. This makes
+the browser call the authenticator device with the challenge data. The device might ask the user
 for some form of consent, for example given through a fingerprint or a touch sensor.
-The result is a public/private keypair.
+The result is a public/private key pair.
 
 During **Authentication** (or "attestation") the same challenge from the relying party
 is given to the authenticator.
@@ -161,7 +162,7 @@ See also
 
 * [Guide](https://webauthn.guide/)
 * [Demo](https://webauthn.io/)
-* [awesome-webauthn collection on github](https://github.com/herrjemand/awesome-webauthn)
+* [awesome-webauthn collection on Github](https://github.com/herrjemand/awesome-webauthn)
 
 
 ## OpenID + OAuth
@@ -272,7 +273,97 @@ Use the gem `jwt`
 
 ## next.js
 
+The package `next-auth` provides several authentication methods.
 
+* OAuth2
+* [E-Mail](https://next-auth.js.org/providers/email) "magic links"
+
+And it can save information to a database through an [adapter](https://authjs.dev/reference/adapters).
+
+When you install the package you also need to set several
+environment variables (for example through `.env`):
+
+The URL of the application - this is needed to construct callback urls
+for OAuth2.  And a secret that will be used to sign certain tokens.
+You can use `openssl rand -base64 32` to create a random string.
+
+```
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=...
+```
+
+### OAuth2
+
+For OAuth2 you have to configure two parties at the same time:
+
+* the "authentication provider"
+* your own web app
+
+### configuring the authentication provider
+
+You need to finde the right webpage that let's you configure the authentication provider.
+For example at Github you find it under Settings, "for Developers", "create App".
+
+You need to supply the following information:
+
+* The URL of your app, for example `https://myapp.at`
+* The callback URL for OAuth2, for example `https://myapp.at/api/auth/callback/github`
+
+In the [documentation for auth-next](https://next-auth.js.org/getting-started/rest-api#getpost-apiauthcallbackprovider)
+you can see that the callback URL has the form `/api/auth/callback/:provider``
+
+### configuring the callback
+
+When using the app router, you need to create the file `app/api/auth/\[...nextauth\]/route.js`
+
+Here you need to import and configure one or several authentication providers.
+This example shows github.  See `node_modules/next-auth/providers/*.js` for a
+list of the available providers.
+
+```javascript
+import NextAuth from 'next-auth';
+import GithubProvider from 'next-auth/providers/github';
+
+export const authOptions = {
+  providers: [
+    GithubProvider({
+      clientId: process.env.GITHUB_CLIENT_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    })
+  ]
+};
+
+const handler = NextAuth(authOptions);
+
+export {
+  handler as GET,
+  handler as POST
+};
+```
+
+### link to sign in and sign out
+
+```javascript
+import {authOptions} from "@/app/api/auth/[...nextauth]/route.js"
+import {getServerSession} from "next-auth/next"
+import Link from "next/link"
+
+export default async function SignInStatus() {
+  const session = await getServerSession(authOptions)
+
+  if(session) {
+    return <>
+      Signed in as {session.user.email} <br/>
+      <Link href="/api/auth/signout">Sign out</Link>
+      <pre>{JSON.stringify(session, null, 2)}</pre>
+    </>
+  }
+  return <>
+    Not signed in <br/>
+    <Link href="/api/auth/signin">Sign in</Link>
+  </>
+}
+```
 
 
 
