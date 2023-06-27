@@ -369,6 +369,86 @@ export default async function SignInStatus() {
 ```
 
 
+### in server components
+
+```javascript
+// in a server component - no access to state
+import {authOptions} from "@/app/api/auth/[...nextauth]/route.js"
+import {getServerSession} from "next-auth/next"
+
+
+export default async function ServerComponent() {
+  const session = await getServerSession(authOptions)
+
+  ...
+}
+```
+
+
+### in client components
+
+To have the session available in client components, we first
+have to wrap the whole app in a `SessionProvider`. This needs
+to happen in a client component.  But how can we use
+server components inside this client component?
+
+We start off in `layout.js` in the main `app` folder, and use
+the method of wrapping server components inside a client component
+inside a server component mentioned [before](https://backend-development.github.io/nextjs.html#you-can-pass-in-server-components-to-a-clientcomponent).
+
+
+```javascript
+// app/layout.js
+import ClientSessionProvider from '@/components/ClientSessionProvider.client.js'
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <ClientSessionProvider>
+        <body className={inter.className}>
+          {children}
+        </body>
+      </ClientSessionProvider>
+    </html>
+  )
+}
+```
+
+Then inside the client component we use the session provider:
+
+```javascript
+// components/ClientSessionProvider.client.js
+
+"use client"
+
+import { SessionProvider } from "next-auth/react"
+
+export default function ClientSessionProvider({ children }) {
+  return (
+    <SessionProvider>
+      {children}
+    </SessionProvider>
+  )
+}
+```
+
+Now we can use the session in any client component:
+
+```javascript
+// components/SomeComponent.client.js
+import { useSession } from "next-auth/react"
+
+export default function SomeComponent({}) {
+  const { data: session, status } = useSession();
+  ...
+    return (
+    <>
+      <h1>{ status  !== "authenticated"  ? status : JSON.stringify(session)}</h1>
+    </>
+    )
+}
+```
+
 
 ## Further Reading
 
