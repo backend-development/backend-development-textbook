@@ -109,6 +109,7 @@ It is specified in  [RFC 1945, section 11](https://tools.ietf.org/html/rfc1945#s
 3. The browser asks the user for username and password through a popup window
 4. The browser sends the (hashed) username and password to the server with all subsequent request using the HTTP Headers `Authorization: Basic ...`
 
+This can be configured in the [web server](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication#restricting_access_with_apache_and_basic_authentication).
 
 ### HTTP Cookies
 
@@ -172,7 +173,7 @@ OpenID 2.0 is an open standard for Authentication.
 OAuth is and open standard for API Access delegation originally published  in 2010.
 The current version is [OAuth 2.0](https://oauth.net/2/), published as RFC 6749 and RFC 6750 in 2012.
 
-Both follow the same flow when used in ""
+Both follow the same flow:
 
 1.    The user requests a resource or site login from the application.
 2.  The site sees that the user is not authenticated. It formulates a request for the identity provider, encodes it, and sends it to the user as part of a redirect URL.
@@ -262,7 +263,7 @@ gem 'omniauth-stackoverflow'
 ### WebAuth
 
 Use the gems `devise` and [devise-passkeys](https://github.com/ruby-passkeys/devise-passkeys)
-```
+
 
 ### JSON Web Tokens (JWT)
 
@@ -301,7 +302,7 @@ For OAuth2 you have to configure two parties at the same time:
 
 ### configuring the authentication provider
 
-You need to finde the right webpage that let's you configure the authentication provider.
+You need to finde the right webpage that lets you configure the authentication provider.
 For example at Github you find it under Settings, "for Developers", "create App".
 
 You need to supply the following information:
@@ -310,17 +311,18 @@ You need to supply the following information:
 * The callback URL for OAuth2, for example `https://myapp.at/api/auth/callback/github`
 
 In the [documentation for auth-next](https://next-auth.js.org/getting-started/rest-api#getpost-apiauthcallbackprovider)
-you can see that the callback URL has the form `/api/auth/callback/:provider``
+you can see that the callback URL has the form `/api/auth/callback/:provider`
 
 ### configuring the callback
 
-When using the app router, you need to create the file `app/api/auth/\[...nextauth\]/route.js`
+When using the app router, you need to create the file `app/api/auth/[...nextauth]/route.js`
 
 Here you need to import and configure one or several authentication providers.
 This example shows github.  See `node_modules/next-auth/providers/*.js` for a
 list of the available providers.
 
 ```javascript
+// File app/api/auth/[...nextauth]/route.js
 import NextAuth from 'next-auth';
 import GithubProvider from 'next-auth/providers/github';
 
@@ -344,6 +346,7 @@ export {
 ### link to sign in and sign out
 
 ```javascript
+// in a server component - no access to state
 import {authOptions} from "@/app/api/auth/[...nextauth]/route.js"
 import {getServerSession} from "next-auth/next"
 import Link from "next/link"
