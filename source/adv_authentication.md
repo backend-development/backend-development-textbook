@@ -392,6 +392,12 @@ have to wrap the whole app in a `SessionProvider`. This needs
 to happen in a client component.  But how can we use
 server components inside this client component?
 
+We need three steps to get there:
+
+1. `layout.js`
+2. `ClientSessionProvider.client.js`
+3. code for a client component that needs to use the session
+
 We start off in `layout.js` in the main `app` folder, and use
 the method of wrapping server components inside a client component
 inside a server component mentioned [before](https://backend-development.github.io/nextjs.html#you-can-pass-in-server-components-to-a-clientcomponent).
