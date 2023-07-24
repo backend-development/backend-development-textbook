@@ -25,17 +25,6 @@ Some questions to ask yourself:
 * Which programs need to authenticate? Browsers? Native apps? Command line programs?
 * Are users expecting a "single sign on"?
 
-### Authentication Providers
-
-Authentication Providers like Github, Google ect. can
-provide both Authentication and Authorisation to use
-their resources.
-
-For example the app I am building could
-
-* authenticate a user via Github, and also access the users private repositories,
-* authenticate via google and also access the users photos,
-* authenticate via instagram and create posts in their name on instagram.
 
 ### Two Factor Authentication
 
@@ -130,7 +119,7 @@ This method uses the same HTTP Header `Authorization` as HTTP Basic authenticati
 
 The client sends the token with the `Authorization: Bearer ...` HTTP header.
 
-## Web Authentication "WebAuthn" or Passkey
+## Web Authentication "WebAuthn"
 
 Web Authentication, or short "WebAuthn" is a W3C standard
 that has been implemented  [in all Browsers since 2020](https://caniuse.com/?search=webauthn).
@@ -164,6 +153,10 @@ See also
 * [Guide](https://webauthn.guide/)
 * [Demo](https://webauthn.io/)
 * [awesome-webauthn collection on Github](https://github.com/herrjemand/awesome-webauthn)
+
+### Passkey
+
+
 
 
 ## OpenID + OAuth
@@ -269,6 +262,8 @@ Use the gems `devise` and [devise-passkeys](https://github.com/ruby-passkeys/dev
 
 
 Use the gem `jwt`
+- [devise_token_auth](https://github.com/lynndylanhurley/devise_token_auth) for token based authentication for API only Rails apps
+
 
 
 
@@ -458,8 +453,4 @@ export default function SomeComponent({}) {
 
 ## Further Reading
 
-- OmniAuth [wiki](https://github.com/intridea/omniauth/wiki)
-- Devise [github page](https://github.com/plataformatec/devise)
-- Rails Security Guide on [User Management](https://guides.rubyonrails.org/security.html#user-management)
-- [devise_token_auth](https://github.com/lynndylanhurley/devise_token_auth) for token based authentication for API only Rails apps
-- [10 Things You Should Know about Tokens](https://auth0.com/blog/ten-things-you-should-know-about-tokens-and-cookies/)
+- [What Are Refresh Tokens and How to Use Them Securely](https://auth0.com/blog/refresh-tokens-what-are-they-and-when-to-use-them/)

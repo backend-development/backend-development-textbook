@@ -7,13 +7,20 @@ https://andycroll.com/ruby/replace-timecop-with-rails-time-helpers-in-rspec/
 
 ruby-graphql
 https://nordicapis.com/5-api-design-trends-to-look-out-for-in-2019/
-graphql-errors 
+graphql-errors
 graphql-batch gegen n+1, record loader, ...
-cacheql 
+cacheql
 https://github.com/chatterbugapp/cacheql
 
 
 rest api:  associations with blueprint...
+
+
+authentication:
+
+time based one time passwords TOTP nach standarad
+mit ruby und next.js
+https://www.security-insider.de/was-ist-totp-a-875708/
 
 ### Associations
 
