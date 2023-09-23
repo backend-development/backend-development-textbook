@@ -536,26 +536,25 @@ From the UNIX shell you may know the concept of piping data
 from one command to the next:
 
 ```shell
-# many httpd processes are running. as which user(s) ?
+# I know mysql server is running, but which user is it running as ?
 #
-$ ps aux | grep httpd | cut -c1-8 | sort | uniq
+$ ps aux | grep mysqld_safe | head -1 | cut -c1-8 
 ```
 
-Each of those programs reads data from "Standard Input" and
-writes data to "Standard Output". The vertical bar symbol (called "pipe") takes
-the output of the preceding program and sends it input the next
-program. The data in question is plain text, consisting
-of several lines.
+This is a sequence of Unix programs connected by the pipe symbol (|). 
+Each program in this chain reads data from its "Standard Input" and 
+writes data to its "Standard Output." The pipe symbol serves as a conduit, 
+channeling the output from one program as input to the subsequent program in the sequence. 
+The data being transferred is plain text, often spanning multiple lines.
 
 Try it out on your commmand line by building up
 the pipe step by step:
 
 ```shell
 $ ps aux | less
-$ ps aux | grep httpd | less
-$ ps aux | grep httpd | cut -c1-8 | less
-$ ps aux | grep httpd | cut -c1-8 | sort | less
-$ ps aux | grep httpd | cut -c1-8 | sort | uniq | less
+$ ps aux | grep mysqld_safe | less
+$ ps aux | grep mysqld_safe | head -1 || less
+$ ps aux | grep mysqld_safe | head -1 | cut -c1-8  | less
 ```
 
 ### Piping Data in Ruby
