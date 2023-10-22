@@ -115,18 +115,70 @@ The most common rails commands are:
 First we will
 use a generator that will help us generate some code.
 
-### How to build a Table
+### How to build a first Table - generate
 
 To build the first model and its corresponding database table, use the model generator:
 
 `rails generate model tweet status zombie`
 
 This will generate a Model `Tweet` and a migration to create table `tweets`.
+We have not specified any datatypes, therefore status and zombie will
+have the default type: string.
+
+Look at the model generated in file `app/models/tweet.rb`. It is empty for now.
+We do not need to specify properties or their datatypes here, they will be
+derived from the database automatically.
+
+
+### How to build a first Table - edit migration
 
 Have a look at the migration that was generated in `db/migrate/*create_tweets.rb`.
-You can edit this migration now - but not later! Run the migration on the command line with `rails db:migrate`. This will run the appropriate `CREATE TABLE` statement in your database.
 
-Look at the model generated in file `app/models/tweet.rb`. Add validations, associations to other models and the business logic here.
+```ruby
+class CreateTweets < ActiveRecord::Migration[7.0]
+  def change
+    create_table :tweets do |t|
+      t.string :status
+      t.string :zombie
+
+      t.timestamps
+    end
+  end
+end
+```
+
+You can edit this migration now. For example you could add some more
+columns, with other datatypes:
+
+```ruby
+class CreateTweets < ActiveRecord::Migration[7.0]
+  def change
+    create_table :tweets do |t|
+      t.string :status
+      t.string :zombie
+      t.integer :number_of_likes
+      t.boolean :private
+
+      t.timestamps
+    end
+  end
+end
+```
+
+We could have specified those extra columns when generating the model like so:
+
+```
+rails generate model tweet status zombie number_of_likes:integer private:boolean
+```
+
+
+### How to build a first Table - run migration
+
+
+Run the migration on the command line with `rails db:migrate`. This will run the appropriate `CREATE TABLE` statement in your database.
+
+After that, the current schema of the database will be saved to
+a file `db/schema.rb`. You never need to edit this file directly.
 
 ## Database Migrations
 
