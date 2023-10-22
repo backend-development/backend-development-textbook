@@ -3,8 +3,11 @@
     - name: Ruby Commandline
       url: ruby_commandline.html
       description: The essential ruby you need to know to understand rails
-    - name: Database and Models
+    - name: Models and ActiveRecord
       url: rails_database_and_model.html
+      description: How does Rails use the database? Use the rails console to find out.
+    - name: Database and Migrations
+      url: rails_db.html
       description: How does Rails use the database? How are models and database tables related?
     - name: Associations and Validations
       url: rails_associations_and_validations.html

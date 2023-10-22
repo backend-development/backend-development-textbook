@@ -1,68 +1,38 @@
-# Rails: Database and Models
+# Rails: Models and Activerecord
 
 Models are the basic classes of a Rails Project. The
 data is actually stored in a relational database.
 
 After working through this guide you should
 
-- Understand how ActiveRecord works
-- Understand what Database Migrations are
+- Be able to use models in the rails console
 
 The examples were inspired by "Rails for Zombies", which used to be a free Rails online course.
 Sadly it is no longer available.
 
+When working through this chapter you should be doing the
+[ZombieTwitter](https://gitlab.mediacube.at/bjelline/backend-assign-public/-/blob/master/a2_zombietwitter/README.md) Assignment in parallell.
+
 ---
 
-## Models and Databases
+## Model Basics
 
-In an object-oriented programming language like Ruby we represent
-things in the real world with objects in our program. For example if you are
-building an application for project management, you might
-have objects of classes `Project` and `WorkPackage` and `User`.
-These classes also implement the "Business Logic": all the methods
-needed for handling projects are actually implemented in the Project class.
-
-To save these objects permanently (often called "persistance")
-we use a relational database,
-in most cases Postgres or MySQL/MariaDB. Only the data is stored in the database,
-not the behaviour (the "Business Logic" mentioned above).
-
-Here we hit on an old problem in computer science: storing
-objects into a relational database does not work all that well.
-This problem is called the
-[Object-relational impedance mismatch](https://en.wikipedia.org/wiki/Object-relational_impedance_mismatch)
-and has been discussed since the early 1980s.
-
-### ORMs
-
-Today there exist several Design Patterns and Libraries for solving this.
-The solution is called an Object Relational Mapper or ORM.
-
-Two Patterns used in Rails for this problem are ActiveRecord and ObjectMapper, both
-described by Fowler in his 2003 book [Patterns of Enterprise Application Architecture](https://martinfowler.com/books/eaa.html).
-ActiveRecord is the default solution used in Rails, we will look into it in detail here.
-
-Some example-ORMs in other Languages:
-
-- PHP: [Doctrine](https://www.doctrine-project.org/) and [Propel](https://propelorm.org/)
-- Java: [Hibernate](https://hibernate.org/)
-- Python: [SQL Alchemy](https://www.sqlalchemy.org/) and [many more](https://www.fullstackpython.com/object-relational-mappers-orms.html)
-- JavaScript+Typescript: [Sequelize](https://sequelize.org/), [TypeORM](https://typeorm.io/), [prisma](https://www.prisma.io/) and [many more](https://blog.logrocket.com/best-typescript-orms/#picking-best-typescript-orms)
-
-## ActiveRecord Basics
+Rails Models are classes that represent tables in the database.
 
 Rails implements the Active Record pattern in a class called `ActiveRecord`.
 All the models in a Rails project inherit from `ActiveRecord`.
 
 ```ruby
-# file app/models/thing.rb
-class Thing < ApplicationRecord
+# file app/models/Tweet.rb
+# this is the Tweet model that you create
+class Tweet < ApplicationRecord
 end
 
 
 # file app/models/application_record.rb
+# this file already exists
 class ApplicationRecord < ActiveRecord::Base
-  self.abstract_class = true
+  primary_abstract_class
 end
 ```
 
@@ -81,34 +51,6 @@ an attibute in the table           a property of the object
 SELECT * FROM courses WHERE id=7   Course.find(7)
 ```
 
-### Conventions
-
-Rails has several conventions regarding ActiveRecord and the database:
-
-- The model class is written in "pascal case", and uses a singular noun: `Course`
-- The table in the database is written in "snake case", and uses the plural of this noun: `courses`
-- The table contains an integer attribute `id` as its primary key
-- All the attributes from the database table will show up as properties of the model in Rails automatically
-- Two extra properties are added: `created_at` and `updated_at`.
-- If there's an 1:n relationship between two models, the table on the "one" side will contain a foreign key like so:
-  - table `users` and table `phones` (one user has many phones)
-  - table `phones` contains `user_id` that references `users.id`
-- If there's a n:m relationship between two models, there will be a join table like so:
-  - table `users` and table `projects` (one user has many projects, one project has many users)
-  - table `projects_users` contains `user_id` and `project_id` (and nothing else)
-  - there is no class in Rails to represent the join table
-
-### Not following Conventions
-
-If you stick to these conventions, building the web app will be very easy.
-
-You can deviate from these conventions, but this takes some extra configuration and programming work.
-
-Here is one scenario where deviating from the conventions might make sense:
-You are building a Rails app to replace an old php app, but you want to
-keep using the same database. You can start with the models
-in Rails configured to fit with your old database, and then refactor and migrate towards
-the Rails conventions step by step.
 
 ## The Model
 
@@ -155,7 +97,13 @@ input and output:
 
 ```ruby
 railsconsole> Tweet.find(1)
-=> #<Tweet id: 1, status: "Where can I get a good bite to eat?", zombie: "Ash">
+=>
+#<Tweet:0x0000000105308f58
+ id: 1,
+ status: "Where can I get a good bite to eat?",
+ zombie: "Ash",
+ created_at: Sun, 22 Oct 2023 14:54:27.955788000 UTC +00:00,
+ updated_at: Sun, 22 Oct 2023 14:54:27.955788000 UTC +00:00>
 ```
 
 (We will leave out the SQL, and some timestamps.)
@@ -202,16 +150,24 @@ After saving to the database some of the properties are set:
 
 ```ruby
 railsconsole> t = Tweet.new
- => #<Tweet id: nil, status: nil, zombie: nil, created_at: nil, updated_at: nil>
- railsconsole> t.status = "I <3 brains."
- => "I <3 brains."
- railsconsole> t.save
-   (0.1ms)  begin transaction
-  Tweet Create (1.8ms)  INSERT INTO "tweets" ("status", "created_at", "updated_at") VALUES (?, ?, ?)  [["status", "I <3 brains."], ["created_at", "2020-11-24 09:20:15.931090"], ["updated_at", "2020-11-24 09:20:15.931090"]]
-   (1.7ms)  commit transaction
- => true
+=> #<Tweet:0x0000000106688358 id: nil, status: nil, zombie: nil, created_at: nil, updated_at: nil>
+railsconsole> t.status = "I <3 brains."
+=> "I <3 brains."
+
+railsconsole> t.save
+  TRANSACTION (3.8ms)  BEGIN
+  Tweet Create (9.2ms)  INSERT INTO "tweets" ("status", "zombie", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["status", "I <3 brains."], ["zombie", nil], ["created_at", "2023-10-22 17:12:31.990939"], ["updated_at", "2023-10-22 17:12:31.990939"]]
+  TRANSACTION (2.0ms)  COMMIT
+=> true
+
 railsconsole> t
- => #<Tweet id: 4, status: "I <3 brains.", zombie: nil, created_at: "2020-11-24 09:55:37", updated_at: "2020-11-24 09:55:37">
+=>
+#<Tweet:0x0000000106688358
+ id: 4,
+ status: "I <3 brains.",
+ zombie: nil,
+ created_at: Sun, 22 Oct 2023 17:12:31.990939000 UTC +00:00,
+ updated_at: Sun, 22 Oct 2023 17:12:31.990939000 UTC +00:00>
 ```
 
 ### Read
@@ -221,7 +177,7 @@ uses the primary key and always returns one object. The method `where` is used f
 
 ```ruby
 t1 = Tweet.find(3)
-t2 = Tweet.where("created_at > '2020-10-01'")
+t2 = Tweet.where("created_at > '2023-10-21'")
 t3 = Tweet.where(zombie: 'Ash')
 ```
 
@@ -230,15 +186,38 @@ t3 = Tweet.where(zombie: 'Ash')
 In the Rails console you can see the return values: `where` returns serveral objects in the end.
 
 ```ruby
-railsconsole> t1 = Tweet.find(3)
-  Tweet Load (0.3ms)  SELECT  "tweets".* FROM "tweets" WHERE "tweets"."id" = ? LIMIT ?  [["id", 3], ["LIMIT", 1]]
- => #<Tweet id: 3, status: "I just ate some delicious brains.", zombie: "Jim", created_at: "2020-11-24 09:26:48", updated_at: "2020-11-24 09:26:48">
-railsconsole> t2 = Tweet.where("created_at > '2020-10-01'")
-  Tweet Load (0.5ms)  SELECT  "tweets".* FROM "tweets" WHERE (created_at > '2020-10-01') LIMIT ?  [["LIMIT", 11]]
- => #<ActiveRecord::Relation [#<Tweet id: 1, status: "I <3 brains.", zombie: nil, created_at: "2020-11-24 09:20:15", updated_at: "2020-11-24 09:20:15">, #<Tweet id: 2, status: "Where can I get a good bite to eat?", zombie: "Ash", created_at: "2020-11-24 09:26:26", updated_at: "2020-11-24 09:26:26">, #<Tweet id: 3, status: "I just ate some delicious brains.", zombie: "Jim", created_at: "2020-11-24 09:26:48", updated_at: "2020-11-24 09:26:48">]>
-railsconsole> t3 = Tweet.where(zombie: 'Ash')
-  Tweet Load (0.3ms)  SELECT  "tweets".* FROM "tweets" WHERE "tweets"."zombie" = ? LIMIT ?  [["zombie", "Ash"], ["LIMIT", 11]]
- => #<ActiveRecord::Relation [#<Tweet id: 2, status: "Where can I get a good bite to eat?", zombie: "Ash", created_at: "2020-11-24 09:26:26", updated_at: "2020-11-24 09:26:26">]>
+railsconsole> t2 = Tweet.where("created_at > '2023-10-21'")
+  Tweet Load (1.0ms)  SELECT "tweets".* FROM "tweets" WHERE (created_at > '2023-10-21')
+=>
+[#<Tweet:0x00000001066070a0
+...
+
+railsconsole> t2
+=>
+[#<Tweet:0x00000001066070a0
+  id: 1,
+  status: "Where can I get a good bite to eat?",
+  zombie: "Ash",
+  created_at: Sun, 22 Oct 2023 14:54:27.955788000 UTC +00:00,
+  updated_at: Sun, 22 Oct 2023 14:54:27.955788000 UTC +00:00>,
+ #<Tweet:0x0000000106606f60
+  id: 2,
+  status: "I <3 brains.",
+  zombie: "QueenRotten",
+  created_at: Sun, 22 Oct 2023 14:54:27.957318000 UTC +00:00,
+  updated_at: Sun, 22 Oct 2023 14:54:27.957318000 UTC +00:00>,
+ #<Tweet:0x0000000106606e20
+  id: 3,
+  status: "I just ate some delicious brains.",
+  zombie: "Jim",
+  created_at: Sun, 22 Oct 2023 14:54:27.958430000 UTC +00:00,
+  updated_at: Sun, 22 Oct 2023 14:54:27.958430000 UTC +00:00>,
+ #<Tweet:0x0000000106606ce0
+  id: 4,
+  status: "I <3 brains.",
+  zombie: nil,
+  created_at: Sun, 22 Oct 2023 17:12:31.990939000 UTC +00:00,
+  updated_at: Sun, 22 Oct 2023 17:12:31.990939000 UTC +00:00>]
 ```
 
 ### Update
@@ -253,20 +232,25 @@ t.zombie = "EyeballChomper"
 t.save
 ```
 
-In the Rails console you can see that for every change in the object
-the property `updated_at` is automatically set.
+In the Rails console you can see that the UPDATE statement in SQL really
+only changes the one changed attribute.
+Plus the property `updated_at` is automatically set.
 
 ```ruby
 railsconsole> t = Tweet.find(3)
-  Tweet Load (0.4ms)  SELECT  "tweets".* FROM "tweets" WHERE "tweets"."id" = ? LIMIT ?  [["id", 3], ["LIMIT", 1]]
- => #<Tweet id: 3, status: "I just ate some delicious brains.", zombie: "Jim", created_at: "2020-11-24 09:26:48", updated_at: "2020-11-24 09:26:48">
+  Tweet Load (10.0ms)  SELECT "tweets".* FROM "tweets" WHERE "tweets"."id" = $1 LIMIT $2  [["id", 3], ["LIMIT", 1]]
+=>
+#<Tweet:0x0000000106603ae0
+...
+
 railsconsole> t.zombie = "EyeballChomper"
- => "EyeballChomper"
+=> "EyeballChomper"
+
 railsconsole> t.save
-   (0.2ms)  begin transaction
-  Tweet Update (0.6ms)  UPDATE "tweets" SET "zombie" = ?, "updated_at" = ? WHERE "tweets"."id" = ?  [["zombie", "EyeballChomper"], ["updated_at", "2020-11-24 09:32:52.071511"], ["id", 3]]
-   (1.2ms)  commit transaction
- => true
+  TRANSACTION (4.6ms)  BEGIN
+  Tweet Update (18.0ms)  UPDATE "tweets" SET "zombie" = $1, "updated_at" = $2 WHERE "tweets"."id" = $3  [["zombie", "EyeballChomper"], ["updated_at", "2023-10-22 17:17:34.242526"], ["id", 3]]
+  TRANSACTION (0.9ms)  COMMIT
+=> true
 ```
 
 ### Delete
@@ -279,16 +263,26 @@ t.destroy
 ```
 
 On the console you can see how `destroy` is translated to `DELETE` in SQL.
+`destroy` gives the last version of the model as a return value.
 
 ```ruby
 railsconsole> t = Tweet.find(3)
-  Tweet Load (0.3ms)  SELECT  "tweets".* FROM "tweets" WHERE "tweets"."id" = ? LIMIT ?  [["id", 3], ["LIMIT", 1]]
- => #<Tweet id: 3, status: "I just ate some delicious brains.", zombie: "EyeballChomper", created_at: "2020-11-24 09:26:48", updated_at: "2020-11-24 09:32:52">
+  Tweet Load (12.4ms)  SELECT "tweets".* FROM "tweets" WHERE "tweets"."id" = $1 LIMIT $2  [["id", 3], ["LIMIT", 1]]
+=>
+#<Tweet:0x0000000106600b60
+...
+
 railsconsole> t.destroy
-   (0.1ms)  begin transaction
-  Tweet Destroy (0.7ms)  DELETE FROM "tweets" WHERE "tweets"."id" = ?  [["id", 3]]
-   (1.1ms)  commit transaction
- => #<Tweet id: 3, status: "I just ate some delicious brains.", zombie: "EyeballChomper", created_at: "2020-11-24 09:26:48", updated_at: "2020-11-24 09:32:52">
+  TRANSACTION (2.3ms)  BEGIN
+  Tweet Destroy (3.5ms)  DELETE FROM "tweets" WHERE "tweets"."id" = $1  [["id", 3]]
+  TRANSACTION (1.1ms)  COMMIT
+=>
+#<Tweet:0x0000000106600b60
+ id: 3,
+ status: "I just ate some delicious brains.",
+ zombie: "EyeballChomper",
+ created_at: Sun, 22 Oct 2023 14:54:27.958430000 UTC +00:00,
+ updated_at: Sun, 22 Oct 2023 17:17:34.242526000 UTC +00:00>
 ```
 
 ### Chaining ActiveRecord methods
@@ -297,15 +291,22 @@ Let's look at the example of using `where` again: the return value was of class 
 
 ```ruby
 railsconsole> t3 = Tweet.where(zombie: 'Ash')
-  Tweet Load (0.3ms)  SELECT  "tweets".* FROM "tweets" WHERE "tweets"."zombie" = ? LIMIT ?  [["zombie", "Ash"], ["LIMIT", 11]]
- => #<ActiveRecord::Relation [#<Tweet id: 2, status: "Where can I get a good bite to eat?", zombie: "Ash", created_at: "2020-11-24 09:26:26", updated_at: "2020-11-24 09:26:26">]>
+  Tweet Load (9.6ms)  SELECT "tweets".* FROM "tweets" WHERE "tweets"."zombie" = $1  [["zombie", "Ash"]]
+=>
+[#<Tweet:0x00000001062858c8
+...
+
+railsconsole> t3.class
+=> Tweet::ActiveRecord_Relation
 ```
 
 This class also supports all the ActiveRecord methods. This means
-we can chain several `where`s together:
+we can chain several `where`s together.  ActiveRecord can combine them
+into a complete SQL statement:
 
 ```ruby
-tweets = Tweet.where("created_at > '2020-10-01'").where(zombie: 'Ash')
+railsconsole> tweets = Tweet.where("created_at > '2023-10-21'").where(zombie: 'Ash')
+  Tweet Load (1.0ms)  SELECT "tweets".* FROM "tweets" WHERE (created_at > '2023-10-21') AND "tweets"."zombie" = $1  [["zombie", "Ash"]]
 ```
 
 §
@@ -316,12 +317,12 @@ In fact there are many more methods we might want to use for chaining:
 Tweet.limit(3)
 Tweet.order(:zombie)
 Tweet.select(:created_at, :zombie, :status)
-Tweet.where("created_at > '2020-10-01'").
+Tweet.where("created_at > '2023-10-21'").
   where(zombie: 'Ash').
   order(:zombie).limit(3)
 ```
 
-(Normally the dot is placed in front of the method when chaining. Here
+For the last three lines: Normally the dot is placed in front of the method when chaining. Here
 it is placed at the end, to enable copy-and-paste to the Rails console)
 
 §
@@ -360,160 +361,6 @@ railsconsole> query.select(:created_at, :zombie, :status).
       LIMIT 3
 ```
 
-
-## Database
-
-### A word on generators
-
-Rails comes with several commands for the command line.
-
-```
-$ rails --help
-The most common rails commands are:
- generate     Generate new code (short-cut alias: "g")
- console      Start the Rails console (short-cut alias: "c")
- server       Start the Rails server (short-cut alias: "s")
- test         Run tests except system tests (short-cut alias: "t")
- test:system  Run system tests
- dbconsole    Start a console for the database specified in config/database.yml
-              (short-cut alias: "db")
-```
-
-First we will
-use a generator that will help us generate some code.
-
-### How to build a Table
-
-To build the first model and its corresponding database table, use the model generator:
-
-`rails generate model tweet status zombie`
-
-This will generate a Model `Tweet` and a migration to create table `tweets`.
-
-Have a look at the migration that was generated in `db/migrate/*create_tweets.rb`.
-You can edit this migration now - but not later! Run the migration on the command line with `rails db:migrate`. This will run the appropriate `CREATE TABLE` statement in your database.
-
-Look at the model generated in file `app/models/tweet.rb`. Add validations, associations to other models and the business logic here.
-
-### Database Migrations
-
-During Development the database schema will change just as much as
-the code will change. And both changes belong together: if I push out
-a code change to my fellow developers without the db schema changes,
-they will not be able to use the code.
-
-Rails offers "Database Migrations" to cope with this fact.
-
-§
-
-A "Migration" is a (small) change in the database schema. The change is
-described in Ruby and saved to a file in the folder `db/migrations`.
-The files are identified by a timestamp and a unique name, for example:
-
-```
-20201031100433_create_venues.rb
-20201031100442_create_events.rb
-20201031100501_add_video_link_to_events.rb
-```
-
-The first two of these migrations were generated by the model generator,
-the last one by `rails generate migration AddVideoLinkToEvent`.
-
-§
-
-The model generator creates a migration for creating a table:
-
-```ruby
-class CreateEvents < ActiveRecord::Migration
-  def change
-    create_table :events do |t|
-      t.string :title
-      t.text :description
-      t.datetime :start_time
-      t.datetime :stop_time
-      t.boolean :free
-
-      t.timestamps
-    end
-  end
-end
-```
-
-§
-
-Use `rails` on the commandline to apply this migration to the existing database:
-
-- `rails db:migrate` # apply all open migrations
-- `rails db:rollback` # roll back last migration
-
-A word of warning: you never, ever need to change a migration after
-using, commiting and pushing it. You only ever add new migrations!
-
-### a real world example:
-
-The following output is from upgrading gitlab. Gitlab
-is written in Rails. Here we can see three migrations being applied to
-the existing database:
-
-```
-== 20191120084627 AddEncryptedFieldsToApplicationSettings: migrating ==========
--- add_column(:application_settings, "encrypted_akismet_api_key", :text)
- -> 0.0013s
--- add_column(:application_settings, "encrypted_akismet_api_key_iv", :string, {:limit=>255})
- -> 0.0007s
--- add_column(:application_settings, "encrypted_elasticsearch_aws_secret_access_key", :text)
- -> 0.0007s
--- add_column(:application_settings, "encrypted_elasticsearch_aws_secret_access_key_iv", :string, {:limit=>255})
- -> 0.0008s
--- add_column(:application_settings, "encrypted_recaptcha_private_key", :text)
- -> 0.0008s
--- add_column(:application_settings, "encrypted_recaptcha_private_key_iv", :string, {:limit=>255})
- -> 0.0007s
--- add_column(:application_settings, "encrypted_recaptcha_site_key", :text)
- -> 0.0007s
--- add_column(:application_settings, "encrypted_recaptcha_site_key_iv", :string, {:limit=>255})
- -> 0.0007s
--- add_column(:application_settings, "encrypted_slack_app_secret", :text)
- -> 0.0007s
--- add_column(:application_settings, "encrypted_slack_app_secret_iv", :string, {:limit=>255})
- -> 0.0007s
--- add_column(:application_settings, "encrypted_slack_app_verification_token", :text)
- -> 0.0007s
--- add_column(:application_settings, "encrypted_slack_app_verification_token_iv", :string, {:limit=>255})
- -> 0.0007s
-== 20191120084627 AddEncryptedFieldsToApplicationSettings: migrated (0.0095s) =
-
-== 20191120115530 EncryptPlaintextAttributesOnApplicationSettings: migrating ==
-== 20191120115530 EncryptPlaintextAttributesOnApplicationSettings: migrated (0.4133s)
-
-== 20191122135327 RemovePlaintextColumnsFromApplicationSettings: migrating ====
--- remove_column(:application_settings, "akismet_api_key")
- -> 0.0010s
--- remove_column(:application_settings, "elasticsearch_aws_secret_access_key")
- -> 0.0006s
--- remove_column(:application_settings, "recaptcha_private_key")
- -> 0.0006s
--- remove_column(:application_settings, "recaptcha_site_key")
- -> 0.0006s
--- remove_column(:application_settings, "slack_app_secret")
- -> 0.0006s
--- remove_column(:application_settings, "slack_app_verification_token")
- -> 0.0007s
-== 20191122135327 RemovePlaintextColumnsFromApplicationSettings: migrated (0.0045s)
-```
-
-## On Documentation
-
-You could have learned all this and more from
-the Rails Guides: [ActiveRecord Basics](https://guides.rubyonrails.org/active_record_basics.html), [Active Record Query Interface](https://guides.rubyonrails.org/active_record_querying.html) and [Active Record Migrations](https://guides.rubyonrails.org/active_record_migrations.html).
-Set a bookmark for the guides now! Use them as a reference from now on!
-
-If you are offline now and again you should have the Ruby and Rails documentation available
-locally on your computer. A handy tool for this on mac os x is
-[Dash](https://kapeli.com/dash). This is what a Rails Guide looks like in Dash:
-
-![Dash](images/dash-rails-guide.png)
-
 ### Further reading
 
 - The Rails Guides give a good introduction to a subject area:
@@ -522,12 +369,4 @@ locally on your computer. A handy tool for this on mac os x is
 - Use the [Rails API](https://api.rubyonrails.org/) documentation to look up the details:
   - [find](https://api.rubyonrails.org/classes/ActiveRecord/FinderMethods.html#method-i-find)
   - [where](https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-where)
-  - [add_column](https://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/SchemaStatements.html#method-i-add_column) lists all the possible data types for columns
 
-
-### Other Backends
-
-- for the PHP Framework Laraval the ORM  [Eloquent](https://laravel.com/docs/10.x/eloquent#introduction) is used
-  - [Migrations](https://laravel.com/docs/10.x/migrations#introduction)
-- for node.js an example ORM would be [Prisma](https://www.prisma.io/)
-  - [Migrations in Prisma](https://www.prisma.io/docs/concepts/components/prisma-migrate/mental-model) follow a different model: the schema file is edited by hand, the migration file is generated automatically from the changes made. applying the migration is the same
