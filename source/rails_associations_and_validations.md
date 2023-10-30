@@ -169,9 +169,8 @@ We will only look at 1:n Relationships for now.
 
 ### 1:n Associations
 
-If you have used relational databases before you are probably familiar
-with the different types of associations between database tables. But even
-if you have not, the first association is easy to understand:
+In this example of a 1:n ("one to n") Association, one Zombie
+has many tweets, an and one Tweet belongs to exactly one Zombie:
 
 ```
 One Zombie has many Tweets          One Tweet belongs to one Zombie
@@ -183,6 +182,8 @@ Zombie Ash  ----------------------- Tweet 'arg'
 Zombie Sue ------------------------ Tweet 'gagaga'
 ```
 
+
+
 ### Database
 
 In the table `tweets` there is a column `zombie_id` which references `zombies.id`.
@@ -190,13 +191,14 @@ This column in `tweets` is called a "foreign key".
 
 ### Create the Tables
 
-You can either add this column when you first create Tweets:
+The easiest way is to create Zombies first. Then you
+can already reference them when you create Tweets:
 
 ```
 rails generate model tweet status:string zombie:references
 ```
 
-You can add the column later, to an existing `tweets` table, using just a migration
+You can also add the column later, to an existing `tweets` table, using just a migration
 
 ```
 $ rails generate migration AddZombieToTweets zombie:references
@@ -208,7 +210,7 @@ this will generate a migration with the following command
     add_reference :tweets, :zombie, null: false, foreign_key: true
 ```
 
-If you ever mistype your `rails generate ...` line, you can undo it by running `rails destroy ...`.
+Remember: If you ever mistype your `rails generate ...` line, you can undo it by running `rails destroy ...`.
 
 ### Model
 
@@ -220,12 +222,12 @@ editing the two files in `app/models/*.rb`.
 ```ruby
 # in file app/models/zombie.rb
 class Zombie < ApplicationRecord
-  has_many :tweets
+  has_many :tweets   # needs to be added by hand
 end
 
 # in file app/models/tweet.rb
 class Tweet < ApplicationRecord
-  belongs_to :zombie
+  belongs_to :zombie  # was added by generator
 end
 ```
 
@@ -233,7 +235,7 @@ Notice the plural used with `has_many` and the singular used with `belongs_to`.
 
 ### Methods
 
-There are now methods available to walk from one model to the other:
+After running the migration there are now methods available to walk from one model to the other:
 
 ```ruby
 # from zweet to zombie
@@ -264,9 +266,116 @@ You can find a list of all the new methods added by the
 association in the Rails Guide under [Methods Added by belongs_to](https://guides.rubyonrails.org/association_basics.html#belongs-to-association-reference) and
 [Methods Added by has_many](https://guides.rubyonrails.org/association_basics.html#has-many-association-reference).
 
-### explore the models
 
-`User.reflect_on_association`
+### n:m Associations
+
+In this next example a comic(book) has many authors, and an author has created many comic(book)s.
+In this case we first create the two models, and then add a join table with this generator:
+
+
+```shell
+rails generate migration CreateJoinTableComicAuthor comics authors
+```
+
+The identifier after "migration" is arbitrary, we could call it anything we want.  The
+two table names will be sorted alphabetically, and a table `authors_comincs` will be
+created.  It will not haven an id, and just contain the two foreign keys.
+
+### has_and_belongs_to_many
+
+In the two model Classes we need to declare the n:m association like so:
+
+```ruby
+class Author < ApplicationRecord
+  has_and_belongs_to_many :comics
+end
+
+class Comic < ApplicationRecord
+  has_and_belongs_to_many :authors
+end
+```
+
+§
+
+Again we gain new methods for the two classes:
+
+
+```ruby
+a = Author.first
+a.comics.create(name: 'Maus')
+a.comics.create(name: 'Katze')
+a.comics.each do |c|
+  ...
+end
+```
+
+Notice: we do not have a model that represents the join table.
+
+
+### n:m Associations with additional Data
+
+Sometimes we have a n:m association with additional data.
+In the next example, a Reader can rate a Comic, by giving one to 5 stars,
+and also write a review of the comic.
+
+One Reader can do this for several Comics, and one Comic can have
+reviews and ratings by several Readers.
+
+In Ruby on Rails we want to have a model to represent the association and the data.
+Let's call it "Review":
+
+```
+$ rails g scaffold Review comic:references reader:references star_rating:integer review:text
+```
+
+The resulting model will already include two `belongs_to` statements:
+
+```ruby
+class Review < ApplicationRecord
+  belongs_to :comic
+  belongs_to :reader
+end
+```
+
+§
+
+In the two other classes we will add `has_many` and `has many ... through`:
+
+```ruby
+class Reader < ApplicationRecord
+  has_many :reviews
+  has_many :comics, through: :reviews
+end
+
+class Comic < ApplicationRecord
+  has_many :reviews
+  has_many :readers, through: :reviews
+end
+```
+
+§
+
+
+Some examples of using this:
+
+```ruby
+the_reader = Reader.first
+Review.create(comic: Comic.last, reader: the_reader, star_rating: 1)
+the_reader.reviews.create(comic: Comic.first, star_rating: 5, review: 'I can not even begin to ...')
+```
+
+
+## Build the Database Schema migration by migration
+
+When first starting on a new Rails project you might already
+have  an idea of what the database will look like.
+But to get to your ideal design, you have to break this
+down into several generation steps, several migrations.
+
+For each Model you create you can decide if you want to use `generate model` or
+`generate scaffold`.  The scaffold will give you a full CRUD interface for the model.
+You will not need this for all models, but using it for some models will
+save you a lot of work!
 
 
 ## Further reading

@@ -129,6 +129,10 @@ Look at the model generated in file `app/models/tweet.rb`. It is empty for now.
 We do not need to specify properties or their datatypes here, they will be
 derived from the database automatically.
 
+If you ever mistype your `rails generate ...` line, you can undo it by running `rails destroy ...`. This will
+delete all the files generated.
+
+
 
 ### How to build a first Table - edit migration
 
@@ -397,7 +401,7 @@ There are several ways to store such a value in the database and use it in Rails
 This next example shows the first three options:
 
 ```shell
-rails g model comic2 name category status:integer format:enum
+rails g model comic name category status:integer format:enum
 ```
 
 For category (just a string) and status (integer in the database) we do
