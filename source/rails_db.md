@@ -241,7 +241,7 @@ Use `rails db:migrate` on the commandline to apply this migration to the existin
 
 You can think of the migration as a small step forward in changing the
 database.  If you want, you can also go backward with `rails db:rollback`.
-this wll undo the last migration.
+this will undo the last migration.
 
 (Not always.  If you deleted a table with all it's data, then the rollback
 will not bring the data back.)
@@ -308,6 +308,173 @@ the existing database.
 == 20191122135327 RemovePlaintextColumnsFromApplicationSettings: migrated (0.0045s)
 ```
 
+## Data Types
+
+You can specify the data type when running the generator.
+`string` is the default Datatype, so these two lines give the same result:
+
+```shell
+rails generate model tweet status zombie likes:integer
+rails generate model tweet:string status:status zombie:status likes:integer
+```
+
+Here are the most important ones to begin:
+
+* `:string` and `:text`  are synonymous when using postgresql
+* `:boolean` is for booleans  (use this, not a 0 and 1!)
+* `:integer`, `:bigint`, `:float`, `:decimal`, `:numeric`  are number types
+* `:datetime`, `:time`, `:date`, `:daterange`, `:interval` (the last two are postgresql specific)
+* `:jsonb` is a postgres specific way to store json in an efficient way
+* `:enum` is postgresql specific
+* `:uuid` is postgresql specific, can be used for primary keys
+* `:inet`, `:cidr`, `:macaddr` are postgresql specific types for network adresses
+* `:binary`, `:blob`  for raw binary data
+
+
+### Details for types
+
+The generator will give you a good first draft of the migration, but sometimes
+you will have to edit the migration to add details. For example: say you want to store
+a monetary value you would use `:decimal` as the base datatype:
+
+```shell
+rails generate comic name price_in_euro:decimal
+```
+This is the resulting migration:
+
+```ruby
+class CreateComics < ActiveRecord::Migration[7.0]
+  def change
+    create_table :comics do |t|
+      t.string :name
+      t.decimal :price_in_euro
+
+      t.timestamps
+    end
+  end
+end
+```
+
+To specify that we want 15 digits in all, 2 digits after the comma,
+we add `:precision` and `:scale`
+
+```ruby
+class CreateComics < ActiveRecord::Migration[7.0]
+  def change
+    create_table :comics do |t|
+      t.string :name
+      t.decimal :price_in_euro, precision: 15, scale: 2
+
+      t.timestamps
+    end
+  end
+end
+```
+
+Now the price is stored in the database in an optimal way to get
+this format, and always retrieved in the right format:
+
+```
+# select * from comics;
+ id | name | price_in_euro |        created_at         |        updated_at
+----+------+---------------+---------------------------+---------------------------
+  1 | Maus |        100.00 | 2023-10-30 11:45:54.45353 | 2023-10-30 11:45:54.45353
+```
+
+
+### Enums
+
+Often we want to store a restricted set of possible values. Size could be small, medium or large,
+status could be draft, published and archived, ... and so on.
+
+There are several ways to store such a value in the database and use it in Rails.
+
+1. Just use a string
+2. Store an Integer in the Database, use `enum` in the Model to map this integer to a symbol
+3. Create an Enum Type in the Database, use `enum` in the Model to map this enum to a symbol
+4. Create a separate Table for the possible values, reference the table through a foreign key
+
+This next example shows the first three options:
+
+```shell
+rails g model comic2 name category status:integer format:enum
+```
+
+For category (just a string) and status (integer in the database) we do
+not need to change the migration. We can add a default value.
+For the enum we need to add a definition to the migration, it needs
+to be created before it is used:
+
+```ruby
+class CreateComics < ActiveRecord::Migration[7.0]
+  def change
+    create_enum :comic_format, ["book", "webcomic", "motion comic"]
+
+    create_table :comics do |t|
+      t.string :name
+      t.string :category
+      t.integer :status, default: 0, null: false
+      t.enum :format, enum_type: :comic_format, default: "book", null: false
+
+      t.timestamps
+    end
+  end
+end
+```
+
+In the model file `app/model/comic.rb` we add the
+mapping from the database to rails:
+
+```ruby
+class Comic < ApplicationRecord
+  enum status: {
+    draft: 0, published: 1, archived: 2
+  }, _prefix: true
+
+  enum format: {
+    book: "book", webcomic: "webcomic", motion_comic: "motion comic"
+  }, _prefix: true
+end
+```
+
+Now we can work with the enums on the rails console:
+
+```
+railsconsole> c = Comic.new(name: 'Maus', status: :draft, format: :book)
+=> #<Comic:0x00000001063d4fa8 id: nil, name: 'Maus', category: nil, status: "draft", format: "book", ...
+irb(main):003> c.save
+  TRANSACTION (0.3ms)  BEGIN
+  Comic Create (3.9ms)  INSERT INTO "comics" ("name", "category", "status", "format", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"  [["name", nil], ["category", nil], ["status", 0], ["format", "book"], ...]
+  TRANSACTION (0.8ms)  COMMIT
+=> true
+```
+
+Notice how the status is converted to 0.
+
+Trying to create an invalid status or format will raise a runtime error:
+
+```
+railsconsole> c = Comic.new(name: 'broken', status: :daft, format: :nook)
+num.rb:157:in `assert_valid_value': 'daft' is not a valid status (ArgumentError)
+
+          raise ArgumentError, "'#{value}' is not a valid #{name}"
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+railsconsole> c = Comic.new(name: 'broken', status: :draft, format: :nook)
+enum.rb:157:in `assert_valid_value': 'nook' is not a valid format (ArgumentError)
+```
+
+We also get a few convenience methods for working with status and format:
+
+```
+railsconsole> c.status_published?
+=> false
+railsconsole> c.status_published!
+  TRANSACTION (7.9ms)  BEGIN
+  Comic Update (13.8ms)  UPDATE "comics" SET "status" = $1, "updated_at" = $2 WHERE "comics"."id" = $3  [["status", 1], ["updated_at", "2023-10-30 11:20:34.867427"], ["id", 1]]
+  TRANSACTION (1.1ms)  COMMIT
+=> true
+```
+
 ## On Documentation
 
 You could have learned all this and more from
@@ -326,5 +493,5 @@ locally on your computer. A handy tool for this on mac os x is
   - Rails Guide: [Active Record Migrations](https://guides.rubyonrails.org/active_record_migrations.html)
 - Use the [Rails API](https://api.rubyonrails.org/) documentation to look up the details:
   - [add_column](https://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/SchemaStatements.html#method-i-add_column) lists all the possible data types for columns
-
+  - [Rails Guide for Postgresql](https://guides.rubyonrails.org/active_record_postgresql.html) for postgres specific types like daterange, uuid or jsonb
 
