@@ -83,18 +83,37 @@
     // Also available as an ES module, see:
     // https://revealjs.com/initialization/
     Reveal.initialize({
-      controls: true,
+      controls: false,
       progress: true,
       center: true,
       hash: true,
 
+      // The "normal" size of the presentation, aspect ratio will
+      // be preserved when the presentation is scaled to fit different
+      // resolutions. Can be specified using percentage units.
+      width: 1300,
+      height: 900,
+
+      // Factor of the display size that should remain empty around
+      // the content
+      margin: 0.01,
+
+      // Bounds for smallest/largest possible scale to apply to content
+      minScale: 0.2,
+      maxScale: 10.0,
+
       keyboard: {
-        27: () => { console.log('esc') }, // do something custom when ESC is pressed
+        27: () => {
+          // do something custom when ESC is pressed
+          var new_url = window.location.pathname.replace('slides_', '');
+          console.log('esc to ', new_url);
+          window.location = new_url;
+        },
         13: 'next', // go to the next slide when the ENTER key is pressed
       },
 
       // Learn about plugins: https://revealjs.com/plugins/
-      plugins: [ RevealSearch, RevealMarkdown ]  // RevealHighlight
+      plugins: [ RevealSearch, RevealMarkdown ]
     });
     </script>
 </body>

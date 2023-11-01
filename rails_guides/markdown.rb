@@ -83,7 +83,7 @@ module RailsGuides
       end
 
       def generate_header
-        @header = engine.render(@raw_header).html_safe
+        @header = engine.render(@raw_header).gsub('<ul>', '<ul class="checkmark">').html_safe
       end
 
       def generate_description
