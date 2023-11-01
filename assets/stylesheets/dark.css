@@ -61,12 +61,6 @@
     border-left: 0;
   }
 
-  #feature ul li {
-    background-size: 1.4em 1.4em;
-    background-image: url(../images/check_icon.svg);
-    background-position: left 0.5em;
-  }
-
   #mainCol a.anchorlink, #mainCol a.anchorlink code {
     color: #eee;
   }

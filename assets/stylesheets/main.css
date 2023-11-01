@@ -778,11 +778,14 @@ h6 {
 #feature ul {
   margin-left: 0;
 }
-#feature ul li {
-  list-style: none;
-  padding: 0.5em 1.75em 0.5em 1.75em;
-  font-size: 1.1428em;
-  font-weight: bold;
+
+#feature ul li::marker {
+  content: '✓ ';
+  color: green;
+}
+
+#feature ul {
+  margin-left: 2em;
 }
 
 #mainCol dd,
