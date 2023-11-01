@@ -113,9 +113,9 @@ returning a false value from `save` and setting the `errors` attribute.
 
 If we run this in the console we can see the SQL:
 
-```
-> u3 = User.new(name: 'Ash', email: 'b@a.com')
-> u3.save
+```ruby
+railsconsole> u3 = User.new(name: 'Ash', email: 'b@a.com')
+railsconsole> u3.save
   BEGIN
   SELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2  [["email", "b@a.com"], ["LIMIT", 1]]
   INSERT INTO "users" ("name", "email", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["name", "Ash"], ["email", "b@a.com"], ["created_at", "2020-11-24 10:02"], ["updated_at", "2020-11-24 10:02"]]
@@ -128,7 +128,7 @@ We can see a transaction from `BEGIN` to `COMMIT`.
 
 You could also achieve the same effect using a [UNIQUE CONSTRAINT](https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-UNIQUE-CONSTRAINTS) in your database:
 
-```
+```ruby
 class AddUniqConstraint < ActiveRecord::Migration[6.0]
   def change
     add_index :users, :email, unique: true
@@ -138,9 +138,9 @@ end
 
 When Constraints in the Database are broken an exception is raised:
 
-```
-> u3 = User.new(name: 'Ash', email: 'b@a.com')
-> u3.save
+```ruby
+railsconsole> u3 = User.new(name: 'Ash', email: 'b@a.com')
+railsconsole> u3.save
   BEGIN
   INSERT INTO "users" ("name", "email", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["name", "Ash"], ["email", "b@a.com"], ["created_at", "2020-11-24 10:12:25.789051"], ["updated_at", "2020-11-24 10:12:25.789051"]]
   ROLLBACK

@@ -1,5 +1,11 @@
 # frozen_string_literal: true
 
+
+desc 'check for missing langague names in code blocks'
+task :check do
+  system "egrep -n '^```' source/*.md |awk 'NR%2{printf \"%s \",$0;next;}1'|grep -v ruby|grep -v sql|grep -v bash|grep -v html|grep -v yaml|grep -v erb"
+end
+
 namespace :guides do
   desc 'Generate guides (for authors), use ONLY=foo to process just "foo.md"'
   task generate: "generate:html"

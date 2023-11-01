@@ -210,7 +210,7 @@ padded with equal signs at the end.
 * As a second step the plus signs are replaced by minus signs and
 the padding is dropped, resulting in a string that can be used in a URL without problems:
 
-```
+```js
 { "msg_en": "Hello",
   "msg_jp": "こんにちは"
   "msg_de": "Guten Tag" }
@@ -247,7 +247,7 @@ additional gems for each provider. For example if you
 want to use both Github and Stackoverflow for your web app geared
 towards developers, you would need three gems:
 
-```
+```ruby
 gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-stackoverflow'
@@ -283,7 +283,7 @@ The URL of the application - this is needed to construct callback urls
 for OAuth2.  And a secret that will be used to sign certain tokens.
 You can use `openssl rand -base64 32` to create a random string.
 
-```
+```shell
 NEXTAUTH_URL=http://localhost:3000
 NEXTAUTH_SECRET=...
 ```

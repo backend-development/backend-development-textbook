@@ -3,8 +3,7 @@
 My Textbook on Backend Development. Developed on github, published at
 http://backend-development.github.io
 
-I hope this grows into a full textbook over time,
-like http://web-development.github.io did.
+Topics covered are: Ruby on Rails, node.js and a tiny, tiny bit of next.js.
 
 ## How to Read the book
 
@@ -27,6 +26,10 @@ Send me a pull request when you're done.
 fork the repository
 https://github.com/backend-development/backend-development-textbook
 
+you need ruby
+
+run `bundle` to install dependencies
+
 run `rake` to build the site in output/\*
 
 When you are content with your changes, push up to your own github repository,
@@ -34,12 +37,16 @@ and send me a pull request
 
 ## built with
 
-- code from the rails guides, found in the 'guides' folder of the rails repository
-- deck.js for the slides http://imakewebthings.com/deck.js/docs/
-- syntax highlighter https://github.com/syntaxhighlighter/syntaxhighlighter
+- code from the rails guides, found in the 'guides' folder of the rails repository#
+- this includes syntax highlighting with rouge.rb for [these languages](https://rouge-ruby.github.io/docs/file.Languages.html)
+- reveals.js for the slides https://revealjs.com/
+- syntax highlighter highlight.js used through reveal.js
 
 
-## neues thema: performance
+## neues bilder für das thema performance
+
+
+in assests/images
 
 Bilder caching-before-metrics-2.png
 

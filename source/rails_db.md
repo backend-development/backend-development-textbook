@@ -73,6 +73,8 @@ Rails has several conventions regarding ActiveRecord and the database:
 - Two extra properties are added: `created_at` and `updated_at`.
 
 
+§
+
 If there's an 1:n relationship between two models, the table on the "one" side will contain a foreign key like so:
 
 - table `users` and table `phones` (one user has many phones)
@@ -100,7 +102,7 @@ the Rails conventions step by step.
 
 Rails comes with several commands for the command line.
 
-```
+```shell
 $ rails --help
 The most common rails commands are:
  generate     Generate new code (short-cut alias: "g")
@@ -119,7 +121,9 @@ use a generator that will help us generate some code.
 
 To build the first model and its corresponding database table, use the model generator:
 
-`rails generate model tweet status zombie`
+```shell
+rails generate model tweet status zombie
+```
 
 This will generate a Model `Tweet` and a migration to create table `tweets`.
 We have not specified any datatypes, therefore status and zombie will
@@ -151,7 +155,13 @@ class CreateTweets < ActiveRecord::Migration[7.0]
 end
 ```
 
-You can edit this migration now. For example you could add some more
+You can edit this migration now.
+
+
+§
+
+
+For example you could add some more
 columns, with other datatypes:
 
 ```ruby
@@ -171,7 +181,7 @@ end
 
 We could have specified those extra columns when generating the model like so:
 
-```
+```shell
 rails generate model tweet status zombie number_of_likes:integer private:boolean
 ```
 

@@ -24,9 +24,12 @@ Internet and is accessed via HTTP.
 
 Currently three main API Styles are used on the Web:
 
-* SOAP, designed 1998 at Microsoft, uses XML and POST requests to make "remote procedure calls"
-* REST, described in 2000, uses different HTTP Methods and Status Messages to access "resources"
-* GraphQL, released 2015 by Facebook, uses POST requests, it's own query language and JSON
+* **SOAP**, designed 1998 at Microsoft,
+uses XML and POST requests to make "remote procedure calls"
+* **REST**, described in 2000,
+uses different HTTP Methods and Status Messages to access "resources"
+* **GraphQL**, released 2015 by Facebook,
+uses POST requests, it's own query language and JSON
 
 This Guide is concerned with REST, there is a second guide for [GraphQL](/graphql-api.html). SOAP
 is rearely offered with Rails, but there is a [soap client](https://github.com/savonrb/savon) in
@@ -58,16 +61,20 @@ the API:
 
 * Documentation for the API (e.g. swagger, see below)
 * AdminPanel (e.g. created automatically by rails_admin)
+
+
 ## REST
 
-The acronym REST was coined by Roy Fielding in his dissertation. When describing
-the architecture of the web, and what made it so successfull on a technical level,
-he desribed this architecture as "Representational State Transfer" (REST).
+The acronym REST was coined by [Roy Fielding](https://roy.gbiv.com/) in his dissertation. When describing
+the architecture of the web, and what made it so successful on a technical level,
+he described this architecture as "Representational State Transfer" (REST).
 
 This Acronym was later picked up to describe a certain style of API,
-and to distiguish such APIs from SOAP APIs.
+and to distinguish such APIs from SOAP APIs.
 
-A REST API allows to access and manipulate textual representations of Web resources using HTTP Methods and stateless operations.
+§
+
+A REST API allows to access and manipulate textual representations of **Web resources** using HTTP Methods and stateless operations.
 
 "Web resources" were first defined on the World Wide Web as documents or files identified by their URLs, but today they have a much more generic and abstract definition encompassing every thing or entity that can be identified, named, addressed or handled, in any way whatsoever, on the Web.
 
@@ -117,7 +124,7 @@ Through this endpoint you can access methods like `getUserData()` or `deleteUser
 
 If an API returns the following JSON:
 
-```
+```js
 {
     "id": "1",
     "name": "Example User",
@@ -131,7 +138,7 @@ For example because the developer read the docs.
 
 HATEOAS demands that the full URL is used to refer to other resources:
 
-```
+```js
 {
     "id": "1",
     "name": "Example User",
@@ -171,7 +178,7 @@ There are two common ways of requesting different formats:
 
 With the HTTP Header `Accept`:
 
-```
+```http
 GET /mini/person/83 HTTP/1.1
 Host: example.com
 Accept: application/xml
@@ -188,7 +195,7 @@ https://example.com/mini/person/83.json
 The three different versions of person number 83 might look
 like this: the HTML web page:
 
-```
+```html
 <h1>Details zu einer Person</h1>
 <p><img src="https://example.com/mini/profil/edvard_1_2.jpg" />
 Herr Edvard Paul Beisteiner hat insgesamt 4 Werke in dieser Datenbank.
@@ -203,7 +210,7 @@ Er hat den Usernamen fhs14287.</p>
 
 For an API the same resource might be represented as XML:
 
-```
+```xml
 <person>
   <image ref='https://example.com/mini/profil/edvard_1_2.jpg' />
   <vorname>Edvard</vorname>
@@ -220,7 +227,7 @@ For an API the same resource might be represented as XML:
 
 or as JSON:
 
-```
+```json
 {"image":"https://example.com/mini/profil/edvard_1_2.jpg",
  "vorname":"Eduard",
  "nachname":"Beisteiner",
@@ -239,7 +246,7 @@ or as JSON:
 
 Tilkov wirtes: "REST mandates that state be either turned into resource state, or kept on the client. In other words, a server should not have to retain some sort of communication state for any of the clients it communicates with beyond a single request."
 
-This is important for performance and scalability and performance.  
+This is important for performance and scalability and performance.
  Statelessness makes caching easy. And in a scenario with serveral
 servers behind a load balancer, not having state on the server means
 the application will work if the requests bei one client are routest
@@ -261,7 +268,7 @@ You can explor a REST with the browser or several tool:
 
 * [curl](https://curl.haxx.se/docs/manual.html) is a command line tool for sending HTTP requests
 * developer tools in the browser can edit "re-send" a request, or [copy as curl](https://developer.mozilla.org/en-US/docs/Tools/Network_Monitor/request_list#Context_menu)
-* [postman](https://www.postman.com/downloads/) is a stand alone app 
+* [postman](https://www.postman.com/downloads/) is a stand alone app
 
 
 ## REST API in Rails with existing Controllers
@@ -500,7 +507,7 @@ bundle add 'blueprinter'
 **Beware**: After adding a gem you
 need to restart the rails server!
 
-### setting up controllers 
+### setting up controllers
 
 After we defined the routes, we next need to create a controller.
 As we are setting up a new hierarchy of controllers that will only
@@ -581,7 +588,7 @@ end
 [Swagger](https://swagger.io/) and the OpenAPI Specification is a way for
 specifying and documenting REST APIs.  There are a lot of tools available around it.
 
-For Rails I recommend the gem `rswag`: with rswag you write tests (specs) for your 
+For Rails I recommend the gem `rswag`: with rswag you write tests (specs) for your
 api, and the documentation is generated from the (successful) tests.
 There is also a web-ui to read the documentation and run API requests -
 [Swagger Web UI in the example app](https://iou-brigitte.herokuapp.com/api-docs/index.html)

@@ -780,7 +780,6 @@ h6 {
 }
 #feature ul li {
   list-style: none;
-  background: url(../images/check_bullet.gif) no-repeat left 1em;
   padding: 0.5em 1.75em 0.5em 1.75em;
   font-size: 1.1428em;
   font-weight: bold;
@@ -839,7 +838,7 @@ dd.work-in-progress {
 }
 
 #subCol .chapters {
-  color: #980905;
+  /* color: #980905; */
 }
 #subCol .chapters a {
   font-weight: bold;
