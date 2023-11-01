@@ -278,7 +278,7 @@ rails generate migration CreateJoinTableComicAuthor comics authors
 ```
 
 The identifier after "migration" is arbitrary, we could call it anything we want.  The
-two table names will be sorted alphabetically, and a table `authors_comincs` will be
+two table names will be sorted alphabetically, and a table `authors_comics` will be
 created.  It will not haven an id, and just contain the two foreign keys.
 
 ### has_and_belongs_to_many
