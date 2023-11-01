@@ -1,11 +1,10 @@
-# Security
+Security
+========
 
 This guide will give you an introduction
 to some security aspects of backend and fullstack frameworks
 
-
----
-
+---------------------------------------------------------------------------------------
 
 ## Where to learn about security
 

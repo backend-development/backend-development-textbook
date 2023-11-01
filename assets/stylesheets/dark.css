@@ -10,8 +10,18 @@
     background-color: #222;
   }
 
+  #header {
+    background: #1535a9;
+    color: #fff;
+  }
 
+  #header h1 a span {
+    color: #0088cc;
+  }
 
+  .guides-index-large, .guides-index-small .guides-index-item {
+    background-color:  #0088cc;
+  }
   p code, ul code {
     background-color: #444;
     color: var(--text-color);

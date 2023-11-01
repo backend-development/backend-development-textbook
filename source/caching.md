@@ -1,4 +1,5 @@
-# Caching
+Caching
+===========
 
 What is even better than having a really fast web
 server, framework, programming language that creates
@@ -19,8 +20,7 @@ DEMO: You can study [the demo](https://caching-red.projects.multimediatechnology
 
 - if it's currently online.
 
----
-
+-------------------------------------------------------------------------------
 
 
 ## What is Caching

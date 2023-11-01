@@ -1,4 +1,5 @@
-# Getting Started with Testing in Rails
+Getting Started with Testing in Rails
+===========
 
 This guide gives an introduction
 to built-in mechanisms in Rails for testing your application.
@@ -14,7 +15,8 @@ This guide is a shorter version of the offical
 
 REPO: Fork the [example app 'testing for stars'](https://github.com/backend-development/rails-example-testing-for-stars) and try out what you learn here.
 
----
+-------------------------------------------------------------------------------
+
 
 ## Why Write Tests?
 

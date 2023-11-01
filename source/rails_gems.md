@@ -1,4 +1,5 @@
-# Some Gems for Rails
+Some Gems for Rails
+===========
 
 This guide lists a few valuable gems for
 your first Rails Project.
@@ -11,7 +12,7 @@ After reading this guide you will
 - be able to deliberately chose version numbers for your gems
 - know a few intresting gems for your next rails project
 
----
+-------------------------------------------------------------------------------
 
 ## Gems and Bundler
 

@@ -9,7 +9,8 @@ After working through this guide you should be able to
 * deploy a rails app to dokku (or heroku) using git
 * deploy a rails app to any unix server using capistrano
 
--------------------------------------------------------------
+-------------------------------------------------------------------------------
+
 
 Deploying with git
 ---------------------

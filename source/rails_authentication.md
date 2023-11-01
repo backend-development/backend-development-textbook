@@ -1,4 +1,5 @@
-# Basic Authentication in Rails
+Basic Authentication in Rails
+===========
 
 This guide is about simple Logins and Logouts for your Rails app.
 
@@ -10,7 +11,8 @@ After reading this guide you will
 
 REPO: You can study the [code](https://github.com/backend-development/rails-example-kanban-board-login) and try out [the demos](https://kanban-1.projects.multimediatechnology.at/) for the authentication examples described here.
 
----
+-------------------------------------------------------------------------------
+
 
 ## HTTP and Sessions
 

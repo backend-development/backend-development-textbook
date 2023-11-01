@@ -1,4 +1,5 @@
-# Rails Security
+Rails Security
+===========
 
 This guide will give you an introduction
 to the security features included in Ruby on Rails,
@@ -13,8 +14,7 @@ By referring to this guide, you will be able to:
 REPO: You can fork the [code of the example app](https://github.com/backend-development/rails-example-security). This app is full of security holes. While reading this guide you can
 work on the app and fix those problems one by one.
 
----
-
+-------------------------------------------------------------------------------
 
 
 ## Where to learn about security

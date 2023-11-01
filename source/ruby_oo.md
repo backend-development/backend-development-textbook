@@ -1,4 +1,5 @@
-# Ruby Object Orientation
+Ruby Object Orientation
+===========
 
 This guide will take a closer look at objects, classes and modules in Ruby.
 
@@ -7,7 +8,7 @@ After finishing this guide you will
 - know how to write object methods and use object variables (properties)
 - know how to write class methods and use class variables (properties)
 
----
+-------------------------------------------------------------------------------
 
 ## To Be Written
 

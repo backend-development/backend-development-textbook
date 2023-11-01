@@ -1,4 +1,5 @@
-# Rails: Associations and Validations
+Rails: Associations and Validations
+===========
 
 After working through this guide you should
 
@@ -8,7 +9,8 @@ After working through this guide you should
 The examples were inspired by "Rails for Zombies", which used to be a free rails online course.
 Sadly it is no longer available.
 
----
+-------------------------------------------------------------------------------
+
 
 ## Validations
 

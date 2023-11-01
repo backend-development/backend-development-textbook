@@ -1,11 +1,12 @@
-# Web Performance, Assets and Webpacker
+Web Performance, Assets and Webpacker
+===========
 
 A web site consist of many more files than just the
 HTML documents we have been generating up to now:
 css files, javascript files, image files, font files, ...
 
 Webpacker is Rails' way of preparing
-theses files for publication using current 
+theses files for publication using current
 frontend tools.
 
 By referring to this guide, you will be able to:
@@ -15,8 +16,8 @@ By referring to this guide, you will be able to:
 - by using the Rails Asset Pipeline for CSS and image
 - by using Webpacker for JavaScript
 
+-------------------------------------------------------------------------------
 
----
 
 ## Web Performance
 

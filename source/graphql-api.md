@@ -1,4 +1,5 @@
-# APIs
+APIs
+===========
 
 After working through this guide you will:
 
@@ -6,7 +7,8 @@ After working through this guide you will:
 - be able to configure your existing Rails App to offer a GraphQL API
 
 
----
+-------------------------------------------------------------------------------
+
 
 ## API Styles
 
@@ -36,9 +38,9 @@ ruby.
 ### API layer is a separate layer
 
 Please note that any of the API styles can be used
-with any backend, frontend, persistance layers: 
+with any backend, frontend, persistance layers:
 
-* You can build a REST in front of a PHP backend using MongoDB as the database and use it from a frontend written with jQuery. 
+* You can build a REST in front of a PHP backend using MongoDB as the database and use it from a frontend written with jQuery.
 * You can build a GraphQL API for a Rails backend using MySQL as the database and build the frontend with React.
 
 That's kind of the point of an API: to allow different technologies
@@ -53,7 +55,7 @@ specifying the API.
 
 GraphQL shifts some decisions to the client: through a Query Language the client
 can request data in the specific shape it needs, within the limits that the
-API sets. 
+API sets.
 
 ### Query Language
 
@@ -78,13 +80,13 @@ documentation and to offer autocompletion:
 
 <video controls autoplay>
   <source src="images/autocomplete.mov" type="video/quicktime" />
-  <source src="images/autocomplete.mp4" type="video/mp4" />  
+  <source src="images/autocomplete.mp4" type="video/mp4" />
   ![GraphQL Playground](images/graphql-playground.png)
 </video>
 
 ###  Types
 
-A GraphQL delivers JSON, which only has objects, arrays, strings, numbers and null 
+A GraphQL delivers JSON, which only has objects, arrays, strings, numbers and null
 as types.  But GraphQL itself can build a more detailed type system and check
 these types in queries and mutations.
 
@@ -149,7 +151,7 @@ that was created automatically.
 
 ![GraphQL Playground](images/graphql-playground.png)
 
-We have no Queries to run yet.  
+We have no Queries to run yet.
 
 
 ### Generating a Type from a Model
@@ -208,7 +210,7 @@ We can replace this with a query that returns a list of all projects:
 ```
 module Types
   class QueryType < Types::BaseObject
-    field :all_projects, [ProjectType], 
+    field :all_projects, [ProjectType],
       null: false,
       description: "a list of all publicly visible projects"
     def all_projects
@@ -222,7 +224,7 @@ We can now run the query in the playground. Your query will be autocompleted.
 
 <video controls autoplay>
   <source src="images/autocomplete.mov" type="video/quicktime" />
-  <source src="images/autocomplete.mp4" type="video/mp4" />  
+  <source src="images/autocomplete.mp4" type="video/mp4" />
   ![GraphQL Playground](images/graphql-playground.png)
 </video>
 
@@ -298,10 +300,10 @@ now you can query for Urls through their project:
 #### inverse relationship
 
 
-what would you need to do, to make a query 
+what would you need to do, to make a query
 from Url to Project possible?
 
-``` 
+```
 {
   url(id:2077){
     id
@@ -313,7 +315,7 @@ from Url to Project possible?
     }
   }
 }
-``` 
+```
 
 #### implementation of the inverse relationship
 
@@ -384,13 +386,13 @@ end
 
 
 The data returned by a query is still JSON, and cannot contain
-enums, only Strings. 
+enums, only Strings.
 
 ![querying an enum gives a string](images/graphql-enum.png)
 
 
 In the documentation you can see that
-only three Strings are valid.  The GraphQL API will 
+only three Strings are valid.  The GraphQL API will
 validate this both in Queries and in Mutations.
 
 

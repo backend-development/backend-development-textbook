@@ -1,4 +1,4 @@
-Scaling Node 
+Scaling Node
 =========================
 
 
@@ -7,7 +7,9 @@ After working through this guide you should be able to
 * set up cluster.js to run several node instances
 
 
--------------------------------------------------------------
+-------------------------------------------------------------------------------
+
+
 
 Node and the Command Line
 ------
@@ -33,7 +35,7 @@ The contents of the array might be:
 are streams in node:
 
 ```javascript
-process.stdout.write("Hello World\n"); 
+process.stdout.write("Hello World\n");
 process.stderr.write("you're doing it wrong");
 console.log("this", true, 42, that);
 ```
@@ -102,13 +104,13 @@ Scaling Node with cluster.js
 
 V8 has a default memory limit of ~1.5GB
 If your server has more memory
-this might be unsatisfactory! 
+this might be unsatisfactory!
 You can increase this by starting node with the option
 `--max-old-space-size`.
 
 
 The Eventloop uses 1 core
-If your server has 64 cores 
+If your server has 64 cores
 this might be unsatisfactory!
 To get around this limitation use cluster.js
 
@@ -132,12 +134,12 @@ sockets are shared between slave processes:
 if (cluster.isMaster) {
   // ...
 } else {
-  // Workers can share any 
+  // Workers can share any
   // TCP connections
   http.createServer((req, res) => {
     res.writeHead(200);
     res.end('hello world\n');
-  }).listen(8000);             
+  }).listen(8000);
 }
 ```
 
@@ -169,12 +171,12 @@ const numCPUs = require('os').cpus().length;
 if (cluster.isMaster) {
   for (var i = 0; i < numCPUs; i++) {
     let worker = cluster.fork();
-    worker.send('do something!'); 
+    worker.send('do something!');
   }
 } else {
- process.on('message', (msg) => { 
-   process.send('nope.'); 
- }); 
+ process.on('message', (msg) => {
+   process.send('nope.');
+ });
 }
 
 ```

@@ -1,4 +1,5 @@
-# Rails: Database and Migrations
+Rails: Database and Migrations
+===========
 
 Behind Models in Rails there is a database.
 
@@ -7,8 +8,7 @@ After working through this guide you should
 - Understand what Database Migrations are
 - Understand how Models relate to Database rows
 
-
----
+-------------------------------------------------------------------------------
 
 ## Models and Databases
 

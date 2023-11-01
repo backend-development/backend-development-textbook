@@ -1,4 +1,5 @@
-# APIs
+APIs
+===========
 
 After working through this guide you will:
 
@@ -8,7 +9,7 @@ After working through this guide you will:
 
 REPO: You can study the [code](https://github.com/backend-development/api_sample_app) and try out [the demo](https://dry-cove-38472.herokuapp.com/) for the example described here.
 
----
+-------------------------------------------------------------------------------
 
 ## What is an API
 
@@ -206,7 +207,7 @@ or as JSON:
 
 Tilkov wirtes: "REST mandates that state be either turned into resource state, or kept on the client. In other words, a server should not have to retain some sort of communication state for any of the clients it communicates with beyond a single request."
 
-This is important for performance and scalability and performance.  
+This is important for performance and scalability and performance.
  Statelessness makes caching easy. And in a scenario with serveral
 servers behind a load balancer, not having state on the server means
 the application will work if the requests bei one client are routest
@@ -620,7 +621,7 @@ end
 
 ## Using Rails to build a GraphQL API
 
-* Hannes sagt gem graphql, für n+1 queries graphql-batch von shopify.  und graphiql 
+* Hannes sagt gem graphql, für n+1 queries graphql-batch von shopify.  und graphiql
 * https://github.com/eliias/concat-tv
 * https://www.howtographql.com/graphql-ruby/0-introduction/
 * https://github.com/ajsharp/graphql-rails-generators

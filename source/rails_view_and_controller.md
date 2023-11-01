@@ -1,4 +1,5 @@
-# Rails Views and Controller
+Rails Views and Controller
+===========
 
 The Rails View is concerned with displaying (HTML and JSON) output. The
 controller is concerned with handling incoming requests,
@@ -15,7 +16,7 @@ and be able to
 - build a form for editing a model
 - use nested resources
 
----
+-------------------------------------------------------------------------------
 
 ## MVC in Rails
 

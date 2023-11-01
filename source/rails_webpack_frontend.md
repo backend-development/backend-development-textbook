@@ -1,4 +1,5 @@
-# Building the Frontend with webpacker
+Building the Frontend with webpacker
+===========
 
 While the asset pipeline is rails' traditional way of preparing
 files for the frontend, in recent years a completely
@@ -11,12 +12,12 @@ You will be able to:
 - use webpack to prepare your javascript files
 - use a framework like svelte, angular, react
 
----
+-------------------------------------------------------------------------------
 
 ## Frontend Pipelines
 
 When the rails asset pipeline was published with Rails 3.1 in 2011, node.js
-was only 2 years old and version 1.0 of npm was just released.  
+was only 2 years old and version 1.0 of npm was just released.
 In the years since, the frontend community developed, released (and dropped) a lot of new tools: bower, grunt, gulp, yarn, webpack.
 
 Since Rails 5.1 the webpacker gem is officialy part of Rails. It integrates webpack

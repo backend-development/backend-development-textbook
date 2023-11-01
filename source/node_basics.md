@@ -1,4 +1,5 @@
-# Node.js Basics
+Node.js Basics
+===========
 
 Node.js is just a javascript interpreter
 with a very small library added. With node
@@ -9,7 +10,7 @@ After working through this guide you should
 - know how to install libraries for node.js with npm
 - be able to write a simple web server
 
----
+-------------------------------------------------------------------------------
 
 ## What is node.js?
 

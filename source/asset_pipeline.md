@@ -1,4 +1,5 @@
-# The Asset Pipeline
+The Asset Pipeline
+===========
 
 A web site consist of many more files than just the
 HTML documents we have been generating up to now:
@@ -13,7 +14,7 @@ By referring to this guide, you will be able to:
 - keep your assets in the right place
 - have all your assets compiled and minified for production
 
----
+---------------------------------------------------------------------------------------
 
 ## Web Performance
 

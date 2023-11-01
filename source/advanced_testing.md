@@ -1,4 +1,5 @@
-# Advanced Testing
+Advanced Testing
+===========
 
 This guide will show you new ways of testing.
 By referring to this guide, you will be able to:
@@ -10,7 +11,7 @@ By referring to this guide, you will be able to:
 - Stub out calls to Web Services efficiently
 - Test the javascript frontend of your app
 
----
+-------------------------------------------------------------------------------
 
 ## rspec
 

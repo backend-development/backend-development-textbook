@@ -1,5 +1,5 @@
 Websockets with Node
-=========================
+===========
 
 While HTTP only allows requests from the client sent to the server,
 websockets offer a permanent connection between client and server.
@@ -40,7 +40,7 @@ HTTP/1.1 101 Switching Protocols
 Upgrade: websocket
 Connection: Upgrade
 Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
-Sec-WebSocket-Protocol: chat 
+Sec-WebSocket-Protocol: chat
 ```
 
 Both the client and the server can send messages across
@@ -65,7 +65,7 @@ socket.io
 Library for both server and client side JS code
 Needs express as a basis
 
-WARNING: 
+WARNING:
 socket.io will automatically host some files needed on the client side under the URL /socket.io/  Do not attempt to change this!
 
 

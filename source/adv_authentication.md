@@ -1,4 +1,5 @@
-# Advanced Authentication
+Advanced Authentication
+================================
 
 This guide is about Authentication for Web and Mobile
 Apps.
@@ -9,10 +10,11 @@ After reading this guide you will
 - be able to use several authentication methods in next.js
 - be able to use several authentication methods in rails
 
+-------------------------------------------------------------------------------
 
----
+Concepts
+-------------------------------------
 
-## Concepts
 
 ### Authentication and Authorisation Scencarios
 

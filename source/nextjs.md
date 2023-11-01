@@ -1,4 +1,5 @@
-# Next.js
+Next.js
+===========
 
 Next.js is a framework for react
 that also includes backend functionality.
@@ -9,7 +10,8 @@ After working through this guide you should
 - know how to build api endpoints in next.js
 
 
----
+-------------------------------------------------------------------------------
+
 
 ## What is next.js?
 

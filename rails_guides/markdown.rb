@@ -73,6 +73,8 @@ module RailsGuides
       def extract_raw_header_and_body
         if /^-{40,}$/.match?(@raw_body)
           @raw_header, _, @raw_body = @raw_body.partition(/^-{40,}$/).map(&:strip)
+        else
+          puts "ERROR - add ad header that ends with 40 dashes on a line!"
         end
       end
 

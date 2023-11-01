@@ -1,4 +1,5 @@
-# Rails: Models and Activerecord
+Rails: Models and Activerecord
+===========
 
 Models are the basic classes of a Rails Project. The
 data is actually stored in a relational database.
@@ -13,7 +14,8 @@ Sadly it is no longer available.
 When working through this chapter you should be doing the
 [ZombieTwitter](https://gitlab.mediacube.at/bjelline/backend-assign-public/-/blob/master/a2_zombietwitter/README.md) Assignment in parallell.
 
----
+-------------------------------------------------------------------------------
+
 
 ## Model Basics
 

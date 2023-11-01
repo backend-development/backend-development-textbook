@@ -49,8 +49,9 @@
 
           pending = ""
 
-          output = "<section>intro=#{intro}\n"
-          i = 1
+          output = ""
+          first = true
+          i = 0
 
           until @string.empty?
             match =  scan_until /(<h[23456].*?>|<hr>+|(<p>)*§(<.p>)*)/m
@@ -59,13 +60,15 @@
 
             output << match.pre_match
 
-            output << "</section>\n<section>\n<p><a class='slide_break' href='#{link}#slide-#{i}'>▻</a></p>\n"
+            output << "</section>\n" unless first
+            output << "<section>\n<p><a class='slide_break' href='#{link}#slide-#{i}'>▻</a></p>\n"
             i += 1
             if match[0] =~ /§/ then
               # discard match
             else
               output << match[0]
             end
+            first = false
           end # untile @string.empty?
 
           output << @string

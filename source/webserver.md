@@ -1,4 +1,5 @@
-# Webserver
+Webserver
+===========
 
 This guide will give you an overview
 of the web server infrastucture behind
@@ -8,8 +9,8 @@ After reading it you should be familiar with:
 - rack
 - apache and mod_passenger
 
----
- 
+-------------------------------------------------------------------------------
+
 ## The Stack
 
 Rack is an interface between webservers and the Ruby and Ruby framework - or

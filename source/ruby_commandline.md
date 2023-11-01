@@ -1,4 +1,5 @@
-# Ruby
+Ruby
+===========
 
 This guide will focus on Ruby - the language - alone.
 
@@ -10,7 +11,7 @@ After finishing this guide you will
 
 REPO: Fork the [learn_ruby](https://github.com/backend-development/learn_ruby) repository to try some test driven ruby learning
 
----
+-------------------------------------------------------------------------------
 
 ## What is Ruby
 
@@ -538,13 +539,13 @@ from one command to the next:
 ```shell
 # I know mysql server is running, but which user is it running as ?
 #
-$ ps aux | grep mysqld_safe | head -1 | cut -c1-8 
+$ ps aux | grep mysqld_safe | head -1 | cut -c1-8
 ```
 
-This is a sequence of Unix programs connected by the pipe symbol (|). 
-Each program in this chain reads data from its "Standard Input" and 
-writes data to its "Standard Output." The pipe symbol serves as a conduit, 
-channeling the output from one program as input to the subsequent program in the sequence. 
+This is a sequence of Unix programs connected by the pipe symbol (|).
+Each program in this chain reads data from its "Standard Input" and
+writes data to its "Standard Output." The pipe symbol serves as a conduit,
+channeling the output from one program as input to the subsequent program in the sequence.
 The data being transferred is plain text, often spanning multiple lines.
 
 Try it out on your commmand line by building up

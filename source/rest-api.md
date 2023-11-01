@@ -1,4 +1,5 @@
-# REST APIs
+REST APIs
+===========
 
 After working through this guide you will:
 
@@ -8,7 +9,7 @@ After working through this guide you will:
 
 REPO: You can study the [code](https://github.com/backend-development/api_sample_app) and try out [the demo](https://iou-brigitte.herokuapp.com) for the example described here.
 
----
+-------------------------------------------------------------------------------
 
 ## What is an API
 

@@ -1,4 +1,5 @@
-# Rails with Scaffold
+Rails with Scaffold
+===========
 
 We will build our first rails project but we will not really understand
 everything - that comes later.
@@ -10,7 +11,7 @@ After finishing this guide you will
 - know about the main folders of a rails project: `config`, `db`, `app`
 - have an overview of what model, view, controller (MVC) means in rails
 
----
+-------------------------------------------------------------------------------
 
 ## Rails from the Outside In
 
