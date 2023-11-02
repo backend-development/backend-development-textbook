@@ -367,7 +367,7 @@ the_reader.reviews.create(comic: Comic.first, star_rating: 5, review: 'I can not
 ```
 
 
-## Build the Database Schema migration by migration
+## Step by Step
 
 When first starting on a new Rails project you might already
 have  an idea of what the database will look like.

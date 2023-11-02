@@ -1062,12 +1062,9 @@ table th {
   }
 }
 
-/* deck js : */
+/* linking from and to slides : */
 
-.slide p,
-.slide li {
-  max-width: 40em;
-}
+
 
 .slide_break:link,
 .slide_break:visited {

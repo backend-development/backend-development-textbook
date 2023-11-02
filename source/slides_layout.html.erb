@@ -54,7 +54,7 @@
             output << match.pre_match
 
             output << "</section>\n" unless first
-            output << "<section>\n<p><a class='slide_break' href='#{link}#slide-#{i}'>▻</a></p>\n"
+            output << "<section><a class='slide_break' href='#{link}#slide-#{i}'>▻</a>\n"
             i += 1
             if match[0] =~ /§/ then
               # discard match
@@ -65,7 +65,7 @@
           end # untile @string.empty?
 
           output << @string
-          output << "</section>"
+          output << "</div></section>"
 
           output
         end
@@ -85,18 +85,18 @@
     Reveal.initialize({
       controls: false,
       progress: true,
-      center: true,
+      center: false,
       hash: true,
 
       // The "normal" size of the presentation, aspect ratio will
       // be preserved when the presentation is scaled to fit different
       // resolutions. Can be specified using percentage units.
-      width: 1300,
-      height: 900,
+      width: 800,
+      height: 600,
 
       // Factor of the display size that should remain empty around
       // the content
-      margin: 0.01,
+      margin: 0.05,
 
       // Bounds for smallest/largest possible scale to apply to content
       minScale: 0.2,

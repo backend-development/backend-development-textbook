@@ -190,6 +190,7 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
   code {
     color: color-mix(in srgb,var(--r-main-color) 25%, white);
   }
+
 }
 
 @media (prefers-color-scheme: light) {
@@ -541,4 +542,19 @@ div.code_container > pre {
   .backgrounds {
     background-color: var(--r-background-color);
   }
+}
+
+
+
+
+
+.slide_break {
+  position: absolute !important;
+  left: -10px;
+  top: -15px;
+}
+
+
+p>code {
+  font-weight: bold;
 }
