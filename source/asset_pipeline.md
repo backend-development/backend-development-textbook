@@ -246,49 +246,6 @@ be generated, and the HTML-page will link to that file.
 
 This way we avoid one the the [two hard problems in computer science](https://twitter.com/codinghorror/status/506010907021828096): cache invalidation.
 
-## Live Reloading
-
-When you are working on the frontend of your app, fiddling
-around in views and stylsheets, it may be helpful to immediatly
-see the changes you make reflected in the browser.
-
-To achieve this in Rails you can use `guard`. Add three gems to the development-section of your Gemfile:
-
-```
-group :development do
-  gem 'guard'
-  gem 'guard-livereload', '~> 2.5', require: false
-  gem 'rack-livereload'
-end
-```
-
-We are using two separate components here:
-
-- `guard-livereload` does the actual file-watching, and runs a separate webserver on port 35729 that sends out messages when a file changes,
-- `rack-livereload` adds some javascript to every webpage in your app. This javascript will connect to port 35729, listen for messages and reload the page when a message arrives.
-
-To configure guard run:
-
-```
-bundle exec guard init livereload
-```
-
-This will create a `Guardfile` in your main directory.
-
-Now you can start `bundle exec guard` in a separate terminal window.
-
-To configure `rack-livereload` add the following to `config/environments/development.rb` inside the `Rails.application.configure` block:
-
-```
-config.middleware.insert_after Rack::Head, Rack::LiveReload
-```
-
-Now stop and start your webserver, reload your app in the browser, and change
-a stylesheet or view to see it in action.
-
-The window with `guard` running needs to stay open, it will look like this:
-
-![guard](images/guard.png)
 
 ## User Generated Content
 
