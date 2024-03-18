@@ -27,7 +27,7 @@ a few commits W, X, Y, and Z to it, it might look like this:
 
 If you merge back into main now everything will be fine.
 
-But what if the main moves on?
+But what if the main branch moves on?
 
 
 ### Merging two branches
@@ -61,6 +61,20 @@ After the rebase a merge into main will be simple.
 
 ### Rebase your feature branch
 
+When working with feature branches you try to merge as fast as possible.
+But if the main branch moves on while you are working on your feature,
+you can use `git rebase` to catch up:
+
+
+```shell
+git fetch
+git checkout a3
+git pull origin a3
+git rebase main
+# fix problems, run test, fix problems again
+git push -f origin a3  # overwrite branch with rebased branch
+# work on your merge request
+```
 
 
 ### Resources

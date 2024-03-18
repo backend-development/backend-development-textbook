@@ -68,6 +68,9 @@
     - name: Internationalization (I18n)
       url: internationalization.html
       description: How to prepare you app for many languages, many countries
+    - name: Git Rebasing
+      url: git_rebasing.html
+      description: How to work with feature branches and rebasing in git
 - name: Nodes.js
   documents:
     - name: Node vs. Rails
