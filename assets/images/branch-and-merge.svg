@@ -30,12 +30,12 @@
 		</g>
 		<g id="Frame1">
 			<g id="c0">
-				
+
 					<use xlink:href="#Commit"  width="161.396" height="111.496" id="XMLID_1_" x="-80.698" y="-55.748" transform="matrix(0.6033 0 0 -0.6033 96.9175 232.0264)" overflow="visible"/>
 				<text transform="matrix(1 0 0 1 76.9438 244.5493)" font-family="'Ubuntu'" font-size="36">C0</text>
 			</g>
 			<g id="c1">
-				
+
 					<use xlink:href="#Commit"  width="161.396" height="111.496" id="XMLID_2_" x="-80.698" y="-55.748" transform="matrix(0.6033 0 0 -0.6033 233.8521 232.0264)" overflow="visible"/>
 				<g>
 					<g>
@@ -47,7 +47,7 @@
 				<text transform="matrix(1 0 0 1 212.1089 244.5493)" font-family="'Ubuntu'" font-size="36">C1</text>
 			</g>
 			<g id="c2">
-				
+
 					<use xlink:href="#Commit"  width="161.396" height="111.496" id="XMLID_3_" x="-80.698" y="-55.748" transform="matrix(0.6033 0 0 -0.6033 367.7871 232.0264)" overflow="visible"/>
 				<g>
 					<g>
@@ -61,7 +61,7 @@
 		</g>
 		<g id="Frame2">
 			<g id="c3">
-				
+
 					<use xlink:href="#Commit"  width="161.396" height="111.496" id="XMLID_5_" x="-80.698" y="-55.748" transform="matrix(0.6033 0 0 -0.6033 504.7217 347.9854)" overflow="visible"/>
 				<g>
 					<g>
@@ -75,7 +75,7 @@
 		</g>
 		<g id="Frame3">
 			<g id="c4">
-				
+
 					<use xlink:href="#Commit"  width="161.396" height="111.496" id="XMLID_4_" x="-80.698" y="-55.748" transform="matrix(0.6033 0 0 -0.6033 504.7217 232.0264)" overflow="visible"/>
 				<g>
 					<g>
@@ -89,7 +89,7 @@
 		</g>
 		<g id="Frame4">
 			<g id="c5">
-				
+
 					<use xlink:href="#Commit"  width="161.396" height="111.496" id="XMLID_6_" x="-80.698" y="-55.748" transform="matrix(0.6033 0 0 -0.6033 639.6445 347.9854)" overflow="visible"/>
 				<g>
 					<g>
@@ -104,7 +104,7 @@
 		<g id="Ebene_7">
 		</g>
 		<g id="Frame5">
-			<g id="master">
+			<g id="main">
 				<rect x="658.396" y="43.45" fill="#D8D7D6" stroke="#7C7C7C" stroke-width="5" width="151.352" height="78.022"/>
 				<g>
 					<g>
@@ -113,10 +113,10 @@
 							c1.023,3.553,1.712,6.771,1.946,8.855C733.328,197.392,734.101,194.192,735.215,190.667z"/>
 					</g>
 				</g>
-				<text transform="matrix(1 0 0 1 680.5508 94.1978)" font-family="'Ubuntu'" font-size="36">master</text>
+				<text transform="matrix(1 0 0 1 680.5508 94.1978)" font-family="'Ubuntu'" font-size="36">main</text>
 			</g>
 			<g id="c6">
-				
+
 					<use xlink:href="#Commit"  width="161.396" height="111.496" id="XMLID_7_" x="-80.698" y="-55.748" transform="matrix(0.6033 0 0 -0.6033 734.0723 232.0264)" overflow="visible"/>
 				<g>
 					<g>

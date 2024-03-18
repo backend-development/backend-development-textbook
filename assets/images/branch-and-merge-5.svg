@@ -21,12 +21,12 @@
 	<g i:extraneous="self">
 		<symbol  id="C0-C3" viewBox="-184.12 -33.633 368.24 67.266">
 			<g id="c0_1_">
-				
+
 					<use xlink:href="#Commit"  width="161.396" height="111.496" id="XMLID_10_" x="-80.698" y="-55.748" transform="matrix(0.6033 0 0 0.6033 -135.4351 0)" overflow="visible"/>
 				<text transform="matrix(1 0 0 -1 -155.4087 -12.5234)" font-family="'Ubuntu'" font-size="36">C0</text>
 			</g>
 			<g id="c1_1_">
-				
+
 					<use xlink:href="#Commit"  width="161.396" height="111.496" id="XMLID_9_" x="-80.698" y="-55.748" transform="matrix(0.6033 0 0 0.6033 1.4995 0)" overflow="visible"/>
 				<g>
 					<g>
@@ -38,7 +38,7 @@
 				<text transform="matrix(1 0 0 -1 -20.2437 -12.5234)" font-family="'Ubuntu'" font-size="36">C1</text>
 			</g>
 			<g id="c2_1_">
-				
+
 					<use xlink:href="#Commit"  width="161.396" height="111.496" id="XMLID_8_" x="-80.698" y="-55.748" transform="matrix(0.6033 0 0 0.6033 135.4346 0)" overflow="visible"/>
 				<g>
 					<g>
@@ -52,7 +52,7 @@
 		</symbol>
 		<symbol  id="C0bisC3" viewBox="-252.587 -91.612 505.174 183.225">
 			<g id="c3_1_">
-				
+
 					<use xlink:href="#Commit"  width="161.396" height="111.496" id="XMLID_1_" x="-80.698" y="-55.748" transform="matrix(0.6033 0 0 0.6033 203.9023 -57.9795)" overflow="visible"/>
 				<g>
 					<g>
@@ -63,12 +63,12 @@
 				</g>
 				<text transform="matrix(1 0 0 -1 180.521 -69.9277)" font-family="'Ubuntu'" font-size="36">C3</text>
 			</g>
-			
+
 				<use xlink:href="#C0-C3"  width="368.24" height="67.266" x="-184.12" y="-33.633" transform="matrix(1 0 0 1 -68.4668 57.9795)" overflow="visible"/>
 		</symbol>
 		<symbol  id="C0bisC4" viewBox="-252.587 -91.612 505.174 183.225">
 			<g id="c4_3_">
-				
+
 					<use xlink:href="#Commit"  width="161.396" height="111.496" id="XMLID_4_" x="-80.698" y="-55.748" transform="matrix(0.6033 0 0 0.6033 203.9023 57.9795)" overflow="visible"/>
 				<g>
 					<g>
@@ -83,7 +83,7 @@
 		</symbol>
 		<symbol  id="C0bisC5echt" viewBox="-320.048 -91.612 640.097 183.225">
 			<g id="c5_1_">
-				
+
 					<use xlink:href="#Commit"  width="161.396" height="111.496" id="XMLID_2_" x="-80.698" y="-55.748" transform="matrix(0.6033 0 0 0.6033 271.3638 -57.9795)" overflow="visible"/>
 				<g>
 					<g>
@@ -94,7 +94,7 @@
 				</g>
 				<text transform="matrix(1 0 0 -1 248.3242 -68.9277)" font-family="'Ubuntu'" font-size="36">C5</text>
 			</g>
-			
+
 				<use xlink:href="#C0bisC4"  width="505.174" height="183.225" x="-252.587" y="-91.612" transform="matrix(1 0 0 1 -67.4614 0)" overflow="visible"/>
 		</symbol>
 		<symbol  id="Commit" viewBox="-80.698 -55.748 161.396 111.496">
@@ -107,7 +107,7 @@
 			<rect fill="none" width="450" height="470.923"/>
 		</g>
 		<g id="Frame1" display="none">
-			<g id="master" display="inline">
+			<g id="main" display="inline">
 				<rect x="293.111" y="41.238" fill="#D8D7D6" stroke="#7C7C7C" stroke-width="5" width="151.352" height="78.022"/>
 				<g>
 					<g>
@@ -116,7 +116,7 @@
 							c1.023,3.553,1.712,6.771,1.946,8.855C368.043,195.18,368.815,191.98,369.93,188.456z"/>
 					</g>
 				</g>
-				<text transform="matrix(1 0 0 1 315.2656 91.9858)" font-family="'Ubuntu'" font-size="36">master</text>
+				<text transform="matrix(1 0 0 1 315.2656 91.9858)" font-family="'Ubuntu'" font-size="36">main</text>
 			</g>
 			<g id="branch_1_" display="inline">
 				<g>
@@ -129,11 +129,11 @@
 				<rect x="292.268" y="349" fill="#D8D7D6" stroke="#7C7C7C" stroke-width="5" width="151.352" height="78.022"/>
 				<text transform="matrix(1 0 0 1 324.897 399.8472)" font-family="'Ubuntu'" font-size="36">iss53</text>
 			</g>
-			
+
 				<use xlink:href="#C0-C3"  width="368.24" height="67.266" x="-184.12" y="-33.633" transform="matrix(1 0 0 -1 232.3525 232.0264)" display="inline" overflow="visible"/>
 		</g>
 		<g id="Frame2" display="none">
-			
+
 				<use xlink:href="#C0bisC3"  width="505.174" height="183.225" x="-252.587" y="-91.612" transform="matrix(1 0 0 -1 300.8193 290.0059)" display="inline" overflow="visible"/>
 			<g id="master_2_" display="inline">
 				<rect x="293.255" y="41.569" fill="#D8D7D6" stroke="#7C7C7C" stroke-width="5" width="151.352" height="78.022"/>
@@ -144,7 +144,7 @@
 							c1.023,3.553,1.712,6.771,1.946,8.855C368.187,195.511,368.959,192.312,370.073,188.787z"/>
 					</g>
 				</g>
-				<text transform="matrix(1 0 0 1 315.4092 92.3169)" font-family="'Ubuntu'" font-size="36">master</text>
+				<text transform="matrix(1 0 0 1 315.4092 92.3169)" font-family="'Ubuntu'" font-size="36">main</text>
 			</g>
 			<g id="branch_2_" display="inline">
 				<g>
@@ -159,7 +159,7 @@
 			</g>
 		</g>
 		<g id="Frame3" display="none">
-			
+
 				<use xlink:href="#C0bisC4"  width="505.174" height="183.225" x="-252.587" y="-91.612" transform="matrix(1 0 0 -1 300.8193 290.0059)" display="inline" overflow="visible"/>
 			<g id="master_3_" display="inline">
 				<rect x="426.976" y="41.758" fill="#D8D7D6" stroke="#7C7C7C" stroke-width="5" width="151.352" height="78.022"/>
@@ -170,7 +170,7 @@
 							c1.023,3.553,1.712,6.771,1.946,8.855C501.907,195.699,502.68,192.5,503.794,188.975z"/>
 					</g>
 				</g>
-				<text transform="matrix(1 0 0 1 449.1299 92.5054)" font-family="'Ubuntu'" font-size="36">master</text>
+				<text transform="matrix(1 0 0 1 449.1299 92.5054)" font-family="'Ubuntu'" font-size="36">main</text>
 			</g>
 			<g id="branch_3_" display="inline">
 				<g>
@@ -185,7 +185,7 @@
 			</g>
 		</g>
 		<g id="Frame4" display="none">
-			
+
 				<use xlink:href="#C0bisC5echt"  width="640.097" height="183.225" x="-320.048" y="-91.612" transform="matrix(1 0 0 -1 368.2808 290.0059)" display="inline" overflow="visible"/>
 			<g id="master_4_" display="inline">
 				<rect x="426.132" y="41.758" fill="#D8D7D6" stroke="#7C7C7C" stroke-width="5" width="151.352" height="78.022"/>
@@ -196,7 +196,7 @@
 							c1.023,3.553,1.712,6.771,1.946,8.855C501.063,195.699,501.836,192.5,502.95,188.975z"/>
 					</g>
 				</g>
-				<text transform="matrix(1 0 0 1 448.2861 92.5054)" font-family="'Ubuntu'" font-size="36">master</text>
+				<text transform="matrix(1 0 0 1 448.2861 92.5054)" font-family="'Ubuntu'" font-size="36">main</text>
 			</g>
 			<g id="branch_4_" display="inline">
 				<g>
@@ -212,7 +212,7 @@
 		</g>
 		<g id="Frame5">
 			<g id="c6">
-				
+
 					<use xlink:href="#Commit"  width="161.396" height="111.496" id="XMLID_7_" x="-80.698" y="-55.748" transform="matrix(0.6033 0 0 -0.6033 734.0723 232.0264)" overflow="visible"/>
 				<g>
 					<g>
@@ -250,9 +250,9 @@
 							c1.023,3.553,1.712,6.771,1.946,8.855C730.907,195.941,731.68,192.742,732.794,189.218z"/>
 					</g>
 				</g>
-				<text transform="matrix(1 0 0 1 678.1299 92.7476)" font-family="'Ubuntu'" font-size="36">master</text>
+				<text transform="matrix(1 0 0 1 678.1299 92.7476)" font-family="'Ubuntu'" font-size="36">main</text>
 			</g>
-			
+
 				<use xlink:href="#C0bisC5echt"  width="640.097" height="183.225" x="-320.048" y="-91.612" transform="matrix(1 0 0 -1 368.2803 290.0059)" overflow="visible"/>
 		</g>
 	</g>
