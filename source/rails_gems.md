@@ -161,7 +161,7 @@ A gem may install rake tasks, run `rails -T` to see a list.
 ## Some Gems
 
 This list was inspired by the [Rails Rumble gem teardown](https://blog.railsrumble.com/2016/01/15/gem-teardown/) and
-[coodbeerstartups "Must Have Gems for Development Machine in Ruby on Rails "](http://www.codebeerstartups.com/2013/04/must-have-gems-for-development-machine-in-ruby-on-rails).
+[coodbeerstartups "Must Have Gems for Development Machine in Ruby on Rails "](http://codebeerstartups.com/must-have-gems-for-development-machine-in-ruby-on-rails/).
 
 ### File Upload
 

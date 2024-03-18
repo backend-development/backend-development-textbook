@@ -551,19 +551,6 @@ Rails will auto assign a primary key to be consistent between runs.
 For more information on this association behavior please read
 the [Fixtures API documentation](https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html).
 
-#### Fixtures with ERB
-
-ERB allows you to embed Ruby code. The YAML fixture format is pre-processed with
-ERB when Rails loads fixtures. This allows you to use Ruby to help you generate
-some sample data. For example, the following code generates a thousand users:
-
-```erb
-<% 1000.times do |n| %>
-user_<%= n %>:
-  username: <%= "user#{n}" %>
-  email: <%= "user#{n}@example.com" %>
-<% end %>
-```
 
 #### Using fixtures in Tests
 
@@ -589,118 +576,36 @@ To get multiple fixtures at once, you can pass in a list of fixture names. For e
 users(:david, :steve)
 ```
 
-## Integration Tests
 
-Integration tests are used to test that the various parts of your application interact correctly to implement features. Integration tests do not include the client side.
-
-Here is a first example of an integration test:
-
-```ruby
-class PublicTest < ActionDispatch::IntegrationTest
-  setup do
-    @course = courses(:one)
-  end
-
-  test 'Course page' do
-    get course_path(@course, locale: 'en')
-
-    assert_response :success
-    assert_select 'h1 span.title', text: "Course #{@course.title}"
-    assert_select '.calendar_section .button_to input'
-    assert_match 'collect', css_select('div.calendar_section').text
-    assert_match '2 entries found', css_select('div.calendar_section p').text
-  end
-
-  test 'Edit a Course is not available' do
-    get edit_course_path(@course, locale: 'en')
-
-    assert_response :found
-  end
-end
-```
-
-The first test ensures that a course can be displayed.
-A get request is used to load the show action of the course controller.
-
-The following five assertions concern the HTTP response and the DOM of the retuned
-html document.
-
-The second test ensures that a certain path (here: the edit action of the course
-controller) is not available to a user who is not logged in. When getting
-the URL we expect a redirection to happen. The response contains the "found" http status code.
-
-Here are some tests for logged in users with admin powers:
-
-```ruby
-class AdminTest <  ActionDispatch::IntegrationTest
-  setup do
-    @course = courses(:one)
-    @admin = users(:one)
-
-    get root_url
-
-    post "/login", params: { username: @admin.name,
-      password: 'notneeded' }
-    follow_redirect!
-    follow_redirect!
-
-    assert_equal 200, status
-  end
-
-  test 'Edit a Course is available' do
-    get edit_course_path(@course, locale: 'en')
-
-    assert_response :success
-  end
-end
-```
-
-In the setup method the we log in as user one, who has admin powers.
-After that the edit action of the course
-controller is available.
-
-Both `assert_select` and `css_select` access the HTML document.
-You can also access it directly as `document_root_element`.
-
-Learn more about integration test:
-
-- [Rails Guide on Testing](https://guides.rubyonrails.org/testing.html#integration-testing)
-- [Rails API Documentation ActionDispatch::IntegrationTest](https://api.rubyonrails.org/v5.2.1/classes/ActionDispatch/IntegrationTest.html)
-
-## System Tests with Selenium and a headless Browser
+## System Tests
 
 System test are used to test that the various parts of your application interact correctly
-to implement features. You can use a real browser to test your app, including the client side javascript.
+to implement features. In a system test a real browser is used to test your app, including the client side javascript.
 
-Rails 5 comes
-with built in system tests. These
-are stored in the folder `test/system/`
+Rails comes with built in system tests. These are stored in the folder `test/system/`
 
 These tests take a lot more time to run than the unit test
-and even the integration tests
 discussed earlier. They are not included if you run `rails test`, you have
 to start them separately with `rails test:system`.
 
-We will use the gem `selenium-webdriver` and the headless browser firefox
-to write our system tests.
+We will use the gems `capybara` and `selenium-webdriver`. they will
+enable us to sue headless browser firefox or chrome for system tests.
 
 ```
 # Gemfile
-group :development, :test do
-...
+group :test do
+  gem 'capybara'
+  gem 'selenium-webdriver'
 end
 
-# test_helper.rb
-...
+# test/application_system_test_case.rb
+require 'test_helper'
+
+class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
+  driven_by :selenium, using: :headless_chrome, screen_size: [1400, 1400]
+end
 ```
 
-You need to install the browser separately. On Mac you can do this
-by using brew:
-
-```
-brew install geckodriver # for firefox
-brew install chromedriver # for chrome
-```
 
 There is a generator to create a test skeleton for you.
 
@@ -712,50 +617,57 @@ $ rails generate test_unit:system add_a_star_to_a_user
 Here's what a freshly-generated system test looks like:
 
 ```ruby
-require 'test_helper'
+require "application_system_test_case"
 
-class AddAStarToAUserTest < ApplicationSystemTestCase
-  test "sanity" do
-    visit root_path
-    assert_content page, "Hello World"
-    refute_content page, "Goobye All!"
-  end
+class AddAStarToAUsersTest < ApplicationSystemTestCase
+  # test "visiting the index" do
+  #   visit add_a_star_to_a_users_url
+  #
+  #   assert_selector "h1", text: "AddAStarToAUser"
+  # end
 end
 ```
 
 `visit` is capybaras method for making a HTTP request just as the browser would.
 
-#### Testing a form
+`assert_selector` is one of the assertions implemented by capybara. this
+assertion will wait for the page to load, and then it will look
+for a `h1` tag containing the text.
 
-System tests are black box tests: we only interact with the
+
+Generally speaking System tests are black box tests: we only interact with the
 app through the web browser, and have no "inside knowledge" about the app.
 
-Some helper methods:
+In Rails system test you do have access to the full application including the database.
+
+### Some helper methods
 
 ```
 click_link('id-of-link')
 click_link('Link Text')
-find('#navigation').click_link('Home')
+find('#navigation').click_link('Home')  # only look for link inside #navigation
 
 click_button('Save')
 find("#overlay").find_button('Send').click
 
-fill_in('First Name', with: 'John')
+fill_in('First Name', with: 'John')   # fill in a text input field
 choose('A Radio Button')
 check('A Checkbox')
 uncheck('A Checkbox')
-attach_file('Image', '/path/to/image.jpg')
 select('Option', :from => 'Select Box')
+attach_file('Image',  Rails.root + 'test/fixtures/files/example.png') # file upload
 
-all('a').each { |a| ... a[:href] ... }
+all('a').each { |a| ... a[:href] ... }  # loop over all the found nodes
 
-within("li#employee") do
+within("li#employee") do    # the code in the block will only use the dom inside li#employee
   fill_in 'Name', :with => 'Jimmy'
   ...
 end
+page.execute_script 'window.scrollBy(0,10000)' # run javascript to simulate user behaviour
+
 ```
 
-Some assertions:
+### Some assertions
 
 ```
 assert_content('foo')
@@ -766,36 +678,38 @@ assert_checked_field('newsletter')
 assert_link('more')
 ```
 
-#### Testing Javascript
+### debugging
 
-Testing with an embedded browser like webkit makes
-it possible to test javascript and AJAX behaviour.
+As with all tests, you can read the log file `log/test.log` to see how you test is doing.
 
-```
-test "page contains text generated by JavaScript" do
-  Capybara.current_driver = Capybara.javascript_driver
-  visit root_path
-  assert_content page, "Dynamic Text"
-end
-```
+System tests offer two more options:
 
-While developing your test it might be helpful
-to _see_ what the invisible browser is doing.
-You can save a screenshot to a file automatically:
-
-```
-  save_screenshot('tmp/list_of_users_screenshot.png', :full => true)
+```ruby
+take_screenshot  # and give it an automatic file name
+save_screenshot('tmp/screenshots/book_event_step1.png')
+save_and_open_page
 ```
 
-For debugging purposes it might also be useful
-to see if anything was written to the javascript console.
-The console is available through `page.driver.console_messages`.
-But it is probably best not to write tests that expect certain
-console output.
+You can save a screenshot of the (invisible) browser window at any time.
+If the test fails a screenshot will also be saved automatically.
+
+And you can save the current state of the webpage as a html file and
+open it in the browser.  The links to css and javascript will not work,
+but you will be able to use browser tools to inspect the DOM.
+
+
+### Testing Javascript
+
+Testing with an headless browser makes
+it possible to test JavaScript behaviour.
+
+Many assertions supplied by capybara wait for the
+page to load / the JavaScript to run before checking the assertion.
+
+
 
 ## Further Reading
 
 - [better assertion with ramcrest](https://github.com/hamcrest/ramcrest)
 - [A Guide to Testing Rails Applications](https://guides.rubyonrails.org/testing.html) - also contains an introduction to testing routes, mailers, helpers, jobs and more in depth information on testing controllers
 - [Fixtures API documentation](https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html)
-- [Observations running 2M headless Chrome sessions](https://news.ycombinator.com/item?id=17233371)
