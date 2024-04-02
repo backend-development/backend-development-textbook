@@ -107,6 +107,34 @@ to use them.
 
 If you are following along with the demo app, do this now for english, german, danish and spanish!
 
+
+## Numbers
+
+There are different Rules for displaying numbers in different languages.
+You may be familiar with the European Million being translated into an US Billion.
+So different words are used for numbers.
+
+But also the numbers themselves are formatted differently:
+
+```erb
+<p><%= number_with_delimiter(100000000) %></p>
+````
+
+In many languages this will be displayed as `100.000.000` or `100,000,000`.
+Some examples of languages with different number formats are:
+
+* [Indian Numbering System:](https://en.wikipedia.org/wiki/Indian_numbering_system) 10,00,00,000 or 10 lakh.
+* [Japanese numerals](https://en.wikipedia.org/wiki/Japanese_numerals#Powers_of_10) 1 0000 0000 or 1億.
+
+Rails provides several helper methods for constructing numbers:
+
+* `number_with_delimiter` - for large numbers like `100.000.000`
+* `number_to_currency` - includes the currency like `100.000.000,00 €`
+* `number_with_precision` - like `100000000,00`
+* `number_to_percentage` - like `90,00 %`
+* `number_to_human_size` - for bytes, like `95,4 MB`
+
+
 ## Dates
 
 Dates are a special case for translation: there are complex and different rules
@@ -140,6 +168,8 @@ In German this will be displayed as:
     Montag, 01. April 2024, 21:25 Uhr
   </p>
 ```
+
+### Format definitions
 
 You can find the definition for this date in `de.yml` under `de.time.formats.default`:
 
@@ -179,7 +209,7 @@ translated, but also the whole format changes from language to language.
 You could add other formats than ':long' and ':short'  to your translations
 by adding to the `.yml` files.  Just make sure to keep the keys consistent through all languages!
 
-## Relative Dates
+### Relative Dates
 
 The helper `time_ago_in_words` is already localized, you
 can use it directly:
@@ -222,6 +252,12 @@ to language.  Make sure to look it up in [pluralization/*](https://github.com/sv
     other: Es gibt %{count} Bestellungen im System
 ```
 
+In the view you use it like this:
+
+```erb
+<p><%=t('orders_in_the_system', count:  @order_items.length) %></p>
+```
+
 
 ## Translating Model Names and Attributes
 
@@ -232,7 +268,98 @@ to error messages in validation.
 So it makes sense to store the names of models and their attributes
 just once and then reuse them.
 
-In the demo app there are
+In the demo app there are three models: Shirt, Statement and OrderItem.
+This is how to specify translations for shirts:
+
+```yml
+  activerecord:
+    models:
+      shirt:
+        one: Hemd
+        other: Hemden
+    attributes:
+      shirt:
+        sizes:
+          one: Größe
+          other: Größen
+        colors:
+          one: Farbe
+          other: Farben
+```
+
+To refer to a model use `.model_name.human`, for example `Shirt.model_name.human`.
+To refer to an attribute use `human_attribute_name`, for example `Shirt.human_attribute_name("colors").
+Both methods can take an attribute `count` for pluralization.
+
+
+## Text stored in tables
+
+The demo app is a shop for shirts with slogans printed on them.
+In the first implementation all the slogans are in english.
+
+When we think about selling to different markets we might want
+to translate text stored and tables for different purposes:
+
+
+* translate the shirts names, for example "generic t-shirt" and "fine t-shirt"
+* keep the english slogans, but provide translation into several languages to make searching easier
+** for example when you search for "freie software" in the app, you should find the slogans related to "free software"
+* offer slogans in different languages
+** should these be different products with different ids?  or should there be several columns for one product?
+
+
+### the Mobility gem
+
+The gem Mobility adds translations for table data.
+In the demo app Mobility is already installed and configured.
+
+To make the name of a shirt translatable we add the following lines to the model:
+
+```rb
+  extend Mobility
+  translates :name,  type: :string
+```
+
+From now on the gem will enable us to store different names.
+For example in the seed file we could do this:
+
+```rb
+I18n.locale = :en   # switch to english
+
+s1 = Shirt.create!(
+  name: 'Polo Shirt',
+  outline: File.read(Rails.root.join('db/seeds/Shirt-type_Polo-omg.svg')),
+  colors: '#e0ffcd #fdffcd #ffebbb #ffcab0 white',
+  sizes: 'S M L XL XXL'
+)
+
+I18n.locale = :de   # switch to german
+s1.update(name: 'Polohemd')
+```
+
+Now every time the object is read from the database and
+the name is retrieved, the locale is used. For example in the rails console
+this could look like this:
+
+```
+irb(main):001> s1 = Shirt.first
+  Shirt Load (1.5ms)  SELECT "shirts".* FROM "shirts" ORDER BY "shirts"."id" ASC LIMIT $1  [["LIMIT", 1]]
+=>
+#<Shirt:0x00000001271fc570
+...
+irb(main):002> s1.name
+  Mobility::Backends::ActiveRecord::KeyValue::StringTranslation Load (1.3ms)  SELECT "mobility_string_translations".* FROM "mobility_string_translations" WHERE "mobility_string_translations"."translatable_id" = $1 AND "mobility_string_translations"."translatable_type" = $2 AND "mobility_string_translations"."key" = $3  [["translatable_id", 1], ["translatable_type", "Shirt"], ["key", "name"]]
+=> "Polo Shirt"
+irb(main):003> I18n.locale = :de
+=> :de
+irb(main):004> s1.name
+=> "Polohemd"
+```
+
+
+## Testing
+
+See [Better Tests Through Internationalization ](https://thoughtbot.com/blog/better-tests-through-internationalization)
 
 
 See Also
