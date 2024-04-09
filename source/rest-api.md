@@ -4,8 +4,8 @@ REST APIs
 After working through this guide you will:
 
 - know about the thinking behind REST APIs
-- be able to configure your existing controllers to offer resources as JSON
-- be able to set up an API for your rails app that is separate from existing controllers
+- be able to configure your existing Rails controllers to offer resources as JSON
+- be able to set up an API for your Rails app that is separate from existing controllers
 
 REPO: You can study the [code](https://github.com/backend-development/api_sample_app) and try out [the demo](https://iou-brigitte.herokuapp.com) for the example described here.
 
@@ -43,6 +43,7 @@ with any backend, frontend, persistance layers:
 
 * You can build a REST in front of a PHP backend using MongoDB as the database and use it from a frontend written with jQuery.
 * You can build a GraphQL API for a Rails backend using MySQL as the database and build the frontend with React.
+* You can use a CMS like Strapi through a REST API from a React frontend
 
 That's kind of the point of an API: to allow different technologies
 on both sides of the API.
@@ -160,14 +161,14 @@ Regarding the HTTP Methods there are two important distinctions:
 - the GET and HEAD methods should take no other action than retrieval. These methods ought to be considered **safe**.
 - The methods GET, HEAD, PUT and DELETE are idempotent: repeating the request will not change the end result (aside from error or expiration issues)
 
-The definition of the [Methods](https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html) in HTTP1.0 is just a short read, and worth its while!
+The definition of the [Methods](https://www.rfc-editor.org/rfc/rfc9110.html#methods) in HTTP is a quick read, and well worth it!
 
 References for status codes:
 
 - [Status codes](https://httpstatuses.com/422)
 - [Status cats](https://http.cat/)
 
-When buidling a REST API, the HTTP Protocol already defines a lot
+When building a REST API, the HTTP Protocol already defines a lot
 about that API. There is no need to come up with a way to delete
 a resource, or to indicate failure. HTTP already offers the DELETE method
 and status codes that indicate errors.
@@ -199,8 +200,8 @@ like this: the HTML web page:
 ```html
 <h1>Details zu einer Person</h1>
 <p><img src="https://example.com/mini/profil/edvard_1_2.jpg" />
-Herr Edvard Paul Beisteiner hat insgesamt 4 Werke in dieser Datenbank.
-Er hat den Usernamen fhs14287.</p>
+Herr Edvard Paul Scissorhands hat insgesamt 4 Werke in dieser Datenbank.
+Er hat den Usernamen fhs123.</p>
 <ul>
   <li><a href='https://example.com/mini/werk/24'>The Thin Red Line</a></li>
   <li><a href='https://example.com/mini/werk/50'>Der böse Wolf</a></li>
@@ -215,8 +216,8 @@ For an API the same resource might be represented as XML:
 <person>
   <image ref='https://example.com/mini/profil/edvard_1_2.jpg' />
   <vorname>Edvard</vorname>
-  <nachname>Beisteiner</nachname>
-  <username>fhs14287</username>
+  <nachname>Scissorhands</nachname>
+  <username>fhs123</username>
   <werke>
     <werk ref='https://example.com/mini/werk/24'>The Thin Red Line</werk>
     <werk ref='https://example.com/mini/werk/50'>Der böse Wolf</werk>
@@ -230,8 +231,8 @@ or as JSON:
 
 ```json
 {"image":"https://example.com/mini/profil/edvard_1_2.jpg",
- "vorname":"Eduard",
- "nachname":"Beisteiner",
+ "vorname":"Edvard",
+ "nachname":"Scissorhands",
  "werk":[
     {"titel":"The Thin Red Line",
      "url":"https://example.com/mini/werk/24"},
@@ -247,11 +248,8 @@ or as JSON:
 
 Tilkov wirtes: "REST mandates that state be either turned into resource state, or kept on the client. In other words, a server should not have to retain some sort of communication state for any of the clients it communicates with beyond a single request."
 
-This is important for performance and scalability and performance.
- Statelessness makes caching easy. And in a scenario with serveral
-servers behind a load balancer, not having state on the server means
-the application will work if the requests bei one client are routest
-to different servers.
+This is important for performance and scalability.
+ Statelessness makes caching easy. And in a scenario with multiple servers behind a load balancer, having no state on the server means that the application will work when a client's requests are routed to different servers.
 
 ### JSON API
 
@@ -265,14 +263,29 @@ For smaller projects it might be overkill.
 
 ### Exploring a REST API
 
-You can explor a REST with the browser or several tool:
+You can explor a REST with several tool:
 
 * [curl](https://curl.haxx.se/docs/manual.html) is a command line tool for sending HTTP requests
 * developer tools in the browser can edit "re-send" a request, or [copy as curl](https://developer.mozilla.org/en-US/docs/Tools/Network_Monitor/request_list#Context_menu)
-* [postman](https://www.postman.com/downloads/) is a stand alone app
+* [hoppscotch](https://hoppscotch.io/) is a browser based REST client
+* [insomnia](https://insomnia.rest/download) is a client you install as a native app
 
 
-## REST API in Rails with existing Controllers
+### Testing and Documenting a REST API
+
+[The OpenAPI Specification](https://swagger.io/resources/open-api/) is a way for
+specifying and documenting REST APIs.  There are a lot of tools available around it
+for many different programming languages.
+
+For Rails I recommend the gem `rswag`: with rswag you write tests (specs) for your
+api, and the documentation is generated from the (successful) tests.
+There is also a web-ui to read the documentation and run API requests -
+[Swagger Web UI in the example app](https://iou-brigitte.herokuapp.com/api-docs/index.html)
+
+
+
+
+## Rails: REST API in  with existing Controllers
 
 Rails is equipped to not just create HTML as output, but to easily
 offer other representations as well.
@@ -486,7 +499,7 @@ If the "Frontend" is not in a browser, but is a native mobile app or
 just another server side job, we have to use an alternative to cookies.
 [JSON Web Tokens](https://backend-development.github.io/rails_authentication.html#how-to-add-state-to-http) are a solution.
 
-## Stand Alone REST API in Rails
+## Rails: Stand Alone REST API
 
 To create a stand alone API we define new, separate routes under `/api/v1`.
 
@@ -547,7 +560,7 @@ end
 The controller loads the right model, and then needs to calls a **serializer**  to
 do the actual rendering of the json data.  We will create this serializer next.
 
-## creating JSON with blueprinter
+### creating JSON with blueprinter
 
 With the gem blueprinter the
 serializers live in the `/app/blueprints` folder.
@@ -583,16 +596,7 @@ end
 
 
 
-## Testing and Documenting a REST API
 
-
-[Swagger](https://swagger.io/) and the OpenAPI Specification is a way for
-specifying and documenting REST APIs.  There are a lot of tools available around it.
-
-For Rails I recommend the gem `rswag`: with rswag you write tests (specs) for your
-api, and the documentation is generated from the (successful) tests.
-There is also a web-ui to read the documentation and run API requests -
-[Swagger Web UI in the example app](https://iou-brigitte.herokuapp.com/api-docs/index.html)
 
 
 

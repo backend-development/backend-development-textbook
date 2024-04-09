@@ -74,6 +74,8 @@ prepared to switch between locales through folders:
 
 and so on.
 
+Inside the app you can always read the current language from `I18n.locale`.
+
 
 ## keys and translations
 
@@ -292,6 +294,66 @@ To refer to an attribute use `human_attribute_name`, for example `Shirt.human_at
 Both methods can take an attribute `count` for pluralization.
 
 
+### Automatic texts for models
+
+The combination of model names and prepared translations from the  [locale folder of the I18n gem](https://github.com/svenfuchs/rails-i18n/tree/10141c451f03d7c6b78cfdcce808c389da6b9ddd/rails/locale) is quite powerful.
+
+For example the helper for building labels automatically uses human_attribute_names:
+
+```erb
+    <%= form.label :sizes %>
+```
+
+
+When using a the submit button in a form builder:
+
+```erb
+<%= form_for @shirt do |f| %>
+  <%= f.submit %>
+<% end %>
+```
+
+The label will automatically be generated from these keys:
+
+```yml
+en:
+  helpers:
+    submit:
+      create: "Create a %{model}"
+      update: "Confirm changes to %{model}"
+```
+
+so
+
+```erb
+  <%= f.submit %>
+```
+
+is a short version for
+
+```erb
+    <%= form.submit t('helpers.submit.create', model: Shirt.model_name.human ) %>
+```
+
+Source: [Ruby on Rails Documentation, Action View Form Builder](https://api.rubyonrails.org/v7.1.3.2/classes/ActionView/Helpers/FormBuilder.html#method-i-submit)
+
+### Automatic texts for validations and error messages
+
+Setting the name for models and attributes is enough to translate validations
+and their error messages:
+
+```rb
+class Shirt
+  validates :name, presence: true, length: { minimum: 3 }
+```
+
+Will automatically generate error messages like:
+
+> Name muss ausgefüllt werden
+> Name ist zu kurz (weniger als 3 Zeichen)
+
+
+
 ## Text stored in tables
 
 The demo app is a shop for shirts with slogans printed on them.
@@ -303,9 +365,9 @@ to translate text stored and tables for different purposes:
 
 * translate the shirts names, for example "generic t-shirt" and "fine t-shirt"
 * keep the english slogans, but provide translation into several languages to make searching easier
-** for example when you search for "freie software" in the app, you should find the slogans related to "free software"
+  * for example when you search for "freie software" in the app, you should find the slogans related to "free software"
 * offer slogans in different languages
-** should these be different products with different ids?  or should there be several columns for one product?
+  * should these be different products with different ids?  or should there be several columns for one product?
 
 
 ### the Mobility gem
@@ -341,7 +403,7 @@ Now every time the object is read from the database and
 the name is retrieved, the locale is used. For example in the rails console
 this could look like this:
 
-```
+```ruby
 irb(main):001> s1 = Shirt.first
   Shirt Load (1.5ms)  SELECT "shirts".* FROM "shirts" ORDER BY "shirts"."id" ASC LIMIT $1  [["LIMIT", 1]]
 =>
@@ -356,14 +418,32 @@ irb(main):004> s1.name
 => "Polohemd"
 ```
 
-
 ## Testing
 
-See [Better Tests Through Internationalization ](https://thoughtbot.com/blog/better-tests-through-internationalization)
+
+### url and path helpers
+
+A first hurdle when running your test might be generating the right
+urls and paths. This happens in both controller tests and system tests.
+The errors might look something like this:
+
+```
+Error:
+StatementsTest#test_should_destroy_Statement:
+ActionController::UrlGenerationError: No route matches {:action=>"show", :controller=>"statements", :locale=>#<Statement ...>}, missing required keys: [:id]
+    test/system/statements_test.rb:42:in `block in <class:StatementsTest>'
+
+
+bin/rails test test/system/statements_test.rb:41
+```
+
+
+
 
 
 See Also
 --------
 
+* [Better Tests Through Internationalization ](https://thoughtbot.com/blog/better-tests-through-internationalization)
 * [Rails Guide: Internationalization](https://guides.rubyonrails.org/i18n.html)
 * [A Localization Horror Story: It Could Happen To You](https://metacpan.org/pod/distribution/Locale-Maketext/lib/Locale/Maketext/TPJ13.pod#A-Localization-Horror-Story:-It-Could-Happen-To-You)
