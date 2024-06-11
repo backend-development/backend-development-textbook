@@ -190,9 +190,8 @@ can use many transmission methods to send them:
 - Parameter in an URL
 - POST data
 
-
-
-[jwt.io](https://jwt.io/) / [rfc 7519](https://tools.ietf.org/html/rfc7519)
+* [jwt.io](https://jwt.io/) / [rfc 7519](https://tools.ietf.org/html/rfc7519)
+* [Video on JWT by ByteByteGo](https://www.youtube.com/watch?v=P2CPd9ynFLg)
 
 ### Encoding a Token
 
