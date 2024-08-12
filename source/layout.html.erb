@@ -1,82 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <title><%= yield(:page_title) || 'Backend Development Textbook' %></title>
-  <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
-  <link rel="stylesheet" type="text/css" href="stylesheets/dark.css">
-  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
-
-  <link rel="stylesheet" type="text/css" href="stylesheets/code.css">
-
-  <link rel="stylesheet" type="text/css" href="stylesheets/fixes.css">
-
-  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon">
-  <style>
-
-    .slide img[src$=svg] {
-      width: 100%;
-    }
-  </style>
-</head>
-<body class="guide">
-  <div>
-    <a href="https://github.com/backend-development/backend-development-textbook/"><img style="position: fixed; top: 0; right: 0; border: 0; z-index: 10;" src="images/forkme.png" alt="Fork me on GitHub"></a>
-  </div>
-  <div id="topNav">
-    <div class="wrapper">
-      <strong class="more-info-label">More Rails: </strong>
-      <ul class="more-info-links s-hidden">
-        <li class="more-info"><a href="https://guides.rubyonrails.org/">Rails Guides</a></li>
-        <li class="more-info"><a href="https://railsbridge.projects.multimediatechnology.at/docs/">Railsbridge</a></li>
-        <li class="more-info"><a href="https://archive.org/details/podcast_railscasts_218282043">Railscasts</a></li>
-      </ul>
-      <strong class="more-info-label">Beyond Backend: </strong>
-      <ul class="more-info-links s-hidden">
-        <li class="more-info"><a href="https://web-engineering.github.io/">Web Engineering</a></li>
-      </ul>
-    </div>
-  </div>
-  <div id="header">
-    <div class="wrapper clearfix">
-      <h1><a href="index.html" title="Return to home page">Backend<span> Development</span></a></h1>
-      <ul class="nav">
-        <li><a class="nav-item" href="index.html">Home</a></li>
-        <li class="guides-index guides-index-large">
-          <a href="index.html" onclick="guideMenu(); return false;" id="guidesMenu" class="guides-index-item nav-item">Index  &#x25BC;</a>
-          <div id="guides" class="clearfix" style="display: none;">
-            <hr>
-            <% ['L', 'R'].each do |position| %>
-              <dl class="<%= position %>">
-              <% docs_for_menu(position).each do |section| %>
-                <dt><%= section['name'] %></dt>
-                <% finished_documents(section['documents']).each do |document| %>
-                <dd><a href="<%= document['url'] %>"><%= document['name'] %></a></dd>
-                <% end %>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= yield(:page_title) || 'Backend Development Textbook' %></title>
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/dark.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <link rel="stylesheet" type="text/css" href="stylesheets/code.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/fixes.css">
+    <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <style>
+      .slide img[src$=svg] {
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body class="guide">
+    <div id="header">
+      <div class="wrapper clearfix">
+        <h1><a href="index.html" title="Return to home page">Backend<span> Development</span></a></h1>
+        <ul class="nav">
+          <li class="guides-index guides-index-large">
+            <a href="index.html" onclick="guideMenu(); return false;" id="guidesMenu" class="guides-index-item nav-item">Index  &#x25BC;</a>
+            <div id="guides" class="clearfix" style="display: none;">
+              <hr>
+              <% ['L', 'R'].each do |position| %>
+                <dl class="<%= position %>">
+                  <% docs_for_menu(position).each do |section| %>
+                    <dt><%= section['name'] %></dt>
+                    <% finished_documents(section['documents']).each do |document| %>
+                      <dd><a href="<%= document['url'] %>"><%= document['name'] %></a></dd>
+                    <% end %>
+                  <% end %>
+                </dl>
               <% end %>
-              </dl>
-            <% end %>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-  <hr class="hide">
-
-  <div id="feature">
-    <div class="wrapper">
-      <h2 id="preheader"><%= yield :header_h2_section %></h2>
-      <%= yield :index_section %>
-      <div class="rest_header">
-        <%= yield :header_section %>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
-  </div>
-
-<%
+    <hr class="hide">
+    <div id="feature">
+      <div class="wrapper">
+        <h2 id="preheader"><%= yield :header_h2_section %></h2>
+        <%= yield :index_section %>
+        <div class="rest_header">
+          <%= yield :header_section %>
+        </div>
+      </div>
+    </div>
+    <%
 
         def scan_until(regex)
           match = @string.match(regex)
@@ -120,28 +94,26 @@
           output
         end
       %>
-
-  <div id="container">
-    <div class="wrapper">
-      <div id="mainCol">
-        <%= add_slide_links(yield).html_safe %>
+    <div id="container">
+      <div class="wrapper">
+        <div id="mainCol">
+          <%= add_slide_links(yield).html_safe %>
+        </div>
       </div>
     </div>
-  </div>
-
-  <hr class="hide">
-  <div id="footer">
-    <div class="wrapper">
-      <p class="copyright">published under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/at/deed.de">creative commons by-nc-sa</a> in 2012-2023 by <a href="https://brigitte-jellinek.at">Brigitte Jellinek</a>.
-      </p><p>If you want to contribute: <a href="https://github.com/backend-development/backend-development-textbook/fork">fork the source on github</a>
-      <% if content_for?(:source_file) %>
-        and edit <a href="https://github.com/backend-development/backend-development-textbook/blob/master/source/<%= yield :source_file %>"><%= yield :source_file %></a>
-      <% end %>
-      </p>
+    <hr class="hide">
+    <div id="footer">
+      <div class="wrapper">
+        <p class="copyright">published under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/at/deed.de">creative commons by-nc-sa</a> in 2012-2025 by <a href="https://brigitte-jellinek.at">Brigitte Jellinek</a>.
+        </p>
+        <p>If you want to contribute: <a href="https://github.com/backend-development/backend-development-textbook/fork">fork the source on github</a>
+          <% if content_for?(:source_file) %>
+            and edit <a href="https://github.com/backend-development/backend-development-textbook/blob/master/source/<%= yield :source_file %>"><%= yield :source_file %></a>
+          <% end %>
+        </p>
+      </div>
     </div>
-  </div>
-
-  <script src="javascripts/jquery.min.js"></script>
-  <script src="javascripts/guides.js"></script>
+    <script src="javascripts/jquery.min.js"></script>
+    <script src="javascripts/guides.js"></script>
   </body>
 </html>

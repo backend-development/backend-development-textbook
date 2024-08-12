@@ -392,7 +392,7 @@ body {
 }
 
 #header {
-  background: #0088cc;
+  background: #d5e9f6;
   color: #fff;
   padding: 1.5em 0;
   z-index: 99;
@@ -758,7 +758,7 @@ h6 {
 #header h1 a {
   text-decoration: none;
   display: block;
-  color: white;
+  color: #1535a9;
 }
 #header h1 a span {
   color: #1535a9;
