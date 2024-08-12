@@ -43,7 +43,7 @@ and send me a pull request
 - syntax highlighter highlight.js used through reveal.js
 
 
-## neues bilder für das thema performance
+## neue bilder für das thema performance
 
 
 in assests/images
