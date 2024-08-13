@@ -1,46 +1,35 @@
 <% content_for :page_title do %>
-Backend Development - a textbook
+  Backend Development - a textbook
 <% end %>
-
 <% content_for :header_section do %>
   <h2>About this Book</h2>
   <p>This is a textbook for the second year of a computer
-  science or "media informatics" degree program.  It builds
-  on <a href="https://web-development.github.com">Web Development</a>
-  (in german) and runs parallel to
-  <a href="https://web-engineering.github.io">Web Engineering</a>.</p>
-
+    science or "media informatics" degree program.  It builds
+    on <a href="https://web-development.github.com">Web Development</a>
+    (in german) and runs parallel to
+    <a href="https://web-engineering.github.io">Web Engineering</a>.</p>
   <p>This book is not a self-contained work: There are great
-  resources for learning about backend development with Rails and Node
-  - this book tries to use
-  these resources, and bind them together into a coherent study plan.</p>
-
+    resources for learning about backend development with Rails and Node
+    - this book tries to use
+    these resources, and bind them together into a coherent study plan.</p>
   <p>It was written and published by Brigitte Jellinek
-  in the hope that it will be useful to lecturers and students
-  in educational institutions as well as to self-directed learners on the internet.
+    in the hope that it will be useful to lecturers and students
+    in educational institutions as well as to self-directed learners on the internet.
   </p>
 <% end %>
-
 <% content_for :index_section do %>
 <% end %>
-
-
 <h3>On Backend Development</h3>
-
 <p>In this course we will learn backend development with
-Ruby on Rails and with node.js.</p>
-
+  Ruby on Rails and with node.js.</p>
 <p>There are many frameworks in different languages that
-could also be used. If you learn
-Laravel or Django or Play or any number of other frameworks you are doing just fine.</p>
-
+  could also be used. If you learn
+  Laravel (with PHP) or Django (with Python) or Play (with Java)
+  one of many other frameworks you are doing just fine.</p>
 <p>We decided on Ruby on Rails in 2008 because the framework seemed well rounded
-and modern then, and we have not been disappointed. Rails has not stopped innovating
-and improving.  In 2021 we can still recommend it both for learning and for building production
-ready software. In 2013 we added node.js to cover different
-aspects of backend development.</p>
-
-
+  and modern then, and we have not been disappointed. Rails has not stopped innovating
+  and improving.  In 2024 we can still recommend it both for learning and for building production
+  ready software. In 2013 we added node.js to cover different aspects of backend development.</p>
 <% documents_by_section.each do |section| %>
   <h3><%= section['name'] %></h3>
   <dl>

@@ -462,7 +462,7 @@ if i > 10
 elsif i <= 0
   puts 'cannot compute, negative number'
 else
-  puts 'input corrent'
+  puts 'input correct'
 end
 ```
 
