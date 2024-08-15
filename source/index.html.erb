@@ -1,13 +1,11 @@
-<% content_for :page_title do %>
-  Backend Development - a textbook
-<% end %>
+<% content_for :page_title, "Textbook Backend Development" %>
+<% content_for :description, "Textbook Backend Development" %>
 <% content_for :header_section do %>
   <h2>About this Book</h2>
   <p>This is a textbook for the second year of a computer
     science or "media informatics" degree program.  It builds
     on <a href="https://web-development.github.com">Web Development</a>
-    (in german) and runs parallel to
-    <a href="https://web-engineering.github.io">Web Engineering</a>.</p>
+    (in german).</p>
   <p>This book is not a self-contained work: There are great
     resources for learning about backend development with Rails and Node
     - this book tries to use
@@ -31,10 +29,10 @@
   and improving.  In 2024 we can still recommend it both for learning and for building production
   ready software. In 2013 we added node.js to cover different aspects of backend development.</p>
 <% documents_by_section.each do |section| %>
-  <h3><%= section['name'] %></h3>
-  <dl>
+  <h2><%= section['name'] %></h2>
+  <dl class="guide-index-list">
     <% section['documents'].each do |document| %>
-      <%= guide(document['name'], document['url'], :work_in_progress => document['work_in_progress']) do %>
+      <%= guide(document['name'], document['url'], work_in_progress: document['work_in_progress']) do %>
         <p><%= document['description'] %></p>
       <% end %>
     <% end %>

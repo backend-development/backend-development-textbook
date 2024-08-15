@@ -7,23 +7,11 @@ Rouge::Lexers::Shell::BUILTINS << "|bin/rails|brew|bundle|gem|git|node|rails|rak
 
 module RailsGuides
   class Markdown
-    class Renderer < Redcarpet::Render::HTML  # :nodoc:
-      APPLICATION_FILEPATH_REGEXP = /(app|config|db|lib|test)\//
-      ERB_FILEPATH_REGEXP = /^<%# #{APPLICATION_FILEPATH_REGEXP}.* %>/o
-      RUBY_FILEPATH_REGEXP = /^# #{APPLICATION_FILEPATH_REGEXP}/o
-
+    class EpubRenderer < Redcarpet::Render::XHTML  # :nodoc:
       cattr_accessor :edge, :version
 
-      def block_code(code, language)
-        formatter = Rouge::Formatters::HTML.new
-        lexer = ::Rouge::Lexer.find_fancy(lexer_language(language))
-        formatted_code = formatter.format(lexer.lex(code))
-        <<~HTML
-          <div class="interstitial code">
-          <pre><code class="highlight #{lexer_language(language)}">#{formatted_code}</code></pre>
-          <button class="clipboard-button" data-clipboard-text="#{clipboard_content(code, language)}">Copy</button>
-          </div>
-        HTML
+      def linebreak
+        "<br/>"
       end
 
       def link(url, title, content)
@@ -48,7 +36,7 @@ module RailsGuides
       def paragraph(text)
         if text =~ %r{^NOTE:\s+Defined\s+in\s+<code>(.*?)</code>\.?$}
           %(<div class="note"><p>Defined in <code><a href="#{github_file_url($1)}">#{$1}</a></code>.</p></div>)
-        elsif /^(TIP|IMPORTANT|CAUTION|WARNING|NOTE|INFO|TODO|REPO)[.:]/.match?(text)
+        elsif /^(TIP|IMPORTANT|CAUTION|WARNING|NOTE|INFO|TODO)[.:]/.match?(text)
           convert_notes(text)
         elsif text.include?("DO NOT READ THIS FILE ON GITHUB")
         elsif text =~ /^\[<sup>(\d+)\]:<\/sup> (.+)$/
@@ -68,49 +56,6 @@ module RailsGuides
           end
         end
 
-        def lexer_language(code_type)
-          case code_type
-          when "html+erb"
-            "erb"
-          when "bash"
-            "console"
-          when nil
-            "plaintext"
-          else
-            ::Rouge::Lexer.find(code_type) ? code_type : "plaintext"
-          end
-        end
-
-        def clipboard_content(code, language)
-          # Remove prompt and results of commands.
-          prompt_regexp =
-            case language
-            when "bash"
-              /^\$ /
-            when "irb"
-              /^irb.*?> /
-            end
-
-          if prompt_regexp
-            code = code.lines.grep(prompt_regexp).join.gsub(prompt_regexp, "")
-          end
-
-          # Remove comments that reference an application file.
-          filepath_regexp =
-            case language
-            when "erb", "html+erb"
-              ERB_FILEPATH_REGEXP
-            when "ruby", "yaml", "yml"
-              RUBY_FILEPATH_REGEXP
-            end
-
-          if filepath_regexp
-            code = code.lines.grep_v(filepath_regexp).join
-          end
-
-          ERB::Util.html_escape(code)
-        end
-
         def convert_notes(body)
           # The following regexp detects special labels followed by a
           # paragraph, perhaps at the end of the document.
@@ -120,7 +65,7 @@ module RailsGuides
           # if a bulleted list follows, the first item is not rendered
           # as a list item, but as a paragraph starting with a plain
           # asterisk.
-          body.gsub(/^(TIP|IMPORTANT|CAUTION|WARNING|NOTE|INFO|TODO|REPO)[.:](.*?)(\n(?=\n)|\Z)/m) do
+          body.gsub(/^(TIP|IMPORTANT|CAUTION|WARNING|NOTE|INFO|TODO)[.:](.*?)(\n(?=\n)|\Z)/m) do
             css_class = \
               case $1
               when "CAUTION", "IMPORTANT"
@@ -130,7 +75,7 @@ module RailsGuides
               else
                 $1.downcase
               end
-            %(<div class="interstitial #{css_class}"><p>#{$2.strip}</p></div>)
+            %(<div class="#{css_class}"><p>#{$2.strip}</p></div>)
           end
         end
 

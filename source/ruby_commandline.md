@@ -25,6 +25,8 @@ In a colossal break with tradition he did not
 choose a name starting with p for his scripting language
 (think perl, python, php) but opted for r instead.
 
+§
+
 Ruby is a thoroughly object oriented scripting language.
 Even basic data types are object:
 
@@ -42,6 +44,8 @@ called on it. The result is an Object of class String.
 
 Ruby on Rails is a web framework written in Ruby.
 It was created by David Heinemeier Hansson ('DHH') starting in 2005.
+
+§
 
 Rails is famous for the high productivity it gives to developers. It
 is often used in startups, where speed of delivery is very important.
@@ -66,10 +70,11 @@ Because of the cool t-shirts?
 - Because you want to be a highly productive web developer?
 - Because you want to be a well payed developer?
 
-[StackOverflows Survey from 2022](https://survey.stackoverflow.co/2022/#work-salary) shows less Ruby jobs than JavaScript or PHP jobs,
-but they are better payed:
+§
 
-![](images/salary-2022.png)
+[StackOverflows Survey from 2024](https://survey.stackoverflow.co/2024/work/#3-salary-and-experience-by-language) shows less Ruby developers than JavaScript or PHP developers, but they are better payed:
+
+![](images/salary-2024.png)
 
 ## Ruby Basics
 
@@ -187,15 +192,12 @@ But if `a` is `nil` then you will get an error:
 NoMethodError: undefined method `b' for nil:NilClass
 ```
 
-The Operator `&.` avoids this error:
+The Operator `&.` avoids this error.  It is called "save navigation operator" or sometimes "lonely operator".
 
 ```ruby
 > a&.b&.c
 nil
 ```
-
-The Operator was introduced in Ruby 2.3.0 is is called
-"save navigation operator" or sometimes "lonely operator".
 
 ## Type System
 

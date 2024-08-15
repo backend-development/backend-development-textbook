@@ -1,57 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><%= yield(:page_title) || 'Backend Development Textbook' %></title>
-    <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
-    <link rel="stylesheet" type="text/css" href="stylesheets/dark.css">
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
-    <link rel="stylesheet" type="text/css" href="stylesheets/code.css">
-    <link rel="stylesheet" type="text/css" href="stylesheets/fixes.css">
-    <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon">
-    <style>
-      .slide img[src$=svg] {
-        width: 100%;
-      }
-    </style>
-  </head>
-  <body class="guide">
-    <div id="header">
-      <div class="wrapper clearfix">
-        <h1><a href="index.html" title="Return to home page">Backend<span> Development</span></a></h1>
-        <ul class="nav">
-          <li class="guides-index guides-index-large">
-            <a href="index.html" onclick="guideMenu(); return false;" id="guidesMenu" class="guides-index-item nav-item">Index  &#x25BC;</a>
-            <div id="guides" class="clearfix" style="display: none;">
-              <hr>
-              <% ['L', 'R'].each do |position| %>
-                <dl class="<%= position %>">
-                  <% docs_for_menu(position).each do |section| %>
-                    <dt><%= section['name'] %></dt>
-                    <% finished_documents(section['documents']).each do |document| %>
-                      <dd><a href="<%= document['url'] %>"><%= document['name'] %></a></dd>
-                    <% end %>
-                  <% end %>
-                </dl>
-              <% end %>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <hr class="hide">
-    <div id="feature">
-      <div class="wrapper">
-        <h2 id="preheader"><%= yield :header_h2_section %></h2>
-        <%= yield :index_section %>
-        <div class="rest_header">
-          <%= yield :header_section %>
-        </div>
-      </div>
-    </div>
-    <%
-
+<%
         def scan_until(regex)
           match = @string.match(regex)
           return unless match
@@ -62,7 +9,7 @@
         def add_slide_links(html)
           my_path = content_for(:output_path)
           link = "slides_#{ my_path&.gsub('./output/', '') }"
-          puts "linking to #{link}"
+          # puts "linking to #{link} from #{my_path}"
 
           @string = html.dup
 
@@ -86,34 +33,101 @@
               # puts "slide #{i} until #{match[0]}"
               output << match[0]
             end
-          end # untile @string.empty?
+          end # until @string.empty?
 
           output << @string
           output << "</div>"
 
           output
         end
-      %>
-    <div id="container">
+%>
+<!doctype html>
+<html dir="<%= @direction %>" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= yield(:page_title) %></title>
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css" data-turbo-track="reload">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <link rel="stylesheet" type="text/css" href="stylesheets/highlight.css" data-turbo-track="reload">
+    <link rel="icon" href="images/backend-development.svg" sizes="any">
+    <script src="javascripts/@hotwired--turbo.js" data-turbo-track="reload"></script>
+    <script src="javascripts/clipboard.js" data-turbo-track="reload"></script>
+    <script src="javascripts/guides.js" data-turbo-track="reload"></script>
+    <meta property="og:title" content="<%= yield(:page_title) %>" />
+    <meta name="description" content="<%= yield(:description) %>" />
+    <meta property="og:description" content="<%= yield(:description) %>" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content="Textbook Backend Developemnt" />
+    <meta property="og:image" content="images/backend-development.svg" />
+    <meta property="og:type" content="website" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&family=Noto+Sans+Arabic:wght@100..900&display=swap" rel="stylesheet">
+    <meta name="theme-color" content="#2e56e9">
+  </head>
+  <body class="guide">
+    <header id="page_header">
+      <div class="wrapper clearfix">
+        <nav id="feature_nav">
+          <div class="header-logo">
+            <a href="/">Backend Development</a>
+          </div>
+          <ul class="nav">
+            <li><a class="nav-item" id="home_nav" href="/">Home</a></li>
+            <li class="guides-index guides-index-large">
+              <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">Index</a>
+              <div id="guides" class="clearfix" style="display: none;">
+                <hr />
+                <dl class="guides-section-container">
+                  <% documents_by_section.each do |section| %>
+                    <div class="guides-section">
+                      <dt><%= section['name'] %></dt>
+                      <% finished_documents(section['documents']).each do |document| %>
+                        <dd><a href="<%= document['url'] %>"><%= document['name'] %></a></dd>
+                      <% end %>
+                    </div>
+                  <% end %>
+                </dl>
+              </div>
+            </li>
+            <li class="guides-index guides-index-small">
+              <select class="guides-index-item nav-item">
+                <option value="index.html">Index</option>
+                <% docs_for_menu.each do |section| %>
+                  <optgroup label="<%= section['name'] %>">
+                    <% finished_documents(section['documents']).each do |document| %>
+                      <option value="<%= document['url'] %>"><%= document['name'] %></option>
+                    <% end %>
+                  </optgroup>
+                <% end %>
+              </select>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <hr class="hide" />
+    <section id="feature">
+      <div class="wrapper">
+        <%= yield :header_section %>
+        <%= yield :index_section %>
+        <hr>
+      </div>
+    </section>
+    <main id="container">
       <div class="wrapper">
         <div id="mainCol">
           <%= add_slide_links(yield).html_safe %>
         </div>
       </div>
-    </div>
-    <hr class="hide">
-    <div id="footer">
+    </main>
+    <hr class="hide" />
+    <footer id="page_footer">
       <div class="wrapper">
-        <p class="copyright">published under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/at/deed.de">creative commons by-nc-sa</a> in 2012-2025 by <a href="https://brigitte-jellinek.at">Brigitte Jellinek</a>.
-        </p>
-        <p>If you want to contribute: <a href="https://github.com/backend-development/backend-development-textbook/fork">fork the source on github</a>
-          <% if content_for?(:source_file) %>
-            and edit <a href="https://github.com/backend-development/backend-development-textbook/blob/master/source/<%= yield :source_file %>"><%= yield :source_file %></a>
-          <% end %>
-        </p>
+        <%= render 'license' %>
       </div>
-    </div>
-    <script src="javascripts/jquery.min.js"></script>
-    <script src="javascripts/guides.js"></script>
+    </footer>
   </body>
 </html>

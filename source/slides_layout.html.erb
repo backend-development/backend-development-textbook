@@ -7,6 +7,10 @@
     <title>Slides for
         <%= yield(:page_title) || 'Backend Development Textbook' %>
     </title>
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css" data-turbo-track="reload">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <link rel="stylesheet" type="text/css" href="stylesheets/highlight.css" data-turbo-track="reload">
+
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
@@ -16,6 +20,8 @@
 		<link rel="stylesheet" href="stylesheets/reveal.css">
 		<link rel="stylesheet" href="stylesheets/myslide.css" id="theme">
     <link rel="stylesheet" href="stylesheets/code.css">
+    <script src="javascripts/clipboard.js" data-turbo-track="reload"></script>
+    <script src="javascripts/slides.js" data-turbo-track="reload"></script>
 
 </head>
 
@@ -23,6 +29,11 @@
     <div class="reveal">
       <!-- Any section element inside of this container is displayed as a slide -->
       <div class="slides">
+        <section>
+            <%= yield(:header_section) %>
+          <p><small>Slides - use arrow keys to navigate, esc to return to page view, f for fullscreen</small></p>
+
+        </section>
         <%
 
         def scan_until(regex)
@@ -36,7 +47,7 @@
 
           my_path = content_for(:output_path)
           link = my_path&.gsub('slides_', '')&.gsub('./output/', '')
-          #puts "linking to #{link}"
+          # puts "linking to #{link}"
 
           @string = html.dup
 
@@ -93,6 +104,7 @@
       // resolutions. Can be specified using percentage units.
       width: 800,
       height: 600,
+      disableLayout: false,
 
       // Factor of the display size that should remain empty around
       // the content
@@ -109,6 +121,7 @@
           console.log('esc to ', new_url);
           window.location = new_url;
         },
+        191: 'toggleHelp',
         13: 'next', // go to the next slide when the ENTER key is pressed
       },
 

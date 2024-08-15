@@ -25,7 +25,7 @@ curly braces and semicolons. But it adds it's own idiosyncrasies
 (e.g. you can leave out the semicolons).
 
 
-```
+```js
 // Javascript
 if (this) {
   console.log('Hello World');
@@ -34,7 +34,7 @@ if (this) {
 
 Ruby mostly uses words instead of curly braces, and no Semicolons
 
-```
+```ruby
 # Ruby
 if this
   puts 'Hello World'
@@ -55,7 +55,7 @@ a = 3.141
 
 Ruby is strongly typed:
 
-```
+```ruby
 irb> "3" + 5
 TypeError: no implicit conversion of Fixnum into String
 irb> "3".to_i + 5
@@ -64,7 +64,7 @@ irb> "3".to_i + 5
 
 Javascript converts types automatically.
 
-```
+```js
 js> "3" * 5
 15
 js> "3" + 5   // string concatenation!
@@ -83,7 +83,7 @@ Both languages have their ways of organizing the code that is found rarely in ot
 In JavaScript you will uses **arrow functions**  a lot.
 Here we use them for handling events:
 
-```
+```js
 window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('buttonId').addEventListener("click", () => {
     console.log('button clicked');
@@ -95,17 +95,17 @@ But let's look at an example that is better for comparing with Ruby:
 In Ruby you will use **blocks**:
 
 
-```
+```ruby
 a.map{|x| x * 2}.each do |x|
   puts "#{x} is not a prime"
 end
 ```
 
 This example shows a one-line-block in the curly braces and a big block
-delimited by `do`, `end`. In JavasScript (2015) you can write very simliar code.
+delimited by `do`, `end`. In JavasScript you can write very simliar code.
 Here the fat arrow-notation for anonymous functions is used:
 
-```
+```js
 a.map(x => x * 2).forEach(x => {
   console.log(`${x} is not a prime`)
 });
@@ -168,18 +168,6 @@ Your mental model of the program might be
 5. then it writes out the resulting HTML (or JSON, or whatever)
 6. and then my program exits, clearing all variables and freeing all memory.
 
-With Node, you not only write a backend program, you also write the
-web server. The variables you manipulate are shared between all HTTP
-requests. Your mental model needs to be much more complex:
-
-1. my node application starts
-2. it needs to load configuration, make database connections, organise them in a pool, prepare some global variables
-3. then I spin up a web server to handle HTTP requests
-4. for each request
-    1. the middleware gives me the request
-    2. I can store some things in the database or in global variables to hold for the next request
-    3. then I return the resulting HTML (or JSON, or whatever)
-5. I might want to respond to signals to re-read the configuration, or do some cleanup before shutdown.
 
 ### asyn vs sync
 
@@ -189,7 +177,7 @@ you have to write asynchronous code for common actions like:
 * sending a request to a database + handling the results
 * reading from a file + handling the data that has been read
 
-```
+```js
 db.get('users', userId, function(err, user) {
   if(!err) {
     fs.readFile(user.profilepic, function(err,data){
@@ -213,7 +201,7 @@ In Rails you access files and databases in a synchronous fashion.
 Only actions that would take longer than the user
 is willing to wait for a response are handled by "workers":
 
-```
+```ruby
 class ThumbnailJob < ActiveJob::Base
  queue_as :default
 

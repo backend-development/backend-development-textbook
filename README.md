@@ -43,6 +43,14 @@ and send me a pull request
 - syntax highlighter highlight.js used through reveal.js
 
 
+
+## formating
+
+with Markdown
+
+TIP|IMPORTANT|CAUTION|WARNING|NOTE|INFO|TODO
+
+
 ## neue bilder für das thema performance
 
 

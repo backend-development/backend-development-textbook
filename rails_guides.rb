@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-pwd = __dir__
-$LOAD_PATH.unshift pwd
-$LOAD_PATH.unshift "#{pwd}/vendor/bundle"
+$:.unshift __dir__
 
 as_lib = File.expand_path("../activesupport/lib", __dir__)
 ap_lib = File.expand_path("../actionpack/lib", __dir__)
@@ -26,7 +24,8 @@ RailsGuides::Generator.new(
   version:   version,
   all:       env_flag["ALL"],
   only:      env_value["ONLY"],
-  kindle:    env_flag["KINDLE"],
+  epub:      env_flag["EPUB"],
   language:  env_value["GUIDES_LANGUAGE"],
-  direction: env_value["DIRECTION"]
+  direction: env_value["DIRECTION"],
+  lint:      env_flag["GUIDES_LINT"]
 ).generate
