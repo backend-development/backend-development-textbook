@@ -102,7 +102,7 @@
       // The "normal" size of the presentation, aspect ratio will
       // be preserved when the presentation is scaled to fit different
       // resolutions. Can be specified using percentage units.
-      width: 800,
+      width: 1000,
       height: 600,
       disableLayout: false,
 
@@ -117,8 +117,7 @@
       keyboard: {
         27: () => {
           // do something custom when ESC is pressed
-          var new_url = window.location.pathname.replace('slides_', '');
-          console.log('esc to ', new_url);
+          var new_url = window.location.pathname.replace('slides_', '') + window.location.hash.replace('/','slide-');
           window.location = new_url;
         },
         191: 'toggleHelp',

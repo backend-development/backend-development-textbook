@@ -554,6 +554,10 @@ div.code_container > pre {
   top: -15px;
 }
 
+.reveal-viewport .slide_break {
+  display: none;
+}
+
 
 p>code {
   font-weight: bold;

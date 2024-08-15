@@ -24,7 +24,7 @@
 
             output << match.pre_match
 
-            output << "</div>\n<div class='slide'>\n<a class='slide_break' id='slide-#{i}' href='#{link}#/#{i}'>▻</a>\n"
+            output << "</div>\n<div class='slide'>\n<p class='slide_break_block'><a class='slide_break' id='slide-#{i}' href='#{link}#/#{i}'>◻</a></p>\n"
             i += 1
             if match[0] =~ /§/ then
               # puts "slide #{i} until §"

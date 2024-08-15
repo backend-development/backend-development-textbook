@@ -274,13 +274,18 @@ $base-border-radius: 8px;
 /* linking from and to slides : */
 
 
+body.guide .slide {
+  position: relative;
+  border: 1px solid transparent;
+
+}
+
+body.guide .slide:has(.slide_break:hover) {
+}
+
+
 
 body.guide a.slide_break:link,
 body.guide a.slide_break:visited {
   text-decoration: none;
-}
-
-body.guide a.slide_break:link:hover,
-body.guide a.slide_break:visited:hover {
-  font-weight: bold;
 }

@@ -102,3 +102,10 @@ dl dd .interstitial {
     padding-top: 1em !important;
   }
 } // .interstitial
+
+
+.reveal-viewport .interstitial {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  padding: 0.5em !important;
+} // .reveal-viewport .interstitial

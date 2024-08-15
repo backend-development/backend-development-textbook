@@ -72,7 +72,7 @@ Because of the cool t-shirts?
 
 §
 
-[StackOverflows Survey from 2024](https://survey.stackoverflow.co/2024/work/#3-salary-and-experience-by-language) shows less Ruby developers than JavaScript or PHP developers, but they are better payed:
+[StackOverflows Survey from 2024](https://survey.stackoverflow.co/2024/work/#3-salary-and-experience-by-language) shows there are fewer Ruby developers, but they are better payed:
 
 ![](images/salary-2024.png)
 
@@ -286,6 +286,8 @@ a = :bar
 s = "foo"
 s = "bar"
 ```
+
+§
 
 But: there is always just one instance of a symbol while
 there can be several strings that have the same content, but are different objects:
