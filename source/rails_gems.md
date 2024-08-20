@@ -377,3 +377,4 @@ Use postgres's inbuilt geographical features:
 - [awesome-ruby](https://github.com/markets/awesome-ruby)
 - the [Ruby Toolbox](https://www.ruby-toolbox.com/) is organized in categories that help you find alternative solutions
 - [How does Bundler work, anyway?](https://www.youtube.com/watch?v=4DqzaqeeMgY) talk by Andre Arko at RubyConf 2015
+- [Ruby and Rails compatability table](https://www.fastruby.io/blog/ruby/rails/versions/compatibility-table.html)
