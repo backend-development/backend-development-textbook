@@ -51,6 +51,12 @@
     - name: Rails Security
       url: rails_security.html
       description: How Rails framework helps with web security
+    - name: Deploying Rails
+      url: deploying_rails.html
+      description: Several options of deploying a Rails App
+    - name: Deploy to PAAS
+      url: deploy-to-paas.html
+      description: How to deploy a web app to the cloud with "Platform As A Service"
 - name: Overarching Concerns
   documents:
     - name: Security
