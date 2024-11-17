@@ -18,21 +18,29 @@
     - name: Simple Authentication
       url: rails_authentication.html
       description: How do we implement "logging in" over statless HTTP? Sessions in rails. Logging in with Passwords or with another service like github, twitter, facebook (using devise and omniauth)
-    - name: The Asset Pipeline
-      url: asset_pipeline.html
-      description: How CSS, Fonts and Images are prepared for publishing
-    - name: Rails and old Javascript
-      url: javascript_and_ajax.html
-      description: Rails style remote forms and links
-    - name: Rails and Webpack
-      url: javascript_webpack_frontend.html
-      description: Rails style remote forms and links
+    - name: The Asset Pipeline and Importmaps
+      url: assets_and_import_map.html
+      description: How CSS, Fonts, Images and JavaScript are prepared for publishing
     - name: Getting started with Testing
       url: testing.html
       description: Write your first unit tests and integration tests for Rails
+    - name: Refactoring Rails
+      url: refactoring_rails.html
+      description: How to improve your code in a systematic way.
+    - name: Deploy to PAAS
+      url: deploy-to-paas.html
+      description: How to deploy a web app to the cloud with "Platform As A Service"
     - name: Ruby Gems for your Rails Project
       url: rails_gems.html
       description: How bundler helps with dependencies, and some gems you might need for your first Rails project
+    - name: Deploying Rails
+      url: deploying_rails.html
+      description: Several options for deploying a Rails App
+- name: Ruby on Rails - Advanced Topics
+  documents:
+    - name: Deploy to PAAS
+      url: deploy-to-paas.html
+      description: How to deploy a web app to the cloud with "Platform As A Service"
     - name: REST API
       url: rest-api.html
       description: Offer an REST stype API as part of your Rails app
@@ -45,18 +53,9 @@
     - name: Jobs and Tasks in Rails
       url: jobs_and_tasks.html
       description: Your web application will need code that is  run outside the HTTP Request-Response cycle. Learn about Jobs that run automatically and Tasks that you can start from the commandline
-    - name: Refactoring Rails
-      url: refactoring_rails.html
-      description: How to improve your code in a systematic way.
     - name: Rails Security
       url: rails_security.html
       description: How Rails framework helps with web security
-    - name: Deploying Rails
-      url: deploying_rails.html
-      description: Several options of deploying a Rails App
-    - name: Deploy to PAAS
-      url: deploy-to-paas.html
-      description: How to deploy a web app to the cloud with "Platform As A Service"
 - name: Overarching Concerns
   documents:
     - name: Security
