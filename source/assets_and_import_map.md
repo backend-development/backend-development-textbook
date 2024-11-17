@@ -35,6 +35,7 @@ There are several big CDN sites that offer many different JavaScript libraries:
 * [https://www.jsdelivr.com/](https://www.jsdelivr.com/)
 * [https://cdnjs.com/](https://cdnjs.com/)
 * [https://unpkg.com/](https://unpkg.com/)
+* [https://jspm.org/](https://jspm.org/)
 
 And there are some specialized sites:
 
@@ -434,7 +435,7 @@ From now on you can add npm packages for the frontend with `importmap pin`. For 
 
 ```console
 $ bin/importmap pin unicode-emoji-picker
-Pinning "unicode-emoji-picker" to vendor/javascript/unicode-emoji-picker.js via download from https://ga.jspm.io/npm:unicode-emoji-picker@1.4.0/index.js
+Pinning "unicode-emoji-picker" to vendor/javascript/unicode-emoji-picker.js via download from https://ga.jspm.io/npm:unicode-emoji-picker@1.3.9/index.js
 Pinning "scrollable-component" to vendor/javascript/scrollable-component.js via download from https://ga.jspm.io/npm:scrollable-component@1.2.1/index.js
 Pinning "unicode-emoji" to vendor/javascript/unicode-emoji.js via download from https://ga.jspm.io/npm:unicode-emoji@2.5.0/index.js
 ```
@@ -509,20 +510,68 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 ```
 
-Here a module src/emoji.js is importet.  This file also needs
+Here a module src/emoji.js is imported.  This file also needs
 to be "pinned". You can do this for all the files in `app/javascript/src` at once with
 
 ```rb
 pin_all_from 'app/javascript/src', under: 'src'
 ```
 
+In emoji.js you can import the module "unicode-emoji-picker" by referencing it by it's bare name:
+
+```js
+import "unicode-emoji-picker";
+
+function Emoji(scope) {
+  const picker = scope.querySelector('unicode-emoji-picker');
+  picker.addEventListener('emoji-pick', (event) => {
+      let emoji = event.detail.emoji;
+      console.log(emoji);
+    });
+  }
+}
+
+export default Emoji;
+```
+
+
 ### Importmaps and Caching
 
+When the app is deployed, the javascript file will be published with fingerprints:
 
+```
+/assets/application-d8a8613a.js
+/assets/unicode-emoji-picker-c8299061.js
+/assets/scrollable-component-a8230eb7.js
+/assets/unicode-emoji-d50af150.js
+````
 
+But when you look inside the files, they reference other modules by their
+bare names.
+
+Dependencies need to be updated regularly to stay ahead of security problems.
+You can do this with `importmap`:
+
+```console
+$ bin/importmap outdated
+| Package              | Current | Latest |
+|----------------------|---------|--------|
+| unicode-emoji-picker | 1.3.9   | 1.4.0  |
+  1 outdated package found
+
+$ bin/importmap update
+Pinning "unicode-emoji-picker" to vendor/javascript/unicode-emoji-picker.js via download from https://ga.jspm.io/npm:unicode-emoji-picker@1.4.0/index.js
+```
+
+With this update the file `vendor/javascript/unicode-emoji-picker.js` has changed. This
+will result in a new fingerprint.  Browsers that already have the other javascript
+file in cache will only need to load on new file.
+
+(Contrast this to classic "JavaScript bundling" where all files are concatenated into one
+giant bundle, and every change leads to reloading the whole bundle.)
 
 ## Further Reading
 
 - Souders(2007): High Performance Web Sites. O'Reilly. ISBN-13: 978-0596529307.
 - Souders(2009): Even Faster Web Sites. O'Reilly. ISBN-13: 978-0596522308.
-- [The Web Performance (Advent) Calendar](https://calendar.perfplanet.com/2018/) new every year
+- [The Web Performance (Advent) Calendar](https://calendar.perfplanet.com/2024/) new every year
