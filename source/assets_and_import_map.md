@@ -314,7 +314,7 @@ To use an image `example.svg` stored in `app/assets/images/example.svg` use
 
 ```erb
      <%= image_tag 'example.svg ' %>
-
+```
 
 
 ## Example setups
