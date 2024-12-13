@@ -36,6 +36,8 @@ Let's say three other commits are added to the main: B, C and D:
 
 ![](images/git_branches.svg)
 
+§
+
 If you merge this, the merge might get complicated.
 A new Commit is created that contains all the necessary changes:
 
