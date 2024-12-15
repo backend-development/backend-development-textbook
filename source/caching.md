@@ -16,10 +16,6 @@ After working through this guide:
 - you will be able to configure rails for caching
 - you will be able to measure if a change you made improved the performance of your rails app
 
-DEMO: You can study [the demo](https://caching-red.projects.multimediatechnology.at/?pp=enable) for the example described here
-
-- if it's currently online.
-
 -------------------------------------------------------------------------------
 
 
@@ -118,8 +114,8 @@ the webpage. So we need to compare the numbers Mini Profiler gives us to the
 ### Example App
 
 We will use a portfolio site as an example app. All the screenshots
-above already show this example app. You can study [the demo](https://caching-red.projects.multimediatechnology.at/?pp=enable)
-on heroku, there all the caching is already implemented.
+above already show this example app. You can study [the original](https://portfolio.fh-salzburg.ac.at/),
+where all the caching is already implemented.
 
 
 
@@ -273,38 +269,23 @@ Reload again to check if the new version is cached.
 
 ### Caching smaller fragements
 
-If you look at the homepage of [the demo](https://caching-red.projects.multimediatechnology.at/?pp=enable)
-you can see that the list of project under "Bachelorprojekte" is different every time
-you reload the page. There are 9 projects in all, but only 5 will be picked randomly
-and will be displayed.
+If you look at [the original homepage](https://portfolio.fh-salzburg.ac.at/)
+you’ll see that each department displays a "current featured project".
 
-If we want to keep this feature caching the whole homepage will not work: once
-the homepage is cached, a reload of the page will show the exact same page.
-The same five projects will appear on the homepage indefinetly.
+Caching the entire homepage won’t work if we want to keep this feature dynamic.
+For example, when a department updates its featured project,
+the homepage will still show the old version if the whole page is cached.
 
-There are two approaches to this:
+A better approach is to cache only the individual project display
+instead of the whole homepage. This means caching at the level of
+the `projects/_project.html.erb` partial, so updates are reflected dynamically.
 
-§
+This strategy works well, especially when the partial is reused in multiple places.
 
-_a)_ We could change our expectations for the random display:
-We could decide that the same 5 projects should be shown for a whole day,
-and only on the next day new projects should be picked.
-
-This would work for our example app.
-
-§
-
-_b)_ a second approach would be
-to not cache the whole homepage, but only the display of an individual project.
-This means going down to the `projects/_project` partial, and caching that.
-
-This second approach is useful not just for our "random projects".
-
-Think
-of the "activity stream" on the facebook hompage: it will look differently
-for each user, and each time the page is loaded. But it consists of
-smaller fragments which can be cached: the individual status message, or event,
-or photo can be reused.
+To generalize, think about an "activity stream" on a social media site.
+The page looks different for every user and updates with each reload.
+However, smaller fragments — like individual posts, photos, or videos —
+can still be cached and reused efficiently across pages.
 
 #### Caching a partial
 
@@ -323,7 +304,7 @@ be faster now:
 
 §
 
-In Rails 5 you can speed up the rendering even more.
+You can speed up the rendering even more.
 If you look at the `fronts/show` view you can see that the project partial
 is rendered through a collection:
 
@@ -331,22 +312,20 @@ is rendered through a collection:
 <%= render :partial => "projects/project", :collection => @sample %>
 ```
 
-In Rails 5 you can add caching here:
+You can add caching here:
 
 ```
 <%= render :partial => "projects/project", :collection => @sample, :cached => true %>
 ```
 
 Now instead of fetching each partial from the cache one by one
-rails will do a multi-fetch, which is faster. But our example app is written
-in Rails 4, so this does not work yet.
+rails will do a multi-fetch, which is faster.
 
-See [Deshmane(2016)](http://blog.bigbinary.com/2016/03/09/rails-5-makes-partial-redering-from-cache-substantially-faster.html)
 
 #### Side Effects
 
 An unexpected side effect of caching the partial can be seen in the
-[edition view](https://caching-red.projects.multimediatechnology.at/editions/bachelorprojekte-web-2015?pp=enable):
+[edition view](https://portfolio.fh-salzburg.ac.at/editions/master-projects-2024):
 this view also uses the `projects/_project` partial, so it too will
 profit from the caching.
 
@@ -458,20 +437,10 @@ But caching cannot be the solution to all performance problems.
 
 Backend Frameworks:
 
-* laravel: [Cache](https://laravel.com/docs/8.x/cache)
-* nest.js: [Caching](https://docs.nestjs.com/techniques/caching#in-memory-cache)
-
-
-Frontend Frameworks:
-
-* Angular: [$templateCache](https://laravel.com/docs/8.x/cache)
-* vue SSR: [caching](https://ssr.vuejs.org/guide/caching.html#page-level-caching)
-
-Frontend + SSR:
-
-* Stale-While-Revalidate Strategy for frontend and APIs [SWR](https://medium.com/nerd-for-tech/swr-frontend-data-fetching-and-caching-ca0313239d6f)
-* next.js: [SWR](https://nextjs.org/docs/basic-features/data-fetching#swr)
-
+* laravel(php): [Cache](https://laravel.com/docs/11.x/cache)
+* nest.js(javascript): [Caching](https://docs.nestjs.com/techniques/caching#auto-caching-responses)
+* django(python): [Cache](https://docs.djangoproject.com/en/5.1/topics/cache/#template-fragment-caching)
+* ASP.NET(c#): [Fragment Caching](https://learn.microsoft.com/en-us/troubleshoot/developer/webapps/aspnet/development/perform-fragment-caching)
 
 ### Final Thought on Caching in Rails
 
@@ -486,10 +455,7 @@ different methods. You should be able to:
 
 ## ActiveRecord and DB
 
-Accessing the database takes a long time - compared to all
-the computation that is done in ruby code itself. So looking
-at the Database, and the ORM we use to access the database, might
-make sense for performance optimisation.
+Accessing the database is significantly slower compared to the computations performed in Ruby code. Therefore, examining the database and the ORM used to interact with it could be a valuable step toward performance optimization.
 
 Before you start working on the Database,
 make sure to switch off caching in development:
@@ -618,11 +584,7 @@ of `DESCRIBE` when there is no index:
 
 ### n+1 queries
 
-When analysing the SQL queries a rails project generates
-you will often find this situation: you have a one-to-many relationship,
-for example: a project has many users. When displaying
-the project with all of its users you see n+1 queries.
-In our example app this happens:
+When analyzing the SQL queries generated by a Rails project, you’ll often encounter this common scenario: a one-to-many relationship, such as a project having many users. When displaying a project along with all its associated users, you may notice the **n+1 query problem**. This issue is present in our example app:
 
 ```
 SELECT * FROM `projects` WHERE `slug` = '2014-yokaisho' ORDER BY `projects`.`id` ASC LIMIT 1
@@ -666,9 +628,10 @@ Later, in the view and partials, the relationships from
 §
 
 To get ActiveRecord to automatically load **all the users** for the project at once
-we can change this one line in the controller:
+we can change the line where the project is first loaded:
 
 ```
+# @project = Project.friendly.find(params[:id])
 @project = Project.includes(:users).friendly.find(params[:id])
 ```
 
@@ -688,7 +651,7 @@ This makes a measurable difference:
 
 §
 
-In the demo app, the project model has associations not only
+The project model has associations not only
 with the user model, but with many other models too.
 If we include them all, we end up with a sizable reduction in SQL queries:
 
@@ -706,14 +669,17 @@ view here has nothing to do with MVC in Rails, but is a technical term used in d
 §
 
 Let's look at a problem where a database view might be a solution:
+in a previous version of the portfolio the display of a team member
+was more elaborate:
 
-For the `collaborators/_show` partial a lot of SQL queries are created.
+![collaborator partial](images/collaborator.png)
 
-The collaborator partial shows information
+
+The collaborator partial showed information
 about one team member: the thumbnail, the name, their degree program(s)
 and the role(s) they had in the project.
 
-![collaborator partial](images/collaborator.png)
+For the `collaborators/_show` partial a lot of SQL queries are created.
 
 The information about the degree programs is found in 2 different tables:
 
@@ -737,7 +703,7 @@ helper method in the rails console:
   Agegroup Load (0.4ms)  SELECT  `agegroups`.* FROM `agegroups` WHERE `agegroups`.`id` = 19 LIMIT 1
 ```
 
-Here information from three database tables is combined.
+Here, data from three database tables is combined.
 
 #### creating a database view
 
@@ -776,7 +742,8 @@ Query OK, 0 rows affected (0,06 sec)
 §
 
 After the view has been created, we can use `degree_programs` like a
-table in the database.
+table in the database.  In fact, Ruby on Rails does not know that
+this is not a "normal" table.
 
 ```
 mysql> SELECT * from degree_programs WHERE user_id=901 ;
@@ -791,7 +758,7 @@ mysql> SELECT * from degree_programs WHERE user_id=901 ;
 
 #### model and relationships for the view
 
-In Rails we can define a model for a database view:
+In Rails we can define a model for the database view, just like for any table:
 
 ```
 app/models/degree_program.rb
@@ -907,8 +874,8 @@ faster access.
 
 ### final thoughts
 
-ActiveRecord was a big help when writing this app. But it cannot find
-the best SQL Query for every situation and it cannot improve the database.
+An ORM like ActiveRecord is  a big help when writing a complex application.
+But it cannot find the best SQL Query for every situation and it cannot improve the database.
 As a developer you have to keep
 an eye on your ORM, and check now and again if the SQL queries that the
 ORM creates make sense and are efficient. You should
@@ -923,9 +890,8 @@ ORM creates make sense and are efficient. You should
 
 ### ORMs in other Frameworks
 
-* Laravel: the ORM eloquent offers `with()` to [solve the n+1 problem](https://kordes.dev/posts/laravel-and-n-1-problem)
-* nest.js: [Dealing in the N + 1 problem in GraphQL](https://wanago.io/2021/02/08/api-nestjs-n-1-problem-graphql/)
-* typeorm: [hat ernste Probleme](https://github.com/typeorm/typeorm/issues/3857)
+* Laravel: the ORM eloquent offers `with()` to [solve the n+1 problem](https://laravel.com/docs/11.x/eloquent-relationships#eager-loading)
+* typeorm: [distinguishes eager and lazy relations](https://orkhan.gitbook.io/typeorm/docs/eager-and-lazy-relations)
 
 # See Also
 
