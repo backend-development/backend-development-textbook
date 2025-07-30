@@ -42,13 +42,21 @@ and send me a pull request
 - reveals.js for the slides https://revealjs.com/
 - syntax highlighter highlight.js used through reveal.js
 
-
-
 ## formating
 
 with Markdown
 
 TIP|IMPORTANT|CAUTION|WARNING|NOTE|INFO|TODO
+
+
+
+# work in progress
+
+## rails_new
+
+    - name: From Hello World to IPO
+      url: rails_new.html
+      description: A step by step guide through DHHs video "From Hello World to IPO"
 
 
 ## neue bilder für das thema performance
