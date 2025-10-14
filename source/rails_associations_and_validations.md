@@ -224,7 +224,7 @@ editing the two files in `app/models/*.rb`.
 ```ruby
 # in file app/models/zombie.rb
 class Zombie < ApplicationRecord
-  has_many :tweets   # needs to be added by hand
+  has_many :tweets, dependent: :destroy   # needs to be added by hand
 end
 
 # in file app/models/tweet.rb
@@ -383,8 +383,8 @@ save you a lot of work!
 ## Further reading
 
 - The Rails Guides give a good introduction to a subject area:
-  - Rails Guide: [Active Record Validations and Callbacks](https://guides.rubyonrails.org/active_record_validations_callbacks.html)
-  - Rails Guide: [Active Record Associations](https://guides.rubyonrails.org/association_basics.html)
+  - Rails Guide: [Active Record Validations](https://edgeguides.rubyonrails.org/active_record_validations.html)
+  - Rails Guide: [Active Record Associations](https://edgeguides.rubyonrails.org/association_basics.html)
 - Use the [Rails API](https://api.rubyonrails.org/) documentation to look up the details:
   - [validates_presence_of](https://api.rubyonrails.org/classes/ActiveRecord/Validations/ClassMethods.html#method-i-validates_presence_of)
-  - [has_many](https://api.rubyonrails.org/classes/ActiveRecord/Associations/ClassMethods.html#method-i-has_many)
+  - [Dependent associations](https://api.rubyonrails.org/classes/ActiveRecord/Associations/ClassMethods.html#module-ActiveRecord::Associations::ClassMethods-label-Dependent+associations)
